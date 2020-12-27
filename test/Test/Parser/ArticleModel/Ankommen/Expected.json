@@ -1,0 +1,1299 @@
+[
+  {
+      "Title": "ankommen*",
+      "TitleMarkup": [
+          {
+              "IsItalics": false,
+              "IsAccent": true,
+              "Node": "Text",
+              "Text": "a",
+              "IsOptional": false
+          },
+          {
+              "IsItalics": false,
+              "IsAccent": false,
+              "Node": "Text",
+              "Text": "nkommen",
+              "IsOptional": false
+          },
+          {
+              "IsItalics": false,
+              "IsAccent": false,
+              "Node": "Text",
+              "Text": "*",
+              "IsOptional": false
+          }
+      ],
+      "Dictionary": "Universal (De-Ru)",
+      "ArticleId": "Universal (De-Ru)__ankommen*",
+      "Body": [
+          {
+              "Markup": [
+                  {
+                      "FileName": "ankommen.wav",
+                      "Node": "Sound",
+                      "Text": null,
+                      "IsOptional": false
+                  }
+              ],
+              "Node": "Paragraph",
+              "Text": null,
+              "IsOptional": false
+          },
+          {
+              "Type": 2,
+              "Items": [
+                  {
+                      "Markup": [
+                          {
+                              "Markup": [
+                                  {
+                                      "FullText": "intransitives Verb — непереходный глагол",
+                                      "Node": "Abbrev",
+                                      "Text": "vi",
+                                      "IsOptional": false
+                                  },
+                                  {
+                                      "IsItalics": false,
+                                      "IsAccent": false,
+                                      "Node": "Text",
+                                      "Text": "(",
+                                      "IsOptional": false
+                                  },
+                                  {
+                                      "FullText": "спрягается со вспомогательным глаголом sein",
+                                      "Node": "Abbrev",
+                                      "Text": "s",
+                                      "IsOptional": false
+                                  },
+                                  {
+                                      "IsItalics": false,
+                                      "IsAccent": false,
+                                      "Node": "Text",
+                                      "Text": ")",
+                                      "IsOptional": false
+                                  }
+                              ],
+                              "Node": "Paragraph",
+                              "Text": null,
+                              "IsOptional": false
+                          },
+                          {
+                              "Type": 3,
+                              "Items": [
+                                  {
+                                      "Markup": [
+                                          {
+                                              "Markup": [
+                                                  {
+                                                      "IsItalics": false,
+                                                      "IsAccent": false,
+                                                      "Node": "Text",
+                                                      "Text": "прибывать, приезжать, приходить",
+                                                      "IsOptional": false
+                                                  }
+                                              ],
+                                              "Node": "Paragraph",
+                                              "Text": null,
+                                              "IsOptional": false
+                                          },
+                                          {
+                                              "Type": null,
+                                              "Items": [
+                                                  {
+                                                      "Markup": [
+                                                          {
+                                                              "Markup": [
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "Dein Brief ist ",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "e",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "ndlich ",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "a",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "ngekommen. ",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "— Твоё письмо, наконец, дошло.",
+                                                                      "IsOptional": false
+                                                                  }
+                                                              ],
+                                                              "Node": "Example",
+                                                              "Text": null,
+                                                              "IsOptional": false
+                                                          }
+                                                      ],
+                                                      "Node": "ExampleItem",
+                                                      "Text": null,
+                                                      "IsOptional": false
+                                                  }
+                                              ],
+                                              "Node": "Examples",
+                                              "Text": null,
+                                              "IsOptional": true
+                                          }
+                                      ],
+                                      "Node": "ListItem",
+                                      "Text": null,
+                                      "IsOptional": false
+                                  },
+                                  {
+                                      "Markup": [
+                                          {
+                                              "Markup": [
+                                                  {
+                                                      "FullText": "разговорное слово, выражение — umgangssprachlich",
+                                                      "Node": "Abbrev",
+                                                      "Text": "разг",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "IsItalics": false,
+                                                      "IsAccent": false,
+                                                      "Node": "Text",
+                                                      "Text": "надоедать, досаждать ",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "Markup": [
+                                                          {
+                                                              "IsItalics": true,
+                                                              "IsAccent": false,
+                                                              "Node": "Text",
+                                                              "Text": "(кому-л)",
+                                                              "IsOptional": false
+                                                          }
+                                                      ],
+                                                      "Node": "Comment",
+                                                      "Text": null,
+                                                      "IsOptional": false
+                                                  }
+                                              ],
+                                              "Node": "Paragraph",
+                                              "Text": null,
+                                              "IsOptional": false
+                                          },
+                                          {
+                                              "Type": null,
+                                              "Items": [
+                                                  {
+                                                      "Markup": [
+                                                          {
+                                                              "Markup": [
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "Er kommt ",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "i",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "mmer w",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "i",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "e",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "der mit s",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "e",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "i",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "nen d",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "u",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "mmen Gesch",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "i",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "chten an. ",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "— Он всё время пристаёт с со своими глупыми историями.",
+                                                                      "IsOptional": false
+                                                                  }
+                                                              ],
+                                                              "Node": "Example",
+                                                              "Text": null,
+                                                              "IsOptional": false
+                                                          }
+                                                      ],
+                                                      "Node": "ExampleItem",
+                                                      "Text": null,
+                                                      "IsOptional": false
+                                                  }
+                                              ],
+                                              "Node": "Examples",
+                                              "Text": null,
+                                              "IsOptional": true
+                                          }
+                                      ],
+                                      "Node": "ListItem",
+                                      "Text": null,
+                                      "IsOptional": false
+                                  },
+                                  {
+                                      "Markup": [
+                                          {
+                                              "Markup": [
+                                                  {
+                                                      "IsItalics": true,
+                                                      "IsAccent": false,
+                                                      "Node": "Text",
+                                                      "Text": "(in ",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "FullText": "Dativ — дательный падеж",
+                                                      "Node": "Abbrev",
+                                                      "Text": "D",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "IsItalics": false,
+                                                      "IsAccent": false,
+                                                      "Node": "Text",
+                                                      "Text": ") ",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "FullText": "разговорное слово, выражение — umgangssprachlich",
+                                                      "Node": "Abbrev",
+                                                      "Text": "разг",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "IsItalics": false,
+                                                      "IsAccent": false,
+                                                      "Node": "Text",
+                                                      "Text": "получить работу ",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "Markup": [
+                                                          {
+                                                              "IsItalics": true,
+                                                              "IsAccent": false,
+                                                              "Node": "Text",
+                                                              "Text": "(где-л)",
+                                                              "IsOptional": false
+                                                          }
+                                                      ],
+                                                      "Node": "Comment",
+                                                      "Text": null,
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "IsItalics": false,
+                                                      "IsAccent": false,
+                                                      "Node": "Text",
+                                                      "Text": "; устроиться ",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "Markup": [
+                                                          {
+                                                              "IsItalics": true,
+                                                              "IsAccent": false,
+                                                              "Node": "Text",
+                                                              "Text": "(куда-л)",
+                                                              "IsOptional": false
+                                                          }
+                                                      ],
+                                                      "Node": "Comment",
+                                                      "Text": null,
+                                                      "IsOptional": false
+                                                  }
+                                              ],
+                                              "Node": "Paragraph",
+                                              "Text": null,
+                                              "IsOptional": false
+                                          },
+                                          {
+                                              "Type": null,
+                                              "Items": [
+                                                  {
+                                                      "Markup": [
+                                                          {
+                                                              "Markup": [
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "Er ist in ",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "e",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "i",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "ner gr",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "o",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "ßen F",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "i",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "rma als ",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "A",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "nwalt ",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "a",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "ngekommen. ",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "— Он устроился в крупную фирму адвокатом.",
+                                                                      "IsOptional": false
+                                                                  }
+                                                              ],
+                                                              "Node": "Example",
+                                                              "Text": null,
+                                                              "IsOptional": false
+                                                          }
+                                                      ],
+                                                      "Node": "ExampleItem",
+                                                      "Text": null,
+                                                      "IsOptional": false
+                                                  }
+                                              ],
+                                              "Node": "Examples",
+                                              "Text": null,
+                                              "IsOptional": true
+                                          }
+                                      ],
+                                      "Node": "ListItem",
+                                      "Text": null,
+                                      "IsOptional": false
+                                  },
+                                  {
+                                      "Markup": [
+                                          {
+                                              "Markup": [
+                                                  {
+                                                      "FullText": "разговорное слово, выражение — umgangssprachlich",
+                                                      "Node": "Abbrev",
+                                                      "Text": "разг",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "IsItalics": false,
+                                                      "IsAccent": false,
+                                                      "Node": "Text",
+                                                      "Text": "найти одобрение, получить признание ",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "Markup": [
+                                                          {
+                                                              "IsItalics": true,
+                                                              "IsAccent": false,
+                                                              "Node": "Text",
+                                                              "Text": "(среди кого-л)",
+                                                              "IsOptional": false
+                                                          }
+                                                      ],
+                                                      "Node": "Comment",
+                                                      "Text": null,
+                                                      "IsOptional": false
+                                                  }
+                                              ],
+                                              "Node": "Paragraph",
+                                              "Text": null,
+                                              "IsOptional": false
+                                          },
+                                          {
+                                              "Type": null,
+                                              "Items": [
+                                                  {
+                                                      "Markup": [
+                                                          {
+                                                              "Markup": [
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "Das Buch ist bei den L",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "e",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "sern gut ",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "a",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "ngekommen. ",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "— Книга имела у читателей успех.",
+                                                                      "IsOptional": false
+                                                                  }
+                                                              ],
+                                                              "Node": "Example",
+                                                              "Text": null,
+                                                              "IsOptional": false
+                                                          }
+                                                      ],
+                                                      "Node": "ExampleItem",
+                                                      "Text": null,
+                                                      "IsOptional": false
+                                                  }
+                                              ],
+                                              "Node": "Examples",
+                                              "Text": null,
+                                              "IsOptional": true
+                                          }
+                                      ],
+                                      "Node": "ListItem",
+                                      "Text": null,
+                                      "IsOptional": false
+                                  },
+                                  {
+                                      "Markup": [
+                                          {
+                                              "Markup": [
+                                                  {
+                                                      "IsItalics": true,
+                                                      "IsAccent": false,
+                                                      "Node": "Text",
+                                                      "Text": "(gegen ",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "FullText": "Akkusativ — винительный падеж",
+                                                      "Node": "Abbrev",
+                                                      "Text": "A",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "IsItalics": false,
+                                                      "IsAccent": false,
+                                                      "Node": "Text",
+                                                      "Text": ") ",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "IsItalics": false,
+                                                      "IsAccent": false,
+                                                      "Node": "Text",
+                                                      "Text": "тягаться ",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "Markup": [
+                                                          {
+                                                              "IsItalics": true,
+                                                              "IsAccent": false,
+                                                              "Node": "Text",
+                                                              "Text": "(с кем-л, чем-л)",
+                                                              "IsOptional": false
+                                                          }
+                                                      ],
+                                                      "Node": "Comment",
+                                                      "Text": null,
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "IsItalics": false,
+                                                      "IsAccent": false,
+                                                      "Node": "Text",
+                                                      "Text": ", противостоять ",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "Markup": [
+                                                          {
+                                                              "IsItalics": true,
+                                                              "IsAccent": false,
+                                                              "Node": "Text",
+                                                              "Text": "(кому-л, чему-л)",
+                                                              "IsOptional": false
+                                                          }
+                                                      ],
+                                                      "Node": "Comment",
+                                                      "Text": null,
+                                                      "IsOptional": false
+                                                  }
+                                              ],
+                                              "Node": "Paragraph",
+                                              "Text": null,
+                                              "IsOptional": false
+                                          },
+                                          {
+                                              "Type": null,
+                                              "Items": [
+                                                  {
+                                                      "Markup": [
+                                                          {
+                                                              "Markup": [
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "G",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "e",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "gen ihn kann man nur schwer ",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "a",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "nkommen. ",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "— С ним тягаться практически бесполезно.",
+                                                                      "IsOptional": false
+                                                                  }
+                                                              ],
+                                                              "Node": "Example",
+                                                              "Text": null,
+                                                              "IsOptional": false
+                                                          }
+                                                      ],
+                                                      "Node": "ExampleItem",
+                                                      "Text": null,
+                                                      "IsOptional": false
+                                                  }
+                                              ],
+                                              "Node": "Examples",
+                                              "Text": null,
+                                              "IsOptional": true
+                                          }
+                                      ],
+                                      "Node": "ListItem",
+                                      "Text": null,
+                                      "IsOptional": false
+                                  },
+                                  {
+                                      "Markup": [
+                                          {
+                                              "Markup": [
+                                                  {
+                                                      "IsItalics": true,
+                                                      "IsAccent": false,
+                                                      "Node": "Text",
+                                                      "Text": "(auf ",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "FullText": "Akkusativ — винительный падеж",
+                                                      "Node": "Abbrev",
+                                                      "Text": "A",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "IsItalics": false,
+                                                      "IsAccent": false,
+                                                      "Node": "Text",
+                                                      "Text": ") ",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "IsItalics": false,
+                                                      "IsAccent": false,
+                                                      "Node": "Text",
+                                                      "Text": "зависеть ",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "Markup": [
+                                                          {
+                                                              "IsItalics": true,
+                                                              "IsAccent": false,
+                                                              "Node": "Text",
+                                                              "Text": "(от кого-л, чего-л)",
+                                                              "IsOptional": false
+                                                          }
+                                                      ],
+                                                      "Node": "Comment",
+                                                      "Text": null,
+                                                      "IsOptional": false
+                                                  }
+                                              ],
+                                              "Node": "Paragraph",
+                                              "Text": null,
+                                              "IsOptional": false
+                                          },
+                                          {
+                                              "Type": null,
+                                              "Items": [
+                                                  {
+                                                      "Markup": [
+                                                          {
+                                                              "Markup": [
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "Es kommt dar",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "a",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "u",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "f an. ",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "— Это зависит от обстоятельств.",
+                                                                      "IsOptional": false
+                                                                  }
+                                                              ],
+                                                              "Node": "Example",
+                                                              "Text": null,
+                                                              "IsOptional": false
+                                                          }
+                                                      ],
+                                                      "Node": "ExampleItem",
+                                                      "Text": null,
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "Markup": [
+                                                          {
+                                                              "Markup": [
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "Es kommt auf ihn an. ",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "— Дело за ним.",
+                                                                      "IsOptional": false
+                                                                  }
+                                                              ],
+                                                              "Node": "Example",
+                                                              "Text": null,
+                                                              "IsOptional": false
+                                                          }
+                                                      ],
+                                                      "Node": "ExampleItem",
+                                                      "Text": null,
+                                                      "IsOptional": false
+                                                  }
+                                              ],
+                                              "Node": "Examples",
+                                              "Text": null,
+                                              "IsOptional": true
+                                          }
+                                      ],
+                                      "Node": "ListItem",
+                                      "Text": null,
+                                      "IsOptional": false
+                                  },
+                                  {
+                                      "Markup": [
+                                          {
+                                              "Markup": [
+                                                  {
+                                                      "IsItalics": false,
+                                                      "IsAccent": false,
+                                                      "Node": "Text",
+                                                      "Text": "значить ",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "Markup": [
+                                                          {
+                                                              "IsItalics": true,
+                                                              "IsAccent": false,
+                                                              "Node": "Text",
+                                                              "Text": "(для кого-л)",
+                                                              "IsOptional": false
+                                                          }
+                                                      ],
+                                                      "Node": "Comment",
+                                                      "Text": null,
+                                                      "IsOptional": false
+                                                  }
+                                              ],
+                                              "Node": "Paragraph",
+                                              "Text": null,
+                                              "IsOptional": false
+                                          },
+                                          {
+                                              "Type": null,
+                                              "Items": [
+                                                  {
+                                                      "Markup": [
+                                                          {
+                                                              "Markup": [
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "Es kommt mir nicht dar",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "a",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "u",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "f an. ",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "— Мне это всё равно.",
+                                                                      "IsOptional": false
+                                                                  }
+                                                              ],
+                                                              "Node": "Example",
+                                                              "Text": null,
+                                                              "IsOptional": false
+                                                          }
+                                                      ],
+                                                      "Node": "ExampleItem",
+                                                      "Text": null,
+                                                      "IsOptional": false
+                                                  }
+                                              ],
+                                              "Node": "Examples",
+                                              "Text": null,
+                                              "IsOptional": true
+                                          }
+                                      ],
+                                      "Node": "ListItem",
+                                      "Text": null,
+                                      "IsOptional": false
+                                  }
+                              ],
+                              "Node": "List",
+                              "Text": null,
+                              "IsOptional": false
+                          }
+                      ],
+                      "Node": "ListItem",
+                      "Text": null,
+                      "IsOptional": false
+                  },
+                  {
+                      "Markup": [
+                          {
+                              "Markup": [
+                                  {
+                                      "FullText": "transitives Verb — переходный глагол",
+                                      "Node": "Abbrev",
+                                      "Text": "vt",
+                                      "IsOptional": false
+                                  }
+                              ],
+                              "Node": "Paragraph",
+                              "Text": null,
+                              "IsOptional": false
+                          },
+                          {
+                              "Type": 3,
+                              "Items": [
+                                  {
+                                      "Markup": [
+                                          {
+                                              "Markup": [
+                                                  {
+                                                      "FullText": "высокий стиль — gehoben",
+                                                      "Node": "Abbrev",
+                                                      "Text": "высок",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "IsItalics": false,
+                                                      "IsAccent": false,
+                                                      "Node": "Text",
+                                                      "Text": "действовать ",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "Markup": [
+                                                          {
+                                                              "IsItalics": true,
+                                                              "IsAccent": false,
+                                                              "Node": "Text",
+                                                              "Text": "(на кого-л каким-л образом)",
+                                                              "IsOptional": false
+                                                          }
+                                                      ],
+                                                      "Node": "Comment",
+                                                      "Text": null,
+                                                      "IsOptional": false
+                                                  }
+                                              ],
+                                              "Node": "Paragraph",
+                                              "Text": null,
+                                              "IsOptional": false
+                                          },
+                                          {
+                                              "Type": null,
+                                              "Items": [
+                                                  {
+                                                      "Markup": [
+                                                          {
+                                                              "Markup": [
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "j-n hart ",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": true,
+                                                                      "Node": "Text",
+                                                                      "Text": "a",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "nkommen ",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "— тяжело даваться",
+                                                                      "IsOptional": false
+                                                                  }
+                                                              ],
+                                                              "Node": "Example",
+                                                              "Text": null,
+                                                              "IsOptional": false
+                                                          }
+                                                      ],
+                                                      "Node": "ExampleItem",
+                                                      "Text": null,
+                                                      "IsOptional": false
+                                                  }
+                                              ],
+                                              "Node": "Examples",
+                                              "Text": null,
+                                              "IsOptional": true
+                                          }
+                                      ],
+                                      "Node": "ListItem",
+                                      "Text": null,
+                                      "IsOptional": false
+                                  },
+                                  {
+                                      "Markup": [
+                                          {
+                                              "Markup": [
+                                                  {
+                                                      "FullText": "высокий стиль — gehoben",
+                                                      "Node": "Abbrev",
+                                                      "Text": "высок",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "IsItalics": false,
+                                                      "IsAccent": false,
+                                                      "Node": "Text",
+                                                      "Text": "охватывать ",
+                                                      "IsOptional": false
+                                                  },
+                                                  {
+                                                      "Markup": [
+                                                          {
+                                                              "IsItalics": true,
+                                                              "IsAccent": false,
+                                                              "Node": "Text",
+                                                              "Text": "(о страхе и т. п.)",
+                                                              "IsOptional": false
+                                                          }
+                                                      ],
+                                                      "Node": "Comment",
+                                                      "Text": null,
+                                                      "IsOptional": false
+                                                  }
+                                              ],
+                                              "Node": "Paragraph",
+                                              "Text": null,
+                                              "IsOptional": false
+                                          },
+                                          {
+                                              "Type": null,
+                                              "Items": [
+                                                  {
+                                                      "Markup": [
+                                                          {
+                                                              "Markup": [
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "Ihm kam Angst an. ",
+                                                                      "IsOptional": false
+                                                                  },
+                                                                  {
+                                                                      "IsItalics": false,
+                                                                      "IsAccent": false,
+                                                                      "Node": "Text",
+                                                                      "Text": "— Им овладел страх.",
+                                                                      "IsOptional": false
+                                                                  }
+                                                              ],
+                                                              "Node": "Example",
+                                                              "Text": null,
+                                                              "IsOptional": false
+                                                          }
+                                                      ],
+                                                      "Node": "ExampleItem",
+                                                      "Text": null,
+                                                      "IsOptional": false
+                                                  }
+                                              ],
+                                              "Node": "Examples",
+                                              "Text": null,
+                                              "IsOptional": true
+                                          }
+                                      ],
+                                      "Node": "ListItem",
+                                      "Text": null,
+                                      "IsOptional": false
+                                  }
+                              ],
+                              "Node": "List",
+                              "Text": null,
+                              "IsOptional": false
+                          }
+                      ],
+                      "Node": "ListItem",
+                      "Text": null,
+                      "IsOptional": false
+                  }
+              ],
+              "Node": "List",
+              "Text": null,
+              "IsOptional": false
+          }
+      ]
+  },
+  {
+      "Title": "Ankommen",
+      "TitleMarkup": [
+          {
+              "IsItalics": false,
+              "IsAccent": false,
+              "Node": "Text",
+              "Text": "Ankommen",
+              "IsOptional": false
+          }
+      ],
+      "Dictionary": "Polytechnical (De-Ru)",
+      "ArticleId": "Polytechnical (De-Ru)__Ankommen",
+      "Body": [
+          {
+              "Markup": [
+                  {
+                      "Markup": [
+                          {
+                              "FullText": "",
+                              "Node": "Abbrev",
+                              "Text": "n",
+                              "IsOptional": false
+                          },
+                          {
+                              "FullText": "",
+                              "Node": "Abbrev",
+                              "Text": "пивовар.",
+                              "IsOptional": false
+                          }
+                      ],
+                      "Node": "Comment",
+                      "Text": null,
+                      "IsOptional": false
+                  }
+              ],
+              "Node": "Paragraph",
+              "Text": null,
+              "IsOptional": false
+          },
+          {
+              "Markup": [
+                  {
+                      "IsItalics": false,
+                      "IsAccent": false,
+                      "Node": "Text",
+                      "Text": "забел ",
+                      "IsOptional": false
+                  },
+                  {
+                      "Markup": [
+                          {
+                              "IsItalics": false,
+                              "IsAccent": false,
+                              "Node": "Text",
+                              "Text": "(",
+                              "IsOptional": false
+                          },
+                          {
+                              "IsItalics": true,
+                              "IsAccent": false,
+                              "Node": "Text",
+                              "Text": "первый период главного брожения",
+                              "IsOptional": false
+                          },
+                          {
+                              "IsItalics": false,
+                              "IsAccent": false,
+                              "Node": "Text",
+                              "Text": ")",
+                              "IsOptional": false
+                          }
+                      ],
+                      "Node": "Comment",
+                      "Text": null,
+                      "IsOptional": false
+                  }
+              ],
+              "Node": "Paragraph",
+              "Text": null,
+              "IsOptional": false
+          }
+      ]
+  }
+]

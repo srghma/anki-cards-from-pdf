@@ -1,0 +1,53 @@
+[
+{
+  "Title": "angekommen",
+  "TitleMarkup": [
+    {
+      "IsItalics": false,
+      "IsAccent": true,
+      "Node": "Text",
+      "Text": "a",
+      "IsOptional": false
+    },
+    {
+      "IsItalics": false,
+      "IsAccent": false,
+      "Node": "Text",
+      "Text": "ngekommen",
+      "IsOptional": false
+    }
+  ],
+  "Dictionary": "Universal (De-Ru)",
+  "ArticleId": "Universal (De-Ru)__angekommen",
+  "Body": [
+    {
+      "Markup": [
+        {
+          "FullText": "Partizip II — причастие II",
+          "Node": "Abbrev",
+          "Text": "part II",
+          "IsOptional": false
+        },
+        {
+          "IsItalics": true,
+          "IsAccent": false,
+          "Node": "Text",
+          "Text": "от ",
+          "IsOptional": false
+        },
+        {
+          "Dictionary": "Universal (De-Ru)",
+          "ArticleId": "Universal (De-Ru)__ankommen",
+          "Node": "CardRef",
+          "Text": "ankommen",
+          "IsOptional": false
+        }
+      ],
+      "Node": "Paragraph",
+      "Text": null,
+      "IsOptional": false
+    }
+  ]
+}
+]
+

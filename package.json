@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "csv-stringify": "^5.5.3",
+    "xhr2": "^0.2.0"
+  }
+}

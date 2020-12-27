@@ -1,0 +1,16 @@
+bower_components/
+node_modules/
+.pulp-cache/
+/output/
+/dce-output/
+output-test/
+/generated-docs/
+/.psc-package/
+.psc*
+.purs*
+.psa*
+.spago/
+report.*.json
+yarn-error.log
+/mycache.json
+/output.csv
