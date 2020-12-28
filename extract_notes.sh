@@ -7,35 +7,30 @@
 # filename="Klein_2014_Learn German with stories"
 # filepath="/home/srghma/Dropbox/zotfile/$filename.pdf"
 
+dir="/home/srghma/Desktop/Genki - An Integrated Course in Elementary Japanese [Second Edition] (2011)"
+
 ocrize() {
   filename="$1"
-  filepath="/home/srghma/Downloads/$filename"
+  filepath="$dir/$1.pdf"
+  outputname="$1-ocr.pdf"
+  output="$dir/$outputname"
 
-  echo "Doing $filename"
+  echo "Doing $filepath to $output"
 
   docker run \
     -it \
-    -v $HOME/Documents:/Documents \
+    -v "$dir":/Documents \
     -v "$filepath":/myfile.pdf \
     -v $PWD/extract_pdf_notes.py:/usr/bin/extract_pdf_notes \
     --user $(id -u):$(id -u) \
     extract_pdf_notes \
-    ocrmypdf -l jpn --deskew --clean --output-type pdfa /myfile.pdf "/Documents/$filename"
+    ocrmypdf -l jpn --deskew --clean --output-type pdfa /myfile.pdf "/Documents/$outputname"
 }
 
-ocrize 'Basic Japanese through Comics by Ashizawa Kazuko (z-lib.org).pdf'
-ocrize 'GENKI An Integrated Course in Elementary Japanese - Answer Key by Eri Banno, Yoko Ikeda, Yutaka Ohno, Chikako Shinagawa, Kyoko Tokashiki (z-lib.org) (1).pdf'
-ocrize 'Genki An Integrated Course in Elementary Japanese - Answer Key by Eri Banno, Yoko Ikeda, Yutaka Ohno, Chikako Shinagawa, Kyoko Tokashiki (z-lib.org).pdf'
-ocrize 'GENKI An Integrated Course in Elementary Japanese I by Eri Banno, Yoko Ikeda, Yutaka Ohno, Chikako Shinagawa, Kyoko Tokashiki (z-lib.org).pdf'
-ocrize 'GENKI An Integrated Course in Elementary Japanese II by Eri Banno, Yoko Ikeda, Yutaka Ohno, Chikako Shinagawa, Kyoko Tokashiki (z-lib.org).pdf'
-ocrize 'GENKI An Integrated Course in Elementary Japanese II - Workbook by Eri Banno, Yoko Ikeda, Yutaka Ohno, Chikako Shinagawa, Kyoko Tokashiki (z-lib.org).pdf'
-ocrize 'GENKI An Integrated Course in Elementary Japanese I - Workbook by Eri Banno, Yoko Ikeda, Yutaka Ohno, Chikako Shinagawa, Kyoko Tokashiki (z-lib.org).pdf'
-ocrize 'Japanese from zero 1 Proven techniques to learn japanese for students and professionals by George Trombley, Yukari Takenaka (z-lib.org).pdf'
-ocrize 'Japanese from zero 2 Proven techniques to learn japanese for students and professionals by George Trombley, Yukari Takenaka (z-lib.org).pdf'
-ocrize 'KANJI LOOK AND LEARN 512 Kanji with Illustrations and Mnemonic Hints (Genki Plus) by Eri Banno, Yoko Ikeda, Chikako Shinagawa, Kaori Tajima, Kyoko Tokashiki (z-lib.org).pdf'
-ocrize 'KANJI LOOK AND LEARN - Answer Key (Genki Plus) by Eri Banno, Yoko Ikeda, Chikako Shinagawa, Kaori Tajima, Kyoko Tokashiki (z-lib.org).pdf'
-ocrize 'KANJI LOOK AND LEARN - Workbook (Genki Plus) by Eri Banno, Yoko Ikeda, Chikako Shinagawa, Kaori Tajima, Kyoko Tokashiki (z-lib.org).pdf'
-ocrize 'Oxford Japanese Grammar and Verbs by Jonathan Bunt (z-lib.org).pdf'
+ocrize "Genki - An Integrated Course in Elementary Japanese I [Second Edition] (2011), WITH PDF BOOKMARKS!"
+ocrize "Genki - An Integrated Course in Elementary Japanese II [Second Edition] (2011), WITH PDF BOOKMARKS!"
+ocrize "Genki - An Integrated Course in Elementary Japanese Workbook I [Second Edition] (2011), WITH PDF BOOKMARKS!"
+ocrize "Genki - An Integrated Course in Elementary Japanese Workbook II [Second Edition] (2011), WITH PDF BOOKMARKS!"
 
 # /usr/bin/extract_pdf_notes /myfile.pdf > /tmp/asdf
 
