@@ -4,8 +4,11 @@
 # a small wrapper around the python script to avoid docker commands
 #
 
-filename="Klein_2014_Learn German with stories"
-filepath="/home/srghma/Dropbox/zotfile/$filename.pdf"
+# filename="Klein_2014_Learn German with stories"
+# filepath="/home/srghma/Dropbox/zotfile/$filename.pdf"
+
+filename="GENKI An Integrated Course in Elementary Japanese I by Eri Banno, Yoko Ikeda, Yutaka Ohno, Chikako Shinagawa, Kyoko Tokashiki (z-lib.org).pdf"
+filepath="/home/srghma/Downloads/$filename"
 
 docker run \
   -it \
@@ -14,21 +17,24 @@ docker run \
   -v $PWD/extract_pdf_notes.py:/usr/bin/extract_pdf_notes \
   --user $(id -u):$(id -u) \
   extract_pdf_notes \
-  /usr/bin/extract_pdf_notes /myfile.pdf > /tmp/asdf
+  ocrmypdf -l eng+jpn --output-type pdfa /myfile.pdf "/Documents/GENKI An Integrated Course in Elementary Japanese I.pdf"
 
-sd 'ersu chen' 'versuchen' /tmp/asdf
-sd '"annotation_text": "erzählte"' '"annotation_text": "erzählen"' /tmp/asdf
-sd 'v<strong>ersu</strong>-<strong>chen</strong>' '<strong>versuchen</strong>' /tmp/asdf
-sd '"annotation_text": "geses"' '"annotation_text": "gesessen"' /tmp/asdf
-sd '<strong>geses-</strong>sen' '<strong>gesessen</strong>' /tmp/asdf
-sd '"annotation_text": "mochte"' '"annotation_text": "mögen"' /tmp/asdf
-sd '"annotation_text": "wusst"' '"annotation_text": "wissen"' /tmp/asdf
-sd '<strong>wusst</strong>e' '<strong>wusste</strong>' /tmp/asdf
-sd '"annotation_text": "zeigte"' '"annotation_text": "zeigen"' /tmp/asdf
-sd 'Blot-wosch' 'Blotwosch' /tmp/asdf
-sd 'Minu-ten' 'Minuten' /tmp/asdf
-sd '"annotation_text": "dritthöchste"' '"annotation_text": "dritt"' /tmp/asdf
-sd '<strong>dritthöchste</strong>' '<strong>dritthöchste (по высоте)</strong>' /tmp/asdf
+# /usr/bin/extract_pdf_notes /myfile.pdf > /tmp/asdf
+
+# sd 'ersu chen' 'versuchen' /tmp/asdf
+# sd '"annotation_text": "erzählte"' '"annotation_text": "erzählen"' /tmp/asdf
+# sd 'v<strong>ersu</strong>-<strong>chen</strong>' '<strong>versuchen</strong>' /tmp/asdf
+# sd '"annotation_text": "geses"' '"annotation_text": "gesessen"' /tmp/asdf
+# sd '<strong>geses-</strong>sen' '<strong>gesessen</strong>' /tmp/asdf
+# sd '"annotation_text": "mochte"' '"annotation_text": "mögen"' /tmp/asdf
+# sd '"annotation_text": "wusst"' '"annotation_text": "wissen"' /tmp/asdf
+# sd '<strong>wusst</strong>e' '<strong>wusste</strong>' /tmp/asdf
+# sd '"annotation_text": "zeigte"' '"annotation_text": "zeigen"' /tmp/asdf
+# sd 'Blot-wosch' 'Blotwosch' /tmp/asdf
+# sd 'Minu-ten' 'Minuten' /tmp/asdf
+# sd '"annotation_text": "dritthöchste"' '"annotation_text": "dritt"' /tmp/asdf
+# sd '<strong>dritthöchste</strong>' '<strong>dritthöchste (по высоте)</strong>' /tmp/asdf
+
 # cat /tmp/asdf | jq 'unique_by(.annotation_text_id)' > /tmp/asdf2
 # mv -f /tmp/asdf2 /tmp/asdf
 # sd '"sentence": "\"Willst du ein <strong>biss-"' '"sentence": "\"Willst du ein <strong>bisschen</strong> <strong>spazieren</strong> gehen?\""' /tmp/asdf
