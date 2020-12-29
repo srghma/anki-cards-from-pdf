@@ -7,30 +7,23 @@
 # filename="Klein_2014_Learn German with stories"
 # filepath="/home/srghma/Dropbox/zotfile/$filename.pdf"
 
-dir="/home/srghma/Desktop/Genki - An Integrated Course in Elementary Japanese [Second Edition] (2011)"
-
 ocrize() {
   filename="$1"
-  filepath="$dir/$1.pdf"
-  outputname="$1-ocr.pdf"
-  output="$dir/$outputname"
+  filepath="/home/srghma/Downloads/$filename"
 
-  echo "Doing $filepath to $output"
+  echo "Doing $filename"
 
   docker run \
     -it \
-    -v "$dir":/Documents \
+    -v $HOME/Documents:/Documents \
     -v "$filepath":/myfile.pdf \
     -v $PWD/extract_pdf_notes.py:/usr/bin/extract_pdf_notes \
     --user $(id -u):$(id -u) \
     extract_pdf_notes \
-    ocrmypdf -l jpn --deskew --clean --output-type pdfa /myfile.pdf "/Documents/$outputname"
+    ocrmypdf -l jpn --deskew --output-type pdfa /myfile.pdf "/Documents/$filename"
 }
 
-ocrize "Genki - An Integrated Course in Elementary Japanese I [Second Edition] (2011), WITH PDF BOOKMARKS!"
-ocrize "Genki - An Integrated Course in Elementary Japanese II [Second Edition] (2011), WITH PDF BOOKMARKS!"
-ocrize "Genki - An Integrated Course in Elementary Japanese Workbook I [Second Edition] (2011), WITH PDF BOOKMARKS!"
-ocrize "Genki - An Integrated Course in Elementary Japanese Workbook II [Second Edition] (2011), WITH PDF BOOKMARKS!"
+ocrize 'Oxford Japanese Grammar and Verbs by Jonathan Bunt (z-lib.org).pdf'
 
 # /usr/bin/extract_pdf_notes /myfile.pdf > /tmp/asdf
 
