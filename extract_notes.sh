@@ -8,6 +8,13 @@
 # filepath="/home/srghma/Dropbox/zotfile/$filename.pdf"
 
 ocrize() {
+  # in_dir="$1"
+  # in_filename="$2"
+  # in_ext="pdf"
+  # out_dir="$3"
+  # out_filename="$in_filename"
+  # out_ext="pdf"
+
   filename="$1"
   filepath="/home/srghma/Downloads/$filename"
 
@@ -23,9 +30,29 @@ ocrize() {
     ocrmypdf -l jpn --deskew --output-type pdfa /myfile.pdf "/Documents/$filename"
 }
 
-ocrize 'Oxford Japanese Grammar and Verbs by Jonathan Bunt (z-lib.org).pdf'
+exptract_pdf_squiggly() {
+  in_dir="$1"
+  in_filename="$2"
+  in_ext="pdf"
+  out_dir="$HOME/projects/extract-pdf-notes"
+  out_filename="from-pdf-tmp"
+  out_ext="json"
 
-# /usr/bin/extract_pdf_notes /myfile.pdf > /tmp/asdf
+  echo "Doing \"$in_dir/$in_filename.$in_ext\""
+  echo "to \"$out_dir/$out_filename.$out_ext\""
+
+  docker run \
+    -it \
+    -v "$in_dir/$in_filename.$in_ext":"/myfile.$in_ext" \
+    -v $PWD/extract_pdf_notes.py:/usr/bin/extract_pdf_notes \
+    --user $(id -u):$(id -u) \
+    extract_pdf_notes \
+    /usr/bin/extract_pdf_notes "/myfile.$in_ext" > "$out_dir/$out_filename.$out_ext"
+}
+
+# ocrize 'Oxford Japanese Grammar and Verbs by Jonathan Bunt (z-lib.org).pdf'
+
+exptract_pdf_squiggly "/home/srghma/Desktop/Japanese Book Collection/Japanese Books/детские сказки - children's fairy tales - 子供のおとぎ話" "Метод чтения Ильи Франка/Метод чтения Ильи Франка. Японские народные сказки. 2006"
 
 # sd 'ersu chen' 'versuchen' /tmp/asdf
 # sd '"annotation_text": "erzählte"' '"annotation_text": "erzählen"' /tmp/asdf
