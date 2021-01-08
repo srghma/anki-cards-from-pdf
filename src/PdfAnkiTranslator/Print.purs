@@ -2,22 +2,14 @@ module PdfAnkiTranslator.Print where
 
 import Data.Foldable
 import PdfAnkiTranslator.Lingolive.Types
+import PdfAnkiTranslator.SimpleXMLWithIndentation
 import Protolude
 
 import Data.Array as Array
 import Data.Array.NonEmpty (NonEmptyArray)
 import Data.Array.NonEmpty as NonEmptyArray
+import Data.NonEmpty (NonEmpty(..))
 import Data.String as String
-import PdfAnkiTranslator.SimpleXMLWithIndentation
-
-type AnkiFields =
-  { id            :: String -- orig lang, from pdf
-  , question      :: String -- orig lang, changed by user
-  , answer        :: String -- my lang (using google translate)
-  , transcription :: String
-  , myContext     :: String
-  , body          :: String -- examples, etc.
-  }
 
 -- from "Body"
 findTranscriptionFromBody :: NonEmptyArray ArticleModel -> Maybe String
@@ -89,15 +81,29 @@ printBodyFromAbbyy = String.joinWith "\n" <<< map printArticleModel <<< NonEmpty
         printNodeType_Example :: NodeType_Example -> String
         printNodeType_Example (NodeType_Example x) = String.joinWith "" $ map printNodeType x."Markup"
 
+type Sentence =
+  { sentence             :: String
+  , sentence_translation :: NonEmptyArray String
+  , position             :: String
+  , annotation_content   :: Maybe String
+  }
+
+type AnkiFields =
+  { id            :: String -- orig lang, from pdf
+  , question      :: String -- orig lang, changed by user
+  , answer        :: String -- my lang (using google translate)
+  -- | , transcription :: String
+  , myContext     :: String
+  -- | , body          :: String -- examples, etc.
+  }
+
+paranthesise x = "(" <> x <> ")"
+
 printArticleModel ::
-  { fromAbbyy           :: NonEmptyArray ArticleModel
-  , fromGoogleTranslate :: NonEmptyArray String
-  , fromCambridgeTranscription :: Maybe String
-  , sentences :: Array
-    { sentence :: String
-    , position :: String
-    , annotation_content :: Maybe String
-    }
+  -- | { fromAbbyy           :: NonEmptyArray ArticleModel
+  { fromGoogleTranslate :: NonEmptyArray String
+  -- | , fromCambridgeTranscription :: Maybe String
+  , sentences :: NonEmptyArray Sentence
   , annotation_text :: String
   , annotation_text_id :: String
   } ->
@@ -105,13 +111,20 @@ printArticleModel ::
 printArticleModel input =
   { id: input.annotation_text_id
   , question: input.annotation_text -- TODO: print TitleMarkup from abbyy
-  , transcription: String.joinWith ", " $ Array.catMaybes [ findTranscriptionFromBody input.fromAbbyy, input.fromCambridgeTranscription ]
+  -- | , transcription: String.joinWith ", " $ Array.catMaybes [ findTranscriptionFromBody input.fromAbbyy, input.fromCambridgeTranscription ]
   , answer: String.joinWith ", " (NonEmptyArray.toArray input.fromGoogleTranslate)
   , myContext:
-    String.joinWith "\n"
-    $ input.sentences
-    <#> \sentence ->
+    input.sentences
+    <#> (\sentence ->
       String.joinWith " "
-      $ Array.catMaybes [ Just sentence.sentence, Just sentence.position, sentence.annotation_content ]
-  , body: printBodyFromAbbyy input.fromAbbyy
+      $ Array.catMaybes
+        [ Just sentence.sentence
+        , Just $ tagOneline "i" [] $ String.joinWith " | " $ NonEmptyArray.toArray sentence.sentence_translation
+        , Just $ paranthesise sentence.position
+        , sentence.annotation_content <#> paranthesise
+        ]
+      )
+    # NonEmptyArray.toArray
+    # String.joinWith "<br>"
+  -- | , body: printBodyFromAbbyy input.fromAbbyy
   }

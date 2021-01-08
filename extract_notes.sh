@@ -52,7 +52,17 @@ exptract_pdf_squiggly() {
 
 # ocrize 'Oxford Japanese Grammar and Verbs by Jonathan Bunt (z-lib.org).pdf'
 
-exptract_pdf_squiggly "/home/srghma/Desktop/Japanese Book Collection/Japanese Books/детские сказки - children's fairy tales - 子供のおとぎ話" "Метод чтения Ильи Франка/Метод чтения Ильи Франка. Японские народные сказки. 2006"
+# exptract_pdf_squiggly \
+#   "/home/srghma/Desktop/Japanese Book Collection/Japanese Books/детские сказки - children's fairy tales - 子供のおとぎ話" \
+#   "Метод чтения Ильи Франка/Метод чтения Ильи Франка. Японские народные сказки. 2006"
+
+# exptract_pdf_squiggly \
+#   "/home/srghma/Dropbox/zotfile/jap/Genki - An Integrated Course in Elementary Japanese [Second Edition] (2011)" \
+#   "Genki - I"
+
+exptract_pdf_squiggly \
+  "/home/srghma/Dropbox/zotfile/jap" \
+  "Harry Potter and the Philosophers Stone by J.K. Rowling, Hiroko Matsuoka"
 
 # sd 'ersu chen' 'versuchen' /tmp/asdf
 # sd '"annotation_text": "erzählte"' '"annotation_text": "erzählen"' /tmp/asdf

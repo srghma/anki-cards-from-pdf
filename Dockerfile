@@ -1,13 +1,6 @@
 # container for easy use
 FROM python:3
 
-# ADD extract_pdf_notes.py /usr/bin/extract_pdf_notes
-# chmod a+x /usr/bin/extract_pdf_notes && \
-RUN pip install --no-cache-dir pdfminer.six beeprint
-RUN pip install --no-cache-dir simplejson
-RUN pip install --no-cache-dir ftfy
-RUN pip install --no-cache-dir ocrmypdf
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
   libleptonica-dev \
   zlib1g-dev
@@ -36,9 +29,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   tesseract-ocr-jpn \
   unpaper
 
+RUN pip install --no-cache-dir pdfminer.six beeprint simplejson ftfy ocrmypdf
+
   # tesseract-ocr-chi-sim \
   # tesseract-ocr-fra \
   # tesseract-ocr-por \
   # tesseract-ocr-spa \
-
-# ENTRYPOINT ["/usr/bin/extract_pdf_notes"]

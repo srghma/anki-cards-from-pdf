@@ -51,6 +51,10 @@ wordVariants = NonEmptyArray.nub <<< map
   where
     strip f x = f (Pattern "*") x # fromMaybe x
 
+requestFnJson cache = \affjaxRequest -> PdfAnkiTranslator.AffjaxCache.requestWithCache { cache, affjaxRequest, bodyCodec: Data.Codec.Argonaut.json }
+
+requestFnString cache = \affjaxRequest -> PdfAnkiTranslator.AffjaxCache.requestWithCache { cache, affjaxRequest, bodyCodec: Data.Codec.Argonaut.string }
+
 main :: Effect Unit
 main = do
   config <- Options.Applicative.execParser PdfAnkiTranslator.Config.opts
@@ -72,57 +76,78 @@ main = do
 
     PdfAnkiTranslator.AffjaxCache.withCache config.cache \cache -> do
       (mapRendered :: Map String PdfAnkiTranslator.Print.AnkiFields) <- forWithIndex input \annotation_text_id inputElement -> do
-          (fromAbbyy :: NonEmptyArray ArticleModel) <-
-            PdfAnkiTranslator.Lingolive.Actions.Translation.translation
-            { accessKey: abbyyAccessKey
-            , requestFn: \affjaxRequest -> PdfAnkiTranslator.AffjaxCache.requestWithCache { cache, affjaxRequest, bodyCodec: Data.Codec.Argonaut.json }
-            }
-            { text: inputElement.annotation_text
-            , srcLang: German
-            , dstLang: Russian
-            }
-            >>= either (throwError <<< error <<< PdfAnkiTranslator.Lingolive.Actions.Translation.printError inputElement.annotation_text) pure
+          -- | (fromAbbyy :: NonEmptyArray ArticleModel) <-
+          -- |   PdfAnkiTranslator.Lingolive.Actions.Translation.translation
+          -- |   { accessKey: abbyyAccessKey
+          -- |   , requestFn: requestFnJson cache
+          -- |   }
+          -- |   { text: inputElement.annotation_text
+          -- |   , srcLang: German
+          -- |   , dstLang: Russian
+          -- |   }
+          -- |   >>= either (throwError <<< error <<< PdfAnkiTranslator.Lingolive.Actions.Translation.printError inputElement.annotation_text) pure
 
-          let (wordVariants :: NonEmptyArray String) = wordVariants fromAbbyy
+          -- | let (wordVariants :: NonEmptyArray String) = wordVariants fromAbbyy
 
-          traceM { fromAbbyy, wordVariants }
+          -- | traceM { fromAbbyy, wordVariants }
 
           (fromGoogleTranslate :: NonEmptyArray String) <-
             PdfAnkiTranslator.GoogleTranslate.Translate.request
             { accessKey: config.google_translate_access_key
-            , requestFn: \affjaxRequest -> PdfAnkiTranslator.AffjaxCache.requestWithCache { cache, affjaxRequest, bodyCodec: Data.Codec.Argonaut.json }
+            , requestFn: requestFnJson cache
             }
             { q: inputElement.annotation_text
-            , source: German
+            , source: Japanese
             , target: Russian
             }
             >>= either (throwError <<< error <<< PdfAnkiTranslator.GoogleTranslate.Translate.printError inputElement.annotation_text) pure
 
           traceM { fromGoogleTranslate }
 
-          (fromCambridgeTranscription :: Maybe String) <-
-            oneOfMap
-            ( \wordVariant ->
-              PdfAnkiTranslator.Cambridge.Transcription.transcription
-              { requestFn: \affjaxRequest -> PdfAnkiTranslator.AffjaxCache.requestWithCache { cache, affjaxRequest, bodyCodec: Data.Codec.Argonaut.string }
-              }
-              { text: wordVariant
-              , srcLang: German
-              , dstLang: Russian
-              }
-              >>= either (throwError <<< error <<< PdfAnkiTranslator.Cambridge.Transcription.printError wordVariant) pure
-            )
-            wordVariants
+          -- | (fromCambridgeTranscription :: Maybe String) <-
+          -- |   oneOfMap
+          -- |   ( \wordVariant ->
+          -- |     PdfAnkiTranslator.Cambridge.Transcription.transcription
+          -- |     { requestFn: requestFnString cache
+          -- |     }
+          -- |     { text: wordVariant
+          -- |     , srcLang: German
+          -- |     , dstLang: Russian
+          -- |     }
+          -- |     >>= either (throwError <<< error <<< PdfAnkiTranslator.Cambridge.Transcription.printError wordVariant) pure
+          -- |   )
+          -- |   wordVariants
 
-          traceM { fromCambridgeTranscription }
+          -- | traceM { fromCambridgeTranscription }
 
           -- | _ <- throwError $ error $ "No translations found for " <> show wordVariants
 
+          (sentences_with_translation :: NonEmptyArray PdfAnkiTranslator.Print.Sentence) <- for inputElement.sentences
+              ( \(s :: PdfAnkiTranslator.Input.Sentence) -> do
+                  (sentence_translation :: NonEmptyArray String) <-
+                      PdfAnkiTranslator.GoogleTranslate.Translate.request
+                      { accessKey: config.google_translate_access_key
+                      , requestFn: requestFnJson cache
+                      }
+                      { q: s.sentence_without_marks
+                      , source: Japanese
+                      , target: Russian
+                      }
+                      >>= either (throwError <<< error <<< PdfAnkiTranslator.GoogleTranslate.Translate.printError inputElement.annotation_text) pure
+
+                  pure
+                    { sentence: s.sentence
+                    , sentence_translation
+                    , position: s.position
+                    , annotation_content: s.annotation_content
+                    }
+              )
+
           let renderedWord = PdfAnkiTranslator.Print.printArticleModel
-                { fromAbbyy
-                , fromGoogleTranslate
-                , fromCambridgeTranscription
-                , sentences:           inputElement.sentences
+                -- | { fromAbbyy
+                { fromGoogleTranslate
+                -- | , fromCambridgeTranscription
+                , sentences:           sentences_with_translation
                 , annotation_text:     inputElement.annotation_text
                 , annotation_text_id
                 }
@@ -135,7 +160,14 @@ main = do
 
       let
         print :: PdfAnkiTranslator.Print.AnkiFields -> Array String
-        print x = [x.id, x.question, x.answer, x.transcription, x.myContext, x.body]
+        print x =
+          [ x.id
+          , x.question
+          , x.answer
+          -- | , x.transcription
+          , x.myContext
+          -- | , x.body
+          ]
 
       csv <- PdfAnkiTranslator.CsvStringify.stringify $ map print rendered
 

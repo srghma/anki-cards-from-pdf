@@ -44,6 +44,7 @@ languageToLanguageId =
   case _ of
        German  -> "german"
        Russian -> "english"
+       Japanese -> undefined
 
 data Error
   = Error__AffjaxError Affjax.Error

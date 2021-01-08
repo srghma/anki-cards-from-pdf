@@ -36,20 +36,27 @@ import Node.FS.Aff as Node.FS.Aff
 import Options.Applicative as Options.Applicative
 import Unsafe.Coerce (unsafeCoerce)
 
+-- covar pos - unsafe
+-- contra -- ????
+
 -- | newtype Foo a = Foo (a -> a)
 
 -- | foo :: Exists Foo
 -- | foo = mkExists (Foo identity)
 
 -- | fooTo :: forall b . (forall r. (forall a. Foo a -> r) -> r) -> b -> b
--- | -- | fooTo x = x $ \(Foo f) -> f -- Could not match type        a1      with type        b0
+-- | fooTo x = x $ \(Foo f) -> f -- Could not match type        a1      with type        b0
 -- | fooTo x = x (\(Foo f) -> unsafeCoerce f)
 
 -- | useFoo :: Foo String -> String
--- | useFoo (Foo f) =
+-- | useFoo (Foo f) = f "used"
 
 -- | x :: Int
 -- | x = runExists (\(Foo f) -> f "a") foo
+
+-- TODO: is it SAFE? NO
+hackExistsF :: forall a f . Exists f -> f a
+hackExistsF = unsafeCoerce
 
 -- because why we nned them?
 type AffjaxResponseWithoutHeaders a =
@@ -87,10 +94,6 @@ newtype Cache a = Cache
       Effect Unit
   }
 
--- TODO: is it SAFE?
-hackCache :: forall a . Exists Cache -> Cache a
-hackCache = unsafeCoerce
-
 affjaxRequestToKey :: forall a . Affjax.Request a -> String
 affjaxRequestToKey affjaxRequest = stringify $ encodeJson $ Object.fromHomogeneous
   { method: either show unCustomMethod affjaxRequest.method
@@ -99,11 +102,11 @@ affjaxRequestToKey affjaxRequest = stringify $ encodeJson $ Object.fromHomogeneo
       maybe
       "Nothing"
       (case _ of
-            ArrayView f                   -> "ArrayView unsupported"
-            Blob blob                     -> "Blob unsupported"
-            Document document             -> "Document unsupported"
-            FormData formData             -> "FormData unsupported"
-            FormURLEncoded formURLEncoded -> "FormURLEncoded unsupported"
+            ArrayView f                   -> "ArrayView is unsupported"
+            Blob blob                     -> "Blob is unsupported"
+            Document document             -> "Document is unsupported"
+            FormData formData             -> "FormData is unsupported"
+            FormURLEncoded formURLEncoded -> "FormURLEncoded is unsupported"
             String string                 -> string
             Json json                     -> stringify json
       )
@@ -155,7 +158,7 @@ requestWithCache
   , affjaxRequest
   , bodyCodec
   } =
-    let ((Cache cache) :: Cache a) = hackCache cache
+    let ((Cache cache) :: Cache a) = hackExistsF cache
      in liftEffect (cache.get { affjaxRequest, bodyCodec }) >>=
         case _ of
             Nothing -> do

@@ -123,7 +123,10 @@ class RectExtractor(TextConverter):
         self._curline = set()
 
     def my_append_sentence_or_dump(self, text, item, hits):
-        is_end_of_sentence = text == ' ' and self.current_sentence != '' and self.current_sentence[-1] in SENTENCE_END
+        is_end_of_sentence_not_jp = text == ' ' and self.current_sentence != '' and self.current_sentence[-1] in SENTENCE_END
+        is_end_of_sentence_jp = text == '。'
+        is_end_of_sentence = is_end_of_sentence_not_jp or is_end_of_sentence_jp
+
         is_newline = text == '\n'
 
         self.current_sentence_should_be_added_to_these_annotations_on_end.update(hits)
@@ -155,9 +158,15 @@ class RectExtractor(TextConverter):
             #             "is_newline": is_newline,
             #             "item": item,
             #         })
+
+            current_sentence_with_sentence_end = self.current_sentence
+
+            if is_end_of_sentence_jp:
+              current_sentence_with_sentence_end += text
+
             sentence_and_its_annotations.append(
                 {
-                  "sentence":    self.current_sentence,
+                  "sentence":    current_sentence_with_sentence_end,
                   "annotations": self.current_sentence_should_be_added_to_these_annotations_on_end
                 })
 
@@ -724,13 +733,18 @@ def main():
 
             # print(strip_and_substitute(annotation.text))
 
+            sentence = ftfy.fix_text(strip_and_substitute(sentence_and_its_annotation["sentence"]))
+            sentence_without_marks = sentence.replace("<strong>", "").replace("</strong>", "")
+            annotation_text = ftfy.fix_text(strip_and_substitute(annotation.text))
+
             sentence_and_its_annotations_.append(
                     {
-                        "annotation_text_id": ftfy.fix_text(strip_and_substitute(annotation.text)),
-                        "annotation_text":    ftfy.fix_text(strip_and_substitute(annotation.text)),
-                        "annotation_content": annotation_content,
-                        "sentence":           ftfy.fix_text(strip_and_substitute(sentence_and_its_annotation["sentence"])),
-                        "position":           format_pos(outlines, annotation)
+                        "annotation_text_id":     ftfy.fix_text(strip_and_substitute(annotation.text)),
+                        "annotation_text":        annotation_text,
+                        "annotation_content":     annotation_content,
+                        "sentence":               sentence_without_marks.replace(annotation_text, "<strong>" + annotation_text + "</strong>"),
+                        "sentence_without_marks": sentence_without_marks,
+                        "position":               format_pos(outlines, annotation)
                     })
 
         simplejson.dump(sentence_and_its_annotations_, args.output, sort_keys=True, indent=2 * ' ', ensure_ascii=False)

@@ -9,6 +9,7 @@ languageToLanguageId =
   case _ of
        German            -> "de"
        Russian           -> "ru"
+       Japanese          -> "ja"
        -- | Afrikaans         -> "af"
        -- | Albanian          -> "sq"
        -- | Arabic            -> "ar"
@@ -49,7 +50,6 @@ languageToLanguageId =
        -- | Indonesian        -> "id"
        -- | Irish             -> "ga"
        -- | Italian           -> "it"
-       -- | Japanese          -> "ja"
        -- | Javanese          -> "jw"
        -- | Kannada           -> "kn"
        -- | Kazakh            -> "kk"

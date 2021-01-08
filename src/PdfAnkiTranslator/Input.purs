@@ -20,6 +20,7 @@ import Data.Generic.Rep.Show (genericShow)
 import Data.List.Unique as Data.List.Unique
 import Data.Map (Map)
 import Data.Map as Map
+import Data.NonEmpty (NonEmpty(..))
 import Data.Set (Set)
 import Data.Set as Set
 import Foreign.Object (Object)
@@ -28,34 +29,41 @@ import Foreign.Object.ST (STObject)
 import Foreign.Object.ST as STObject
 
 type InputElement =
-  { sentence           :: String
-  , annotation_text_id :: String
-  , position           :: String
-  , annotation_text    :: String
-  , annotation_content :: Maybe String
+  { sentence               :: String
+  , sentence_without_marks :: String
+  , annotation_text_id     :: String
+  , position               :: String
+  , annotation_text        :: String
+  , annotation_content     :: Maybe String
   }
 
 decodeInputElement :: Json -> Either JsonDecodeError InputElement
 decodeInputElement = decodeJson >=> \(obj :: Object Json) -> ado
-  sentence           <- obj .: "sentence"
-  position           <- obj .: "position"
-  annotation_text_id <- obj .: "annotation_text_id"
-  annotation_text    <- obj .: "annotation_text"
-  annotation_content <- obj .:? "annotation_content"
+  sentence               <- obj .: "sentence"
+  sentence_without_marks <- obj .: "sentence_without_marks"
+  position               <- obj .: "position"
+  annotation_text_id     <- obj .: "annotation_text_id"
+  annotation_text        <- obj .: "annotation_text"
+  annotation_content     <- obj .:? "annotation_content"
+
   in
   { sentence
+  , sentence_without_marks
   , position
   , annotation_text_id
   , annotation_text
   , annotation_content
   }
 
+type Sentence =
+  { sentence               :: String
+  , sentence_without_marks :: String
+  , position               :: String
+  , annotation_content     :: Maybe String
+  }
+
 type UniqInputElementValue =
-  { sentences :: Array
-    { sentence :: String
-    , position :: String
-    , annotation_content :: Maybe String
-    }
+  { sentences :: NonEmptyArray Sentence
   , annotation_text :: String
   }
 
@@ -64,17 +72,17 @@ decodeInput json = Decoders.decodeNonEmptyArray decodeInputElement json
   <#> \(inputs :: NonEmptyArray InputElement) ->
      Map.fromFoldableWith
      (\a1 a2 ->
-       { sentences: a1.sentences <> a2.sentences
+       { sentences: a2.sentences <> a1.sentences
        , annotation_text: a1.annotation_text
        }
      )
      (inputs <#> \x -> Tuple x.annotation_text_id
-        { sentences:
-          [ { sentence: x.sentence
-            , position: x.position
-            , annotation_content: x.annotation_content
-            }
-          ]
+        { sentences: NonEmptyArray.singleton
+          { sentence: x.sentence
+          , sentence_without_marks: x.sentence_without_marks
+          , position: x.position
+          , annotation_content: x.annotation_content
+          }
         , annotation_text: x.annotation_text
         }
      )

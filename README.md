@@ -49,18 +49,21 @@ echo $json | curl -X POST \
 https://translation.googleapis.com/language/translate/v2
 ```
 
+https://developers.lingvolive.com/ru-ru/Help
+
+key at - https://console.cloud.google.com/apis/credentials/serviceaccountkey
+
 ## add translations
 
 ```
-# https://developers.lingvolive.com/ru-ru/Help
-abbyy_api_key="ZDkwOTkyMTktODFmNC00OTdlLThjNjMtZTg3NzU0NWZhMmFlOmE0OWViNmViMDIyYTQwYzhiZTU2NDk4NDJmNTI3YTdk"
-
-export GOOGLE_APPLICATION_CREDENTIALS="/home/srghma/Downloads/My First Project-93b2e4e681f8.json"
-google_translate_access_key="$(gcloud auth application-default print-access-token)"
-
 ./extract_notes.sh > /tmp/asdf
 
-cat /tmp/asdf | spago run \
+abbyy_api_key="ZDkwOTkyMTktODFmNC00OTdlLThjNjMtZTg3NzU0NWZhMmFlOmE0OWViNmViMDIyYTQwYzhiZTU2NDk4NDJmNTI3YTdk"
+
+export GOOGLE_APPLICATION_CREDENTIALS="./My First Project.json"
+google_translate_access_key="$(gcloud auth application-default print-access-token)"
+
+cat ./from-pdf-tmp.json | spago run \
   --main PdfAnkiTranslator.Main \
   --node-args "--cache ./mycache.json --abbyy-api-key '$abbyy_api_key' --google-translate-access-key '$google_translate_access_key'"
 ```
