@@ -1,0 +1,31 @@
+.card {
+  font-size: 16px;
+  font-family: arial;
+  text-align: center;
+  color: black;
+  background-color: white;
+}
+
+input[type="button"] {
+  font-size: 10px;
+}
+
+span.tiny {font-size: 16px;}
+
+span.small {font-size: 24px;}
+
+span.medium {font-size: 32px;}
+
+span.large {font-size: 96px;}
+
+span.italic {font-style: italic;}
+
+.win .japanese {font-family: "Meiryo", "MS Mincho";}
+.mac .japanese {font-family: "Hiragino Mincho Pro";}
+.linux .japanese {font-family: "Kochi Mincho";}
+
+.mobile .japanese {font-family: "Motoya L Cedar", "Motoya L Maru", "DroidSansJapanese", "Hiragino Mincho ProN";}
+.mobile .japanesekanji {font-family: "KanjiStrokeOrders", "Motoya L Cedar", "Motoya L Maru", "DroidSansJapanese", "Hiragino Mincho ProN";}
+
+
+.nightMode a { color: #ffffff; }
