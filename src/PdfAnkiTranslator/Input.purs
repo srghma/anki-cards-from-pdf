@@ -67,10 +67,10 @@ type UniqInputElementValue =
   , annotation_text :: String
   }
 
-decodeInput :: Json -> Either JsonDecodeError (Map String UniqInputElementValue)
+decodeInput :: Json -> Either JsonDecodeError (Object UniqInputElementValue)
 decodeInput json = Decoders.decodeNonEmptyArray decodeInputElement json
   <#> \(inputs :: NonEmptyArray InputElement) ->
-     Map.fromFoldableWith
+     Object.fromFoldableWith
      (\a1 a2 ->
        { sentences: a2.sentences <> a1.sentences
        , annotation_text: a1.annotation_text

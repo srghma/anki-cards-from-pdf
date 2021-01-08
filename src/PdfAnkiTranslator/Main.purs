@@ -38,6 +38,8 @@ import PdfAnkiTranslator.Lingolive.Actions.Authenticate as PdfAnkiTranslator.Lin
 import PdfAnkiTranslator.Lingolive.Actions.Translation as PdfAnkiTranslator.Lingolive.Actions.Translation
 import PdfAnkiTranslator.Print as PdfAnkiTranslator.Print
 import PdfAnkiTranslator.ReadStdin as PdfAnkiTranslator.ReadStdin
+import Foreign.Object (Object)
+import Foreign.Object as Object
 
 -- ./extract_notes.sh | spago run --main PdfAnkiTranslator.Main --node-args '--cache ./mycache.json'
 
@@ -63,7 +65,7 @@ main = do
     inputJsonString <- PdfAnkiTranslator.ReadStdin.readStdin
       >>= maybe (throwError $ error "Expected stdin") pure
 
-    (input :: Map String UniqInputElementValue) <- parseJson inputJsonString
+    (input :: Object UniqInputElementValue) <- parseJson inputJsonString
       >>= PdfAnkiTranslator.Input.decodeInput
       # either (throwError <<< error <<< printJsonDecodeError) pure
 
@@ -75,7 +77,7 @@ main = do
     -- | traceM abbyyAccessKey
 
     PdfAnkiTranslator.AffjaxCache.withCache config.cache \cache -> do
-      (mapRendered :: Map String PdfAnkiTranslator.Print.AnkiFields) <- forWithIndex input \annotation_text_id inputElement -> do
+      (mapRendered :: Object PdfAnkiTranslator.Print.AnkiFields) <- forWithIndex input \annotation_text_id inputElement -> do
           -- | (fromAbbyy :: NonEmptyArray ArticleModel) <-
           -- |   PdfAnkiTranslator.Lingolive.Actions.Translation.translation
           -- |   { accessKey: abbyyAccessKey

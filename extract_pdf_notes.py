@@ -102,7 +102,7 @@ class RectExtractor(TextConverter):
         self.annots = set()
         # self.sentences = list()
         self.current_sentence = ''
-        self.current_sentence_should_be_added_to_these_annotations_on_end = set()
+        self.current_sentence_should_be_added_to_these_annotations_on_end = list()
 
     def my_setannots(self, annots):
         self.annots = {a for a in annots if a.boxes}
@@ -129,7 +129,7 @@ class RectExtractor(TextConverter):
 
         is_newline = text == '\n'
 
-        self.current_sentence_should_be_added_to_these_annotations_on_end.update(hits)
+        self.current_sentence_should_be_added_to_these_annotations_on_end = [*self.current_sentence_should_be_added_to_these_annotations_on_end, *hits]
 
         word_have_started =  len(hits - self._lasthit) > 0
         word_have_ended =    len(self._lasthit - hits) > 0
@@ -164,6 +164,8 @@ class RectExtractor(TextConverter):
             if is_end_of_sentence_jp:
               current_sentence_with_sentence_end += text
 
+            # beeprint.pp(self.current_sentence_should_be_added_to_these_annotations_on_end)
+
             sentence_and_its_annotations.append(
                 {
                   "sentence":    current_sentence_with_sentence_end,
@@ -172,7 +174,7 @@ class RectExtractor(TextConverter):
 
             self.current_sentence = ''
 
-            self.current_sentence_should_be_added_to_these_annotations_on_end = set()
+            self.current_sentence_should_be_added_to_these_annotations_on_end = list()
 
             return
 
