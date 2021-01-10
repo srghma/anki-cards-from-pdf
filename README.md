@@ -67,3 +67,14 @@ cat ./from-pdf-tmp.json | spago run \
   --main PdfAnkiTranslator.Main \
   --node-args "--cache ./mycache.json --abbyy-api-key '$abbyy_api_key' --google-translate-access-key '$google_translate_access_key'"
 ```
+
+```
+abbyy_api_key="ZDkwOTkyMTktODFmNC00OTdlLThjNjMtZTg3NzU0NWZhMmFlOmE0OWViNmViMDIyYTQwYzhiZTU2NDk4NDJmNTI3YTdk"
+
+export GOOGLE_APPLICATION_CREDENTIALS="./My First Project.json"
+google_translate_access_key="$(gcloud auth application-default print-access-token)"
+
+spago run \
+  --main UpdateCsv.Main \
+  --node-args "--cache ./mycache.json --abbyy-api-key '$abbyy_api_key' --google-translate-access-key '$google_translate_access_key'"
+```

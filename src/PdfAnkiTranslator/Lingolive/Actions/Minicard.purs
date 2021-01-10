@@ -2,7 +2,7 @@ module PdfAnkiTranslator.Lingolive.Actions.Minicard where
 
 import Data.Argonaut.Decode
 import PdfAnkiTranslator.Languages
-import PdfAnkiTranslator.Lingolive.TranslationResponseTypes
+import PdfAnkiTranslator.Lingolive.MinicardResponseTypes
 import Protolude
 
 import Affjax as Affjax
@@ -23,7 +23,7 @@ import Foreign.Object as Object
 import Node.URL (Query)
 import Node.URL as Node.URL
 import PdfAnkiTranslator.Lingolive.Config
-import PdfAnkiTranslator.Lingolive.TranslationResponseDecoders as PdfAnkiTranslator.Lingolive.TranslationResponseDecoders
+import PdfAnkiTranslator.Lingolive.MinicardResponseDecoders as PdfAnkiTranslator.Lingolive.MinicardResponseDecoders
 import Unsafe.Coerce (unsafeCoerce)
 import PdfAnkiTranslator.AffjaxCache as PdfAnkiTranslator.AffjaxCache
 
@@ -49,18 +49,19 @@ toQuery = unsafeCoerce
 printQuery :: Array (Tuple String String) -> String
 printQuery = Object.fromFoldable >>> toQuery >>> Node.URL.toQueryString
 
+printError :: String -> Error -> String
 printError word e = "On abbyy minicard of word " <> show word <> ": " <>
   case e of
        Error__AffjaxError affjaxError ->  Affjax.printError affjaxError
        Error__InvalidStatus status -> status
        Error__JsonDecodeError e -> printJsonDecodeError e
 
-translation :: Config -> Input -> Aff (Either Error (NonEmptyArray ArticleModel))
-translation config input =
+request :: Config -> Input -> Aff (Either Error Response)
+request config input =
   config.requestFn
   ( Affjax.defaultRequest
     { method = Left GET
-    , url = serviceUrl <> "/api/v1/Translation?" <> printQuery
+    , url = serviceUrl <> "/api/v1/Minicard?" <> printQuery
             [ Tuple "text" input.text
             , Tuple "srcLang" (show $ languageToLanguageId input.srcLang)
             , Tuple "dstLang" (show $ languageToLanguageId input.dstLang)
@@ -74,7 +75,7 @@ translation config input =
       if resp.status /= StatusCode 200
         then Left $ Error__InvalidStatus resp.statusText
         else lmap Error__JsonDecodeError
-          (PdfAnkiTranslator.Lingolive.TranslationResponseDecoders.decodeArticleModels
+          (PdfAnkiTranslator.Lingolive.MinicardResponseDecoders.decodeResponse
             ( resp.body
             )
           )

@@ -212,5 +212,5 @@ createCacheWithPersist filename = do
        Node.FS.Aff.writeTextFile Node.Encoding.UTF8 filename (stringifyWithIndent 2 $ encodeJson obj)
     }
 
-withCache :: String -> (Exists Cache -> Aff Unit) -> Aff Unit
+withCache :: forall a . String -> (Exists Cache -> Aff a) -> Aff a
 withCache filename action = bracket (createCacheWithPersist filename) (\{ persist } -> persist) (\{ cache } -> action cache)

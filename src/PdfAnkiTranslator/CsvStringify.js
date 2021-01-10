@@ -1,4 +1,4 @@
-stringify = require('csv-stringify')
+const stringify = require('csv-stringify')
 
 exports._stringify = function(input) {
   return function (onError, onSuccess) {

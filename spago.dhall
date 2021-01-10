@@ -22,6 +22,10 @@
   , "codec-argonaut"
   , "yarn"
   , "unique-lists"
+  , "record-csv"
+  , "profunctor-lenses"
+  , "aff-retry"
+  , "stringutils"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs", "update-csv/**/*.purs" ]
