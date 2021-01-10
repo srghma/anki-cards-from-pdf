@@ -1,8 +1,8 @@
-module PdfAnkiTranslator.Lingolive.Decoders where
+module PdfAnkiTranslator.Lingolive.TranslationResponseDecoders where
 
 import Data.Argonaut.Decode
 import PdfAnkiTranslator.Lingolive.DecodeUtils
-import PdfAnkiTranslator.Lingolive.Types
+import PdfAnkiTranslator.Lingolive.TranslationResponseTypes
 import Protolude
 import Affjax as Affjax
 import Control.Monad.Except (withExceptT)

@@ -2,7 +2,7 @@ module PdfAnkiTranslator.Input where
 
 import Data.Argonaut.Decode
 import PdfAnkiTranslator.Lingolive.DecodeUtils
-import PdfAnkiTranslator.Lingolive.Types
+import PdfAnkiTranslator.Lingolive.TranslationResponseTypes
 import Protolude
 
 import Affjax as Affjax

@@ -2,7 +2,7 @@ module PdfAnkiTranslator.Lingolive.Actions.Translation where
 
 import Data.Argonaut.Decode
 import PdfAnkiTranslator.Languages
-import PdfAnkiTranslator.Lingolive.Types
+import PdfAnkiTranslator.Lingolive.TranslationResponseTypes
 import Protolude
 
 import Affjax as Affjax
@@ -23,7 +23,7 @@ import Foreign.Object as Object
 import Node.URL (Query)
 import Node.URL as Node.URL
 import PdfAnkiTranslator.Lingolive.Config
-import PdfAnkiTranslator.Lingolive.Decoders as PdfAnkiTranslator.Lingolive.Decoders
+import PdfAnkiTranslator.Lingolive.TranslationResponseDecoders as PdfAnkiTranslator.Lingolive.TranslationResponseDecoders
 import Unsafe.Coerce (unsafeCoerce)
 import PdfAnkiTranslator.AffjaxCache as PdfAnkiTranslator.AffjaxCache
 
@@ -74,7 +74,7 @@ translation config input =
       if resp.status /= StatusCode 200
         then Left $ Error__InvalidStatus resp.statusText
         else lmap Error__JsonDecodeError
-          (PdfAnkiTranslator.Lingolive.Decoders.decodeArticleModels
+          (PdfAnkiTranslator.Lingolive.TranslationResponseDecoders.decodeArticleModels
             ( resp.body
             )
           )

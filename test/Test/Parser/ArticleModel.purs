@@ -17,8 +17,8 @@ import Test.Spec as Test.Spec
 import Test.Spec.Assertions (shouldEqual)
 import Test.Spec.Reporter as Test.Spec.Reporter
 import Test.Spec.Runner as Test.Spec.Runner
-import PdfAnkiTranslator.Lingolive.Types
-import PdfAnkiTranslator.Lingolive.Decoders
+import PdfAnkiTranslator.Lingolive.TranslationResponseTypes
+import PdfAnkiTranslator.Lingolive.TranslationResponseDecoders
 import Data.Array.NonEmpty (NonEmptyArray)
 import Data.Array.NonEmpty as NonEmptyArray
 

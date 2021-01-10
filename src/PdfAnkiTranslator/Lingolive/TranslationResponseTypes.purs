@@ -1,4 +1,4 @@
-module PdfAnkiTranslator.Lingolive.Types where
+module PdfAnkiTranslator.Lingolive.TranslationResponseTypes where
 
 import Data.Argonaut.Decode
 import Protolude

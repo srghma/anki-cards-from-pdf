@@ -3,7 +3,7 @@ module PdfAnkiTranslator.Lingolive.Actions.Authenticate where
 import Data.Argonaut.Decode
 import Data.HTTP.Method
 import PdfAnkiTranslator.Lingolive.Config
-import PdfAnkiTranslator.Lingolive.Types
+import PdfAnkiTranslator.Lingolive.TranslationResponseTypes
 import Protolude
 
 import Affjax as Affjax

@@ -1,6 +1,6 @@
 module Test.Parser.ArticleModel.Ankommen.Actual where
 
-import PdfAnkiTranslator.Lingolive.Types
+import PdfAnkiTranslator.Lingolive.TranslationResponseTypes
 import Protolude
 
 import Data.Array.NonEmpty (NonEmptyArray)

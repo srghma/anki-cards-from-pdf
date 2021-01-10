@@ -7,9 +7,10 @@ import PdfAnkiTranslator.Languages
 -- https://cloud.google.com/translate/docs/basic/translating-text#translating_text
 languageToLanguageId =
   case _ of
-       German            -> "de"
-       Russian           -> "ru"
-       Japanese          -> "ja"
+       German   -> "de"
+       Russian  -> "ru"
+       Japanese -> "ja"
+       English  -> "en"
        -- | Afrikaans         -> "af"
        -- | Albanian          -> "sq"
        -- | Arabic            -> "ar"

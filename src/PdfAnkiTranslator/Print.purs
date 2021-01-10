@@ -1,7 +1,7 @@
 module PdfAnkiTranslator.Print where
 
 import Data.Foldable
-import PdfAnkiTranslator.Lingolive.Types
+import PdfAnkiTranslator.Lingolive.TranslationResponseTypes
 import PdfAnkiTranslator.SimpleXMLWithIndentation
 import Protolude
 

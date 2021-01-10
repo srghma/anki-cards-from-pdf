@@ -58,6 +58,12 @@ import Unsafe.Coerce (unsafeCoerce)
 hackExistsF :: forall a f . Exists f -> f a
 hackExistsF = unsafeCoerce
 
+requestFnJson :: Exists Cache → Affjax.Request Json → Aff (Either Affjax.Error (Affjax.Response Json))
+requestFnJson cache = \affjaxRequest -> requestWithCache { cache, affjaxRequest, bodyCodec: Data.Codec.Argonaut.json }
+
+requestFnString :: Exists Cache → Affjax.Request String → Aff (Either Affjax.Error (Affjax.Response String))
+requestFnString cache = \affjaxRequest -> requestWithCache { cache, affjaxRequest, bodyCodec: Data.Codec.Argonaut.string }
+
 -- because why we nned them?
 type AffjaxResponseWithoutHeaders a =
   { status :: StatusCode

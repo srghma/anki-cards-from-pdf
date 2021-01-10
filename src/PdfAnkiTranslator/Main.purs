@@ -4,7 +4,7 @@ import Data.Argonaut.Decode
 import Data.Exists
 import Foreign
 import PdfAnkiTranslator.Languages
-import PdfAnkiTranslator.Lingolive.Types
+import PdfAnkiTranslator.Lingolive.TranslationResponseTypes
 import Protolude
 
 import Affjax as Affjax
@@ -53,10 +53,6 @@ wordVariants = NonEmptyArray.nub <<< map
   where
     strip f x = f (Pattern "*") x # fromMaybe x
 
-requestFnJson cache = \affjaxRequest -> PdfAnkiTranslator.AffjaxCache.requestWithCache { cache, affjaxRequest, bodyCodec: Data.Codec.Argonaut.json }
-
-requestFnString cache = \affjaxRequest -> PdfAnkiTranslator.AffjaxCache.requestWithCache { cache, affjaxRequest, bodyCodec: Data.Codec.Argonaut.string }
-
 main :: Effect Unit
 main = do
   config <- Options.Applicative.execParser PdfAnkiTranslator.Config.opts
@@ -81,7 +77,7 @@ main = do
           -- | (fromAbbyy :: NonEmptyArray ArticleModel) <-
           -- |   PdfAnkiTranslator.Lingolive.Actions.Translation.translation
           -- |   { accessKey: abbyyAccessKey
-          -- |   , requestFn: requestFnJson cache
+          -- |   , requestFn: PdfAnkiTranslator.AffjaxCache.requestFnJson cache
           -- |   }
           -- |   { text: inputElement.annotation_text
           -- |   , srcLang: German
@@ -96,7 +92,7 @@ main = do
           (fromGoogleTranslate :: NonEmptyArray String) <-
             PdfAnkiTranslator.GoogleTranslate.Translate.request
             { accessKey: config.google_translate_access_key
-            , requestFn: requestFnJson cache
+            , requestFn: PdfAnkiTranslator.AffjaxCache.requestFnJson cache
             }
             { q: inputElement.annotation_text
             , source: Japanese
@@ -110,7 +106,7 @@ main = do
           -- |   oneOfMap
           -- |   ( \wordVariant ->
           -- |     PdfAnkiTranslator.Cambridge.Transcription.transcription
-          -- |     { requestFn: requestFnString cache
+          -- |     { requestFn: PdfAnkiTranslator.AffjaxCache.requestFnString cache
           -- |     }
           -- |     { text: wordVariant
           -- |     , srcLang: German
@@ -129,7 +125,7 @@ main = do
                   (sentence_translation :: NonEmptyArray String) <-
                       PdfAnkiTranslator.GoogleTranslate.Translate.request
                       { accessKey: config.google_translate_access_key
-                      , requestFn: requestFnJson cache
+                      , requestFn: PdfAnkiTranslator.AffjaxCache.requestFnJson cache
                       }
                       { q: s.sentence_without_marks
                       , source: Japanese

@@ -1,7 +1,7 @@
 module Test.Parser.ArticleModel.Angekommen.Actual where
 
 import Protolude
-import PdfAnkiTranslator.Lingolive.Types
+import PdfAnkiTranslator.Lingolive.TranslationResponseTypes
 import Data.Array.NonEmpty (NonEmptyArray)
 import Data.Array.NonEmpty as NonEmptyArray
 
