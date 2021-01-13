@@ -10,15 +10,15 @@ input[type="button"] {
   font-size: 10px;
 }
 
-span.tiny {font-size: 16px;}
+.tiny {font-size: 16px;}
 
-span.small {font-size: 24px;}
+.small {font-size: 24px;}
 
-span.medium {font-size: 32px;}
+.medium {font-size: 32px;}
 
-span.large {font-size: 96px;}
+.large {font-size: 96px;}
 
-span.italic {font-style: italic;}
+.italic {font-style: italic;}
 
 .win .japanese {font-family: "Meiryo", "MS Mincho";}
 .mac .japanese {font-family: "Hiragino Mincho Pro";}
