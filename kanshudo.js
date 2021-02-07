@@ -42,4 +42,7 @@ p = distinctBy('k', processed.map(x => {
   })
 )
 
-
+x = require('/home/srghma/projects/extract-pdf-notes/kanshudo-cache.js')
+o = x.x.map(x => JSON.stringify(x.k) + "," + JSON.stringify(x.o || "")).join('\n')
+fs = require('fs')
+fs.writeFileSync('/home/srghma/output', o)
