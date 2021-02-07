@@ -64,10 +64,9 @@ type MyCsvRow =
 
 main :: Effect Unit
 main = do
-  launchAff_ do
-    abbyyAccessKey <- PdfAnkiTranslator.Lingolive.Actions.Authenticate.authenticate { apiKey: config.abbyy_api_key }
-      >>= either (throwError <<< error <<< PdfAnkiTranslator.Lingolive.Actions.Authenticate.printError) pure
+  config <- Options.Applicative.execParser PdfAnkiTranslator.Config.opts
 
+  launchAff_ do
     (output :: Array MyCsvRow) <-
       PdfAnkiTranslator.AffjaxCache.withCache config.cache \cache ->
         for KanshudoFind.Input.input \inputElement -> do

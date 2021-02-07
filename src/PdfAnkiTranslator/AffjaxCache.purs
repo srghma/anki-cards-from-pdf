@@ -142,7 +142,7 @@ codecResponse bodyCodec =
 -- TODO
 codecAffjaxError :: Data.Codec.Argonaut.JsonCodec Affjax.Error
 codecAffjaxError =
-  Data.Codec.Argonaut.prismaticCodec dec Affjax.printError Data.Codec.Argonaut.string
+  Data.Codec.Argonaut.prismaticCodec "CodecAffjaxError" dec Affjax.printError Data.Codec.Argonaut.string
   where
     dec str = Just $ Affjax.RequestContentError str
 
