@@ -11,12 +11,12 @@ import Affjax.ResponseFormat as Affjax.ResponseFormat
 import Affjax.StatusCode (StatusCode(..))
 import Data.Argonaut.Core (Json)
 import Data.Argonaut.Decode.Decoders as Decoders
-import Data.Argonaut.Decode.Generic.Rep (genericDecodeJson)
+import Data.Argonaut.Decode.Generic (genericDecodeJson)
 import Data.Array.NonEmpty (NonEmptyArray)
 import Data.Array.NonEmpty as NonEmptyArray
 import Data.String.NonEmpty (NonEmptyString)
 import Data.String.NonEmpty as NonEmptyString
-import Data.Generic.Rep.Show (genericShow)
+import Data.Show.Generic (genericShow)
 import Data.HTTP.Method (Method(..))
 import Foreign.Object (Object)
 import Foreign.Object as Object

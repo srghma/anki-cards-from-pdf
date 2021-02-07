@@ -12,14 +12,14 @@ import Affjax.ResponseFormat as Affjax.ResponseFormat
 import Affjax.StatusCode (StatusCode(..))
 import Data.Argonaut.Core (Json)
 import Data.Argonaut.Decode.Decoders as Decoders
-import Data.Argonaut.Decode.Generic.Rep (genericDecodeJson)
+import Data.Argonaut.Decode.Generic (genericDecodeJson)
 import Data.Argonaut.Encode (encodeJson)
 import Data.Array.NonEmpty (NonEmptyArray)
 import Data.Array.NonEmpty as NonEmptyArray
 import Data.Codec as Data.Codec
 import Data.Codec.Argonaut (JsonDecodeError, printJsonDecodeError)
 import Data.Codec.Argonaut as Data.Codec.Argonaut
-import Data.Generic.Rep.Show (genericShow)
+import Data.Show.Generic (genericShow)
 import Data.HTTP.Method (Method(..))
 import Data.String.NonEmpty (NonEmptyString)
 import Data.String.NonEmpty as NonEmptyString

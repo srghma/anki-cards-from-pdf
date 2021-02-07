@@ -1,4 +1,4 @@
-module PdfAnkiTranslator.Cambridge.Transcription where
+module KanshudoFind.Kanshudo where
 
 import Data.Argonaut.Decode
 import PdfAnkiTranslator.Languages
@@ -37,26 +37,11 @@ type Config
 
 type Input
   = { text :: String
-    , srcLang :: Language
-    , dstLang :: Language
     }
-
-languageToLanguageId =
-  case _ of
-       German  -> "german"
-       English -> "english"
-       Russian -> unsafeThrow "Russian"
-       Japanese -> unsafeThrow "Russian"
 
 data Error
   = Error__AffjaxError Affjax.Error
   | Error__InvalidStatus String
-
-toQuery :: Object String -> Query
-toQuery = unsafeCoerce
-
-printQuery :: Array (Tuple String String) -> String
-printQuery = Object.fromFoldable >>> toQuery >>> Node.URL.toQueryString
 
 printError word e = "On cambridge translate of word " <> show word <> ": " <>
   case e of
@@ -68,8 +53,7 @@ transcription config input =
   config.requestFn
   ( Affjax.defaultRequest
     { method = Left GET
-    -- | https://dictionary.cambridge.org/dictionary/german-english/abgasen
-    , url = spy "url" $ "https://dictionary.cambridge.org/dictionary/" <> languageToLanguageId input.srcLang <> "-" <> languageToLanguageId input.dstLang <> "/" <> input.text
+    , url = "https://www.kanshudo.com/kanji/" <> input.text
     , content = Nothing
     , responseFormat = Affjax.ResponseFormat.string
     }
@@ -79,7 +63,7 @@ transcription config input =
         then Left $ Error__InvalidStatus resp.statusText
         else
         -- spy "resp.body"
-          case Regex.match (Regex.unsafeRegex """<span class="ipa dipa">([^<]+)<\/span>""" Regex.noFlags) ( resp.body) of
+          case Regex.match (Regex.unsafeRegex """\<div\ class="k_mnemonic"\>\s+\<span\ class="k_title"\>Kanshudo mnemonic\: <\/span>(.*?)<\/div>""" Regex.noFlags) ( resp.body) of
                Nothing -> Right Nothing
                Just matches ->
                  NonEmptyArray.index matches 1

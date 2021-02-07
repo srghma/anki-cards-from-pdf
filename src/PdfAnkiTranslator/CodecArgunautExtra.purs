@@ -3,7 +3,7 @@ module PdfAnkiTranslator.CodecArgunautExtra where
 import Protolude
 import Data.Argonaut.Core (Json)
 import Data.Argonaut.Decode.Decoders as Decoders
-import Data.Argonaut.Decode.Generic.Rep (genericDecodeJson)
+import Data.Argonaut.Decode.Generic (genericDecodeJson)
 import Data.Argonaut.Encode (encodeJson)
 import Data.Array.NonEmpty (NonEmptyArray)
 import Data.Array.NonEmpty as NonEmptyArray
