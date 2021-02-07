@@ -1,7 +1,10 @@
 {
   "dependencies": {
+    "cross-blob": "^2.0.0",
     "csv-parse": "^4.14.2",
     "csv-stringify": "^5.5.3",
+    "export-to-csv": "^0.2.1",
+    "kanji.js": "^1.2.2",
     "stream": "^0.0.2",
     "xhr2": "^0.2.0"
   }
