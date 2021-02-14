@@ -81,8 +81,8 @@ main = do
                    Right body -> do
                       let
                           (ideograph :: Maybe String) = do
-                            matches <- Regex.match (Regex.unsafeRegex """<div><b>Ideograph<\/b>: (.+?)<\/div>""" Regex.noFlags) body
-                            join $ NonEmptyArray.index matches 1
+                            matches <- Regex.match (Regex.unsafeRegex """<div><b>(Ideograph|Ideographic)<\/b>: (.+?)<\/div>""" Regex.noFlags) body
+                            join $ NonEmptyArray.index matches 2
 
                           (pictographic :: Maybe String) = do
                             matches <- Regex.match (Regex.unsafeRegex """<div><b>Pictographic<\/b>: (.+?)<\/div>""" Regex.noFlags) body
@@ -93,11 +93,11 @@ main = do
                             join $ NonEmptyArray.index matches 1
 
                           (en :: Maybe String) = do
-                            matches <- Regex.match (Regex.unsafeRegex """<span class="en">(.+?)<\/span>""" Regex.noFlags) body
+                            matches <- Regex.match (Regex.unsafeRegex """<span class='en'>(.+?)<\/span>""" Regex.noFlags) body
                             join $ NonEmptyArray.index matches 1
 
                           (tree :: Maybe String) = do
-                            matches <- Regex.match (Regex.unsafeRegex """<div class="tree">(<ul>.+?<\/ul>)<\/div>""" Regex.noFlags) body
+                            matches <- Regex.match (Regex.unsafeRegex """<div class='tree'>(<ul>.+?<\/ul>)<\/div>""" Regex.noFlags) body
                             join $ NonEmptyArray.index matches 1
 
                           row =
