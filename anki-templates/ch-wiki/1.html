@@ -22,7 +22,7 @@
 
   window.showKanjiIframe = function(kanji) {
     const xmlhttp = new XMLHttpRequest()
-    const url = `${kanji}.json`
+    const url = `anki-addon-glossary/${kanji}.mynonjsonext`
 
     xmlhttp.onreadystatechange = function() {
       const success = this.readyState == 4 && this.status == 200
