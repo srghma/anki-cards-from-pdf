@@ -1,19 +1,12 @@
 <script>
 
-;(function () {
-    var src = '//cdn.jsdelivr.net/npm/eruda';
-    if (!/eruda=true/.test(window.location)) return;
-    document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>');
-    document.write('<scr' + 'ipt>eruda.init();</scr' + 'ipt>');
-})();
-
 ;(function() {
   const containerId = 'kanjiIframeContainer'
   const iframeId = 'kanjiIframe'
 
   window.showKanjiIframe = function(kanji) {
     const xmlhttp = new XMLHttpRequest()
-    const url = `anki-addon-glossary/${kanji}.mynonjsonext`
+    const url = `https://192.168.1.131:12345/${kanji}.json`
 
     xmlhttp.onreadystatechange = function() {
       const success = this.readyState == 4 && this.status == 200
