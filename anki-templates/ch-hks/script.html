@@ -2,25 +2,30 @@
 
 ;(function() {
   const containerId = 'kanjiIframeContainer'
-  const iframeId = 'kanjiIframe'
+
+  function displayKanji({ kanji, value }) {
+    const parentElem = document.getElementById(containerId)
+    parentElem.innerHTML = value
+  }
+
+  const kanjiProcessed = window.kanjicache || []
+
+  window.kanjicache = {
+    push: function(kanjiData) {
+      kanjiProcessed.push(kanjiData)
+      displayKanji(kanjiData)
+    }
+  }
 
   window.showKanjiIframe = function(kanji) {
-    const xmlhttp = new XMLHttpRequest()
-    const url = `https://192.168.1.131:12345/${kanji}.json`
-
-    xmlhttp.onreadystatechange = function() {
-      const success = this.readyState == 4 && this.status == 200
-
-      if (!success) { return }
-
-      const json = JSON.parse(this.responseText)
-
-      const parentElem = document.getElementById(containerId)
-
-      parentElem.innerHTML = json.answer
+    const alreadyAddedKanjiData = kanjiProcessed[kanji]
+    if (alreadyAddedKanjiData) {
+      displayKanji(alreadyAddedKanjiData)
+      return
     }
-    xmlhttp.open("GET", url, true)
-    xmlhttp.send()
+    const script = document.createElement('script')
+    script.setAttribute('src', 'anki-addon-glossary/' + kanji + '.js')
+    document.body.appendChild(script)
   }
 })();
 

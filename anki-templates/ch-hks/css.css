@@ -305,4 +305,7 @@ body {
 .tags { font-size:100%; text-align:center; }
 .small { font-size:100%; } /* в дополнение к осн. типу */
 
-
+#kanjiIframeContainer:not(:empty) {
+  width: 95%;
+  border-style: solid;
+}
