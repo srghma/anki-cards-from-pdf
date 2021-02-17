@@ -7,6 +7,8 @@
     "csv-writer": "^1.6.0",
     "export-to-csv": "^0.2.1",
     "kanji.js": "^1.2.2",
+    "pinyin-convert": "^1.11.0",
+    "pinyin-or-hanzi": "^1.127.0",
     "stream": "^0.0.2",
     "xhr2": "^0.2.0"
   }
