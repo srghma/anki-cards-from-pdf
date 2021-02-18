@@ -1,7 +1,8 @@
-<div class="large" style="font-family: KanjiStrokeOrders;" id="hanzi">{{中文}}</div>
+<div class="large" style="font-family: KanjiStrokeOrders;" id="hanzi">{{#Splitted}}{{Splitted}}{{/Splitted}}{{^Splitted}}{{中文}}{{/Splitted}}</div>
 
-<div class="medium"   id="pinyin">{{Pinyin}}</div>
-<div class="medium"   id="pinyin">{{English}}</div>
+<div class="medium"  id="pinyin">{{pinyin_marked}}</div>
+<div class="medium">{{pinyin_ru}}</div>
+<div class="medium">{{English}}</div>
 
 <div class="small">{{Notes}}</div>
 
@@ -11,7 +12,214 @@
 
 <div class="small">Article: <a href={{Source URL}}>{{Article Title}}</a></div>
 
-<div id="kanjiIframeContainer"></div>
-
 {{Sound_ch}}
 
+<div id="kanjiIframeContainer"></div>
+
+<script>
+
+;(function() {
+  const containerId = 'kanjiIframeContainer'
+
+  function displayKanji({ kanji, value }) {
+    const parentElem = document.getElementById(containerId)
+    parentElem.innerHTML = value
+  }
+
+  const kanjiProcessed = window.kanjicache || []
+
+  window.kanjicache = {
+    push: function(kanjiData) {
+      kanjiProcessed.push(kanjiData)
+      displayKanji(kanjiData)
+    }
+  }
+
+  window.showKanjiIframe = function(kanji) {
+    const alreadyAddedKanjiData = kanjiProcessed[kanji]
+    if (alreadyAddedKanjiData) {
+      displayKanji(alreadyAddedKanjiData)
+      return
+    }
+    const script = document.createElement('script')
+    script.setAttribute('src', 'anki-addon-glossary/' + kanji + '.js')
+    document.body.appendChild(script)
+  }
+})();
+
+
+
+;(function() {
+  // FROM https://www.reddit.com/r/Anki/comments/i6rmp6/chinese_flashcards_automatic_coloring_according/
+
+  //EDIT THIS//EDIT THIS//EDIT THIS//EDIT THIS//EDIT THIS//EDIT THIS//EDIT THIS
+  const color_codes = {
+      1: "#080",
+      2: "#5af",
+      3: "#fa0",
+      4: "#f00",
+      5: "#ddd"
+  }
+  //EDIT THIS//EDIT THIS//EDIT THIS//EDIT THIS//EDIT THIS//EDIT THIS//EDIT THIS
+
+  function assert(actual, expected) {
+    if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+      console.error({ actual, expected })
+      throw new Error('nono')
+    }
+  }
+
+  function decode_pinyin(pinyin) {
+    const core = ["a", "e", "i", "o", "u", "ü"]
+    const arr = pinyin.replace(/\!|\?|<br>|<b>|<\/b>|<div>|<\/div>/g, "").split("")
+
+    is_core = function(c, c_previous_two = "", c_next = "") {
+      //pre conditions
+      if (c == "r" && (c_next == " " || c_next == "") && (c_previous_two != " " && c_previous_two != "")) {
+        return [true, true]
+      }
+      //pre conditions
+
+      c = c.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+      for (let i = 0; i < core.length; i++) {
+        if (c === core[i]) {
+          return [true, false]
+        }
+      }
+      return [false, false]
+    }
+
+    get_tone = function(str) {
+      console.log(str)
+      const pure = str.replace(/a|e|i|o|u|ü|r/g, '')
+      if (pure == "") {
+        return 5
+      } else if (['ā', 'ē', 'ī', 'ō', 'ū', 'ǖ'].includes(pure)) {
+        return 1
+      } else if (['á', 'é', 'í', 'ó', 'ú', 'ǘ'].includes(pure)) {
+        return 2
+      } else if (['ǎ', 'ě', 'ǐ', 'ǒ', 'ǔ', 'ǚ'].includes(pure)) {
+        return 3
+      } else if (['à', 'è', 'ì', 'ò', 'ù', 'ǜ'].includes(pure)) {
+        return 4
+      }
+
+      return pure
+    }
+
+    const tones_arr = []
+    let buff = []
+
+    flush = function() {
+      if (buff.length > 0) {
+        tones_arr.push(get_tone(buff.join("")))
+        buff = []
+      }
+    }
+    for (let i = 0; i < arr.length; i++) {
+      let res = is_core(arr[i], arr[i - 2], arr[i + 1])
+      if (res[1]) {
+        flush()
+      }
+      if (res[0]) {
+        buff.push(arr[i])
+      } else {
+        flush()
+      }
+    }
+    if (buff.length > 0) {
+      tones_arr.push(get_tone(buff.join("")))
+      buff = []
+    }
+    return tones_arr
+  }
+
+  assert(decode_pinyin("Wǒmen zài nǎr?"), [3, 5, 4, 3, 5])
+
+  assert(decode_pinyin("Wǒmen zài nǎr?<br>Wǒmen zài Nánjīng Xī Lù."), [3, 5, 4, 3, 5, 3, 5, 4, 2, 1, 1, 4])
+
+  function recolor_pinyin(pinyin_element, hanzi_element) {
+    const hanzi_sentence = hanzi_element.innerHTML
+    const decoded = decode_pinyin(pinyin_element.innerHTML)
+    const colorizer = (ch, colorIndex) => "<span onclick=\"window.showKanjiIframe('" + ch + "')\" style=\"color:" + color_codes[colorIndex] + ";\">" + ch + "</span>"
+    hanzi_element.innerHTML = colorize(hanzi_sentence, decoded, colorizer)
+  }
+
+  function isHanzi(ch) {
+    const REGEX_JAPANESE = /[\u3000-\u303f]|[\u3040-\u309f]|[\u30a0-\u30ff]|[\uff00-\uff9f]|[\u4e00-\u9faf]|[\u3400-\u4dbf]/
+    const REGEX_CHINESE = /[\u4e00-\u9fff]|[\u3400-\u4dbf]|[\u{20000}-\u{2a6df}]|[\u{2a700}-\u{2b73f}]|[\u{2b740}-\u{2b81f}]|[\u{2b820}-\u{2ceaf}]|[\uf900-\ufaff]|[\u3300-\u33ff]|[\ufe30-\ufe4f]|[\uf900-\ufaff]|[\u{2f800}-\u{2fa1f}]/u;
+
+    const isSpecialChar = "。？！".includes(ch)
+    const isJapanese = REGEX_JAPANESE.test(ch)
+    const isChinese = REGEX_CHINESE.test(ch)
+    const isHanzi = !isSpecialChar && (isJapanese || isChinese)
+
+    // console.log({
+    //   ch,
+    //   isSpecialChar,
+    //   isJapanese,
+    //   isChinese,
+    //   isHanzi,
+    // })
+
+    return isHanzi
+  }
+
+  function colorize(sentence, colors, colorizer) {
+    let colorIndexIndex = 0
+
+    return sentence.split('').map(ch => {
+      let ret = ch
+
+      if (isHanzi(ch)) {
+        const colorIndex = colors[colorIndexIndex]
+
+        if (!colorIndex) { throw new Error('for ' + ch) }
+
+        ret = colorizer(ch, colorIndex)
+
+        colorIndexIndex++
+      }
+
+      return ret
+    }).join('')
+  }
+
+  // assert(
+  //   colorize("A:我们在哪儿？<br>B:我们在南京西路。", [3, 5, 4, 3, 3, 5, 4, 2, 1, 1, 4], (hanziChar, colorIndex) => {
+  //     console.log({hanziChar, colorIndex})
+  //     return hanziChar + colorIndex
+  //   }),
+  //   "A:我3们在哪儿？<br>B:我们在南京西路。"
+  // )
+
+  let pinyin_element = document.getElementById("pinyin")
+  let hanzi_element = document.getElementById("hanzi")
+  let pinyin_sentence_element = document.getElementById("pinyin_sentence")
+  let hanzi_sentence_element = document.getElementById("hanzi_sentence")
+
+  //just check if you did everything correctly :)
+  if ((pinyin_element == null && hanzi_element != null) || (pinyin_element == null && hanzi_element == null && pinyin_sentence_element == null && hanzi_sentence_element == null)) {
+      throw "<br><br>It looks like you did not put the <span style=\"color: red;\">id=\"pinyin\"</span> into the pinyin element<br>Example:<br>\
+  &ltdiv class=\"pinyin\" <span style=\"color: red;\">id=\"pinyin\"</span>&gt{ {Pinyin.1} }&lt/div&gt"
+  } else if (pinyin_element != null && hanzi_element == null) {
+      throw "<br><br>It looks like you did not put the <span style=\"color: red;\">id=\"hanzi\"</span> into the hanzi element<br>Example:<br>\
+  &ltdiv class=\"hanzi\" <span style=\"color: red;\">id=\"hanzi\"</span>&gt{ {Simplified} }&lt/div&gt"
+  } else if (pinyin_sentence_element == null && hanzi_sentence_element != null) {
+      throw "<br><br>It looks like you did not put the <span style=\"color: red;\">id=\"pinyin_sentence\"</span> into the pinyin sentence element<br>Example:<br>\
+  &ltdiv class=\"pinyinSen\" <span style=\"color: red;\">id=\"pinyin_sentence\"</span>&gt{ {SentencePinyin.1} }&lt/div&gt"
+  } else if (pinyin_sentence_element != null && hanzi_sentence_element == null) {
+      throw "<br><br>It looks like you did not put the <span style=\"color: red;\">id=\"hanzi_sentence\"</span> into the hanzi sentence element<br>Example:<br>\
+  &ltdiv class=\"sentence\" <span style=\"color: red;\">id=\"hanzi_sentence\"</span>&gt{ {SentenceSimplified} }&lt/div&gt"
+  }
+  //just check if you did everything correctly :)
+
+  if (pinyin_element != null && hanzi_element != null) {
+      recolor_pinyin(pinyin_element, hanzi_element)
+  }
+  if (pinyin_sentence_element != null && hanzi_sentence_element != null) {
+      recolor_pinyin(pinyin_sentence_element, hanzi_sentence_element)
+  }
+})();
+
+</script>
