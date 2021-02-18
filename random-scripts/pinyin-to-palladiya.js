@@ -79,20 +79,26 @@ let output = []
   };
 })();
 
-let output_ = output.map(x => {
-  const convertPinyinNumberedToRu = (text) => {
-    let ru = text
-    for (const { from, to } of convertToRuTable_) {
-      ru = ru.replace(new RegExp(">" + from + "<", 'ig'), to)
-    }
-    return ru
+function convertPinyinNumberedToRu(text) {
+  let ru = text
+  for (const { from, to } of convertToRuTable) {
+    ru = ru.replace(new RegExp("\>" + from + "\<", 'g'), `>${from} (${to})<`)
   }
+  return ru
+}
 
-  const purpleculternumbered = x.purpleculternumbered.replace(/purpleculternumbered/)
-  return { ...x, purpleculternumbered }
+output_ = output.map(x => {
+  const s = x.purpleculternumbered
+    .replace(/ id="[^"]+"/g, "")
+    .replace(/ href=\"[^\"]+\"/g, "")
+    .replace(/\<a /g, "<span ")
+    .replace(/\<\/a\>/g, "</span>")
+    .replace(/\<span style="display:none">[^\<]*\<\/span\>/g, '')
+    .replace(/\<div class="small text-muted pt-1" style="display:none;"\>\<\/div\>/g, '')
+
+  const purpleculternumbered = convertPinyinNumberedToRu(s)
+  return { id: x.id, purpleculternumbered: purpleculternumbered }
 })
 
-// s = str.replace(/ id="\w+"/g, "").replace(/ href="[\.\w\/]+"/, "").replace(/<a /, "<span ").replace(/<\/a>/, "</span>").replace(/<span style="display:none">[^\<]*<\/span>/g, '').replace(/<div class="small text-muted pt-1" style="display:none;"><\/div>/g, '')
 
-await require('csv-writer').createObjectCsvWriter({ path: '/home/srghma/Downloads/Chinese Grammar Wiki2.txt', header:  ["id", "pinyin_marked", "pinyin_numbered", "pinyin_ru"].map(x => ({ id: x, title: x })) }).writeRecords(output)
-}();
+await require('csv-writer').createObjectCsvWriter({ path: '/home/srghma/Downloads/Chinese Grammar Wiki2.txt', header:  ["id", "purpleculternumbered"].map(x => ({ id: x, title: x })) }).writeRecords(output_)
