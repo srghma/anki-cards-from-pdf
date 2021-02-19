@@ -47,11 +47,11 @@ async function mymapper(x) {
   }
 }
 
-const convertPinyinMarkedToNumbered = async (text) => {
-  let words = require('pinyin-split').default(text, true)
-  words = require('pinyin-utils').markToNumber(words, false)
-  return words.join('')
-}
+// const convertPinyinMarkedToNumbered = async (text) => {
+//   let words = require('pinyin-split').default(text, true)
+//   words = require('pinyin-utils').markToNumber(words, false)
+//   return words.join('')
+// }
 
 input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/Chinese Grammar Wiki.txt').pipe(csv({ separator: "\t", headers: [ "id", "sentence" ] })))
 
@@ -92,7 +92,15 @@ function convertPinyinNumberedToRu(text) {
 }
 
 output_ = output.map(x => {
-  const s = x.purpleculternumbered.replace(/ id="[^"]+"/g, "").replace(/ href=\"[^\"]+\"/g, "").replace(/\<a /g, "<span ").replace(/\<\/a\>/g, "</span>").replace(/\<span style="display:none">[^\<]*\<\/span\>/g, '').replace(/\<div class="small text-muted pt-1" style="display:none;"\>\<\/div\>/g, '')
+  const s = x.purpleculternumbered
+    .replace(/ id="[^"]+"/g, "")
+    .replace(/&nbsp;/g, "")
+    .replace(/<div class="pyd h7"><\/div>/g, "")
+    .replace(/ href=\"[^\"]+\"/g, "")
+    .replace(/\<a /g, "<span ")
+    .replace(/\<\/a\>/g, "</span>")
+    .replace(/\<span style="display:none">[^\<]*\<\/span\>/g, '')
+    .replace(/\<div class="small text-muted pt-1" style="display:none;"\>\<\/div\>/g, '')
 
   return { id: x.id, purpleculternumbered: convertPinyinNumberedToRu(s) }
 })
