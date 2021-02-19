@@ -55,49 +55,46 @@ const convertPinyinMarkedToNumbered = async (text) => {
 
 input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/Chinese Grammar Wiki.txt').pipe(csv({ separator: "\t", headers: [ "id", "sentence" ] })))
 
-convertToRuTable = await ( readStreamArray(fs.createReadStream('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-ru-by-kfcd').pipe(csv({ separator: '\t', headers: ["from", 'to'] })))
+convertToRuTable = await ( readStreamArray(fs.createReadStream('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-ru-by-kfcd').pipe(csv({ separator: '\t', headers: ["numbered", "marked", "ru"] })))
     .then(convertToRuTable => {
       return R.pipe(
-        // R.map(R.over(R.lensProp('from'), from => from.replace(/5$/, ""))),
-        R.sortBy((x) => x.from.length),
+        R.sortBy((x) => x.numbered.length),
         R.reverse
       )(convertToRuTable)
     })
   )
 
-let output = []
+output = JSON.parse("[" + fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/random-scripts/pinyincache.json').toString().replace(/}{/g, "},{") + "]")
 
-;(async function(){
-  for (let i = 0; i < input.length; i++) {
-    const res = await mymapper(input[i])
+// let output = []
 
-    fs.appendFileSync('pinyincache.json', JSON.stringify(res))
+// ;(async function(){
+//   for (let i = 0; i < input.length; i++) {
+//     const res = await mymapper(input[i])
 
-    output.push(res)
+//     fs.appendFileSync('pinyincache.json', JSON.stringify(res))
 
-    console.log({ i, l: input.length })
-  };
-})();
+//     output.push(res)
+
+//     console.log({ i, l: input.length })
+//   };
+// })();
 
 function convertPinyinNumberedToRu(text) {
-  let ru = text
-  for (const { from, to } of convertToRuTable) {
-    ru = ru.replace(new RegExp("\>" + from + "\<", 'g'), `>${from} (${to})<`)
+  let buffer = text
+  for (let { numbered, marked, ru } of convertToRuTable) {
+    // `<span class="pinyin-numbered">${numbered}</span>`
+    const output = `<span class="pinyin-marked">${marked}</span><span class="pinyin-ru">${ru}</span>`
+    const regexpr = new RegExp("\>" + numbered + "\<", 'g')
+    buffer = buffer.replace(regexpr, `>${output}<`)
   }
-  return ru
+  return buffer
 }
 
 output_ = output.map(x => {
-  const s = x.purpleculternumbered
-    .replace(/ id="[^"]+"/g, "")
-    .replace(/ href=\"[^\"]+\"/g, "")
-    .replace(/\<a /g, "<span ")
-    .replace(/\<\/a\>/g, "</span>")
-    .replace(/\<span style="display:none">[^\<]*\<\/span\>/g, '')
-    .replace(/\<div class="small text-muted pt-1" style="display:none;"\>\<\/div\>/g, '')
+  const s = x.purpleculternumbered.replace(/ id="[^"]+"/g, "").replace(/ href=\"[^\"]+\"/g, "").replace(/\<a /g, "<span ").replace(/\<\/a\>/g, "</span>").replace(/\<span style="display:none">[^\<]*\<\/span\>/g, '').replace(/\<div class="small text-muted pt-1" style="display:none;"\>\<\/div\>/g, '')
 
-  const purpleculternumbered = convertPinyinNumberedToRu(s)
-  return { id: x.id, purpleculternumbered: purpleculternumbered }
+  return { id: x.id, purpleculternumbered: convertPinyinNumberedToRu(s) }
 })
 
 
