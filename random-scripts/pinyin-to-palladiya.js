@@ -1,10 +1,10 @@
 // node --experimental-repl-await
 
 // const pinyinConvert = require('pinyin-convert')
+// const chineseToPinyin = require('chinese-to-pinyin')
 const csv = require('csv-parser')
 const fs = require('fs')
 const R = require('ramda')
-const chineseToPinyin = require('chinese-to-pinyin')
 const purpleculter_get = require('./purpleculter_get').purpleculter_get
 
 function readStreamArray(stream) {
@@ -55,15 +55,6 @@ async function mymapper(x) {
 
 input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/Chinese Grammar Wiki.txt').pipe(csv({ separator: "\t", headers: [ "id", "sentence" ] })))
 
-convertToRuTable = await ( readStreamArray(fs.createReadStream('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-ru-by-kfcd').pipe(csv({ separator: '\t', headers: ["numbered", "marked", "ru"] })))
-    .then(convertToRuTable => {
-      return R.pipe(
-        R.sortBy((x) => x.numbered.length),
-        R.reverse
-      )(convertToRuTable)
-    })
-  )
-
 output = JSON.parse("[" + fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/random-scripts/pinyincache.json').toString().replace(/}{/g, "},{") + "]")
 
 // let output = []
@@ -80,29 +71,8 @@ output = JSON.parse("[" + fs.readFileSync('/home/srghma/projects/anki-cards-from
 //   };
 // })();
 
-function convertPinyinNumberedToRu(text) {
-  let buffer = text
-  for (let { numbered, marked, ru } of convertToRuTable) {
-    // `<span class="pinyin-numbered">${numbered}</span>`
-    const output = `<span class="pinyin-marked">${marked}</span><span class="pinyin-ru">${ru}</span>`
-    const regexpr = new RegExp("\>" + numbered + "\<", 'g')
-    buffer = buffer.replace(regexpr, `>${output}<`)
-  }
-  return buffer
-}
-
 output_ = output.map(x => {
-  const s = x.purpleculternumbered
-    .replace(/ id="[^"]+"/g, "")
-    .replace(/&nbsp;/g, "")
-    .replace(/<div class="pyd h7"><\/div>/g, "")
-    .replace(/ href=\"[^\"]+\"/g, "")
-    .replace(/\<a /g, "<span ")
-    .replace(/\<\/a\>/g, "</span>")
-    .replace(/\<span style="display:none">[^\<]*\<\/span\>/g, '')
-    .replace(/\<div class="small text-muted pt-1" style="display:none;"\>\<\/div\>/g, '')
-
-  return { id: x.id, purpleculternumbered: convertPinyinNumberedToRu(s) }
+  return { id: x.id, purpleculternumbered: require('./lib/processPurpleculture').processPurpleculture(x.purpleculternumbered) }
 })
 
 
