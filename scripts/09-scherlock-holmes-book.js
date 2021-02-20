@@ -2,7 +2,7 @@ const csv = require('csv-parser')
 const fs = require('fs')
 const R = require('ramda')
 
-content = fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/random-scripts/scherlock-holmes-book.txt').toString()
+content = fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/scripts/scherlock-holmes-book.txt').toString()
 
 content = content.split(/(CHAPTER \d+ .+)\n/).map(x => x.trim()).filter(x => x != '')
 
@@ -101,7 +101,7 @@ async function mymapper(x) {
 
   let purpleculternumbered = null
   try {
-    purpleculternumbered = await require('./random-scripts/purpleculter_get').purpleculter_get(sentence)
+    purpleculternumbered = await require('./scripts/purpleculter_get').purpleculter_get(sentence)
     console.log({ sentence, purpleculternumbered })
   } catch (e) {
     console.error(e)
@@ -133,7 +133,7 @@ output_ = output.map(x => {
   return {
     sentence: x.sentence,
     chapter: x.chapter,
-    purpleculternumbered: require('./random-scripts/lib/processPurpleculture').processPurpleculture(x.purpleculternumbered),
+    purpleculternumbered: require('./scripts/lib/processPurpleculture').processPurpleculture(x.purpleculternumbered),
     translation: x.translation[0],
   }
 })

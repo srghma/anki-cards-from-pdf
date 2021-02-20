@@ -5,8 +5,8 @@ const csv = require('csv-parser')
 const fs = require('fs')
 const R = require('ramda')
 const chineseToPinyin = require('chinese-to-pinyin')
-const rtega_get = require('./random-scripts/lib/rtega_get').rtega_get
-const readStreamArray = require('./random-scripts/lib/readStreamArray')
+const rtega_get = require('./scripts/lib/rtega_get').rtega_get
+const readStreamArray = require('./scripts/lib/readStreamArray')
 
 input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: "\t", headers: [ "hanzi" ] })))
 

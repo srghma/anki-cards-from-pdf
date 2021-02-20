@@ -55,7 +55,7 @@ async function mymapper(x) {
 
 input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/Chinese Grammar Wiki.txt').pipe(csv({ separator: "\t", headers: [ "id", "sentence" ] })))
 
-output = JSON.parse("[" + fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/random-scripts/pinyincache.json').toString().replace(/}{/g, "},{") + "]")
+output = JSON.parse("[" + fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/scripts/pinyincache.json').toString().replace(/}{/g, "},{") + "]")
 
 // let output = []
 

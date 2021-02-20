@@ -4,3 +4,4 @@ const fs = require('fs')
 const R = require('ramda')
 
 input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/Chinese_ Sherlock.txt').pipe(csv({ separator: "\t", headers: [ "id", "hanzi", "ruby" ] })))
+
