@@ -6,16 +6,7 @@ const fs = require('fs')
 const R = require('ramda')
 const chineseToPinyin = require('chinese-to-pinyin')
 const rtega_get = require('./random-scripts/lib/rtega_get').rtega_get
-
-function readStreamArray(stream) {
-  return new Promise((resolve, reject) => {
-      const data = []
-
-      stream.on("data", chunk => data.push(chunk))
-      stream.on("end", () => resolve(data))
-      stream.on("error", error => reject(error))
-  })
-}
+const readStreamArray = require('./random-scripts/lib/readStreamArray')
 
 input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: "\t", headers: [ "hanzi" ] })))
 
