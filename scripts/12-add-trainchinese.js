@@ -48,7 +48,7 @@ output = JSON.parse("[" + fs.readFileSync('/home/srghma/projects/anki-cards-from
 output = output.filter(x => x.transl)
 output = R.uniqBy(x => x.kanji, output)
 
-output_ = output.map(x => {
+function processTrainchineseTransl(x) {
   const transl = x.transl
   if (RA.isNilOrEmpty(transl)) { throw new Error('transl') }
   const kanji = x.kanji
@@ -69,28 +69,48 @@ output_ = output.map(x => {
 
     if (RA.isNilOrEmpty(pinyin)) { throw new Error('pinyin') }
 
-    const transl__ = chNode.nextSibling.nextSibling.nextSibling.nextSibling.textContent.trim()
+    const typeAndTransl__Node = chNode.nextSibling.nextSibling.nextSibling.nextSibling
+
+    if (RA.isNilOrEmpty(typeAndTransl__Node)) { throw new Error('typeAndTransl__Node') }
+
+    const transl__ = typeAndTransl__Node.querySelector('span').textContent.trim()
+
+    typeAndTransl__Node.querySelector('span').remove()
+
+    const type = typeAndTransl__Node.textContent.trim()
 
     if (RA.isNilOrEmpty(transl__)) { throw new Error('transl') }
+    if (RA.isNilOrEmpty(type)) { throw new Error('type') }
 
     buff.push({
       pinyin,
-      transl: transl__
+      transl: transl__,
+      type,
     })
   })
 
   if (RA.isNilOrEmpty(buff)) {
-    console.log(x)
+    // console.log(x)
     // throw new Error('buff')
     return null
   }
 
   return {
     kanji,
-    trasl: buff.map(x => x.pinyin + ': ' + x.transl).join('\n<br/>\n')
+    trasl: buff.map(x => {
+      const pinyin = '<span class="trainchinese-pinyin">' + x.pinyin + '</span>'
+      const type = '<span class="trainchinese-type">' + x.type + '</span>'
+      const transl_____ = '<span class="trainchinese-transl">' + x.transl + '</span>'
+
+      const res = pinyin + ': (' + type + ') ' + transl_____
+      return res
+    }).join('\n<br/>\n')
   }
-})
-output_ = output_.filter(R.identity)
+}
+
+// processTrainchineseTransl(x)
+
+output_ = output.map(processTrainchineseTransl).filter(R.identity)
 
 // kanjimore = input.map(R.prop('kanji')).filter(x => x.length > 1).map(x => x.split('')).flat()
 // kanjimore = kanjimore.filter(isHanzi)
