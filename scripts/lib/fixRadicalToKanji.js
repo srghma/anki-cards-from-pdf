@@ -247,3 +247,5 @@ function fixRadicalToKanji(str) {
   })
   return str
 }
+
+exports.fixRadicalToKanji = fixRadicalToKanji

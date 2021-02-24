@@ -1,0 +1,729 @@
+Lesson 1.1
+对不起, 请问, 你 会 说 英文 吗?
+- 不 会. 我 不 会 说 英文.
+我 会 说 一点儿 普通话.
+- 你 是 美国人 吗?
+是. 我 是 美国人.
+Lesson 1.2
+对不起, 请问, 你 会 说 普通话 吗?
+- 我 会 说 一点儿.
+你 是 美国人 吗?
+- 是. 你 会 说 英文 吗?
+不 会. 我 不 会 说 英文.
+Lesson 1.3
+你 好.
+- 你 好.
+你 会 说 普通话 吗?
+- 我 会 说 一点儿. 我 说 的 不 好.
+你 是 美国人 吗?
+- 是.
+可是, 你 普通话 说 的 很 好.
+Lesson 1.4
+对不起, 请问, 你 是 中国人 吗?
+- 是. 我 是 中国人. 你 呢?
+我 是 美国人.
+- 可是, 你 会 说 普通话.
+我 会 说 一点儿. 我 说 的 不 好.
+- 你 普通话 说 的 很 好.
+谢谢 你.
+Lesson 1.5
+对不起, 请问, 学院 路 在 哪儿?
+- 在 那儿.
+长 安 街 呢? 是 在 这儿 吗?
+- 是, 是 在 这儿.
+你 会 说 英文 吗?
+- 不 会. 我 不 会 说 英文. 再见.
+再见.
+Lesson 1.6
+你 好.
+- 你 好.
+我 想 吃 一点儿 东西, 你 呢?
+- 我 也 想 吃 一点儿 东西.
+你 想 喝 一点儿 东西 吗?
+- 想. 我 想 喝 一点儿 东西.
+去 哪儿 喝?
+- 去 长 安 街.
+Lesson 1.7
+你 想 什么 时候 吃? 现在 吗?
+- 我 想 过 一会儿 吃, 可是 我 现在 想 喝 一点儿 东西.
+你 想 去 哪儿 喝?
+- 我 不 知道.
+你 想 去 我 那儿 喝 吗?
+- 我 想 去 咖啡间 喝.
+Lesson 1.8
+<font color="blue">王</font> 小姐, 你 想 现在 吃 一点儿 东西 吗?
+- 谢谢 你, <font color="blue">李</font> 先生, 我 不 想 现在 吃, 可是 我 想 喝 一点儿 东西.
+好. 你 想 喝 什么?
+- 一点儿 茶. 不. 一点儿 啤酒.
+我 也 想 喝 一点儿 啤酒. 小姐, 我 想 要 两杯 啤酒.
+Lesson 1.9
+<font color="blue">王</font> 小姐, 你 好.
+- 你 好.
+<font color="blue">王</font> 小姐, 你 想 现在 作 什么?
+- 我 不 知道, 你 呢?
+我 想 现在 吃 午饭. 你 想 跟 我 一起 吃 吗?
+- 想, 可是 我 想 去 <font color="blue">北京</font> 饭店 吃, 好 吗?
+好. 我 也 想 去 <font color="blue">北京</font> 饭店 吃.
+Lesson 1.10
+<font color="blue">李</font> 先生, 我 想 跟 你 一起 吃 一点儿 东西, 好 吗?
+- 几 点 钟? 两 点 钟 好 吗?
+不 好. 我 想 过 一会儿 吃.
+- 八 点 钟 还是 九 点 钟?
+九 点 钟.
+- 好.
+Lesson 1.11
+<font color="blue">王</font> 小姐, 请问, 你 想 九 点 钟 跟 我 一起 吃 饭?
+- 一 点 钟.
+一 点 钟 不 好. 两 点 钟 好 吗?
+- 两 点 钟 不 好. 三 点 钟 好 吗?
+三 点 钟 不 好. 四 点 钟 呢?
+- 四 点 钟 不 行.
+那么, 五 点 钟 吧, 好 吗?
+- 五 点 钟 不 行. 六 点 钟 好 吗?
+不 好. 六 点 钟 不 好.
+- <font color="blue">李</font> 先生, 我 不 想 跟 你 一起 吃 饭.
+Lesson 1.12
+请问, 是 <font color="blue">王</font> 小姐 吗?
+- 是. 我 是.
+我 是 <font color="blue">李</font> <font color="blue">明</font>. <font color="blue">王</font> 小姐, 你 今天 晚上 想 跟 我 一起 吃 晚饭 吗?
+- 今天 晚上 不 好. 明天 晚上, 好 吗?
+好. 几 点 钟? 七 点 钟 好 吗?
+- 对不起, 七 点 钟 不 行.
+那么, 八 点 钟 好 吗?
+- 好. 明天 晚上 八 点 钟 去 我 那儿.
+好. 明天 见.
+- 明天 见.
+Lesson 1.13
+<font color="blue">王</font> 小姐, 你 好?
+- <font color="blue">李</font> 先生, 你 好?
+<font color="blue">王</font> 小姐, 你 今天 晚上 想 作 什么?
+- 今天 晚上? 我 不 知道.
+我 想 六 点 钟 跟 你 一起 吃 晚饭, 好 吗?
+- 不 好. 我 六 点 钟 要 跟 <font color="blue">陈</font> 小姐 一起 吃 晚饭.
+那么, 你 想 今天 晚上 喝 一点儿 东西 吗?
+- 好, 可是 我 想 去 <font color="blue">北京</font> 饭店 喝.
+好. 几 点 钟?
+- 九 点 钟 或者 十 点 钟, 好 吗?
+好. 十 点 钟 在 你 那儿. 再见.
+Lesson 1.14
+请问, 你 有 没有 美国 报纸?
+- 有. 讷.
+多少 钱?
+- 八 块 人民币.
+是 不 是 十八 块 人民币?
+- 不 是 十八 块. 是 八 块.
+谢谢 你. 讷, 八 块 人民币.
+Lesson 1.15
+一会儿 见!
+- 一会儿 见! 你 去 哪儿?
+我 要 去 买 一点儿 东西.
+- 可是, 你 没有 人民币.
+有. 我 有 一点儿 人民币.
+- 你 有 多少 人民币?
+我 不 知道. 十 四 块 或者 十五 块.
+- 我 给 你 一点儿 人民币. 讷, 十 九 块 人民币. 现在 你 有 多少 钱?
+现在 我 有 很 多 钱. 谢谢 你.
+Lesson 1.16
+是 <font color="blue">吴</font> 先生 吗? 你 好.
+- <font color="blue">王</font> 小姐, 你 好.
+<font color="blue">吴</font> 先生, 你 想 跟 我 一起 吃 晚饭 吗?
+- 什么 时候? 今天 晚上 不 行. 现在 太 晚 了.
+不 是 今天 晚上. 明天 晚上 七 点 钟, 好 吗?
+- 好.
+Lesson 1.17
+那么, 你 今天 想 作 什么?
+- 我 啊, 我 今天 想 买 一点儿 东西.
+你 有 没有 钱?
+- 我 有 一点儿, 可是 不 是 很 多.
+你 有 多少 人民币?
+- 三十五 块 或者 四十 块.
+美金 呢, 你 有 多少?
+- 我 有 十五 块 或者 二十 块 美金. 我 钱 不 够. 给 我 一点儿 钱, 好 不 好.
+好. 讷, 现在 你 钱 够 了.
+</table><p>
+Lesson 1.18
+<font color="red">Matthew</font>?
+- 什么 事?
+我 想 买 一点儿 东西.
+- 你 想 买 什么?
+这顶 帽子.
+- 多少 钱?
+一百 块 人民币.
+- 一百 块 人民币? 少 块 美金. 不 是 很 贵.
+那么, 你 给 我 一点儿 钱, 好 不 好?
+- 好. 讷, 六十 块 人民币. 够 不 够?
+够 了, 谢谢 你.
+Lesson 1.19
+你们 好. 你们 想 吃 一点儿 东西 吗?
+- 我们 现在 不 想 吃.
+那么, 你们 想 喝 一点儿 东西 吗?
+- 想.
+我们 有 茶, 啤酒 或者...
+- 我的 先生 不 想 喝 啤酒. 他 要 茶.
+Lesson 1.20
+<font color="blue">陈</font> 太太, 你 好.
+- 你 好, <font color="red">Jones</font> 先生. 请 进.
+谢谢 你.
+- <font color="red">Jones</font> 先生, 你 想 喝 什么? 一点儿 啤酒?
+我 不 想 喝 啤酒. 麻烦 你, 我 想 喝 水.
+- <font color="red">Jones</font> 太太 在 哪儿? 他 跟 你 一起 在 <font color="blue">北京</font> 吗?
+不 是. 我的 太太 不 在 <font color="blue">北京</font>. 他 在 美国.
+Lesson 1.21
+谁?
+- 你 好. 我 是 <font color="red">Bill</font> <font color="red">Jones</font>. 我 是 美国人, 可是 我 会 说 一点儿 普通话.
+哦, 你 是 <font color="red">Jones</font> 先生. 请 进.
+- 谢谢 你. 请问, 你的 先生 在 哪儿?
+我的 先生 在 这儿. 你 可以 等 一会儿 吗?
+- 可以, 谢谢 你.
+你的 太太 跟 你 一起 在 <font color="blue">北京</font> 吗?
+- 是. 他 也 在 <font color="blue">北京</font>.
+小孩儿 呢? 他们 在 这儿 吗?
+- 他们 不 在 这儿. 他们 在 美国.
+你们 有 几个 小孩儿?
+- 我们 有 三个 儿子. 他们 很 大了.
+Lesson 1.22
+你们 有 几个 小孩儿?
+- 我们 有 三个 小孩儿.
+你们的 小孩儿 是 不 是 在 这儿?
+- 是. 他们 在 这儿.
+Lesson 1.23
+你们 家里 有 几个 人?
+- 我们 家里 有 两个 大 人, 两个 小孩儿.
+你们 有 两个 儿子 吗?
+- 没 有. 我们 有 一个 儿子, 一个 女儿.
+Lesson 1.24
+做 飞机 去 <font color="blue">香港</font> 很 贵 吗?
+- 很 贵. 你们 想 去 <font color="blue">香港</font> 吗?
+想. 我们 要 去 <font color="blue">香港</font>. 很 远 吗?
+- 不 是 很 远. 要 三个 小时.
+Lesson 1.25
+请问. 这条 路 去 美新 饭店 吗?
+- 不 是.
+那么, 哪条 路 去 美新 饭店?
+- 你 应该 走 那条 路. 不 是 很 远.
+Lesson 1.26
+你 好. 你 今天 要 去 <font color="blue">北京</font> 吗?
+- 要. 我 今天 要 去 <font color="blue">北京</font>.
+你 去 那儿 作 什么?
+- 我 要 看 几个 朋友.
+Lesson 1.27
+你 好.
+- 你 好.
+你 什么 时候 去 <font color="blue">北京</font>?
+- 明天 晚上.
+今天 呢? 你 今天 要 作 什么?
+- 我 今天 要 工作. 你 呢?
+我 啊, 我 要 看 几个 朋友.
+Lesson 1.28
+<font color="blue">陈</font> 小姐, 你 好.
+- 你 好.
+你 现在 要 作 什么?
+- 我 想, 我 要 去 <font color="blue">北京</font>. 我的 家人 在 那儿. 你 想 跟 我 一起 去 吗?
+想. 你 可 不 可以 今天 走?
+- 可以.
+Lesson 1.29
+<font color="blue">陈</font> 先生, 你 好.
+- 早.
+Lesson 1.30
+你们 在 这儿 多 久 了?
+- 我们 在 这儿 两 天 了.
+你 要 呆 多 久?
+- 我 不 知道. 可能 一个 星期, 可能 两个 星期.
+Lesson 1.30 trailer
+你 好.
+- 你 好. 你 是 什么 时候 到 的?
+我 跟 我的 太太 是 昨天 到 的.
+- 你们 什么 时候 去 了 <font color="blue">天坛</font>?
+我们 今天 早上 去 了 <font color="blue">天坛</font>.
+- 你 今天 想 跟 我 一起 吃 晚 饭 吗?
+想. 几 点 钟?
+- 八 点 钟, 好 吗?
+好. 谢谢 你.
+- 不 客气.
+再见.
+- 在 天.
+</table><p>
+Lesson 2.1
+<font color="red">Carter</font> 先生, 你 好.
+- <font color="blue">李</font> 太太, 你 好.
+<font color="red">Carter</font> 先生, 你 是 什么 时候 到 的?
+- 昨天 晚上 十 点 钟.
+你 要 呆 多 久?
+- 一个 星期.
+真的? 你 喜欢 <font color="blue">北京</font> 吗?
+- 我 不 知道. 我 还 没有 看 什么 东西.
+Lesson 2.2
+<font color="red">Dan</font>, <font color="blue">常德</font>, 你 去 了 吗?
+- 还 没有 去.
+明天 我们 一起 去 <font color="blue">常德</font>, 好 吗?
+- 明天 早上 我 有 工作 要 作.
+Lesson 2.3
+<font color="red">Dan</font>, 对不起, 我 得 赦 备 了. 很 晚 了.
+- 为什么? 八 点 钟 不 晚.
+我 得 买 一点儿 东西. 有 一个 朋友 要 来.
+- 朋友? 谁?
+你 不 认识. 他 叫 <font color="red">Matthew</font> <font color="red">Jones</font>.
+- <font color="red">Matthew</font> <font color="red">Jones</font>. 认识. 我 认识.
+Lesson 2.4
+<font color="blue">李</font> 小姐, 你 想 跟 我 一起 喝 茶 吗?
+- 好. 现在 几 点 钟?
+三 点 钟.
+- 那么, 我 时间 不 够. 今天 我 有 一个 朋友 要 来.
+朋友? 是 谁?
+- 是 一个 美国人. 他 要 在 中国 呆 三个 星期.
+Lesson 2.5
+喝 一点儿 茶, 好 吗?
+- 现在 不 好. 我 想 过 一会儿.
+那么, 什么 时候?
+- 三 点 钟 怎么样?
+好. 去 <font color="blue">三</font> <font color="blue">味</font> <font color="blue">书</font> <font color="blue">屋</font>?
+- <font color="blue">三</font> <font color="blue">味</font> <font color="blue">书</font> <font color="blue">屋</font> 在 哪儿? 很 远 吗?
+不 是 很 远. 我们 可以 走路 去.
+Lesson 2.6
+今天 你 想 跟 我 一起 去 饭店 吗?
+- 想. 我 想 十 点 钟 去. 做 公共 汽车 去 好 吗?
+好. 可是 在 那 以前 我 要 去 商店 买 一点儿 东西.
+- 为什么?
+我 想 给 一个 美国 朋友 买 一点儿 东西.
+- 那么, 去 商店 以后 吃 午饭, 好 吗?
+好.
+Lesson 2.7
+<font color="red">Dan</font>, 有 你的 信.
+- 信. 是 谁 写 来 的?
+我 不 知道. 讷.
+- 是 <font color="red">Carter</font> 写 来 的.
+啊, 他 是 你的 同事.
+- <font color="red">Carter</font> 要 来 中国.
+真的? 什么 时候 来?
+- 他 明天 来.
+Lesson 2.8
+请问, 你的 同事 什么 时候 到?
+- 他 星期二 晚上 到.
+几 点 钟?
+- 十 点 差 十 分.
+他 是 中国人 吗?
+- 不 是. 是 美国人. 他 从 <font color="red">Washington</font> 来.
+你的 同事 在 中国 要 呆 多 久?
+- 三个 星期.
+他 一个 人 来 吗?
+- 不 是 一个 人 来. 他 要 跟 他的 太太 一起 来.
+Lesson 2.9
+你 好.
+- <font color="blue">林</font> <font color="blue">惠</font> <font color="blue">兰</font>, 你 好. 对不起, 你 星期五 作 什么?
+我 不 知道.
+- 星期五 你 想 跟 我 一起 去 看 电影 吗?
+对不起. 我 得 工作. 星期六 怎么样?
+- 我 星期六 得 去 <font color="blue">上海</font>.
+你 要 在 <font color="blue">上海</font> 呆 多 久?
+- 呆 到 星期一.
+Lesson 2.10
+京剧 什么 时候 开始?
+- 七 点 十五 开始.
+看 京剧 以前 你 想 跟 我 吃 一点儿 东西 吗?
+- 想. 谢谢 你.
+Lesson 2.11
+<font color="blue">王</font> 太太, 你 好. 你 想 喝 一杯 茶 吗?
+- 想. 谢谢 你.
+你 想 加 牛奶 吗?
+- 不 想. 我 不 加 牛奶.
+糖 怎么样?
+- 我 也 不 加 糖. 我 不 加 牛奶, 不 加 糖.
+你 想 吃 一点儿 东西 吗?
+- 想. 谢谢 你. <font color="red">Jones</font> 先生, 你 要 在 <font color="blue">北京</font> 呆 到 什么 时候?
+呆 到 星期五. 然后 我 去 <font color="blue">南京</font>.
+- 真的? 一 路 顺 风.
+Lesson 2.12
+您 什么 时候 开始 度假?
+- 明天 开始
+您 去 哪儿 度假?
+- 我 去 <font color="blue">苏州</font> 度假.
+<font color="blue">苏州</font>? 很 好. 您 几个 人 去 吗?
+- 不. 我 跟 我的 朋友 一起 去. 我们 要 在 <font color="blue">苏州</font> 呆 一个 星期.
+那么, 一 路 顺 风.
+Lesson 2.13
+<font color="red">Bapson</font> 先生, 您 想 喝 一点儿 茶 吗?
+- 谢谢 您. 今天 很 冷.
+请. 一杯 茶.
+- 谢谢 您, <font color="blue">陈</font> 太太.
+您 什么 时候 开始 度假?
+- 下个 星期 开始. 我 跟 我的 太太 一起 去 <font color="blue">杭州</font>.
+去 <font color="blue">杭州</font>? <font color="blue">杭州</font> 是 一个 很 好的 地方.
+Lesson 2.14
+对不起, 现在 天气 怎么样?
+- 现在 天气 很 好.
+那么, 我 不 想 今天 工作.
+- 为什么? 您 要 作 什么?
+明天 晚上 我 很 想 早 就 走.
+- 去 哪儿?
+去 台湾. 台湾 是 一个 很 好的 地方.
+- 一 路 顺 风.
+Lesson 2.15
+请问, <font color="blue">陈</font> 先生 今天 在 吗?
+- <font color="blue">陈</font> 先生? 对不起. 他 现在 不 在.
+那么, 我 能 麻烦 您 把 这个 给 <font color="blue">林</font> 小姐 吗?
+- 好.
+谢谢 您.
+Lesson 2.16
+<font color="blue">陈</font> 先生, 您 住 在 <font color="blue">南京</font>, 是 吧?
+- 是 的. 公司 在 <font color="blue">南京</font>.
+您 在 <font color="blue">南京</font> 住 了 多 久 了?
+- <font color="red">Chù</font> 了 两 年 了. 在 那 以前, 我 在 <font color="blue">北京</font> 工作.
+<font color="blue">北京</font>? 我 以前 也 在 <font color="blue">北京</font> 工作.
+- 您 在 <font color="blue">北京</font> 工作 了 多 久?
+工作 了 三 年.
+Lesson 2.17
+对不起, 请问, 电话 在 哪儿?
+- 电话 吗? 银行的 旁边 有 一个 电话.
+银行 在 哪儿?
+- 银行 不 远. 一直 往 前 走, 五十 米 左右.
+谢谢 您.
+Lesson 2.18
+对不起, 有 邮票 吗?
+- 邮票 吗? 对不起. 现在 没有 邮票.
+邮局 在 哪儿?
+- 邮局 不 远. 一直 往 前 走, 五十 米 左右.
+谢谢 您.
+Lesson 2.19
+对不起, 请问, 医院 在 哪儿?
+- 医院 吗?
+是 的. 我的 先生 不 太 舒服.
+- 真 糟糕. 医院 很 远.
+那么, 我们 得 打的 去, 对 吧?
+- 对.
+Lesson 2.20
+对不起, 请问, 王 府 井 大 街 在 哪儿?
+- 在 那儿.
+是 吗? 我 在 找 医院.
+- 一直 往 前 走, 五十 米 左右. 右边 是 一个 药房.
+可是, 我 在 找 医院.
+- 医院 在 药房的 右边.
+Lesson 2.21
+对不起, 我 想 买 一张 去 <font color="blue">上海</font>的 票.
+- 好.
+快 车 几个 小时?
+- 快 车 是 十九个 小时.
+多少 钱?
+- 快 车, 二百二十 块.
+那么, 我 买 一张 快 车 的 票.
+- 三 百 块. 找 你 八十 块.
+Lesson 2.22
+<font color="blue">陈</font> 先生, 您 好.
+- 您 好.
+<font color="blue">陈</font> 先生 去 哪儿?
+- 去 我的 朋友 那儿. 我的 朋友 回来 了.
+<font color="blue">陈</font> 先生 有 很 多的 工作 吗?
+- 有. 太 多 了.
+</table><p>
+Lesson 2.23
+<font color="blue">陈</font> 先生 认识 <font color="red">Dan</font> <font color="red">Carter</font> 吗?
+- 认识. 你 为什么 问?
+他 是 我的 朋友. 我们 要 下个 星期 打 网球.
+- 我 也 喜欢 打 网球.
+那么, 一起 去 打, 好 吗?
+- 好.
+Lesson 2.24
+<font color="blue">陈</font> 先生 下个 星期 要 出差 吗?
+- 不. 我 下个 星期 不 出差. <font color="blue">王</font> 小姐 呢?
+我 下个 星期 出差 去 <font color="blue">上海</font>.
+- <font color="blue">王</font> 小姐 什么 时候 回来?
+我 星期五 回来. 我 星期三 去 <font color="blue">上海</font>. 星期四 去 <font color="blue">南京</font>.
+- <font color="blue">王</font> 小姐 很 忙.
+Lesson 2.25
+<font color="blue">李</font> 先生 想 跟 我 一起 去 茶馆 喝 一点儿 茶 吗?
+- 对不起. 我 三 点 钟 有 一个 会.
+有 一个 会? <font color="blue">李</font> 先生 总是 很 忙.
+- 可是, 三 点 钟 以后 我 有 空.
+那么, 我们 五 点 钟 去 茶馆, 好 吗?
+- 好. 你 想 去 哪儿?
+<font color="blue">三</font> <font color="blue">味</font> <font color="blue">书</font> <font color="blue">屋</font>, 怎么样?
+- 好. <font color="blue">三</font> <font color="blue">味</font> <font color="blue">书</font> <font color="blue">屋</font> 有 很 好的 茶.
+Lesson 2.26
+您 好. 对不起. 哪儿 可以 换 钱?
+- 那儿.
+谢谢 您. 对不起. 我 想 换 一点儿 人民币.
+- 您 想 换 多少?
+六百 美金.
+- 请 等 一会儿.
+Lesson 2.27
+<font color="blue">陈</font> 先生, 你 好. 请问, 今天 你 作 什么 了?
+- 我 打 网球 了?
+你 是 跟 谁 一起 打 的?
+- 我 是 跟 <font color="blue">陈</font> 先生 一起 打 的. 你 呢, 你 今天 作 什么 了?
+我 今天 早上 去 买 东西 了.
+</table><p>
+Lesson 2.28
+<font color="red">Jones</font> 先生, 你 想 星期天 来 我 那儿 吃 饭 吗?
+- 谢谢 您, 可是 星期天 不 行.
+那么, 星期六 呢?
+- 对不起, 星期六 也 不 行. 我 有 一个 朋友 要 从 美国 来 看 我.
+Lesson 2.29
+你 好.
+- <font color="blue">陈</font> 先生, 你 好. 你 想 现在 作 什么?
+我 不 知道. 你 呢?
+- 你 想 跟 我 一起 去 茶馆 吗? 我 想 喝 绿 茶.
+我 也 想 喝. 我 很 喜欢 喝 绿 茶.
+- 那么, 我们 一起 去 茶馆, 好 吗?
+好.
+Lesson 2.30
+对不起, 我 来 晚 了.
+- 没 关系. 请 进. 你 想 喝 一点儿 东西 吗?
+太 不 好 意思 了. 谢谢.
+- 你 喜欢 绿 茶 吗?
+喜欢. 我 很 喜欢.
+Lesson 3.1
+您 好. 我 姓 <font color="blue">田</font> 叫 <font color="blue">波</font> <font color="blue">文</font>.
+- 您 好. 我 姓 <font color="red">Carter</font> 叫 <font color="red">Daniel</font>.
+<font color="red">Carter</font> 先生 是 美国人 吗?
+- 是 的.
+我 以前 在 <font color="blue">波十崸</font> 工作.
+- 您 喜欢 <font color="blue">波十崸</font> 吗?
+喜欢. 我 很 喜欢 <font color="blue">波十崸</font>, 可是 <font color="blue">波十崸</font>的 冬天 很 冷.
+- 是 的. 而且 常常 下 雪.
+Lesson 3.2
+您 好. 我 姓 <font color="red">Jones</font> 叫 <font color="red">Matthiew</font>.
+- 您 好. 我 姓 <font color="blue">林</font> 叫 <font color="blue">李</font>. <font color="red">Jones</font> 先生 是 美国人, 对 吧?
+对.
+- <font color="red">Jones</font> 先生 去过 <font color="blue">北京</font> 吗?
+去 过. 我 去过 <font color="blue">北京</font>. <font color="blue">北京</font> 是 一个 很 有 意思的 地方.
+- 您 是 什么 时候 去 <font color="blue">北京</font> 的?
+我 是 去年 一月 去 <font color="blue">北京</font> 的.
+- <font color="blue">北京</font>的 冬天 很 冷, 是 吧?
+是 的, 可是 我 很 喜欢 <font color="blue">北京</font>.
+Lesson 3.3
+<font color="red">Jones</font> 先生 普通话 说 的 很 好.
+- 哪里, 哪里. 说 的 不 好.
+您 常常 去 中国 吗?
+- 不. 不 常常 去, 可是 我的 儿子 住 在 <font color="blue">南京</font>.
+是 吗? 您的 儿子 作 什么 工作?
+- 他 在 一家 银行 工作.
+Lesson 3.4
+<font color="blue">李</font> 先生 作 什么 工作?
+- 我 是 一个 工程师.
+是 吗? 您 在 中国 住 了 很 长的 时间 了 吗?
+- 不. 我 是 昨天 晚上 到 中国 的.
+是 吗? <font color="blue">李</font> 先生 普通话 说 的 很 好.
+- 哪里, 哪里. 我 说 的 不 好.
+<font color="blue">李</font> 先生 是 在 哪儿 学 普通话 的?
+- 我 是 在 美国的 一所 学校 学 的.
+Lesson 3.5
+欢迎 光临. 您 想 喝 一点儿 东西 吗?
+- 我 想 要 一杯 葡萄酒.
+您 呢?
+- 我 想 要 一杯 白酒.
+好. 一杯 葡萄酒 和 一杯 白酒.
+Lesson 3.6
+对不起. 我 在 找 笔记本.
+- 谁的 笔记本?
+我的 笔记本.
+- 啊, 等 等, 桌子 上 有 一本 笔记本. 那 是 您的 吗?
+是 的. 谢谢 您.
+Lesson 3.7
+<font color="red">Jones</font> 先生 打算 去 哪儿 旅行?
+- 我 打算 跟 家人 一起 去 <font color="blue">杭州</font> 旅行.
+是 吗? 您 订 酒店 了 吗?
+- 没 有. 还 没有. <font color="blue">美</font> 小姐 一月 去 <font color="blue">杭州</font> 了, 对 吧? <font color="blue">杭州</font> 有 好的 酒店 吗?
+有. <font color="blue">杭州</font> 有 很 多 好的 酒店. <font color="blue">香格里拉</font>的 酒店 很 好.
+- <font color="blue">香格里拉</font>的 酒店 在 哪儿?
+在 <font color="blue">西湖</font>的 旁边.
+- 您 知道 酒店的 电话 号码 吗?
+不 知道. 可是 电话簿 里 有.
+- 谢谢.
+Lesson 3.8
+<font color="red">Jones</font> 先生 下个 月 打算 去 哪儿 旅行?
+- 还 不 知道.
+哈尔滨 怎么样? <font color="red">Jones</font> 先生 去过 哈尔滨 吗?
+- 去 过. 去年 夏天 去过. 很 好的 地方.
+那么, <font color="blue">三亚</font> 怎么样?
+- <font color="blue">三亚</font> 是 不 是 很 远 吗?
+是 有 一点儿 远. 可是 是 一个 很 美的 地方. 有 很 好的 海滩.
+- 海滩? 英文 海滩 怎么 说?
+英文 这么 说 <font color="red">"beaches"</font>.
+Lesson 3.9
+您 好. <font color="blue">三亚</font> 旅馆.
+- 您 好. 我 想 订 一个 房间.
+什么 时候?
+- 下个 星期三. 请问, 有 房间 吗?
+有. 请问 贵姓?
+- 我 姓 <font color="blue">卢</font> 叫 <font color="blue">德</font> <font color="blue">明</font>. 可以 用 信用卡 吗?
+当然 可以. 请问 您的 信用卡 号码.
+- 五 三 六 九 一 二.
+谢谢 您.
+Lesson 3.10
+您 好, 中国 银行.
+- 您 好. 请问. <font color="blue">卢</font> 先生 在 吗?
+<font color="blue">卢</font> 先生 吗? 请 等 一会儿. 对不起. <font color="blue">卢</font> 先生 不 在.
+- 是 吗? 那么, 我 过 一会儿 再 打.
+Lesson 3.11
+对不起. 公共 汽车 站 在 哪儿?
+- 公共 汽车 站 吗? 您 去 哪儿?
+我 得 去 美国 大使馆.
+- 地铁 比 公共 汽车 快.
+是 吗?
+- 是 的. 做 地铁 好. 请 在 王 府 井 大 街 上 车.
+在 哪儿 下 车?
+- 请 在 长 安 大 街 下 车. 从 长 安 大 街 您 可以 走路 去 美国 大使馆.
+谢谢 您.
+Lesson 3.12
+今天 很 凉快, 是 吧?
+- 是 的. 今天 很 凉快, 可是 昨天 很 热.
+<font color="red">Dan</font> 先生, 去 公园 散步 好 吗?
+- 好. 现在 <font color="blue">北海</font> 公园 很 美.
+是 吗? <font color="blue">北海</font> 公园 有 一家 很 好的 茶馆.
+- 他们 有 绿 茶 吗?
+有. 他们 有 很 好的 绿 茶.
+Lesson 3.13
+<font color="blue">陈</font> 小姐, 有 电话 吗?
+- 有. 是 <font color="blue">王</font> 先生 打 来 的.
+留言 了 吗?
+- 没 有. 没 有 留言.
+<font color="blue">王</font> 先生 是 几 点 钟 打 来 的?
+- 是 十 分钟 左右 打 来 的.
+那么, 我 现在 给 <font color="blue">王</font> 先生 打 一个 电话.
+- 这 是 他的 电话 号码.
+<font color="blue">王</font> 先生 是 从 <font color="blue">上海</font> 打 来 的, 对 吧? <font color="blue">上海</font>的 地区号 是 多少?
+- 二十一.
+谢谢.
+Lesson 3.14
+<font color="red">Jones</font> 先生, 午饭 以后 去 散步, 好 吗?
+- 去 散步? 对不起. 我 头 疼.
+真 糟糕?
+- 喉咙 也 疼.
+是 感冒 吧?
+- 可能.
+您 有 药 吗?
+- 没 有. 今天 我 得 买 一点儿.
+Lesson 3.15
+您 下个 星期 跟 <font color="blue">陈</font> 先生 有 一个 会, 对 吧?
+- 对. 星期二 我 跟 <font color="blue">陈</font> 先生 有 一个 会.
+<font color="blue">陈</font> 先生 是 一位 很 重要的 顾客. 请问, 您 需要 翻译 吗?
+- 可能 不 需要. <font color="blue">陈</font> 先生 会 说 一点儿 英文.
+可是 您 普通话 也 说 的 很 好.
+- 哪里, 哪里. 我 说 的 不 好.
+Lesson 3.16
+<font color="red">Jones</font> 先生. 下个 星期的 会, 您 能 参加 吗?
+- 能 参加. 会 是 星期三, 对 吧?
+对. <font color="red">Jones</font> 先生 需要 翻译 吗?
+- 需要. 这 是 一个 很 重要的 会.
+可是 <font color="red">Jones</font> 先生 普通话 说 的 很 好.
+- 哪里, 哪里. 说 的 不 好.
+Lesson 3.17
+今天 有 一个 很 重要的 会, 对 吧?
+- 对. 国际 部的 每个 人 都 参加.
+可是 <font color="blue">马</font> 先生 不 能 参加.
+- 为什么?
+因为 他 去 <font color="blue">南京</font> 出差 了.
+- 他 什么 时候 回来?
+星期五. 您 今天 需要 麦克风 吗?
+- 不 需要.
+Lesson 3.18
+啊, <font color="red">Jones</font> 先生. 您 好.
+- 您 好. 今天 很 冷, 是 吧?
+是 的. <font color="red">Jones</font> 先生, 我们 正在 说 美国.
+- 美国? 需要 去 美国?
+我的 女儿 要 去 美国 旅行.
+- 女儿 一个 人?
+不. 他 跟 一个 朋友 一起 去.
+- 他们 去 美国的 哪儿?
+还 不 知道. <font color="red">Jones</font> 先生, 去 美国的 哪儿 好?
+- 美国 很 大. 可是 <font color="blue">波十崸</font> 怎么样?
+<font color="red">Jones</font> 先生 是 <font color="blue">波十崸</font>人, 对 吧?
+- 是 的. <font color="blue">波十崸</font> 是 一个 很 有 意思的 地方.
+Lesson 3.19
+<font color="red">Carter</font> 先生, <font color="blue">苏州</font> 怎么样?
+- 很 好. <font color="blue">苏州</font> 是 一个 很 美的 地方.
+我 也 很 喜欢 <font color="blue">苏州</font>. 您 看 <font color="blue">苏州</font>的 园林 了 吗?
+- 看 了 一点儿. <font color="blue">苏州</font>的 园林 很 有名.
+会 开的 怎么样?
+- 开的 很 好. 我 认识 了 新的 顾客.
+Lesson 3.20
+<font color="red">Jones</font> 先生, 您 每 天 都 怎么 来 公司?
+- 做 公共 汽车 到 地铁 站. 然后 坐 地铁 到 公司. <font color="blue">李</font> 小姐 呢?
+我 骑 自行车 到 地铁 站. 然后 坐 地铁 到 公司.
+- 骑 自行车 英文 怎么 说?
+这么 说 <font color="red">"ride</font> <font color="red">a</font> <font color="red">bicycle"</font>.
+Lesson 3.21
+您 好.
+- 您 好. 很 美的 花儿, 是 吧?
+是 的. <font color="red">Carter</font> 先生 喜欢 花儿 吗?
+- 喜欢. 这种 花儿 普通话 怎么 说?
+这么 说 牡丹.
+- 牡丹? 中国人 很 喜欢 牡丹 吗?
+喜欢. 很 喜欢. <font color="red">Carter</font> 先生, 英文 牡丹 怎么 说?
+- 这么 说 <font color="red">"peony"</font>.
+Lesson 3.22
+您 好 <font color="blue">陈</font> 先生.
+- 您 好 <font color="red">Babet</font> 小姐. 请 进.
+谢谢. 啊, 花儿 很 美. 这 是 牡丹 吗?
+- 是. 您 下个 星期 要 去 <font color="blue">鹭燕</font> 赏 花儿, 是 吧?
+是 的. 可是 我 现在 想 去 博物馆.
+- 去 博物馆? <font color="blue">鹭燕</font>的 博物馆 怎么样?
+对不起, 我 不 知道.
+Lesson 3.23
+<font color="red">Jones</font> 先生, 有 空的 时候 您 喜欢 作 什么?
+- 我 有 空的 时候 喜欢 打 保龄球. <font color="blue">美</font> 小姐 呢?
+我 喜欢 去 博物馆.
+- 去 博物馆? 我 也 喜欢 去 博物馆.
+<font color="red">Jones</font> 先生 去过 故宫 博物馆 吗?
+- 没 有. 没 有 去过. 我 很 想 去.
+那么, 我们 一起 去, 好 吗?
+- 太 好 了.
+Lesson 3.24
+<font color="red">Jones</font> 先生, 请 喝 茶.
+- 谢谢 您. 很 好喝.
+<font color="red">Jones</font> 先生 是 什么 时候 从 <font color="blue">苏州</font> 来 的?
+- 下个 星期五. 我 拍 了 很 多 照片.
+请 给 我 看看.
+- 好. 我 今天 带 来 了. 请 看.
+很 美的 园林.
+- 这 是 一个 很 有名的 园林.
+Lesson 3.25
+欢迎 光临.
+- 我 姓 <font color="red">Jones</font>. 我 订 了 一个 房间.
+今天 和 明天, 是 吧?
+- 是 的.
+<font color="red">Jones</font> 先生的 房间 在 二 楼. 这 是 房间的 钥匙.
+- 对不起. 哪儿 可以 换 钱?
+这儿 可以 换 钱. 您 想 换 多少?
+- 一 百 块 美金.
+Lesson 3.26
+<font color="red">Jones</font> 先生, 地铁 站的 旁边 有 一家 新的 茶馆. 您 知道 吗?
+- 不 知道. 这家 茶馆 叫 什么?
+叫 <font color="blue">耕</font> <font color="blue">读</font> <font color="blue">园</font>.
+- <font color="blue">苏</font> 小姐 去过 吗?
+还 没有. 我们 明天 一起 去, 好 吗?
+- 好 主意.
+Lesson 3.27
+欢迎 光临.
+- 我 能 换 一点儿 旅行 支票 吗?
+能. 是 美金的 吗?
+- 是 的.
+您 想 换 多少?
+- 五 百 块 美金.
+请 填 这张 表格.
+Lesson 3.28
+<font color="red">Jones</font> 先生的 爱好 是 什么?
+- 我 喜欢 看 小说. <font color="blue">苏</font> 小姐 呢?
+我 喜欢 听 音乐.
+- 是 吗? <font color="blue">苏</font> 小姐 喜欢 什么 音乐?
+我 喜欢 听 古典 音乐.
+Lesson 3.29
+现在 是 十 点, 是 吧? 我 肚子 饿.
+- 您 没有 吃 早饭 吗?
+没 有. 今天 早上 没有 时间.
+- 您 昨天 晚上 是 几 点 上 床 的?
+十二 点.
+- 您 一般 几 点 起 床?
+六 点. 可是 今天 早上 我 是 七 点 起 床 的.
+- 我 也 一般 六 点 起 床. 我 一般 八 点 来 公司.
+八 点? 您 来 的 很 早.
+- 工作 以前 我 学 英文.
+了不起.
+Lesson 3.30
+<font color="red">Jones</font> 先生 下个 星期 回 美国 去, 是 吧?
+- 是 的. 下个 星期三 走.
+您 买 纪念品 了 吗?
+- 没 有. 还 没有 买. 给 我的 太太 买 什么 好?
+丝 巾 怎么样? 丝 巾 不 太 贵.
+- 是 吗? 给 我的 儿子 买 什么 好?
+给 您的 儿子 买 一点儿 中文 书 怎么样?
+- 好 主意. 他 正在 学 中文.
