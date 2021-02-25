@@ -46,7 +46,7 @@ async function mymapper(x) {
 
 output = JSON.parse("[" + fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/trainchinesecache.json').toString().replace(/}{/g, "},{") + "]")
 output = output.filter(x => x.transl)
-output = R.uniqBy(x => x.kanji, output)
+output = R.uniqBy(x => x.sentence, output)
 
 function processTrainchineseTransl(x) {
   const transl = x.transl
@@ -123,4 +123,4 @@ output_ = output.map(processTrainchineseTransl).filter(R.identity)
   const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))
   const s = require('csv-writer').createObjectCsvStringifier({ header }).stringifyRecords(input)
   fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', s)
-})(output_);
+)(output_);

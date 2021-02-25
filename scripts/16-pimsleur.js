@@ -12,6 +12,7 @@ const { JSDOM } = jsdom;
 const dom = new JSDOM(``);
 const {Translate} = require('@google-cloud/translate').v2;
 const translate = new Translate({projectId: "annular-form-299211"});
+const processPurpleculture = require('./scripts/lib/processPurpleculture').processPurpleculture
 
 // input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
 
@@ -38,25 +39,35 @@ content = content.map(x => x.content.map(v => {
 
 async function mymapper(x) {
   const sentence = x.sentence
-  if (!RA.isNonEmptyString(sentence)) { throw new Error('sentence') }
+  if (!RA.isNonEmptyString(sentence)) { console.error(x); throw new Error('sentence') }
+  dom.window.document.body.innerHTML = sentence
+  const sentence_without_html = dom.window.document.body.textContent.trim().replace(/ /g, '')
+
+  if (!RA.isNonEmptyString(sentence_without_html)) {
+    console.error(x);
+    return
+  }
+
+  // if (!RA.isNonEmptyString(sentence_without_html)) { console.error(x); throw new Error('sentence_without_html') }
+
   const lesson = x.lesson
-  if (!RA.isNonEmptyString(lesson)) { throw new Error('lesson') }
+  if (!RA.isNonEmptyString(lesson)) { console.error(x); throw new Error('lesson') }
   const speaker = x.speaker
-  if (!RA.isNonEmptyString(speaker)) { throw new Error('speaker') }
+  if (!RA.isNonEmptyString(speaker)) { console.error(x); throw new Error('speaker') }
 
   let translation = null
   try {
-    translation = await translate.translate(sentence, 'en')
-    console.log({ sentence, translation })
+    translation = await translate.translate(sentence_without_html, 'en')
+    // console.log({ sentence_without_html, translation })
   } catch (e) {
     console.error(e)
     return
   }
 
-  let purpleculternumbered = null
+  let purpleculture_raw = null
   try {
-    purpleculternumbered = await require('./scripts/lib/purpleculter_get').purpleculter_get(dom, sentence)
-    console.log({ sentence, purpleculternumbered })
+    purpleculture_raw = await require('./scripts/lib/purpleculter_get').purpleculter_get(dom, sentence_without_html)
+    // console.log({ sentence_without_html, purpleculture_raw })
   } catch (e) {
     console.error(e)
     return
@@ -64,27 +75,36 @@ async function mymapper(x) {
 
   return {
     sentence,
+    sentence_without_html,
     lesson,
     speaker,
-    purpleculternumbered,
+    purpleculture_raw,
     translation,
   }
 }
 
-output = []
+// output = []
+// ;(async function(input){
+//   for (let i = 0; i < input.length; i++) {
+//     const res = await mymapper(input[i])
+//     if (res) {
+//       fs.appendFileSync('huamapinyincache.json', JSON.stringify(res))
+//       output.push(res)
+//       console.log({ i, l: input.length })
+//     }
+//   };
+// })(content);
 
-;(async function(input){
-  for (let i = 0; i < input.length; i++) {
-    const res = await mymapper(input[i])
-    fs.appendFileSync('huamapinyincache.json', JSON.stringify(res))
-    output.push(res)
-    console.log({ i, l: input.length })
-  };
-})(content);
+output = JSON.parse("[" + fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/huamapinyincache.json').toString().replace(/}{/g, "},{") + "]")
+output = output.filter(x => x.sentence)
+output = output.filter(x => x.purpleculture_raw)
+output = R.uniqBy(x => x.sentence, output)
 
 output_ = output.map(x => {
-  const ruby = require('./scripts/lib/processPurpleculture').processPurpleculture(x.purpleculternumbered)
+  const ruby = processPurpleculture(x.purpleculture_raw)
   return {
+    // sentence
+    // sentence_without_html
     ru_marked:   rubyToDifferentPinyin(dom, 'ru', 'marked', ruby),
     ru_numbered: rubyToDifferentPinyin(dom, 'ru', 'numbered', ruby),
     en_marked:   rubyToDifferentPinyin(dom, 'en', 'marked', ruby),
@@ -92,6 +112,7 @@ output_ = output.map(x => {
     en_cased:    rubyToDifferentPinyin(dom, 'en', 'cased', ruby),
     hanzi:       x.sentence.replace(/\s+/g, ' ').trim(),
     ruby,
+    purpleculture_raw: x.purpleculture_raw,
     english:     x.translation[0],
     lesson:      x.lesson.replace(/\s+/g, ' ').trim() + ' (' + x.speaker + ')',
   }
