@@ -105,12 +105,12 @@ output_ = output.map(x => {
   return {
     // sentence
     // sentence_without_html
+    hanzi:       x.sentence.replace(/\s+/g, ' ').trim(),
     ru_marked:   rubyToDifferentPinyin(dom, 'ru', 'marked', ruby),
     ru_numbered: rubyToDifferentPinyin(dom, 'ru', 'numbered', ruby),
     en_marked:   rubyToDifferentPinyin(dom, 'en', 'marked', ruby),
     en_numbered: rubyToDifferentPinyin(dom, 'en', 'numbered', ruby),
     en_cased:    rubyToDifferentPinyin(dom, 'en', 'cased', ruby),
-    hanzi:       x.sentence.replace(/\s+/g, ' ').trim(),
     ruby,
     purpleculture_raw: x.purpleculture_raw,
     english:     x.translation[0],

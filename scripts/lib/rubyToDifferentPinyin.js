@@ -16,6 +16,7 @@ function rubyToDifferentPinyin(dom, type, subtype, text) {
   removeAllNodes(dom.window.document.querySelectorAll('span.pinyin-consonant'))
   removeAllNodes(dom.window.document.querySelectorAll('span.pinyin-location'))
   removeAllNodes(dom.window.document.querySelectorAll('span.pinyin-human'))
+  removeAllNodes(dom.window.document.querySelectorAll('span.pinyin-numbered'))
 
   if (type == 'ru') { removeAllNodes(dom.window.document.querySelectorAll('span.pinyin-marked')) }
   if (type == 'en') { removeAllNodes(dom.window.document.querySelectorAll('span.pinyin-ru')) }
