@@ -14,6 +14,7 @@ let convertToRuTable = R.pipe(
   R.map(arrayToRecord([
     'numbered',
     'marked',
+    'bopomofo'
     '3',
     '4',
     '5',
@@ -58,6 +59,12 @@ function convertPinyinNumberedToRu(text) {
     (fullStr, group1, group2) => {
       let numbered = group2
 
+      if (numbered == "r1") { numbered = "er1" }
+      if (numbered == "r2") { numbered = "er2" }
+      if (numbered == "r3") { numbered = "er3" }
+      if (numbered == "r4") { numbered = "er4" }
+      if (numbered == "r5") { numbered = "er5" }
+
       if (numbered == "nu:1") { numbered = "nv1" }
       if (numbered == "nu:2") { numbered = "nv2" }
       if (numbered == "nu:3") { numbered = "nv3" }
@@ -82,7 +89,7 @@ function convertPinyinNumberedToRu(text) {
         throw new Error(group2)
       }
 
-      const output = `<span class="pinyin-vowel">${el.vowel}</span><span class="pinyin-consonant">${el.consonant}</span><span class="pinyin-location">${el.location}</span><span class="pinyin-human">${el.human}</span><span class="pinyin-marked">${el.marked}</span><span class="pinyin-ru">${el.ru}</span><span class="pinyin-numbered">${el.numbered}</span>`
+      const output = `<span class="pinyin-bopomofo">${el.bopomofo}</span><span class="pinyin-vowel">${el.vowel}</span><span class="pinyin-consonant">${el.consonant}</span><span class="pinyin-location">${el.location}</span><span class="pinyin-human">${el.human}</span><span class="pinyin-marked">${el.marked}</span><span class="pinyin-ru">${el.ru}</span><span class="pinyin-numbered">${el.numbered}</span>`
 
       return '<span class="pinyin tone' + group1 + '">' + output + '</span>'
     }

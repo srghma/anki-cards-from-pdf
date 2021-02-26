@@ -60,7 +60,7 @@ async function mymapper(x) {
     translation = await translate.translate(sentence_without_html, 'en')
     // console.log({ sentence_without_html, translation })
   } catch (e) {
-    console.error(e)
+    console.error({ sentence, e })
     return
   }
 
@@ -69,7 +69,7 @@ async function mymapper(x) {
     purpleculture_raw = await require('./scripts/lib/purpleculter_get').purpleculter_get(dom, sentence_without_html)
     // console.log({ sentence_without_html, purpleculture_raw })
   } catch (e) {
-    console.error(e)
+    console.error({ sentence, e })
     return
   }
 
