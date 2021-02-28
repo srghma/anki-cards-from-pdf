@@ -1,6 +1,7 @@
 const R = require('ramda')
 const RA = require('ramda-adjunct')
 const chinesePinyinMnemonics = require('./chinesePinyinMnemonics').chinesePinyinMnemonics
+const isHanzi = require('./isHanzi').isHanzi
 
 const arrayToRecord = (headers) => (x) => {
   buff = {}
@@ -14,7 +15,7 @@ let convertToRuTable = R.pipe(
   R.map(arrayToRecord([
     'numbered',
     'marked',
-    'bopomofo'
+    'bopomofo',
     '3',
     '4',
     '5',
@@ -96,8 +97,8 @@ function convertPinyinNumberedToRu(text) {
   )
 }
 
-function processPurpleculture(text) {
-  const s = text
+function processPurpleculture_remove_junk(text) {
+  return text
     .replace(/ id="[^"]+"/g, "")
     .replace(/&nbsp;/g, "")
     .replace(/<div class="pyd h7"><\/div>/g, "")
@@ -106,8 +107,40 @@ function processPurpleculture(text) {
     .replace(/\<\/a\>/g, "</span>")
     .replace(/\<span style="display:none">[^\<]*\<\/span\>/g, '')
     .replace(/\<div class="small text-muted pt-1" style="display:none;"\>\<\/div\>/g, '')
+}
 
-  return convertPinyinNumberedToRu(s)
+function processPurpleculture_remove_junk(text) {
+  return text
+    .replace(/ id="[^"]+"/g, "")
+    .replace(/&nbsp;/g, "")
+    .replace(/<div class="pyd h7"><\/div>/g, "")
+    .replace(/ href=\"[^\"]+\"/g, "")
+    .replace(/\<a /g, "<span ")
+    .replace(/\<\/a\>/g, "</span>")
+    .replace(/\<span style="display:none">[^\<]*\<\/span\>/g, '')
+    .replace(/\<div class="small text-muted pt-1" style="display:none;"\>\<\/div\>/g, '')
+}
+
+function processPurpleculture_remove_add_ipa(ipwordscache, text) {
+  return text.replace(/<div class="tooltips">([^<]+)<\/div>/g, (match, group1) => {
+    const allHanzi = group1.split('').filter(x => !isHanzi(x)).length === 0
+
+    if (!allHanzi) { return match }
+
+    const ipa = ipwordscache[group1]
+
+    if (!ipa) { console.error({ text, match, group1 }); throw new Error('ipa') }
+
+    return '<div class="tooltips-ipa">' + ipa + '</div>' + match
+  })
+}
+
+function processPurpleculture(ipwordscache, text) {
+  text = processPurpleculture_remove_junk(text)
+  text = convertPinyinNumberedToRu(text)
+  text = processPurpleculture_remove_add_ipa(ipwordscache, text)
+
+  return text
 }
 
 exports.convertToRuTable = convertToRuTable
