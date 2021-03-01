@@ -8,6 +8,7 @@
     "csv-stringify": "^5.5.3",
     "csv-writer": "^1.6.0",
     "export-to-csv": "^0.2.1",
+    "fetch-cookie": "^0.11.0",
     "jsdom": "^16.4.0",
     "kanji.js": "^1.2.2",
     "pinyin-convert": "^1.11.0",

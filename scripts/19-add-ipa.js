@@ -23,12 +23,18 @@ words = R.uniq(input.map(x => {
   return raw.match(/class="tooltips">([^<]+)<\/div>/g).map(str => str.split('').filter(isHanzi).join('')).filter(R.identity)
 }).flat())
 
-const cache = {}
+ipwordscache_path = '/home/srghma/projects/anki-cards-from-pdf/ipacache.json'
+ipwordscache = {}
+try {
+  ipwordscache = JSON.parse(fs.readFileSync(ipwordscache_path).toString())
+} catch (e) {
+  console.log(e)
+}
 
 async function mymapper(word) {
   if (!RA.isNonEmptyString(word)) { console.error(word); throw new Error('word') }
 
-  if (cache[word]) { console.error('FOUND ' + word); return cache[word] }
+  if (ipwordscache[word]) { console.error('FOUND ' + word); return ipwordscache[word] }
 
   let easypronunciation_chinese_res = null
 
@@ -40,7 +46,9 @@ async function mymapper(word) {
     return
   }
 
-  cache[word] = easypronunciation_chinese_res
+  if (easypronunciation_chinese_res.length > 0) { ipwordscache[word] = easypronunciation_chinese_res }
+
+  fs.writeFileSync(ipwordscache_path, JSON.stringify(ipwordscache, null, 2))
 }
 
 ;(async function(input){
@@ -48,10 +56,6 @@ async function mymapper(word) {
     await mymapper(input[i])
   };
 })(words);
-
-// fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/ipacache.json', JSON.stringify(cache))
-
-ipwordscache = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/ipacache.json').toString())
 
 output_ = input.map(x => {
   const raw = x['_8']
