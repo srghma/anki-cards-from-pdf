@@ -33,15 +33,22 @@ async function easypronunciation_chinese(dom, str) {
 
   // alert "You have reached your limit! Please wait for one hour! If you bought the subscription, but still see this message, please check our FAQ"
 
-  let nobrMultipleElems = dom.window.document.querySelectorAll('div.big-hanzi span.tooltips-bottom ruby .chineseHomographsList nobr')
   const output = []
 
-  if (nobrMultipleElems.length > 0) {
-    nobrMultipleElems.forEach(e => { output.push(e.textContent.trim()) })
-  } else {
-    const elem = dom.window.document.querySelector('div.big-hanzi span.tooltips-bottom ruby rt')
-    if (elem) { output.push(elem.textContent.trim()) }
-  }
+  dom.window.document.querySelectorAll('div.big-hanzi span.tooltips-bottom ruby').forEach(rubyE => {
+    const nobrMultipleElems = rubyE.querySelectorAll('.chineseHomographsList nobr')
+
+    if (nobrMultipleElems.length > 0) {
+      const nobrMultipleElemsOutput = []
+      nobrMultipleElems.forEach(e => { nobrMultipleElemsOutput.push(e.textContent.trim()) })
+      output.push(nobrMultipleElemsOutput)
+    } else {
+      const elem = rubyE.querySelector('rt')
+      output.push(elem.textContent.trim())
+    }
+  })
+
+
 
   return output
 }
