@@ -19,3 +19,4 @@ yarn-error.log
 /cedict_db
 /random-scripts/pinyincache.json
 *cache*
+!ipacache.json
