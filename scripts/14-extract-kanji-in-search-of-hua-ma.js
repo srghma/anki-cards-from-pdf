@@ -1,4 +1,5 @@
 const readStreamArray = require('./scripts/lib/readStreamArray').readStreamArray
+const fixRadicalToKanji = require('./scripts/lib/fixRadicalToKanji').fixRadicalToKanji
 const checkDuplicateKeys = require('./scripts/lib/checkDuplicateKeys').checkDuplicateKeys
 const isHanzi = require('./scripts/lib/isHanzi').isHanzi
 const csv = require('csv-parser')
@@ -8,10 +9,12 @@ const RA = require('ramda-adjunct')
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const dom = new JSDOM(``);
+const {Translate} = require('@google-cloud/translate').v2;
+const translate = new Translate({projectId: "annular-form-299211"});
 
 // input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
 
-content = fixRadicalToKanji(fs.readFileSync('/home/srghma/Downloads/In-Search-of-Hua-Ma-by-John-Pasden_-Jared-Turner-_z-lib.org__1.txt').toString())
+content = fixRadicalToKanji(fs.readFileSync('/home/srghma/Desktop/languages/chinese/In Search of Hua Ma by John Pasden, Jared Turner (z-lib.org).txt').toString())
 
 ch = [
   "去⼭上找花",
@@ -26,24 +29,19 @@ ch = [
   "妈妈很开⼼",
 ].map(fixRadicalToKanji)
 
-content = content.split('----------------------------------')
+// content = content.split('----------------------------------')
 
-content = R.zipObj(ch, content)
+// content = R.zipObj(ch, content)
 
-content = R.map(x => x.replace(/(。|？|！)\s*”/g, "$1”\n"), content)
-content = R.map(x => x.replace(/(。|？|！)\s*[^”]/g, "$1\n"), content)
-content = R.map(x => x.split('\n').map(x => x.replace(/\s+/g, ' ').trim()), content)
-content = Object.entries(content).map(([key, val]) => val.map(v => ({ sentence: v, chapter: key }))).flat()
-content = content.filter(x => x.sentence.length > 1)
-
-const {Translate} = require('@google-cloud/translate').v2;
-const translate = new Translate({projectId: "annular-form-299211"});
+content = content.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim()
+content = content.replace(/(。|？|！)\s*”/g, "$1”\n")
+content = content.replace(/(。|？|！)\s*([^”])/g, "$1\n$2")
+content = content.split('\n').map(x => x.replace(/\s+/g, ' ').trim())
+content = content.filter(x => x.length > 1)
 
 async function mymapper(x) {
-  const sentence = x.sentence
+  const sentence = x
   if (!RA.isNonEmptyString(sentence)) { throw new Error('sentence') }
-  const chapter = x.chapter
-  if (!RA.isNonEmptyString(chapter)) { throw new Error('chapter') }
 
   let translation = null
   try {
@@ -65,7 +63,6 @@ async function mymapper(x) {
 
   return {
     sentence,
-    chapter,
     purpleculternumbered,
     translation,
   }

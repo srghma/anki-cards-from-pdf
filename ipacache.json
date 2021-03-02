@@ -1,47 +1,4794 @@
 {
-  "对不起": [
-    "tʷə̀ipʷutɕʰǐː"
-  ],
   "请问": [
-    "tɕʰə̌ŋwə̀n"
+    {
+      "chineseIerogliphOrWord": "请问",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕʰə̌ŋwə̀n"
+      ]
+    }
   ],
   "你": [
-    "nʲǐː"
+    {
+      "chineseIerogliphOrWord": "你",
+      "chineseIerogliphOrWordPronounce": [
+        "nʲǐː"
+      ]
+    }
   ],
   "会": [
-    [
-      "kʰʷài",
-      "xʷə̀i"
-    ]
+    {
+      "chineseIerogliphOrWord": "会",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰʷài",
+        "xʷə̀i"
+      ]
+    }
   ],
   "说": [
-    [
-      "ʂʷōː",
-      "ʂʷə̀i"
-    ]
+    {
+      "chineseIerogliphOrWord": "说",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʷōː",
+        "ʂʷə̀i"
+      ]
+    }
   ],
   "英文": [
-    "jə̄ŋwə́n"
+    {
+      "chineseIerogliphOrWord": "英文",
+      "chineseIerogliphOrWordPronounce": [
+        "jə̄ŋwə́n"
+      ]
+    }
   ],
   "吗": [
-    [
-      "ma",
-      "mǎː"
-    ]
+    {
+      "chineseIerogliphOrWord": "吗",
+      "chineseIerogliphOrWordPronounce": [
+        "ma",
+        "mǎː"
+      ]
+    }
   ],
   "不会": [
-    "pʷúː"
+    {
+      "chineseIerogliphOrWord": "不",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷúː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "会",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰʷài",
+        "xʷə̀i"
+      ]
+    }
   ],
   "我": [
-    "wǒː"
+    {
+      "chineseIerogliphOrWord": "我",
+      "chineseIerogliphOrWordPronounce": [
+        "wǒː"
+      ]
+    }
   ],
   "我会": [
-    "wǒː"
+    {
+      "chineseIerogliphOrWord": "我",
+      "chineseIerogliphOrWordPronounce": [
+        "wǒː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "会",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰʷài",
+        "xʷə̀i"
+      ]
+    }
   ],
   "一点儿": [
-    "ìːtʲǎɚ"
+    {
+      "chineseIerogliphOrWord": "一点儿",
+      "chineseIerogliphOrWordPronounce": [
+        "ìːtʲǎɚ"
+      ]
+    }
   ],
   "普通话": [
-    "pʰʷǔːtʰʷūŋxʷàː"
+    {
+      "chineseIerogliphOrWord": "普通话",
+      "chineseIerogliphOrWordPronounce": [
+        "pʰʷǔːtʰʷūŋxʷàː"
+      ]
+    }
+  ],
+  "是": [
+    {
+      "chineseIerogliphOrWord": "是",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩̀ː"
+      ]
+    }
+  ],
+  "美国人": [
+    {
+      "chineseIerogliphOrWord": "美国人",
+      "chineseIerogliphOrWordPronounce": [
+        "mə̌ikʷóːʐə́n"
+      ]
+    }
+  ],
+  "你好": [
+    {
+      "chineseIerogliphOrWord": "你",
+      "chineseIerogliphOrWordPronounce": [
+        "nʲǐː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "好",
+      "chineseIerogliphOrWordPronounce": [
+        "xàu",
+        "xǎu"
+      ]
+    }
+  ],
+  "的": [
+    {
+      "chineseIerogliphOrWord": "的",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲīː",
+        "tɤ",
+        "tʲíː",
+        "tʲìː"
+      ]
+    }
+  ],
+  "不好": [
+    {
+      "chineseIerogliphOrWord": "不",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷùː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "好",
+      "chineseIerogliphOrWordPronounce": [
+        "xàu",
+        "xǎu"
+      ]
+    }
+  ],
+  "可是": [
+    {
+      "chineseIerogliphOrWord": "可是",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰɤ̌ːʂʐ̩̀ː"
+      ]
+    }
+  ],
+  "普通": [
+    {
+      "chineseIerogliphOrWord": "普通",
+      "chineseIerogliphOrWordPronounce": [
+        "pʰʷǔːtʰʷūŋ"
+      ]
+    }
+  ],
+  "话说": [
+    {
+      "chineseIerogliphOrWord": "话",
+      "chineseIerogliphOrWordPronounce": [
+        "xʷàː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "说",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʷōː",
+        "ʂʷə̀i"
+      ]
+    }
+  ],
+  "很好": [
+    {
+      "chineseIerogliphOrWord": "很",
+      "chineseIerogliphOrWordPronounce": [
+        "xə̌n"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "好",
+      "chineseIerogliphOrWordPronounce": [
+        "xàu",
+        "xǎu"
+      ]
+    }
+  ],
+  "中国人": [
+    {
+      "chineseIerogliphOrWord": "中国人",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʷūŋkʷóːʐə́n"
+      ]
+    }
+  ],
+  "呢": [
+    {
+      "chineseIerogliphOrWord": "呢",
+      "chineseIerogliphOrWordPronounce": [
+        "nʲíː",
+        "nɤ"
+      ]
+    }
+  ],
+  "谢谢": [
+    {
+      "chineseIerogliphOrWord": "谢谢",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕèːɕe"
+      ]
+    }
+  ],
+  "学院路": [
+    {
+      "chineseIerogliphOrWord": "学院",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕʷéːɥæ̀n"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "路",
+      "chineseIerogliphOrWordPronounce": [
+        "lʷùː"
+      ]
+    }
+  ],
+  "在": [
+    {
+      "chineseIerogliphOrWord": "在",
+      "chineseIerogliphOrWordPronounce": [
+        "tsài"
+      ]
+    }
+  ],
+  "哪儿": [
+    {
+      "chineseIerogliphOrWord": "哪儿",
+      "chineseIerogliphOrWordPronounce": [
+        "nǎɚ"
+      ]
+    }
+  ],
+  "在那儿": [
+    {
+      "chineseIerogliphOrWord": "在",
+      "chineseIerogliphOrWordPronounce": [
+        "tsài"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "那儿",
+      "chineseIerogliphOrWordPronounce": [
+        "nàɚ"
+      ]
+    }
+  ],
+  "长安街": [
+    {
+      "chineseIerogliphOrWord": "长安",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʰáŋǣn"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "街",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕēː"
+      ]
+    }
+  ],
+  "是在": [
+    {
+      "chineseIerogliphOrWord": "是",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩̀ː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "在",
+      "chineseIerogliphOrWordPronounce": [
+        "tsài"
+      ]
+    }
+  ],
+  "这儿": [
+    {
+      "chineseIerogliphOrWord": "这儿",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂɤ̀ɚ"
+      ]
+    }
+  ],
+  "再见": [
+    {
+      "chineseIerogliphOrWord": "再见",
+      "chineseIerogliphOrWordPronounce": [
+        "tsàitɕæ̀n"
+      ]
+    }
+  ],
+  "想": [
+    {
+      "chineseIerogliphOrWord": "想",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕǎŋ"
+      ]
+    }
+  ],
+  "吃": [
+    {
+      "chineseIerogliphOrWord": "吃",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʰʐ̩̄ː"
+      ]
+    }
+  ],
+  "东西": [
+    {
+      "chineseIerogliphOrWord": "东西",
+      "chineseIerogliphOrWordPronounce": [
+        "tʷūŋɕi",
+        "tʷūŋɕīː"
+      ]
+    }
+  ],
+  "也": [
+    {
+      "chineseIerogliphOrWord": "也",
+      "chineseIerogliphOrWordPronounce": [
+        "jěː"
+      ]
+    }
+  ],
+  "喝": [
+    {
+      "chineseIerogliphOrWord": "喝",
+      "chineseIerogliphOrWordPronounce": [
+        "xɤ̀ː",
+        "xɤ̄ː"
+      ]
+    }
+  ],
+  "去": [
+    {
+      "chineseIerogliphOrWord": "去",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕʰʷỳː"
+      ]
+    }
+  ],
+  "什么时候": [
+    {
+      "chineseIerogliphOrWord": "什么",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂə́nmɤ"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "时候",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩́ːxəu"
+      ]
+    }
+  ],
+  "现在": [
+    {
+      "chineseIerogliphOrWord": "现在",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕæ̀ntsài"
+      ]
+    }
+  ],
+  "过一会儿": [
+    {
+      "chineseIerogliphOrWord": "过一会儿",
+      "chineseIerogliphOrWordPronounce": [
+        "kʷòːīːxʷə̀ɚ"
+      ]
+    }
+  ],
+  "不知道": [
+    {
+      "chineseIerogliphOrWord": "不",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷùː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "知道",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʐ̩̄ːtàu"
+      ]
+    }
+  ],
+  "那儿": [
+    {
+      "chineseIerogliphOrWord": "那儿",
+      "chineseIerogliphOrWordPronounce": [
+        "nàɚ"
+      ]
+    }
+  ],
+  "咖啡": [
+    {
+      "chineseIerogliphOrWord": "咖啡",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰāːfə̄i"
+      ]
+    }
+  ],
+  "间": [
+    {
+      "chineseIerogliphOrWord": "间",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕæ̀n",
+        "tɕǣn"
+      ]
+    }
+  ],
+  "王": [
+    {
+      "chineseIerogliphOrWord": "王",
+      "chineseIerogliphOrWordPronounce": [
+        "wàŋ",
+        "wáŋ"
+      ]
+    }
+  ],
+  "小姐": [
+    {
+      "chineseIerogliphOrWord": "小姐",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕǎutɕěː"
+      ]
+    }
+  ],
+  "李": [
+    {
+      "chineseIerogliphOrWord": "李",
+      "chineseIerogliphOrWordPronounce": [
+        "lʲǐː"
+      ]
+    }
+  ],
+  "先生": [
+    {
+      "chineseIerogliphOrWord": "先生",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕǣnʂəŋ"
+      ]
+    }
+  ],
+  "不想": [
+    {
+      "chineseIerogliphOrWord": "不",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷùː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "想",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕǎŋ"
+      ]
+    }
+  ],
+  "好": [
+    {
+      "chineseIerogliphOrWord": "好",
+      "chineseIerogliphOrWordPronounce": [
+        "xàu",
+        "xǎu"
+      ]
+    }
+  ],
+  "什么": [
+    {
+      "chineseIerogliphOrWord": "什么",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂə́nmɤ"
+      ]
+    }
+  ],
+  "茶": [
+    {
+      "chineseIerogliphOrWord": "茶",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʰáː"
+      ]
+    }
+  ],
+  "不": [
+    {
+      "chineseIerogliphOrWord": "不",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷùː"
+      ]
+    }
+  ],
+  "啤酒": [
+    {
+      "chineseIerogliphOrWord": "啤酒",
+      "chineseIerogliphOrWordPronounce": [
+        "pʰʲíːtɕə̌u"
+      ]
+    }
+  ],
+  "想要": [
+    {
+      "chineseIerogliphOrWord": "想要",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕǎŋjàu"
+      ]
+    }
+  ],
+  "两": [
+    {
+      "chineseIerogliphOrWord": "两",
+      "chineseIerogliphOrWordPronounce": [
+        "lʲǎŋ"
+      ]
+    }
+  ],
+  "杯": [
+    {
+      "chineseIerogliphOrWord": "杯",
+      "chineseIerogliphOrWordPronounce": [
+        "pə̄i"
+      ]
+    }
+  ],
+  "作": [
+    {
+      "chineseIerogliphOrWord": "作",
+      "chineseIerogliphOrWordPronounce": [
+        "tsʷòː",
+        "tsʷōː"
+      ]
+    }
+  ],
+  "午饭": [
+    {
+      "chineseIerogliphOrWord": "午饭",
+      "chineseIerogliphOrWordPronounce": [
+        "ǔːfæ̀n"
+      ]
+    }
+  ],
+  "跟": [
+    {
+      "chineseIerogliphOrWord": "跟",
+      "chineseIerogliphOrWordPronounce": [
+        "kə̄n"
+      ]
+    }
+  ],
+  "一起": [
+    {
+      "chineseIerogliphOrWord": "一起",
+      "chineseIerogliphOrWordPronounce": [
+        "ìːtɕʰǐː"
+      ]
+    }
+  ],
+  "北京饭店": [
+    {
+      "chineseIerogliphOrWord": "北京",
+      "chineseIerogliphOrWordPronounce": [
+        "pə̌itɕə̄ŋ"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "饭店",
+      "chineseIerogliphOrWordPronounce": [
+        "fæ̀ntʲæ̀n"
+      ]
+    }
+  ],
+  "几": [
+    {
+      "chineseIerogliphOrWord": "几",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕǐː",
+        "tɕīː"
+      ]
+    }
+  ],
+  "点钟": [
+    {
+      "chineseIerogliphOrWord": "点钟",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲæ̌nʈʂʷūŋ"
+      ]
+    }
+  ],
+  "两点": [
+    {
+      "chineseIerogliphOrWord": "两",
+      "chineseIerogliphOrWordPronounce": [
+        "lʲǎŋ"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "点",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲæ̌n"
+      ]
+    }
+  ],
+  "钟": [
+    {
+      "chineseIerogliphOrWord": "钟",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʷūŋ"
+      ]
+    }
+  ],
+  "八": [
+    {
+      "chineseIerogliphOrWord": "八",
+      "chineseIerogliphOrWordPronounce": [
+        "pāː"
+      ]
+    }
+  ],
+  "还是": [
+    {
+      "chineseIerogliphOrWord": "还是",
+      "chineseIerogliphOrWordPronounce": [
+        "xáiʂʐ̩"
+      ]
+    }
+  ],
+  "九": [
+    {
+      "chineseIerogliphOrWord": "九",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕə̌u"
+      ]
+    }
+  ],
+  "吃饭": [
+    {
+      "chineseIerogliphOrWord": "吃饭",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʰʐ̩̄ːfæ̀n"
+      ]
+    }
+  ],
+  "一": [
+    {
+      "chineseIerogliphOrWord": "一",
+      "chineseIerogliphOrWordPronounce": [
+        "īː"
+      ]
+    }
+  ],
+  "三": [
+    {
+      "chineseIerogliphOrWord": "三",
+      "chineseIerogliphOrWordPronounce": [
+        "sǣn"
+      ]
+    }
+  ],
+  "四": [
+    {
+      "chineseIerogliphOrWord": "四",
+      "chineseIerogliphOrWordPronounce": [
+        "sz̩̀ː"
+      ]
+    }
+  ],
+  "不行": [
+    {
+      "chineseIerogliphOrWord": "不",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷùː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "行",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕə́ŋ",
+        "xáŋ"
+      ]
+    }
+  ],
+  "那么": [
+    {
+      "chineseIerogliphOrWord": "那么",
+      "chineseIerogliphOrWordPronounce": [
+        "nàːmɤ"
+      ]
+    }
+  ],
+  "五": [
+    {
+      "chineseIerogliphOrWord": "五",
+      "chineseIerogliphOrWordPronounce": [
+        "ǔː"
+      ]
+    }
+  ],
+  "吧": [
+    {
+      "chineseIerogliphOrWord": "吧",
+      "chineseIerogliphOrWordPronounce": [
+        "pa",
+        "pāː"
+      ]
+    }
+  ],
+  "六": [
+    {
+      "chineseIerogliphOrWord": "六",
+      "chineseIerogliphOrWordPronounce": [
+        "lʲə̀u"
+      ]
+    }
+  ],
+  "李明": [
+    {
+      "chineseIerogliphOrWord": "李",
+      "chineseIerogliphOrWordPronounce": [
+        "lʲǐː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "明",
+      "chineseIerogliphOrWordPronounce": [
+        "mʲə́ŋ"
+      ]
+    }
+  ],
+  "今天": [
+    {
+      "chineseIerogliphOrWord": "今天",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕīntʰʲǣn"
+      ]
+    }
+  ],
+  "晚上": [
+    {
+      "chineseIerogliphOrWord": "晚上",
+      "chineseIerogliphOrWordPronounce": [
+        "wæ̌nʂaŋ"
+      ]
+    }
+  ],
+  "晚饭": [
+    {
+      "chineseIerogliphOrWord": "晚饭",
+      "chineseIerogliphOrWordPronounce": [
+        "wæ̌nfæ̀n"
+      ]
+    }
+  ],
+  "明天": [
+    {
+      "chineseIerogliphOrWord": "明天",
+      "chineseIerogliphOrWordPronounce": [
+        "mʲə́ŋtʰʲǣn"
+      ]
+    }
+  ],
+  "七": [
+    {
+      "chineseIerogliphOrWord": "七",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕʰīː"
+      ]
+    }
+  ],
+  "明天见": [
+    {
+      "chineseIerogliphOrWord": "明天",
+      "chineseIerogliphOrWordPronounce": [
+        "mʲə́ŋtʰʲǣn"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "见",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕæ̀n",
+        "tɕæ̀n"
+      ]
+    }
+  ],
+  "要": [
+    {
+      "chineseIerogliphOrWord": "要",
+      "chineseIerogliphOrWordPronounce": [
+        "jàu",
+        "jāu"
+      ]
+    }
+  ],
+  "陈": [
+    {
+      "chineseIerogliphOrWord": "陈",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʰə́n"
+      ]
+    }
+  ],
+  "或者": [
+    {
+      "chineseIerogliphOrWord": "或者",
+      "chineseIerogliphOrWordPronounce": [
+        "xʷòːʈʂɤ̌ː"
+      ]
+    }
+  ],
+  "十点钟": [
+    {
+      "chineseIerogliphOrWord": "十",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩́ː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "点钟",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲæ̌nʈʂʷūŋ"
+      ]
+    }
+  ],
+  "有没有": [
+    {
+      "chineseIerogliphOrWord": "有",
+      "chineseIerogliphOrWordPronounce": [
+        "jə̌u"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "没有",
+      "chineseIerogliphOrWordPronounce": [
+        "mə́ijə̌u"
+      ]
+    }
+  ],
+  "美国": [
+    {
+      "chineseIerogliphOrWord": "美国",
+      "chineseIerogliphOrWordPronounce": [
+        "mə̌ikʷóː"
+      ]
+    }
+  ],
+  "报纸": [
+    {
+      "chineseIerogliphOrWord": "报纸",
+      "chineseIerogliphOrWordPronounce": [
+        "pàuʈʂʐ̩̌ː"
+      ]
+    }
+  ],
+  "有": [
+    {
+      "chineseIerogliphOrWord": "有",
+      "chineseIerogliphOrWordPronounce": [
+        "jə̌u"
+      ]
+    }
+  ],
+  "讷": [
+    {
+      "chineseIerogliphOrWord": "讷",
+      "chineseIerogliphOrWordPronounce": [
+        "nɤ̀ː"
+      ]
+    }
+  ],
+  "多少钱": [
+    {
+      "chineseIerogliphOrWord": "多少",
+      "chineseIerogliphOrWordPronounce": [
+        "tʷōːʂau",
+        "tʷōːʂǎu"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "钱",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕʰǽn"
+      ]
+    }
+  ],
+  "块": [
+    {
+      "chineseIerogliphOrWord": "块",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰʷài"
+      ]
+    }
+  ],
+  "人民币": [
+    {
+      "chineseIerogliphOrWord": "人民币",
+      "chineseIerogliphOrWordPronounce": [
+        "ʐə́nmʲínpʲìː"
+      ]
+    }
+  ],
+  "是不是": [
+    {
+      "chineseIerogliphOrWord": "是",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩̀ː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "不",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷu"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "是",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩̀ː"
+      ]
+    }
+  ],
+  "十八": [
+    {
+      "chineseIerogliphOrWord": "十八",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩́ːpāː"
+      ]
+    }
+  ],
+  "不是": [
+    {
+      "chineseIerogliphOrWord": "不",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷúː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "是",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩̀ː"
+      ]
+    }
+  ],
+  "一会儿": [
+    {
+      "chineseIerogliphOrWord": "一会儿",
+      "chineseIerogliphOrWordPronounce": [
+        "íːxʷə̀ɚ"
+      ]
+    }
+  ],
+  "见": [
+    {
+      "chineseIerogliphOrWord": "见",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕæ̀n",
+        "tɕæ̀n"
+      ]
+    }
+  ],
+  "我要": [
+    {
+      "chineseIerogliphOrWord": "我",
+      "chineseIerogliphOrWordPronounce": [
+        "wǒː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "要",
+      "chineseIerogliphOrWordPronounce": [
+        "jàu",
+        "jāu"
+      ]
+    }
+  ],
+  "买": [
+    {
+      "chineseIerogliphOrWord": "买",
+      "chineseIerogliphOrWordPronounce": [
+        "mǎi"
+      ]
+    }
+  ],
+  "没有": [
+    {
+      "chineseIerogliphOrWord": "没有",
+      "chineseIerogliphOrWordPronounce": [
+        "mə́ijə̌u"
+      ]
+    }
+  ],
+  "有一点儿": [
+    {
+      "chineseIerogliphOrWord": "有",
+      "chineseIerogliphOrWordPronounce": [
+        "jə̌u"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "一点儿",
+      "chineseIerogliphOrWordPronounce": [
+        "ìːtʲǎɚ"
+      ]
+    }
+  ],
+  "多少": [
+    {
+      "chineseIerogliphOrWord": "多少",
+      "chineseIerogliphOrWordPronounce": [
+        "tʷōːʂau",
+        "tʷōːʂǎu"
+      ]
+    }
+  ],
+  "十四": [
+    {
+      "chineseIerogliphOrWord": "十四",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩́ːsz̩̀ː"
+      ]
+    }
+  ],
+  "十五": [
+    {
+      "chineseIerogliphOrWord": "十",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩́ː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "五",
+      "chineseIerogliphOrWordPronounce": [
+        "ǔː"
+      ]
+    }
+  ],
+  "给": [
+    {
+      "chineseIerogliphOrWord": "给",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕǐː",
+        "kə̌i"
+      ]
+    }
+  ],
+  "十九": [
+    {
+      "chineseIerogliphOrWord": "十九",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩́ːtɕə̌u"
+      ]
+    }
+  ],
+  "很多钱": [
+    {
+      "chineseIerogliphOrWord": "很",
+      "chineseIerogliphOrWordPronounce": [
+        "xə̌n"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "多",
+      "chineseIerogliphOrWordPronounce": [
+        "tʷōː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "钱",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕʰǽn"
+      ]
+    }
+  ],
+  "吴": [
+    {
+      "chineseIerogliphOrWord": "吴",
+      "chineseIerogliphOrWordPronounce": [
+        "úː"
+      ]
+    }
+  ],
+  "太": [
+    {
+      "chineseIerogliphOrWord": "太",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰài"
+      ]
+    }
+  ],
+  "晚": [
+    {
+      "chineseIerogliphOrWord": "晚",
+      "chineseIerogliphOrWordPronounce": [
+        "wæ̌n"
+      ]
+    }
+  ],
+  "了": [
+    {
+      "chineseIerogliphOrWord": "了",
+      "chineseIerogliphOrWordPronounce": [
+        "lʲǎu",
+        "lɤ",
+        "lʲàu"
+      ]
+    }
+  ],
+  "啊": [
+    {
+      "chineseIerogliphOrWord": "啊",
+      "chineseIerogliphOrWordPronounce": [
+        "áː",
+        "āː",
+        "ǎː",
+        "àː",
+        "a"
+      ]
+    }
+  ],
+  "钱": [
+    {
+      "chineseIerogliphOrWord": "钱",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕʰǽn"
+      ]
+    }
+  ],
+  "很多": [
+    {
+      "chineseIerogliphOrWord": "很",
+      "chineseIerogliphOrWordPronounce": [
+        "xə̌n"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "多",
+      "chineseIerogliphOrWordPronounce": [
+        "tʷōː"
+      ]
+    }
+  ],
+  "三十五": [
+    {
+      "chineseIerogliphOrWord": "三十",
+      "chineseIerogliphOrWordPronounce": [
+        "sǣnʂʐ̩́ː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "五",
+      "chineseIerogliphOrWordPronounce": [
+        "ǔː"
+      ]
+    }
+  ],
+  "四十": [
+    {
+      "chineseIerogliphOrWord": "四十",
+      "chineseIerogliphOrWordPronounce": [
+        "sz̩̀ːʂʐ̩́ː"
+      ]
+    }
+  ],
+  "美金": [
+    {
+      "chineseIerogliphOrWord": "美金",
+      "chineseIerogliphOrWordPronounce": [
+        "mə̌itɕīn"
+      ]
+    }
+  ],
+  "二十": [
+    {
+      "chineseIerogliphOrWord": "二十",
+      "chineseIerogliphOrWordPronounce": [
+        "ə̀rʂʐ̩́ː"
+      ]
+    }
+  ],
+  "不够": [
+    {
+      "chineseIerogliphOrWord": "不够",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷúːkə̀u"
+      ]
+    }
+  ],
+  "好不好": [
+    {
+      "chineseIerogliphOrWord": "好不",
+      "chineseIerogliphOrWordPronounce": [
+        "xǎupʷùː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "好",
+      "chineseIerogliphOrWordPronounce": [
+        "xàu",
+        "xǎu"
+      ]
+    }
+  ],
+  "够": [
+    {
+      "chineseIerogliphOrWord": "够",
+      "chineseIerogliphOrWordPronounce": [
+        "kə̀u"
+      ]
+    }
+  ],
+  "什么事": [
+    {
+      "chineseIerogliphOrWord": "什么",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂə́nmɤ"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "事",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩̀ː"
+      ]
+    }
+  ],
+  "这": [
+    {
+      "chineseIerogliphOrWord": "这",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂɤ̀ː"
+      ]
+    }
+  ],
+  "顶": [
+    {
+      "chineseIerogliphOrWord": "顶",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲə̌ŋ"
+      ]
+    }
+  ],
+  "帽子": [
+    {
+      "chineseIerogliphOrWord": "帽子",
+      "chineseIerogliphOrWordPronounce": [
+        "màutsz̩"
+      ]
+    }
+  ],
+  "百": [
+    {
+      "chineseIerogliphOrWord": "百",
+      "chineseIerogliphOrWordPronounce": [
+        "pǎi"
+      ]
+    }
+  ],
+  "少": [
+    {
+      "chineseIerogliphOrWord": "少",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂàu",
+        "ʂǎu"
+      ]
+    }
+  ],
+  "很": [
+    {
+      "chineseIerogliphOrWord": "很",
+      "chineseIerogliphOrWordPronounce": [
+        "xə̌n"
+      ]
+    }
+  ],
+  "贵": [
+    {
+      "chineseIerogliphOrWord": "贵",
+      "chineseIerogliphOrWordPronounce": [
+        "kʷə̀i"
+      ]
+    }
+  ],
+  "六十": [
+    {
+      "chineseIerogliphOrWord": "六十",
+      "chineseIerogliphOrWordPronounce": [
+        "lʲə̀uʂʐ̩́ː"
+      ]
+    }
+  ],
+  "你们好": [
+    {
+      "chineseIerogliphOrWord": "你们",
+      "chineseIerogliphOrWordPronounce": [
+        "nʲǐːmən"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "好",
+      "chineseIerogliphOrWordPronounce": [
+        "xàu",
+        "xǎu"
+      ]
+    }
+  ],
+  "你们": [
+    {
+      "chineseIerogliphOrWord": "你们",
+      "chineseIerogliphOrWordPronounce": [
+        "nʲǐːmən"
+      ]
+    }
+  ],
+  "我们": [
+    {
+      "chineseIerogliphOrWord": "我们",
+      "chineseIerogliphOrWordPronounce": [
+        "wǒːmən"
+      ]
+    }
+  ],
+  "我的": [
+    {
+      "chineseIerogliphOrWord": "我",
+      "chineseIerogliphOrWordPronounce": [
+        "wǒː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "的",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲīː",
+        "tɤ",
+        "tʲíː",
+        "tʲìː"
+      ]
+    }
+  ],
+  "他": [
+    {
+      "chineseIerogliphOrWord": "他",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰāː"
+      ]
+    }
+  ],
+  "太太": [
+    {
+      "chineseIerogliphOrWord": "太太",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰàitʰai"
+      ]
+    }
+  ],
+  "请进": [
+    {
+      "chineseIerogliphOrWord": "请",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕʰə̌ŋ"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "进",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕìn"
+      ]
+    }
+  ],
+  "麻烦": [
+    {
+      "chineseIerogliphOrWord": "麻烦",
+      "chineseIerogliphOrWordPronounce": [
+        "máːfæn"
+      ]
+    }
+  ],
+  "喝水": [
+    {
+      "chineseIerogliphOrWord": "喝",
+      "chineseIerogliphOrWordPronounce": [
+        "xɤ̀ː",
+        "xɤ̄ː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "水",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʷə̌i"
+      ]
+    }
+  ],
+  "北京": [
+    {
+      "chineseIerogliphOrWord": "北京",
+      "chineseIerogliphOrWordPronounce": [
+        "pə̌itɕə̄ŋ"
+      ]
+    }
+  ],
+  "不在": [
+    {
+      "chineseIerogliphOrWord": "不",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷúː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "在",
+      "chineseIerogliphOrWordPronounce": [
+        "tsài"
+      ]
+    }
+  ],
+  "谁": [
+    {
+      "chineseIerogliphOrWord": "谁",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂə́i"
+      ]
+    }
+  ],
+  "哦": [
+    {
+      "chineseIerogliphOrWord": "哦",
+      "chineseIerogliphOrWordPronounce": [
+        "ʷóː",
+        "ɤ́ː",
+        "ʷòː",
+        "ʷo"
+      ]
+    }
+  ],
+  "你的": [
+    {
+      "chineseIerogliphOrWord": "你",
+      "chineseIerogliphOrWordPronounce": [
+        "nʲǐː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "的",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲīː",
+        "tɤ",
+        "tʲíː",
+        "tʲìː"
+      ]
+    }
+  ],
+  "可以": [
+    {
+      "chineseIerogliphOrWord": "可以",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰɤ̌ːǐː"
+      ]
+    }
+  ],
+  "等一会儿": [
+    {
+      "chineseIerogliphOrWord": "等",
+      "chineseIerogliphOrWordPronounce": [
+        "tə̌ŋ"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "一会儿",
+      "chineseIerogliphOrWordPronounce": [
+        "íːxʷə̀ɚ"
+      ]
+    }
+  ],
+  "小孩儿": [
+    {
+      "chineseIerogliphOrWord": "小孩儿",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕǎuxáɚ"
+      ]
+    }
+  ],
+  "他们": [
+    {
+      "chineseIerogliphOrWord": "他们",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰāːmən"
+      ]
+    }
+  ],
+  "几个": [
+    {
+      "chineseIerogliphOrWord": "几个",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕǐːkɤ"
+      ]
+    }
+  ],
+  "三个": [
+    {
+      "chineseIerogliphOrWord": "三个",
+      "chineseIerogliphOrWordPronounce": [
+        "sǣnkɤ"
+      ]
+    }
+  ],
+  "儿子": [
+    {
+      "chineseIerogliphOrWord": "儿子",
+      "chineseIerogliphOrWordPronounce": [
+        "ə́rtsz̩"
+      ]
+    }
+  ],
+  "很大": [
+    {
+      "chineseIerogliphOrWord": "很",
+      "chineseIerogliphOrWordPronounce": [
+        "xə̌n"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "大",
+      "chineseIerogliphOrWordPronounce": [
+        "tài",
+        "tàː"
+      ]
+    }
+  ],
+  "家里": [
+    {
+      "chineseIerogliphOrWord": "家里",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕāːlʲǐː"
+      ]
+    }
+  ],
+  "个人": [
+    {
+      "chineseIerogliphOrWord": "个人",
+      "chineseIerogliphOrWordPronounce": [
+        "kɤ̀ːʐə́n"
+      ]
+    }
+  ],
+  "两个": [
+    {
+      "chineseIerogliphOrWord": "两个",
+      "chineseIerogliphOrWordPronounce": [
+        "lʲǎŋkɤ"
+      ]
+    }
+  ],
+  "大人": [
+    {
+      "chineseIerogliphOrWord": "大人",
+      "chineseIerogliphOrWordPronounce": [
+        "tàːʐən"
+      ]
+    }
+  ],
+  "一个": [
+    {
+      "chineseIerogliphOrWord": "一个",
+      "chineseIerogliphOrWordPronounce": [
+        "íːkɤ"
+      ]
+    }
+  ],
+  "女儿": [
+    {
+      "chineseIerogliphOrWord": "女儿",
+      "chineseIerogliphOrWordPronounce": [
+        "nɥy̌ːə́r"
+      ]
+    }
+  ],
+  "做": [
+    {
+      "chineseIerogliphOrWord": "做",
+      "chineseIerogliphOrWordPronounce": [
+        "tsʷòː"
+      ]
+    }
+  ],
+  "飞机": [
+    {
+      "chineseIerogliphOrWord": "飞机",
+      "chineseIerogliphOrWordPronounce": [
+        "fə̄itɕīː"
+      ]
+    }
+  ],
+  "香港": [
+    {
+      "chineseIerogliphOrWord": "香港",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕāŋkǎŋ"
+      ]
+    }
+  ],
+  "远": [
+    {
+      "chineseIerogliphOrWord": "远",
+      "chineseIerogliphOrWordPronounce": [
+        "ɥæ̀n",
+        "ɥæ̌n"
+      ]
+    }
+  ],
+  "小时": [
+    {
+      "chineseIerogliphOrWord": "小时",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕǎuʂʐ̩́ː"
+      ]
+    }
+  ],
+  "条": [
+    {
+      "chineseIerogliphOrWord": "条",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰʲáu"
+      ]
+    }
+  ],
+  "路": [
+    {
+      "chineseIerogliphOrWord": "路",
+      "chineseIerogliphOrWordPronounce": [
+        "lʷùː"
+      ]
+    }
+  ],
+  "美": [
+    {
+      "chineseIerogliphOrWord": "美",
+      "chineseIerogliphOrWordPronounce": [
+        "mə̌i"
+      ]
+    }
+  ],
+  "新": [
+    {
+      "chineseIerogliphOrWord": "新",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕīn"
+      ]
+    }
+  ],
+  "饭店": [
+    {
+      "chineseIerogliphOrWord": "饭店",
+      "chineseIerogliphOrWordPronounce": [
+        "fæ̀ntʲæ̀n"
+      ]
+    }
+  ],
+  "哪": [
+    {
+      "chineseIerogliphOrWord": "哪",
+      "chineseIerogliphOrWordPronounce": [
+        "na",
+        "nǎː",
+        "nə̌i"
+      ]
+    }
+  ],
+  "应该": [
+    {
+      "chineseIerogliphOrWord": "应该",
+      "chineseIerogliphOrWordPronounce": [
+        "jə̄ŋkāi"
+      ]
+    }
+  ],
+  "走": [
+    {
+      "chineseIerogliphOrWord": "走",
+      "chineseIerogliphOrWordPronounce": [
+        "tsə̌u"
+      ]
+    }
+  ],
+  "那条": [
+    {
+      "chineseIerogliphOrWord": "那",
+      "chineseIerogliphOrWordPronounce": [
+        "nʷóː",
+        "nāː",
+        "nǎː",
+        "nàː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "条",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰʲáu"
+      ]
+    }
+  ],
+  "我要看": [
+    {
+      "chineseIerogliphOrWord": "我",
+      "chineseIerogliphOrWordPronounce": [
+        "wǒː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "要",
+      "chineseIerogliphOrWordPronounce": [
+        "jàu",
+        "jāu"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "看",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰæ̀n",
+        "kʰǣn"
+      ]
+    }
+  ],
+  "朋友": [
+    {
+      "chineseIerogliphOrWord": "朋友",
+      "chineseIerogliphOrWordPronounce": [
+        "pʰə́ŋjəu"
+      ]
+    }
+  ],
+  "工作": [
+    {
+      "chineseIerogliphOrWord": "工作",
+      "chineseIerogliphOrWordPronounce": [
+        "kʷūŋtsʷòː"
+      ]
+    }
+  ],
+  "家人": [
+    {
+      "chineseIerogliphOrWord": "家人",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕāːʐə́n"
+      ]
+    }
+  ],
+  "可不可以": [
+    {
+      "chineseIerogliphOrWord": "可不",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰɤ̌ːpʷu"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "可以",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰɤ̌ːǐː"
+      ]
+    }
+  ],
+  "早": [
+    {
+      "chineseIerogliphOrWord": "早",
+      "chineseIerogliphOrWordPronounce": [
+        "tsǎu"
+      ]
+    }
+  ],
+  "多久": [
+    {
+      "chineseIerogliphOrWord": "多久",
+      "chineseIerogliphOrWordPronounce": [
+        "tʷōːtɕə̌u"
+      ]
+    }
+  ],
+  "两天": [
+    {
+      "chineseIerogliphOrWord": "两",
+      "chineseIerogliphOrWordPronounce": [
+        "lʲǎŋ"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "天",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰʲǣn"
+      ]
+    }
+  ],
+  "呆": [
+    {
+      "chineseIerogliphOrWord": "呆",
+      "chineseIerogliphOrWordPronounce": [
+        "tāi"
+      ]
+    }
+  ],
+  "可能": [
+    {
+      "chineseIerogliphOrWord": "可能",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰɤ̌ːnə́ŋ"
+      ]
+    }
+  ],
+  "星期": [
+    {
+      "chineseIerogliphOrWord": "星期",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕə̄ŋtɕʰīː"
+      ]
+    }
+  ],
+  "到": [
+    {
+      "chineseIerogliphOrWord": "到",
+      "chineseIerogliphOrWordPronounce": [
+        "tàu"
+      ]
+    }
+  ],
+  "昨天": [
+    {
+      "chineseIerogliphOrWord": "昨天",
+      "chineseIerogliphOrWordPronounce": [
+        "tsʷóːtʰʲǣn"
+      ]
+    }
+  ],
+  "天坛": [
+    {
+      "chineseIerogliphOrWord": "天坛",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰʲǣntʰǽn"
+      ]
+    }
+  ],
+  "早上": [
+    {
+      "chineseIerogliphOrWord": "早上",
+      "chineseIerogliphOrWordPronounce": [
+        "tsǎuʂaŋ"
+      ]
+    }
+  ],
+  "不客气": [
+    {
+      "chineseIerogliphOrWord": "不",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷúː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "客气",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰɤ̀ːtɕʰi"
+      ]
+    }
+  ],
+  "天": [
+    {
+      "chineseIerogliphOrWord": "天",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰʲǣn"
+      ]
+    }
+  ],
+  "真的": [
+    {
+      "chineseIerogliphOrWord": "真",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂə̄n"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "的",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲīː",
+        "tɤ",
+        "tʲíː",
+        "tʲìː"
+      ]
+    }
+  ],
+  "喜欢": [
+    {
+      "chineseIerogliphOrWord": "喜欢",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕǐːxʷæn"
+      ]
+    }
+  ],
+  "还": [
+    {
+      "chineseIerogliphOrWord": "还",
+      "chineseIerogliphOrWordPronounce": [
+        "xái",
+        "xʷǽn"
+      ]
+    }
+  ],
+  "看": [
+    {
+      "chineseIerogliphOrWord": "看",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰæ̀n",
+        "kʰǣn"
+      ]
+    }
+  ],
+  "常德": [
+    {
+      "chineseIerogliphOrWord": "常德",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʰáŋtɤ́ː"
+      ]
+    }
+  ],
+  "得": [
+    {
+      "chineseIerogliphOrWord": "得",
+      "chineseIerogliphOrWordPronounce": [
+        "tɤ",
+        "tɤ́ː",
+        "tə̌i"
+      ]
+    }
+  ],
+  "赦": [
+    {
+      "chineseIerogliphOrWord": "赦",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂɤ̀ː"
+      ]
+    }
+  ],
+  "备": [
+    {
+      "chineseIerogliphOrWord": "备",
+      "chineseIerogliphOrWordPronounce": [
+        "pə̀i"
+      ]
+    }
+  ],
+  "为什么": [
+    {
+      "chineseIerogliphOrWord": "为什么",
+      "chineseIerogliphOrWordPronounce": [
+        "wə̀iʂə́nmɤ"
+      ]
+    }
+  ],
+  "来": [
+    {
+      "chineseIerogliphOrWord": "来",
+      "chineseIerogliphOrWordPronounce": [
+        "lái"
+      ]
+    }
+  ],
+  "认识": [
+    {
+      "chineseIerogliphOrWord": "认识",
+      "chineseIerogliphOrWordPronounce": [
+        "ʐə̀nʂʐ̩"
+      ]
+    }
+  ],
+  "叫": [
+    {
+      "chineseIerogliphOrWord": "叫",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕàu"
+      ]
+    }
+  ],
+  "喝茶": [
+    {
+      "chineseIerogliphOrWord": "喝",
+      "chineseIerogliphOrWordPronounce": [
+        "xɤ̀ː",
+        "xɤ̄ː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "茶",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʰáː"
+      ]
+    }
+  ],
+  "时间": [
+    {
+      "chineseIerogliphOrWord": "时间",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩́ːtɕǣn"
+      ]
+    }
+  ],
+  "中国": [
+    {
+      "chineseIerogliphOrWord": "中国",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʷūŋkʷóː"
+      ]
+    }
+  ],
+  "怎么样": [
+    {
+      "chineseIerogliphOrWord": "怎么样",
+      "chineseIerogliphOrWordPronounce": [
+        "tsə̌nmɤjàŋ"
+      ]
+    }
+  ],
+  "三味书屋": [
+    {
+      "chineseIerogliphOrWord": "三",
+      "chineseIerogliphOrWordPronounce": [
+        "sǣn"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "味",
+      "chineseIerogliphOrWordPronounce": [
+        "wə̀i"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "书",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʷūː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "屋",
+      "chineseIerogliphOrWordPronounce": [
+        "ūː"
+      ]
+    }
+  ],
+  "走路": [
+    {
+      "chineseIerogliphOrWord": "走路",
+      "chineseIerogliphOrWordPronounce": [
+        "tsə̌ulʷùː"
+      ]
+    }
+  ],
+  "公共汽车": [
+    {
+      "chineseIerogliphOrWord": "公共",
+      "chineseIerogliphOrWordPronounce": [
+        "kʷūŋkʷùŋ"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "汽车",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕʰìːʈʂʰɤ̄ː"
+      ]
+    }
+  ],
+  "可": [
+    {
+      "chineseIerogliphOrWord": "可",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰɤ̀ː",
+        "kʰɤ̌ː"
+      ]
+    }
+  ],
+  "那": [
+    {
+      "chineseIerogliphOrWord": "那",
+      "chineseIerogliphOrWordPronounce": [
+        "nʷóː",
+        "nāː",
+        "nǎː",
+        "nàː"
+      ]
+    }
+  ],
+  "以前": [
+    {
+      "chineseIerogliphOrWord": "以前",
+      "chineseIerogliphOrWordPronounce": [
+        "ǐːtɕʰǽn"
+      ]
+    }
+  ],
+  "商店": [
+    {
+      "chineseIerogliphOrWord": "商店",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂāŋtʲæ̀n"
+      ]
+    }
+  ],
+  "以后": [
+    {
+      "chineseIerogliphOrWord": "以后",
+      "chineseIerogliphOrWordPronounce": [
+        "ǐːxə̀u"
+      ]
+    }
+  ],
+  "信": [
+    {
+      "chineseIerogliphOrWord": "信",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕìn"
+      ]
+    }
+  ],
+  "写": [
+    {
+      "chineseIerogliphOrWord": "写",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕěː"
+      ]
+    }
+  ],
+  "同事": [
+    {
+      "chineseIerogliphOrWord": "同事",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰʷúŋʂʐ̩̀ː"
+      ]
+    }
+  ],
+  "星期二": [
+    {
+      "chineseIerogliphOrWord": "星期二",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕə̄ŋtɕʰīːə̀r"
+      ]
+    }
+  ],
+  "十": [
+    {
+      "chineseIerogliphOrWord": "十",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩́ː"
+      ]
+    }
+  ],
+  "点": [
+    {
+      "chineseIerogliphOrWord": "点",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲæ̌n"
+      ]
+    }
+  ],
+  "差": [
+    {
+      "chineseIerogliphOrWord": "差",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʰàː",
+        "ʈʂʰāː",
+        "ʈʂʰāi"
+      ]
+    }
+  ],
+  "十分": [
+    {
+      "chineseIerogliphOrWord": "十分",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩́ːfə̄n"
+      ]
+    }
+  ],
+  "从": [
+    {
+      "chineseIerogliphOrWord": "从",
+      "chineseIerogliphOrWordPronounce": [
+        "tsʷùŋ",
+        "tsʰʷúŋ"
+      ]
+    }
+  ],
+  "一个人": [
+    {
+      "chineseIerogliphOrWord": "一个",
+      "chineseIerogliphOrWordPronounce": [
+        "íːkɤ"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "人",
+      "chineseIerogliphOrWordPronounce": [
+        "ʐə́n"
+      ]
+    }
+  ],
+  "起来": [
+    {
+      "chineseIerogliphOrWord": "起来",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕʰilai",
+        "tɕʰǐːlai"
+      ]
+    }
+  ],
+  "林": [
+    {
+      "chineseIerogliphOrWord": "林",
+      "chineseIerogliphOrWordPronounce": [
+        "lʲín"
+      ]
+    }
+  ],
+  "惠兰": [
+    {
+      "chineseIerogliphOrWord": "惠",
+      "chineseIerogliphOrWordPronounce": [
+        "xʷə̀i"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "兰",
+      "chineseIerogliphOrWordPronounce": [
+        "lǽn"
+      ]
+    }
+  ],
+  "星期五": [
+    {
+      "chineseIerogliphOrWord": "星期五",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕə̄ŋtɕʰīːǔː"
+      ]
+    }
+  ],
+  "看电影": [
+    {
+      "chineseIerogliphOrWord": "看",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰæ̀n",
+        "kʰǣn"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "电影",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲæ̀njə̌ŋ"
+      ]
+    }
+  ],
+  "星期六": [
+    {
+      "chineseIerogliphOrWord": "星期六",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕə̄ŋtɕʰīːlʲə̀u"
+      ]
+    }
+  ],
+  "上海": [
+    {
+      "chineseIerogliphOrWord": "上海",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂàŋxǎi"
+      ]
+    }
+  ],
+  "星期一": [
+    {
+      "chineseIerogliphOrWord": "星期一",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕə̄ŋtɕʰīːīː"
+      ]
+    }
+  ],
+  "京剧": [
+    {
+      "chineseIerogliphOrWord": "京剧",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕə̄ŋtɕʷỳː"
+      ]
+    }
+  ],
+  "开始": [
+    {
+      "chineseIerogliphOrWord": "开始",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰāiʂʐ̩̌ː"
+      ]
+    }
+  ],
+  "一杯": [
+    {
+      "chineseIerogliphOrWord": "一",
+      "chineseIerogliphOrWordPronounce": [
+        "ìː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "杯",
+      "chineseIerogliphOrWordPronounce": [
+        "pə̄i"
+      ]
+    }
+  ],
+  "加": [
+    {
+      "chineseIerogliphOrWord": "加",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕāː"
+      ]
+    }
+  ],
+  "牛奶": [
+    {
+      "chineseIerogliphOrWord": "牛奶",
+      "chineseIerogliphOrWordPronounce": [
+        "nʲə́unǎi"
+      ]
+    }
+  ],
+  "不加牛奶": [
+    {
+      "chineseIerogliphOrWord": "不加牛奶",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷùːtɕāːnʲə́unǎi"
+      ]
+    }
+  ],
+  "糖": [
+    {
+      "chineseIerogliphOrWord": "糖",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰáŋ"
+      ]
+    }
+  ],
+  "不加": [
+    {
+      "chineseIerogliphOrWord": "不加",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷùːtɕāː"
+      ]
+    }
+  ],
+  "然后": [
+    {
+      "chineseIerogliphOrWord": "然后",
+      "chineseIerogliphOrWordPronounce": [
+        "ʐǽnxə̀u"
+      ]
+    }
+  ],
+  "我去": [
+    {
+      "chineseIerogliphOrWord": "我",
+      "chineseIerogliphOrWordPronounce": [
+        "wǒː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "去",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕʰʷỳː"
+      ]
+    }
+  ],
+  "南京": [
+    {
+      "chineseIerogliphOrWord": "南京",
+      "chineseIerogliphOrWordPronounce": [
+        "nǽntɕə̄ŋ"
+      ]
+    }
+  ],
+  "一路顺风": [
+    {
+      "chineseIerogliphOrWord": "一路顺风",
+      "chineseIerogliphOrWordPronounce": [
+        "íːlʷùːʂʷə̀nfə̄ŋ"
+      ]
+    }
+  ],
+  "您": [
+    {
+      "chineseIerogliphOrWord": "您",
+      "chineseIerogliphOrWordPronounce": [
+        "nʲín"
+      ]
+    }
+  ],
+  "度假": [
+    {
+      "chineseIerogliphOrWord": "度假",
+      "chineseIerogliphOrWordPronounce": [
+        "tʷùːtɕàː"
+      ]
+    }
+  ],
+  "苏州": [
+    {
+      "chineseIerogliphOrWord": "苏州",
+      "chineseIerogliphOrWordPronounce": [
+        "sʷūːʈʂə̄u"
+      ]
+    }
+  ],
+  "我的朋友": [
+    {
+      "chineseIerogliphOrWord": "我",
+      "chineseIerogliphOrWordPronounce": [
+        "wǒː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "的",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲīː",
+        "tɤ",
+        "tʲíː",
+        "tʲìː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "朋友",
+      "chineseIerogliphOrWordPronounce": [
+        "pʰə́ŋjəu"
+      ]
+    }
+  ],
+  "冷": [
+    {
+      "chineseIerogliphOrWord": "冷",
+      "chineseIerogliphOrWordPronounce": [
+        "lə̌ŋ"
+      ]
+    }
+  ],
+  "请": [
+    {
+      "chineseIerogliphOrWord": "请",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕʰə̌ŋ"
+      ]
+    }
+  ],
+  "下个星期": [
+    {
+      "chineseIerogliphOrWord": "下个",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕàːkɤ"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "星期",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕə̄ŋtɕʰīː"
+      ]
+    }
+  ],
+  "杭州": [
+    {
+      "chineseIerogliphOrWord": "杭州",
+      "chineseIerogliphOrWordPronounce": [
+        "xáŋʈʂə̄u"
+      ]
+    }
+  ],
+  "地方": [
+    {
+      "chineseIerogliphOrWord": "地方",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲìːfaŋ",
+        "tʲìːfāŋ"
+      ]
+    }
+  ],
+  "天气": [
+    {
+      "chineseIerogliphOrWord": "天气",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰʲǣntɕʰìː"
+      ]
+    }
+  ],
+  "很想": [
+    {
+      "chineseIerogliphOrWord": "很",
+      "chineseIerogliphOrWordPronounce": [
+        "xə̌n"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "想",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕǎŋ"
+      ]
+    }
+  ],
+  "早就": [
+    {
+      "chineseIerogliphOrWord": "早",
+      "chineseIerogliphOrWordPronounce": [
+        "tsǎu"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "就",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕə̀u"
+      ]
+    }
+  ],
+  "台湾": [
+    {
+      "chineseIerogliphOrWord": "台湾",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰáiwǣn"
+      ]
+    }
+  ],
+  "能": [
+    {
+      "chineseIerogliphOrWord": "能",
+      "chineseIerogliphOrWordPronounce": [
+        "nə́ŋ"
+      ]
+    }
+  ],
+  "把": [
+    {
+      "chineseIerogliphOrWord": "把",
+      "chineseIerogliphOrWordPronounce": [
+        "pàː",
+        "pǎː"
+      ]
+    }
+  ],
+  "这个": [
+    {
+      "chineseIerogliphOrWord": "这个",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂɤ̀ːkɤ"
+      ]
+    }
+  ],
+  "住在": [
+    {
+      "chineseIerogliphOrWord": "住",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʷùː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "在",
+      "chineseIerogliphOrWordPronounce": [
+        "tsài"
+      ]
+    }
+  ],
+  "是的": [
+    {
+      "chineseIerogliphOrWord": "是",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩̀ː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "的",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲīː",
+        "tɤ",
+        "tʲíː",
+        "tʲìː"
+      ]
+    }
+  ],
+  "公司": [
+    {
+      "chineseIerogliphOrWord": "公司",
+      "chineseIerogliphOrWordPronounce": [
+        "kʷūŋsz̩̄ː"
+      ]
+    }
+  ],
+  "住": [
+    {
+      "chineseIerogliphOrWord": "住",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʷùː"
+      ]
+    }
+  ],
+  "年": [
+    {
+      "chineseIerogliphOrWord": "年",
+      "chineseIerogliphOrWordPronounce": [
+        "nʲǽn"
+      ]
+    }
+  ],
+  "三年": [
+    {
+      "chineseIerogliphOrWord": "三",
+      "chineseIerogliphOrWordPronounce": [
+        "sǣn"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "年",
+      "chineseIerogliphOrWordPronounce": [
+        "nʲǽn"
+      ]
+    }
+  ],
+  "电话": [
+    {
+      "chineseIerogliphOrWord": "电话",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲæ̀nxʷàː"
+      ]
+    }
+  ],
+  "银行": [
+    {
+      "chineseIerogliphOrWord": "银行",
+      "chineseIerogliphOrWordPronounce": [
+        "ínxáŋ"
+      ]
+    }
+  ],
+  "旁边": [
+    {
+      "chineseIerogliphOrWord": "旁边",
+      "chineseIerogliphOrWordPronounce": [
+        "pʰáŋpʲǣn"
+      ]
+    }
+  ],
+  "不远": [
+    {
+      "chineseIerogliphOrWord": "不",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷùː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "远",
+      "chineseIerogliphOrWordPronounce": [
+        "ɥæ̀n",
+        "ɥæ̌n"
+      ]
+    }
+  ],
+  "一直往前": [
+    {
+      "chineseIerogliphOrWord": "一直",
+      "chineseIerogliphOrWordPronounce": [
+        "ìːʈʂʐ̩́ː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "往",
+      "chineseIerogliphOrWordPronounce": [
+        "wǎŋ"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "前",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕʰǽn"
+      ]
+    }
+  ],
+  "五十": [
+    {
+      "chineseIerogliphOrWord": "五十",
+      "chineseIerogliphOrWordPronounce": [
+        "ǔːʂʐ̩́ː"
+      ]
+    }
+  ],
+  "米": [
+    {
+      "chineseIerogliphOrWord": "米",
+      "chineseIerogliphOrWordPronounce": [
+        "mʲǐː"
+      ]
+    }
+  ],
+  "左右": [
+    {
+      "chineseIerogliphOrWord": "左右",
+      "chineseIerogliphOrWordPronounce": [
+        "tsʷǒːjə̀u"
+      ]
+    }
+  ],
+  "邮票": [
+    {
+      "chineseIerogliphOrWord": "邮票",
+      "chineseIerogliphOrWordPronounce": [
+        "jə́upʰʲàu"
+      ]
+    }
+  ],
+  "邮局": [
+    {
+      "chineseIerogliphOrWord": "邮局",
+      "chineseIerogliphOrWordPronounce": [
+        "jə́utɕʷýː"
+      ]
+    }
+  ],
+  "医院": [
+    {
+      "chineseIerogliphOrWord": "医院",
+      "chineseIerogliphOrWordPronounce": [
+        "īːɥæ̀n"
+      ]
+    }
+  ],
+  "舒服": [
+    {
+      "chineseIerogliphOrWord": "舒服",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʷūːfʷu"
+      ]
+    }
+  ],
+  "真": [
+    {
+      "chineseIerogliphOrWord": "真",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂə̄n"
+      ]
+    }
+  ],
+  "糟糕": [
+    {
+      "chineseIerogliphOrWord": "糟糕",
+      "chineseIerogliphOrWordPronounce": [
+        "tsāukāu"
+      ]
+    }
+  ],
+  "打的": [
+    {
+      "chineseIerogliphOrWord": "打",
+      "chineseIerogliphOrWordPronounce": [
+        "tǎː",
+        "táː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "的",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲīː",
+        "tɤ",
+        "tʲíː",
+        "tʲìː"
+      ]
+    }
+  ],
+  "对": [
+    {
+      "chineseIerogliphOrWord": "对",
+      "chineseIerogliphOrWordPronounce": [
+        "tʷə̀i"
+      ]
+    }
+  ],
+  "王府井大街": [
+    {
+      "chineseIerogliphOrWord": "王府井",
+      "chineseIerogliphOrWordPronounce": [
+        "wáŋfʷǔːtɕə̌ŋ"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "大街",
+      "chineseIerogliphOrWordPronounce": [
+        "tàːtɕēː"
+      ]
+    }
+  ],
+  "找": [
+    {
+      "chineseIerogliphOrWord": "找",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂǎu"
+      ]
+    }
+  ],
+  "右边": [
+    {
+      "chineseIerogliphOrWord": "右边",
+      "chineseIerogliphOrWordPronounce": [
+        "jə̀upʲæn"
+      ]
+    }
+  ],
+  "药房": [
+    {
+      "chineseIerogliphOrWord": "药房",
+      "chineseIerogliphOrWordPronounce": [
+        "jàufáŋ"
+      ]
+    }
+  ],
+  "一张": [
+    {
+      "chineseIerogliphOrWord": "一",
+      "chineseIerogliphOrWordPronounce": [
+        "ìː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "张",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂāŋ"
+      ]
+    }
+  ],
+  "票": [
+    {
+      "chineseIerogliphOrWord": "票",
+      "chineseIerogliphOrWordPronounce": [
+        "pʰʲàu"
+      ]
+    }
+  ],
+  "快车": [
+    {
+      "chineseIerogliphOrWord": "快车",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰʷàiʈʂʰɤ̄ː"
+      ]
+    }
+  ],
+  "几个小时": [
+    {
+      "chineseIerogliphOrWord": "几个",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕǐːkɤ"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "小时",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕǎuʂʐ̩́ː"
+      ]
+    }
+  ],
+  "个": [
+    {
+      "chineseIerogliphOrWord": "个",
+      "chineseIerogliphOrWordPronounce": [
+        "kɤ"
+      ]
+    }
+  ],
+  "二": [
+    {
+      "chineseIerogliphOrWord": "二",
+      "chineseIerogliphOrWordPronounce": [
+        "ə̀r"
+      ]
+    }
+  ],
+  "八十": [
+    {
+      "chineseIerogliphOrWord": "八十",
+      "chineseIerogliphOrWordPronounce": [
+        "pāːʂʐ̩́ː"
+      ]
+    }
+  ],
+  "您好": [
+    {
+      "chineseIerogliphOrWord": "您",
+      "chineseIerogliphOrWordPronounce": [
+        "nʲín"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "好",
+      "chineseIerogliphOrWordPronounce": [
+        "xàu",
+        "xǎu"
+      ]
+    }
+  ],
+  "回来": [
+    {
+      "chineseIerogliphOrWord": "回来",
+      "chineseIerogliphOrWordPronounce": [
+        "xʷə́ilai"
+      ]
+    }
+  ],
+  "太多": [
+    {
+      "chineseIerogliphOrWord": "太",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰài"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "多",
+      "chineseIerogliphOrWordPronounce": [
+        "tʷōː"
+      ]
+    }
+  ],
+  "问": [
+    {
+      "chineseIerogliphOrWord": "问",
+      "chineseIerogliphOrWordPronounce": [
+        "wə̀n"
+      ]
+    }
+  ],
+  "打": [
+    {
+      "chineseIerogliphOrWord": "打",
+      "chineseIerogliphOrWordPronounce": [
+        "tǎː",
+        "táː"
+      ]
+    }
+  ],
+  "网球": [
+    {
+      "chineseIerogliphOrWord": "网球",
+      "chineseIerogliphOrWordPronounce": [
+        "wǎŋtɕʰə́u"
+      ]
+    }
+  ],
+  "出差": [
+    {
+      "chineseIerogliphOrWord": "出差",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʰʷūːʈʂʰāi"
+      ]
+    }
+  ],
+  "星期三": [
+    {
+      "chineseIerogliphOrWord": "星期三",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕə̄ŋtɕʰīːsǣn"
+      ]
+    }
+  ],
+  "星期四": [
+    {
+      "chineseIerogliphOrWord": "星期四",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕə̄ŋtɕʰīːsz̩̀ː"
+      ]
+    }
+  ],
+  "忙": [
+    {
+      "chineseIerogliphOrWord": "忙",
+      "chineseIerogliphOrWordPronounce": [
+        "máŋ"
+      ]
+    }
+  ],
+  "茶馆": [
+    {
+      "chineseIerogliphOrWord": "茶馆",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʰáːkʷæ̌n"
+      ]
+    }
+  ],
+  "总是": [
+    {
+      "chineseIerogliphOrWord": "总是",
+      "chineseIerogliphOrWordPronounce": [
+        "tsʷǔŋʂʐ̩̀ː"
+      ]
+    }
+  ],
+  "有空": [
+    {
+      "chineseIerogliphOrWord": "有",
+      "chineseIerogliphOrWordPronounce": [
+        "jə̌u"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "空",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰʷùŋ",
+        "kʰʷūŋ"
+      ]
+    }
+  ],
+  "换钱": [
+    {
+      "chineseIerogliphOrWord": "换钱",
+      "chineseIerogliphOrWordPronounce": [
+        "xʷæ̀ntɕʰǽn"
+      ]
+    }
+  ],
+  "换": [
+    {
+      "chineseIerogliphOrWord": "换",
+      "chineseIerogliphOrWordPronounce": [
+        "xʷæ̀n"
+      ]
+    }
+  ],
+  "买东西": [
+    {
+      "chineseIerogliphOrWord": "买",
+      "chineseIerogliphOrWordPronounce": [
+        "mǎi"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "东西",
+      "chineseIerogliphOrWordPronounce": [
+        "tʷūŋɕi",
+        "tʷūŋɕīː"
+      ]
+    }
+  ],
+  "星期天": [
+    {
+      "chineseIerogliphOrWord": "星期天",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕə̄ŋtɕʰīːtʰʲǣn"
+      ]
+    }
+  ],
+  "来看": [
+    {
+      "chineseIerogliphOrWord": "来",
+      "chineseIerogliphOrWordPronounce": [
+        "lái"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "看",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰæ̀n",
+        "kʰǣn"
+      ]
+    }
+  ],
+  "绿茶": [
+    {
+      "chineseIerogliphOrWord": "绿茶",
+      "chineseIerogliphOrWordPronounce": [
+        "lɥỳːʈʂʰáː"
+      ]
+    }
+  ],
+  "没关系": [
+    {
+      "chineseIerogliphOrWord": "没",
+      "chineseIerogliphOrWordPronounce": [
+        "mʷòː",
+        "mə́i"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "关系",
+      "chineseIerogliphOrWordPronounce": [
+        "kʷǣnɕi"
+      ]
+    }
+  ],
+  "不好意思": [
+    {
+      "chineseIerogliphOrWord": "不好意思",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷùːxǎuìːsz̩"
+      ]
+    }
+  ],
+  "姓": [
+    {
+      "chineseIerogliphOrWord": "姓",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕə̀ŋ"
+      ]
+    }
+  ],
+  "田": [
+    {
+      "chineseIerogliphOrWord": "田",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰʲǽn"
+      ]
+    }
+  ],
+  "波文": [
+    {
+      "chineseIerogliphOrWord": "波",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷōː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "文",
+      "chineseIerogliphOrWordPronounce": [
+        "wə́n"
+      ]
+    }
+  ],
+  "波": [
+    {
+      "chineseIerogliphOrWord": "波",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷōː"
+      ]
+    }
+  ],
+  "崸( )": [],
+  "冬天": [
+    {
+      "chineseIerogliphOrWord": "冬天",
+      "chineseIerogliphOrWordPronounce": [
+        "tʷūŋtʰʲǣn"
+      ]
+    }
+  ],
+  "而且": [
+    {
+      "chineseIerogliphOrWord": "而且",
+      "chineseIerogliphOrWordPronounce": [
+        "ə́rtɕʰěː"
+      ]
+    }
+  ],
+  "常常": [
+    {
+      "chineseIerogliphOrWord": "常常",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʰáŋʈʂʰáŋ"
+      ]
+    }
+  ],
+  "下雪": [
+    {
+      "chineseIerogliphOrWord": "下雪",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕàːɕʷěː"
+      ]
+    }
+  ],
+  "去过": [
+    {
+      "chineseIerogliphOrWord": "去",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕʰʷỳː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "过",
+      "chineseIerogliphOrWordPronounce": [
+        "kʷo",
+        "kʷòː"
+      ]
+    }
+  ],
+  "有意思": [
+    {
+      "chineseIerogliphOrWord": "有",
+      "chineseIerogliphOrWordPronounce": [
+        "jə̌u"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "意思",
+      "chineseIerogliphOrWordPronounce": [
+        "ìːsz̩"
+      ]
+    }
+  ],
+  "去年": [
+    {
+      "chineseIerogliphOrWord": "去年",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕʰʷỳːnʲǽn"
+      ]
+    }
+  ],
+  "一月": [
+    {
+      "chineseIerogliphOrWord": "一月",
+      "chineseIerogliphOrWordPronounce": [
+        "íːɥèː"
+      ]
+    }
+  ],
+  "哪里": [
+    {
+      "chineseIerogliphOrWord": "哪里",
+      "chineseIerogliphOrWordPronounce": [
+        "nǎːlʲǐː"
+      ]
+    }
+  ],
+  "您的": [
+    {
+      "chineseIerogliphOrWord": "您",
+      "chineseIerogliphOrWordPronounce": [
+        "nʲín"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "的",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲīː",
+        "tɤ",
+        "tʲíː",
+        "tʲìː"
+      ]
+    }
+  ],
+  "一家": [
+    {
+      "chineseIerogliphOrWord": "一家",
+      "chineseIerogliphOrWordPronounce": [
+        "ìːtɕāː"
+      ]
+    }
+  ],
+  "工程师": [
+    {
+      "chineseIerogliphOrWord": "工程师",
+      "chineseIerogliphOrWordPronounce": [
+        "kʷūŋʈʂʰə́ŋʂʐ̩̄ː"
+      ]
+    }
+  ],
+  "长": [
+    {
+      "chineseIerogliphOrWord": "长",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂǎŋ",
+        "ʈʂʰáŋ"
+      ]
+    }
+  ],
+  "学": [
+    {
+      "chineseIerogliphOrWord": "学",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕʷéː"
+      ]
+    }
+  ],
+  "所": [
+    {
+      "chineseIerogliphOrWord": "所",
+      "chineseIerogliphOrWordPronounce": [
+        "sʷǒː"
+      ]
+    }
+  ],
+  "学校": [
+    {
+      "chineseIerogliphOrWord": "学校",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕʷéːɕàu"
+      ]
+    }
+  ],
+  "欢迎光临": [
+    {
+      "chineseIerogliphOrWord": "欢迎光临",
+      "chineseIerogliphOrWordPronounce": [
+        "xʷǣnjə́ŋkʷāŋlʲín"
+      ]
+    }
+  ],
+  "葡萄酒": [
+    {
+      "chineseIerogliphOrWord": "葡萄酒",
+      "chineseIerogliphOrWordPronounce": [
+        "pʰʷúːtʰautɕə̌u"
+      ]
+    }
+  ],
+  "白酒": [
+    {
+      "chineseIerogliphOrWord": "白酒",
+      "chineseIerogliphOrWordPronounce": [
+        "páitɕə̌u"
+      ]
+    }
+  ],
+  "和": [
+    {
+      "chineseIerogliphOrWord": "和",
+      "chineseIerogliphOrWordPronounce": [
+        "xɤ̀ː",
+        "xɤ́ː",
+        "xʷúː",
+        "xʷóː",
+        "xʷòː"
+      ]
+    }
+  ],
+  "笔记本": [
+    {
+      "chineseIerogliphOrWord": "笔记本",
+      "chineseIerogliphOrWordPronounce": [
+        "pʲǐːtɕìːpə̌n"
+      ]
+    }
+  ],
+  "等等": [
+    {
+      "chineseIerogliphOrWord": "等等",
+      "chineseIerogliphOrWordPronounce": [
+        "tə̌ŋtə̌ŋ"
+      ]
+    }
+  ],
+  "桌子": [
+    {
+      "chineseIerogliphOrWord": "桌子",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʷōːtsz̩"
+      ]
+    }
+  ],
+  "上": [
+    {
+      "chineseIerogliphOrWord": "上",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂàŋ",
+        "ʂǎŋ"
+      ]
+    }
+  ],
+  "一本": [
+    {
+      "chineseIerogliphOrWord": "一",
+      "chineseIerogliphOrWordPronounce": [
+        "ìː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "本",
+      "chineseIerogliphOrWordPronounce": [
+        "pə̌n"
+      ]
+    }
+  ],
+  "那是": [
+    {
+      "chineseIerogliphOrWord": "那",
+      "chineseIerogliphOrWordPronounce": [
+        "nʷóː",
+        "nāː",
+        "nǎː",
+        "nàː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "是",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩̀ː"
+      ]
+    }
+  ],
+  "打算": [
+    {
+      "chineseIerogliphOrWord": "打算",
+      "chineseIerogliphOrWordPronounce": [
+        "tǎːsʷæ̀n"
+      ]
+    }
+  ],
+  "旅行": [
+    {
+      "chineseIerogliphOrWord": "旅行",
+      "chineseIerogliphOrWordPronounce": [
+        "lɥy̌ːɕə́ŋ"
+      ]
+    }
+  ],
+  "订酒店": [
+    {
+      "chineseIerogliphOrWord": "订",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲə̀ŋ"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "酒店",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕə̌utʲæ̀n"
+      ]
+    }
+  ],
+  "酒店": [
+    {
+      "chineseIerogliphOrWord": "酒店",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕə̌utʲæ̀n"
+      ]
+    }
+  ],
+  "香格里拉": [
+    {
+      "chineseIerogliphOrWord": "香格里拉",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕāŋkɤ́ːlʲǐːlāː"
+      ]
+    }
+  ],
+  "西湖": [
+    {
+      "chineseIerogliphOrWord": "西湖",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕīːxʷúː"
+      ]
+    }
+  ],
+  "知道": [
+    {
+      "chineseIerogliphOrWord": "知道",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʐ̩̄ːtàu"
+      ]
+    }
+  ],
+  "电话号码": [
+    {
+      "chineseIerogliphOrWord": "电话",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲæ̀nxʷàː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "号码",
+      "chineseIerogliphOrWordPronounce": [
+        "xàumǎː"
+      ]
+    }
+  ],
+  "电话簿": [
+    {
+      "chineseIerogliphOrWord": "电话簿",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲæ̀nxʷàːpʷùː"
+      ]
+    }
+  ],
+  "里": [
+    {
+      "chineseIerogliphOrWord": "里",
+      "chineseIerogliphOrWordPronounce": [
+        "lʲǐː"
+      ]
+    }
+  ],
+  "下个月": [
+    {
+      "chineseIerogliphOrWord": "下个",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕàːkɤ"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "月",
+      "chineseIerogliphOrWordPronounce": [
+        "ɥèː"
+      ]
+    }
+  ],
+  "哈尔滨": [
+    {
+      "chineseIerogliphOrWord": "哈尔滨",
+      "chineseIerogliphOrWordPronounce": [
+        "xāːə̌rpʲīn"
+      ]
+    }
+  ],
+  "夏天": [
+    {
+      "chineseIerogliphOrWord": "夏天",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕàːtʰʲǣn"
+      ]
+    }
+  ],
+  "三亚": [
+    {
+      "chineseIerogliphOrWord": "三亚",
+      "chineseIerogliphOrWordPronounce": [
+        "sǣnjàː"
+      ]
+    }
+  ],
+  "美的": [
+    {
+      "chineseIerogliphOrWord": "美",
+      "chineseIerogliphOrWordPronounce": [
+        "mə̌i"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "的",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲīː",
+        "tɤ",
+        "tʲíː",
+        "tʲìː"
+      ]
+    }
+  ],
+  "海滩": [
+    {
+      "chineseIerogliphOrWord": "海滩",
+      "chineseIerogliphOrWordPronounce": [
+        "xǎitʰǣn"
+      ]
+    }
+  ],
+  "怎么": [
+    {
+      "chineseIerogliphOrWord": "怎么",
+      "chineseIerogliphOrWordPronounce": [
+        "tsə̌nmɤ"
+      ]
+    }
+  ],
+  "这么": [
+    {
+      "chineseIerogliphOrWord": "这么",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂɤ̀ːmɤ"
+      ]
+    }
+  ],
+  "旅馆": [
+    {
+      "chineseIerogliphOrWord": "旅馆",
+      "chineseIerogliphOrWordPronounce": [
+        "lɥy̌ːkʷæ̌n"
+      ]
+    }
+  ],
+  "订": [
+    {
+      "chineseIerogliphOrWord": "订",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲə̀ŋ"
+      ]
+    }
+  ],
+  "房间": [
+    {
+      "chineseIerogliphOrWord": "房间",
+      "chineseIerogliphOrWordPronounce": [
+        "fáŋtɕǣn"
+      ]
+    }
+  ],
+  "有房": [
+    {
+      "chineseIerogliphOrWord": "有",
+      "chineseIerogliphOrWordPronounce": [
+        "jə̌u"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "房",
+      "chineseIerogliphOrWordPronounce": [
+        "fáŋ"
+      ]
+    }
+  ],
+  "贵姓": [
+    {
+      "chineseIerogliphOrWord": "贵姓",
+      "chineseIerogliphOrWordPronounce": [
+        "kʷə̀iɕə̀ŋ"
+      ]
+    }
+  ],
+  "卢": [
+    {
+      "chineseIerogliphOrWord": "卢",
+      "chineseIerogliphOrWordPronounce": [
+        "lʷúː"
+      ]
+    }
+  ],
+  "德明": [
+    {
+      "chineseIerogliphOrWord": "德",
+      "chineseIerogliphOrWordPronounce": [
+        "tɤ́ː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "明",
+      "chineseIerogliphOrWordPronounce": [
+        "mʲə́ŋ"
+      ]
+    }
+  ],
+  "用": [
+    {
+      "chineseIerogliphOrWord": "用",
+      "chineseIerogliphOrWordPronounce": [
+        "jʷùŋ"
+      ]
+    }
+  ],
+  "信用卡": [
+    {
+      "chineseIerogliphOrWord": "信用卡",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕìnjʷùŋkʰǎː"
+      ]
+    }
+  ],
+  "当然": [
+    {
+      "chineseIerogliphOrWord": "当然",
+      "chineseIerogliphOrWordPronounce": [
+        "tāŋʐǽn"
+      ]
+    }
+  ],
+  "号码": [
+    {
+      "chineseIerogliphOrWord": "号码",
+      "chineseIerogliphOrWordPronounce": [
+        "xàumǎː"
+      ]
+    }
+  ],
+  "一二": [
+    {
+      "chineseIerogliphOrWord": "一二",
+      "chineseIerogliphOrWordPronounce": [
+        "íːə̀r"
+      ]
+    }
+  ],
+  "中国银行": [
+    {
+      "chineseIerogliphOrWord": "中国银行",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʷūŋkʷóːínxáŋ"
+      ]
+    }
+  ],
+  "再": [
+    {
+      "chineseIerogliphOrWord": "再",
+      "chineseIerogliphOrWordPronounce": [
+        "tsài"
+      ]
+    }
+  ],
+  "公共汽车站": [
+    {
+      "chineseIerogliphOrWord": "公共汽车站",
+      "chineseIerogliphOrWordPronounce": [
+        "kʷūŋkʷùŋtɕʰìːʈʂʰɤ̄ːʈʂæ̀n"
+      ]
+    }
+  ],
+  "美国大使馆": [
+    {
+      "chineseIerogliphOrWord": "美国",
+      "chineseIerogliphOrWordPronounce": [
+        "mə̌ikʷóː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "大使馆",
+      "chineseIerogliphOrWordPronounce": [
+        "tàːʂʐ̩̌ːkʷæ̌n"
+      ]
+    }
+  ],
+  "地铁": [
+    {
+      "chineseIerogliphOrWord": "地铁",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲìːtʰʲěː"
+      ]
+    }
+  ],
+  "比": [
+    {
+      "chineseIerogliphOrWord": "比",
+      "chineseIerogliphOrWordPronounce": [
+        "pʲīː",
+        "pʲǐː",
+        "pʲìː"
+      ]
+    }
+  ],
+  "快": [
+    {
+      "chineseIerogliphOrWord": "快",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰʷài"
+      ]
+    }
+  ],
+  "上车": [
+    {
+      "chineseIerogliphOrWord": "上车",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂàŋʈʂʰɤ̄ː"
+      ]
+    }
+  ],
+  "下车": [
+    {
+      "chineseIerogliphOrWord": "下",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕàː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "车",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕʷȳː",
+        "ʈʂʰɤ̄ː"
+      ]
+    }
+  ],
+  "长安": [
+    {
+      "chineseIerogliphOrWord": "长安",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʰáŋǣn"
+      ]
+    }
+  ],
+  "大街": [
+    {
+      "chineseIerogliphOrWord": "大街",
+      "chineseIerogliphOrWordPronounce": [
+        "tàːtɕēː"
+      ]
+    }
+  ],
+  "凉快": [
+    {
+      "chineseIerogliphOrWord": "凉快",
+      "chineseIerogliphOrWordPronounce": [
+        "lʲáŋkʰʷai"
+      ]
+    }
+  ],
+  "热": [
+    {
+      "chineseIerogliphOrWord": "热",
+      "chineseIerogliphOrWordPronounce": [
+        "ʐɤ̀ː"
+      ]
+    }
+  ],
+  "公园": [
+    {
+      "chineseIerogliphOrWord": "公园",
+      "chineseIerogliphOrWordPronounce": [
+        "kʷūŋɥǽn"
+      ]
+    }
+  ],
+  "散步": [
+    {
+      "chineseIerogliphOrWord": "散步",
+      "chineseIerogliphOrWordPronounce": [
+        "sæ̀npʷùː"
+      ]
+    }
+  ],
+  "北海公园": [
+    {
+      "chineseIerogliphOrWord": "北海",
+      "chineseIerogliphOrWordPronounce": [
+        "pə̌ixǎi"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "公园",
+      "chineseIerogliphOrWordPronounce": [
+        "kʷūŋɥǽn"
+      ]
+    }
+  ],
+  "打来": [
+    {
+      "chineseIerogliphOrWord": "打",
+      "chineseIerogliphOrWordPronounce": [
+        "tǎː",
+        "táː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "来",
+      "chineseIerogliphOrWordPronounce": [
+        "lái"
+      ]
+    }
+  ],
+  "留言": [
+    {
+      "chineseIerogliphOrWord": "留言",
+      "chineseIerogliphOrWordPronounce": [
+        "lʲə́ujǽn"
+      ]
+    }
+  ],
+  "十分钟": [
+    {
+      "chineseIerogliphOrWord": "十分",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩́ːfə̄n"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "钟",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʷūŋ"
+      ]
+    }
+  ],
+  "这是": [
+    {
+      "chineseIerogliphOrWord": "这",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂɤ̀ː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "是",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩̀ː"
+      ]
+    }
+  ],
+  "是从": [
+    {
+      "chineseIerogliphOrWord": "是",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩̀ː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "从",
+      "chineseIerogliphOrWordPronounce": [
+        "tsʷùŋ",
+        "tsʰʷúŋ"
+      ]
+    }
+  ],
+  "地区": [
+    {
+      "chineseIerogliphOrWord": "地区",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲìːtɕʰʷȳː"
+      ]
+    }
+  ],
+  "号": [
+    {
+      "chineseIerogliphOrWord": "号",
+      "chineseIerogliphOrWordPronounce": [
+        "xàu",
+        "xáu"
+      ]
+    }
+  ],
+  "二十一": [
+    {
+      "chineseIerogliphOrWord": "二十",
+      "chineseIerogliphOrWordPronounce": [
+        "ə̀rʂʐ̩́ː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "一",
+      "chineseIerogliphOrWordPronounce": [
+        "īː"
+      ]
+    }
+  ],
+  "头疼": [
+    {
+      "chineseIerogliphOrWord": "头",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰəu",
+        "tʰə́u"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "疼",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰə́ŋ"
+      ]
+    }
+  ],
+  "喉咙": [
+    {
+      "chineseIerogliphOrWord": "喉咙",
+      "chineseIerogliphOrWordPronounce": [
+        "xə́ulʷúŋ"
+      ]
+    }
+  ],
+  "疼": [
+    {
+      "chineseIerogliphOrWord": "疼",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰə́ŋ"
+      ]
+    }
+  ],
+  "感冒": [
+    {
+      "chineseIerogliphOrWord": "感冒",
+      "chineseIerogliphOrWordPronounce": [
+        "kæ̌nmàu"
+      ]
+    }
+  ],
+  "药": [
+    {
+      "chineseIerogliphOrWord": "药",
+      "chineseIerogliphOrWordPronounce": [
+        "jàu"
+      ]
+    }
+  ],
+  "位": [
+    {
+      "chineseIerogliphOrWord": "位",
+      "chineseIerogliphOrWordPronounce": [
+        "wə̀i"
+      ]
+    }
+  ],
+  "重要": [
+    {
+      "chineseIerogliphOrWord": "重要",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʷùŋjàu"
+      ]
+    }
+  ],
+  "顾客": [
+    {
+      "chineseIerogliphOrWord": "顾客",
+      "chineseIerogliphOrWordPronounce": [
+        "kʷùːkʰɤ̀ː"
+      ]
+    }
+  ],
+  "需要": [
+    {
+      "chineseIerogliphOrWord": "需要",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕʷȳːjàu"
+      ]
+    }
+  ],
+  "翻译": [
+    {
+      "chineseIerogliphOrWord": "翻译",
+      "chineseIerogliphOrWordPronounce": [
+        "fǣnìː"
+      ]
+    }
+  ],
+  "不需要": [
+    {
+      "chineseIerogliphOrWord": "不",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷùː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "需要",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕʷȳːjàu"
+      ]
+    }
+  ],
+  "能参": [
+    {
+      "chineseIerogliphOrWord": "能",
+      "chineseIerogliphOrWordPronounce": [
+        "nə́ŋ"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "参",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂə̄n",
+        "tsʰǣn"
+      ]
+    }
+  ],
+  "国际部": [
+    {
+      "chineseIerogliphOrWord": "国际",
+      "chineseIerogliphOrWordPronounce": [
+        "kʷóːtɕìː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "部",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷùː"
+      ]
+    }
+  ],
+  "每个人": [
+    {
+      "chineseIerogliphOrWord": "每个",
+      "chineseIerogliphOrWordPronounce": [
+        "mə̌ikɤ"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "人",
+      "chineseIerogliphOrWordPronounce": [
+        "ʐə́n"
+      ]
+    }
+  ],
+  "都": [
+    {
+      "chineseIerogliphOrWord": "都",
+      "chineseIerogliphOrWordPronounce": [
+        "tə̄u",
+        "tʷūː"
+      ]
+    }
+  ],
+  "参加": [
+    {
+      "chineseIerogliphOrWord": "参加",
+      "chineseIerogliphOrWordPronounce": [
+        "tsʰǣntɕāː"
+      ]
+    }
+  ],
+  "马": [
+    {
+      "chineseIerogliphOrWord": "马",
+      "chineseIerogliphOrWordPronounce": [
+        "mǎː"
+      ]
+    }
+  ],
+  "不能": [
+    {
+      "chineseIerogliphOrWord": "不",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷùː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "能",
+      "chineseIerogliphOrWordPronounce": [
+        "nə́ŋ"
+      ]
+    }
+  ],
+  "因为": [
+    {
+      "chineseIerogliphOrWord": "因为",
+      "chineseIerogliphOrWordPronounce": [
+        "īnwə̀i"
+      ]
+    }
+  ],
+  "麦克风": [
+    {
+      "chineseIerogliphOrWord": "麦克风",
+      "chineseIerogliphOrWordPronounce": [
+        "màikʰɤ̀ːfə̄ŋ"
+      ]
+    }
+  ],
+  "正在": [
+    {
+      "chineseIerogliphOrWord": "正在",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂə̀ŋtsài"
+      ]
+    }
+  ],
+  "人": [
+    {
+      "chineseIerogliphOrWord": "人",
+      "chineseIerogliphOrWordPronounce": [
+        "ʐə́n"
+      ]
+    }
+  ],
+  "园林": [
+    {
+      "chineseIerogliphOrWord": "园林",
+      "chineseIerogliphOrWordPronounce": [
+        "ɥǽnlʲín"
+      ]
+    }
+  ],
+  "有名": [
+    {
+      "chineseIerogliphOrWord": "有名",
+      "chineseIerogliphOrWordPronounce": [
+        "jə̌umʲə́ŋ"
+      ]
+    }
+  ],
+  "开": [
+    {
+      "chineseIerogliphOrWord": "开",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰāi"
+      ]
+    }
+  ],
+  "每": [
+    {
+      "chineseIerogliphOrWord": "每",
+      "chineseIerogliphOrWordPronounce": [
+        "mə̌i"
+      ]
+    }
+  ],
+  "天都": [
+    {
+      "chineseIerogliphOrWord": "天",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰʲǣn"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "都",
+      "chineseIerogliphOrWordPronounce": [
+        "tə̄u",
+        "tʷūː"
+      ]
+    }
+  ],
+  "地铁站": [
+    {
+      "chineseIerogliphOrWord": "地铁站",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲìːtʰʲěːʈʂæ̀n"
+      ]
+    }
+  ],
+  "坐地": [
+    {
+      "chineseIerogliphOrWord": "坐",
+      "chineseIerogliphOrWordPronounce": [
+        "tsʷòː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "地",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲìː",
+        "tɤ"
+      ]
+    }
+  ],
+  "铁": [
+    {
+      "chineseIerogliphOrWord": "铁",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰʲěː"
+      ]
+    }
+  ],
+  "骑": [
+    {
+      "chineseIerogliphOrWord": "骑",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕʰíː",
+        "tɕìː"
+      ]
+    }
+  ],
+  "自行车": [
+    {
+      "chineseIerogliphOrWord": "自行车",
+      "chineseIerogliphOrWordPronounce": [
+        "tsz̩̀ːɕə́ŋʈʂʰɤ̄ː"
+      ]
+    }
+  ],
+  "花儿": [
+    {
+      "chineseIerogliphOrWord": "花儿",
+      "chineseIerogliphOrWordPronounce": [
+        "xʷāɚ",
+        "xʷāːə́r"
+      ]
+    }
+  ],
+  "这种": [
+    {
+      "chineseIerogliphOrWord": "这种",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂɤ̀ːʈʂʷǔŋ"
+      ]
+    }
+  ],
+  "牡丹": [
+    {
+      "chineseIerogliphOrWord": "牡丹",
+      "chineseIerogliphOrWordPronounce": [
+        "mʷǔːtæn"
+      ]
+    }
+  ],
+  "鹭": [
+    {
+      "chineseIerogliphOrWord": "鹭",
+      "chineseIerogliphOrWordPronounce": [
+        "lʷùː"
+      ]
+    }
+  ],
+  "燕": [
+    {
+      "chineseIerogliphOrWord": "燕",
+      "chineseIerogliphOrWordPronounce": [
+        "jæ̀n",
+        "jǣn"
+      ]
+    }
+  ],
+  "赏": [
+    {
+      "chineseIerogliphOrWord": "赏",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂǎŋ"
+      ]
+    }
+  ],
+  "博物馆": [
+    {
+      "chineseIerogliphOrWord": "博物馆",
+      "chineseIerogliphOrWordPronounce": [
+        "pʷóːùːkʷæ̌n"
+      ]
+    }
+  ],
+  "的时候": [
+    {
+      "chineseIerogliphOrWord": "的",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲīː",
+        "tɤ",
+        "tʲíː",
+        "tʲìː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "时候",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩́ːxəu"
+      ]
+    }
+  ],
+  "保龄球": [
+    {
+      "chineseIerogliphOrWord": "保龄球",
+      "chineseIerogliphOrWordPronounce": [
+        "pǎulʲə́ŋtɕʰə́u"
+      ]
+    }
+  ],
+  "我喜欢": [
+    {
+      "chineseIerogliphOrWord": "我",
+      "chineseIerogliphOrWordPronounce": [
+        "wǒː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "喜欢",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕǐːxʷæn"
+      ]
+    }
+  ],
+  "故宫": [
+    {
+      "chineseIerogliphOrWord": "故宫",
+      "chineseIerogliphOrWordPronounce": [
+        "kʷùːkʷūŋ"
+      ]
+    }
+  ],
+  "太好了": [
+    {
+      "chineseIerogliphOrWord": "太",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰài"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "好",
+      "chineseIerogliphOrWordPronounce": [
+        "xàu",
+        "xǎu"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "了",
+      "chineseIerogliphOrWordPronounce": [
+        "lʲǎu",
+        "lɤ",
+        "lʲàu"
+      ]
+    }
+  ],
+  "请喝茶": [
+    {
+      "chineseIerogliphOrWord": "请喝茶",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕʰə̌ŋxɤ̄ːʈʂʰáː"
+      ]
+    }
+  ],
+  "好喝": [
+    {
+      "chineseIerogliphOrWord": "好喝",
+      "chineseIerogliphOrWordPronounce": [
+        "xǎuxɤ̄ː"
+      ]
+    }
+  ],
+  "拍": [
+    {
+      "chineseIerogliphOrWord": "拍",
+      "chineseIerogliphOrWordPronounce": [
+        "pʰāi"
+      ]
+    }
+  ],
+  "照片": [
+    {
+      "chineseIerogliphOrWord": "照片",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂàupʰʲæ̀n"
+      ]
+    }
+  ],
+  "看看": [
+    {
+      "chineseIerogliphOrWord": "看看",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰæ̀nkʰæn"
+      ]
+    }
+  ],
+  "带来": [
+    {
+      "chineseIerogliphOrWord": "带来",
+      "chineseIerogliphOrWordPronounce": [
+        "tàilái"
+      ]
+    }
+  ],
+  "请看": [
+    {
+      "chineseIerogliphOrWord": "请",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕʰə̌ŋ"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "看",
+      "chineseIerogliphOrWordPronounce": [
+        "kʰæ̀n",
+        "kʰǣn"
+      ]
+    }
+  ],
+  "今": [
+    {
+      "chineseIerogliphOrWord": "今",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕīn"
+      ]
+    }
+  ],
+  "天和": [
+    {
+      "chineseIerogliphOrWord": "天",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰʲǣn"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "和",
+      "chineseIerogliphOrWordPronounce": [
+        "xɤ̀ː",
+        "xɤ́ː",
+        "xʷúː",
+        "xʷóː",
+        "xʷòː"
+      ]
+    }
+  ],
+  "二楼": [
+    {
+      "chineseIerogliphOrWord": "二",
+      "chineseIerogliphOrWordPronounce": [
+        "ə̀r"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "楼",
+      "chineseIerogliphOrWordPronounce": [
+        "lə́u"
+      ]
+    }
+  ],
+  "钥匙": [
+    {
+      "chineseIerogliphOrWord": "钥匙",
+      "chineseIerogliphOrWordPronounce": [
+        "jàuʂʐ̩"
+      ]
+    }
+  ],
+  "这家": [
+    {
+      "chineseIerogliphOrWord": "这",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂɤ̀ː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "家",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕāː"
+      ]
+    }
+  ],
+  "耕读": [
+    {
+      "chineseIerogliphOrWord": "耕读",
+      "chineseIerogliphOrWordPronounce": [
+        "kə̄ŋtʷúː"
+      ]
+    }
+  ],
+  "园": [
+    {
+      "chineseIerogliphOrWord": "园",
+      "chineseIerogliphOrWordPronounce": [
+        "ɥǽn"
+      ]
+    }
+  ],
+  "苏": [
+    {
+      "chineseIerogliphOrWord": "苏",
+      "chineseIerogliphOrWordPronounce": [
+        "sʷūː"
+      ]
+    }
+  ],
+  "好主意": [
+    {
+      "chineseIerogliphOrWord": "好",
+      "chineseIerogliphOrWordPronounce": [
+        "xàu",
+        "xǎu"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "主意",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʷǔːi"
+      ]
+    }
+  ],
+  "旅行支票": [
+    {
+      "chineseIerogliphOrWord": "旅行支票",
+      "chineseIerogliphOrWordPronounce": [
+        "lɥy̌ːɕə́ŋʈʂʐ̩̄ːpʰʲàu"
+      ]
+    }
+  ],
+  "填": [
+    {
+      "chineseIerogliphOrWord": "填",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰʲǽn"
+      ]
+    }
+  ],
+  "张": [
+    {
+      "chineseIerogliphOrWord": "张",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂāŋ"
+      ]
+    }
+  ],
+  "表格": [
+    {
+      "chineseIerogliphOrWord": "表格",
+      "chineseIerogliphOrWordPronounce": [
+        "pʲǎukɤ́ː"
+      ]
+    }
+  ],
+  "爱好": [
+    {
+      "chineseIerogliphOrWord": "爱好",
+      "chineseIerogliphOrWordPronounce": [
+        "àixàu"
+      ]
+    }
+  ],
+  "小说": [
+    {
+      "chineseIerogliphOrWord": "小说",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕǎuʂʷōː"
+      ]
+    }
+  ],
+  "听": [
+    {
+      "chineseIerogliphOrWord": "听",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰʲə̄ŋ",
+        "ǐn",
+        "tʰʲə̀ŋ"
+      ]
+    }
+  ],
+  "音乐": [
+    {
+      "chineseIerogliphOrWord": "音乐",
+      "chineseIerogliphOrWordPronounce": [
+        "īnɥèː"
+      ]
+    }
+  ],
+  "古典音乐": [
+    {
+      "chineseIerogliphOrWord": "古典音乐",
+      "chineseIerogliphOrWordPronounce": [
+        "kʷǔːtʲæ̌nīnɥèː"
+      ]
+    }
+  ],
+  "肚子": [
+    {
+      "chineseIerogliphOrWord": "肚子",
+      "chineseIerogliphOrWordPronounce": [
+        "tʷùːtsz̩"
+      ]
+    }
+  ],
+  "饿": [
+    {
+      "chineseIerogliphOrWord": "饿",
+      "chineseIerogliphOrWordPronounce": [
+        "ɤ̀ː"
+      ]
+    }
+  ],
+  "早饭": [
+    {
+      "chineseIerogliphOrWord": "早饭",
+      "chineseIerogliphOrWordPronounce": [
+        "tsǎufæ̀n"
+      ]
+    }
+  ],
+  "几点": [
+    {
+      "chineseIerogliphOrWord": "几",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕǐː",
+        "tɕīː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "点",
+      "chineseIerogliphOrWordPronounce": [
+        "tʲæ̌n"
+      ]
+    }
+  ],
+  "上床": [
+    {
+      "chineseIerogliphOrWord": "上床",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂàŋʈʂʰʷáŋ"
+      ]
+    }
+  ],
+  "十二": [
+    {
+      "chineseIerogliphOrWord": "十",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʐ̩́ː"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "二",
+      "chineseIerogliphOrWordPronounce": [
+        "ə̀r"
+      ]
+    }
+  ],
+  "一般": [
+    {
+      "chineseIerogliphOrWord": "一般",
+      "chineseIerogliphOrWordPronounce": [
+        "ìːpǣn"
+      ]
+    }
+  ],
+  "起床": [
+    {
+      "chineseIerogliphOrWord": "起床",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕʰǐːʈʂʰʷáŋ"
+      ]
+    }
+  ],
+  "很早": [
+    {
+      "chineseIerogliphOrWord": "很",
+      "chineseIerogliphOrWordPronounce": [
+        "xə̌n"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "早",
+      "chineseIerogliphOrWordPronounce": [
+        "tsǎu"
+      ]
+    }
+  ],
+  "了不起": [
+    {
+      "chineseIerogliphOrWord": "了不起",
+      "chineseIerogliphOrWordPronounce": [
+        "lʲǎupʷutɕʰǐː"
+      ]
+    }
+  ],
+  "回": [
+    {
+      "chineseIerogliphOrWord": "回",
+      "chineseIerogliphOrWordPronounce": [
+        "xʷə́i"
+      ]
+    }
+  ],
+  "三走": [
+    {
+      "chineseIerogliphOrWord": "三",
+      "chineseIerogliphOrWordPronounce": [
+        "sǣn"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "走",
+      "chineseIerogliphOrWordPronounce": [
+        "tsə̌u"
+      ]
+    }
+  ],
+  "纪念品": [
+    {
+      "chineseIerogliphOrWord": "纪念品",
+      "chineseIerogliphOrWordPronounce": [
+        "tɕìːnʲæ̀npʰʲǐn"
+      ]
+    }
+  ],
+  "丝巾": [
+    {
+      "chineseIerogliphOrWord": "丝巾",
+      "chineseIerogliphOrWordPronounce": [
+        "sz̩̄ːtɕīn"
+      ]
+    }
+  ],
+  "太贵": [
+    {
+      "chineseIerogliphOrWord": "太",
+      "chineseIerogliphOrWordPronounce": [
+        "tʰài"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "贵",
+      "chineseIerogliphOrWordPronounce": [
+        "kʷə̀i"
+      ]
+    }
+  ],
+  "中文": [
+    {
+      "chineseIerogliphOrWord": "中文",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂʷūŋwə́n"
+      ]
+    }
+  ],
+  "书": [
+    {
+      "chineseIerogliphOrWord": "书",
+      "chineseIerogliphOrWordPronounce": [
+        "ʂʷūː"
+      ]
+    }
+  ],
+  "正": [
+    {
+      "chineseIerogliphOrWord": "正",
+      "chineseIerogliphOrWordPronounce": [
+        "ʈʂə̀ŋ",
+        "ʈʂə̄ŋ"
+      ]
+    }
+  ],
+  "在学": [
+    {
+      "chineseIerogliphOrWord": "在",
+      "chineseIerogliphOrWordPronounce": [
+        "tsài"
+      ]
+    },
+    {
+      "chineseIerogliphOrWord": "学",
+      "chineseIerogliphOrWordPronounce": [
+        "ɕʷéː"
+      ]
+    }
   ]
 }

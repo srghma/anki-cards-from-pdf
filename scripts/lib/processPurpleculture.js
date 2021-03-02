@@ -131,7 +131,17 @@ function processPurpleculture_remove_add_ipa(ipwordscache, text) {
 
     if (!ipa) { console.error({ text, match, group1 }); throw new Error('ipa') }
 
-    return '<div class="tooltips-ipa">' + ipa + '</div>' + match
+    const ipa_ = ipa.map(({ chineseIerogliphOrWordPronounce }) => {
+      if (chineseIerogliphOrWordPronounce.length <= 0) {
+        throw new Error('chineseIerogliphOrWordPronounce')
+      } else if (chineseIerogliphOrWordPronounce.length > 1) {
+        return '(' + chineseIerogliphOrWordPronounce.join('|') + ')'
+      } else {
+        return chineseIerogliphOrWordPronounce[0]
+      }
+    }).join(' ')
+
+    return '<div class="tooltips-ipa">' + ipa_ + '</div>' + match
   })
 }
 

@@ -35,20 +35,18 @@ async function easypronunciation_chinese(dom, str) {
 
   const output = []
 
-  dom.window.document.querySelectorAll('div.big-hanzi span.tooltips-bottom ruby').forEach(rubyE => {
-    const nobrMultipleElems = rubyE.querySelectorAll('.chineseHomographsList nobr')
+  dom.window.document.querySelectorAll('div.big-hanzi ruby').forEach(rubyE => {
+    nobrMultipleElems = rubyE.querySelectorAll('.chineseHomographsList nobr')
 
     if (nobrMultipleElems.length > 0) {
-      const nobrMultipleElemsOutput = []
+      nobrMultipleElemsOutput = []
       nobrMultipleElems.forEach(e => { nobrMultipleElemsOutput.push(e.textContent.trim()) })
       output.push(nobrMultipleElemsOutput)
     } else {
-      const elem = rubyE.querySelector('rt')
+      elem = rubyE.querySelector('rt')
       output.push(elem.textContent.trim())
     }
   })
-
-
 
   return output
 }
