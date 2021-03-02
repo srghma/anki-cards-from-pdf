@@ -1,5 +1,5 @@
 const chinesePinyinMnemonics = (function() {
-  let chinesePinyinMnemonics = fs.readFileSync('/home/srghma/Downloads/chinese pinyin mnemonics - mnemonics.tsv').toString()
+  let chinesePinyinMnemonics = fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/chinese pinyin mnemonics.tsv').toString()
   chinesePinyinMnemonics = chinesePinyinMnemonics.split('\n').map(x => x.split('\t').map(x => x.trim()))
   const chinesePinyinMnemonics_ = []
   chinesePinyinMnemonics.forEach((row, rowIndex) =>

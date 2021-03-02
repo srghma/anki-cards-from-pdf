@@ -1,6 +1,7 @@
 const readStreamArray = require('./scripts/lib/readStreamArray').readStreamArray
 const fixRadicalToKanji = require('./scripts/lib/fixRadicalToKanji').fixRadicalToKanji
 const checkDuplicateKeys = require('./scripts/lib/checkDuplicateKeys').checkDuplicateKeys
+const rubyToDifferentPinyin_1 = require('./scripts/lib/rubyToDifferentPinyin_1').rubyToDifferentPinyin_1
 const isHanzi = require('./scripts/lib/isHanzi').isHanzi
 const csv = require('csv-parser')
 const fs = require('fs')
@@ -89,17 +90,18 @@ output = []
 })(content);
 
 output_ = output.map(x => {
-  const ruby = require('./scripts/lib/processPurpleculture').processPurpleculture(x.purpleculternumbered)
+  const ruby = require('./scripts/lib/processPurpleculture').processPurpleculture(ipwordscache, x.purpleculternumbered)
   return {
-    ru_marked:   rubyToDifferentPinyin(dom, 'ru', 'marked', ruby),
-    ru_numbered: rubyToDifferentPinyin(dom, 'ru', 'numbered', ruby),
-    en_marked:   rubyToDifferentPinyin(dom, 'en', 'marked', ruby),
-    en_numbered: rubyToDifferentPinyin(dom, 'en', 'numbered', ruby),
-    en_cased:    rubyToDifferentPinyin(dom, 'en', 'cased', ruby),
+    // sentence_without_html
     hanzi:       x.sentence.replace(/\s+/g, ' ').trim(),
     ruby,
+    ru_marked:   rubyToDifferentPinyin_1(dom, 'ru', 'marked', ruby),
+    ru_numbered: rubyToDifferentPinyin_1(dom, 'ru', 'numbered', ruby),
+    en_marked:   rubyToDifferentPinyin_1(dom, 'en', 'marked', ruby),
+    en_numbered: rubyToDifferentPinyin_1(dom, 'en', 'numbered', ruby),
+    // en_cased:    rubyToDifferentPinyin_1(dom, 'en', 'cased', ruby),
+    purpleculternumbered: x.purpleculternumbered,
     english:     x.translation[0],
-    chapter:     x.chapter.replace(/\s+/g, ' ').trim(),
   }
 })
 

@@ -4,9 +4,9 @@ function mapWithForEachToArray(xs, fn) {
   return output
 }
 
-dom.window.document.body.innerHTML = fs.readFileSync('/tmp/zshShpEX9').toString()
+dom.window.document.body.innerHTML = fs.readFileSync('/tmp/zshGUoeMA').toString()
 
-ipwordscache = mapWithForEachToArray(
+ipwordscache_new = mapWithForEachToArray(
   dom.window.document.querySelectorAll('div.big-hanzi p'),
   pEl => {
     const chineseText = mapWithForEachToArray(pEl.querySelectorAll('a.hsk-white'), aEl => aEl.textContent.trim()).join('')
@@ -58,6 +58,12 @@ ipwordscache = mapWithForEachToArray(
   }
 ).filter(R.identity).map(x => [x.chineseText, x.rubies])
 
-ipwordscache = Object.fromEntries(ipwordscache)
+ipwordscache_new = Object.fromEntries(ipwordscache_new)
+ipwordscache_old = ipwordscache
+ipwordscache = { ...ipwordscache_old, ...ipwordscache_new }
 
-fs.writeFileSync(ipwordscache_path, JSON.stringify(ipwordscache, null, 2))
+ipwordscache_path = '/home/srghma/projects/anki-cards-from-pdf/ipacache.json'
+
+fs.writeFileSync(ipwordscache_path, JSON.stringify(ipwordscache_new, null, 2))
+
+ipwordscache = JSON.parse(fs.readFileSync(ipwordscache_path))

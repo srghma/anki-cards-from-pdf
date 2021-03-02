@@ -17,8 +17,8 @@ const processPurpleculture = require('./scripts/lib/processPurpleculture').proce
 
 input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/Chinese_ Pimsleur.txt').pipe(csv({ separator: "\t", headers: [ "sentence" ] })))
 
-words = R.uniq(input.map(x => {
-  const raw = x['_8']
+words = R.uniq(output.map(x => {
+  const raw = x['purpleculternumbered']
   if (!RA.isNonEmptyString(raw)) { console.error(x); throw new Error('raw') }
   return raw.match(/class="tooltips">([^<]+)<\/div>/g).map(str => str.split('').filter(isHanzi).join('')).filter(R.identity)
 }).flat())
@@ -31,8 +31,8 @@ words = R.uniq(input.map(x => {
 //   console.log(e)
 // }
 
-// onlythesewords = words.filter(w => !ipwordscache[w])
-// console.log(onlythesewords.join('\n'))
+unknownwords = words.filter(w => !ipwordscache[w])
+console.log(unknownwords.join('\n'))
 
 async function mymapper(word) {
   if (!RA.isNonEmptyString(word)) { console.error(word); throw new Error('word') }
