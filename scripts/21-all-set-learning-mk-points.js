@@ -52,7 +52,7 @@ output = `
 <html>
  <head>
   <meta charset="utf-8">
-  <title>Тег BASE</title>
+  <title>Allsetlearning</title>
   <base target="_blank" href="https://resources.allsetlearning.com">
  </head>
  <body>
