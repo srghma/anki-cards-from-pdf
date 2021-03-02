@@ -47,18 +47,93 @@ output = output.map(body => {
 
 output = output.map(x => `<h1>${x.header}</h1>\n${x.body}`).join('\n')
 
-output = `
+output_ = `
 <!DOCTYPE HTML>
 <html>
  <head>
   <meta charset="utf-8">
   <title>Allsetlearning</title>
   <base target="_blank" href="https://resources.allsetlearning.com">
+
+  <style>
+.liju em {
+  background-color: #FFFFAA;
+  font-style: normal;
+}
+
+.table {
+   margin: 1.5em 0;
+}
+
+table.wikitable { /* Modifying the Vector skin's original .wikitable class to better suit the Chinese Grammar Wiki's needs */
+  text-align: center;
+  margin: 20px 30px !important;
+}
+
+table.wikitable caption {
+  font-weight: normal;
+  font-size: 120%;
+  text-align: left;
+  padding-bottom: 6px;
+}
+
+table.wikitable td {
+  padding: 0.6em;
+}
+
+table.wikitable tr th {
+  font-size: 100%;
+}
+
+table th {
+   font-weight: bold;
+}
+
+table td.cell-large, table td.cell-large {
+   font-size: 120%;
+}
+
+.wikitable {
+    background-color: #f8f9fa;
+    color: #222;
+    margin: 1em 0;
+    border: 1px solid #a2a9b1;
+    border-collapse: collapse
+}
+
+.wikitable > tr > th,.wikitable > tr > td,.wikitable > * > tr > th,.wikitable > * > tr > td {
+    border: 1px solid #a2a9b1;
+    padding: 0.2em 0.4em
+}
+
+.wikitable > tr > th,.wikitable > * > tr > th {
+    background-color: #eaecf0;
+    text-align: center
+}
+
+.wikitable > caption {
+    font-weight: bold
+}
+
+  </style>
+
+  <script>
+  window.hideExamples = function() {
+    document.querySelectorAll('.liju').forEach(function(example) {
+      if (example.style.display !== "none") {
+        example.style.display = "none";
+      } else {
+        example.style.display = "block";
+      }
+    })
+  }
+  </script>
  </head>
  <body>
+  <button onclick="hideExamples()">HIDE EXAMPLES</button>
   ${output}
  </body>
 </html>
 `
 
-fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/all-set-learning-points.html', output)
+fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/all-set-learning-points.html', output_)
