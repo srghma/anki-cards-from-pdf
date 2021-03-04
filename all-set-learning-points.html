@@ -62,26 +62,46 @@ table td.cell-large, table td.cell-large {
     text-align: center
 }
 
+body.hide-examples .wikitable tr > td:nth-child(3) {
+  display: none;
+}
+
 .wikitable > caption {
     font-weight: bold
 }
 
+      .hide-examples-button {
+        position: sticky;
+        top: 10px;
+        left: 10px;
+      }
   </style>
 
   <script>
-  window.hideExamples = function() {
-    document.querySelectorAll('.liju').forEach(function(example) {
-      if (example.style.display !== "none") {
-        example.style.display = "none";
+    function toggleClass(element, myclass) {
+      if (element.classList) {
+        element.classList.toggle(myclass);
       } else {
-        example.style.display = "block";
+        // For IE9
+        var classes = element.className.split(" ");
+        var i = classes.indexOf(myclass);
+
+        if (i >= 0)
+          classes.splice(i, 1);
+        else
+          classes.push(myclass);
+          element.className = classes.join(" ");
       }
-    })
-  }
+    }
+
+    window.hideExamples = function() {
+      toggleClass(document.querySelector('body'), "hide-examples")
+    }
   </script>
  </head>
  <body>
-  <button onclick="hideExamples()">HIDE EXAMPLES</button>
+   <button class="hide-examples-button" onclick="hideExamples()">HIDE<br>EXAMPLES</button>
+
   <h1>A1 grammar points</h1>
 <div class="mw-parser-output"><p><a href="http://amzn.to/2iioVRP" rel="nofollow"><img alt="CGW-print-600 388.jpg" src="/gramwiki/images/5/57/CGW-print-600_388.jpg" decoding="async" width="600" height="388"></a>
 </p><p><b>"A1" (Beginner)</b> is the first and lowest level used on the Chinese Grammar Wiki. It is <a href="/chinese/grammar/A1_grammar_points_with_HSK" title="A1 grammar points with HSK">roughly equivalent to <b>HSK Levels 1-2</b></a>.
@@ -302,7 +322,7 @@ table td.cell-large, table td.cell-large {
 </td></tr>
 </tbody></table>
 <h2><span class="mw-headline" id="Grammatical_Structures">Grammatical Structures</span></h2>
-<p>These are grammatical structures that do not correspond to one particular part of speech. 
+<p>These are grammatical structures that do not correspond to one particular part of speech.
 </p>
 <h3><span class="mw-headline" id="Basics">Basics</span></h3>
 <table class="wikitable" style="width:50em; text-align:left">
@@ -389,7 +409,7 @@ table td.cell-large, table td.cell-large {
 <h2><span class="mw-headline" id="See_Also">See Also</span></h2>
 <ul><li>For more information on the levels used here, see the <a href="/chinese/grammar/Grammar_Points_by_Level" class="mw-redirect" title="Grammar Points by Level">Grammar Points by Level</a> page.</li>
 <li>This list in French: <a rel="nofollow" class="external text" href="http://www.chine-informations.com/mandarin/grammaire/RGLA1">Grammaire chinoise niveau A1</a></li></ul>
-<!-- 
+<!--
 NewPP limit report
 Cached time: 20201213223544
 Cache expiry: 1209600
@@ -425,7 +445,7 @@ Transclusion expansion time report (%,ms,calls,template)
 </div>
 <h1>A2 grammar points</h1>
 <div class="mw-parser-output"><p><a href="http://amzn.to/2iioVRP" rel="nofollow"><img alt="CGW-print-600 388.jpg" src="/gramwiki/images/5/57/CGW-print-600_388.jpg" decoding="async" width="600" height="388"></a>
-</p><p><b>"A2" (Elementary)</b> is the second level used on this Chinese Grammar Wiki. It is <a href="/chinese/grammar/A2_grammar_points_with_HSK" title="A2 grammar points with HSK">roughly equivalent to <b>HSK Levels 2-3</b></a>. 
+</p><p><b>"A2" (Elementary)</b> is the second level used on this Chinese Grammar Wiki. It is <a href="/chinese/grammar/A2_grammar_points_with_HSK" title="A2 grammar points with HSK">roughly equivalent to <b>HSK Levels 2-3</b></a>.
 </p><p>There are <b>99</b> total grammar points in the list below.
 </p>
 
@@ -918,7 +938,7 @@ Transclusion expansion time report (%,ms,calls,template)
 </td></tr>
 </tbody></table>
 <h2><span class="mw-headline" id="Grammatical_Structures">Grammatical Structures</span></h2>
-<p>These are grammatical structures that do not correspond to one particular part of speech. 
+<p>These are grammatical structures that do not correspond to one particular part of speech.
 </p>
 <h3><span class="mw-headline" id="Complements">Complements</span></h3>
 <table class="wikitable" style="width:50em; text-align:left">
@@ -1102,7 +1122,7 @@ Transclusion expansion time report (%,ms,calls,template)
 <ul><li>The next level is: <a href="/chinese/grammar/B1_grammar_points" title="B1 grammar points">B1 grammar points</a></li>
 <li>For more information on the levels used here, see the <a href="/chinese/grammar/Grammar_Points_by_Level" class="mw-redirect" title="Grammar Points by Level">Grammar Points by Level</a> page.</li>
 <li>This list in French: <a rel="nofollow" class="external text" href="http://www.chine-informations.com/mandarin/grammaire/RGLA2">Grammaire chinoise niveau A2</a></li></ul>
-<!-- 
+<!--
 NewPP limit report
 Cached time: 20201213224109
 Cache expiry: 1209600
@@ -1694,7 +1714,7 @@ Transclusion expansion time report (%,ms,calls,template)
 </td></tr>
 </tbody></table>
 <h2><span class="mw-headline" id="Grammatical_Structures">Grammatical Structures</span></h2>
-<p>These are grammatical structures that do not correspond to one particular part of speech. 
+<p>These are grammatical structures that do not correspond to one particular part of speech.
 </p>
 <h3><span class="mw-headline" id="Complements">Complements</span></h3>
 <table class="wikitable" style="width:50em; text-align:left">
@@ -2096,7 +2116,7 @@ Transclusion expansion time report (%,ms,calls,template)
 <h2><span class="mw-headline" id="See_also">See also</span></h2>
 <ul><li>For more information on the levels used throughout this wiki, see the <a href="/chinese/grammar/Grammar_Points_by_Level" class="mw-redirect" title="Grammar Points by Level">Grammar Points by Level</a> page.</li>
 <li>This list in French: <a rel="nofollow" class="external text" href="http://www.chine-informations.com/mandarin/grammaire/RGLB1">Grammaire chinoise niveau B1</a></li></ul>
-<!-- 
+<!--
 NewPP limit report
 Cached time: 20201213223505
 Cache expiry: 1209600
@@ -3178,7 +3198,7 @@ Transclusion expansion time report (%,ms,calls,template)
 <h2><span class="mw-headline" id="See_Also">See Also</span></h2>
 <ul><li>For more information on the levels used here, see the <a href="/chinese/grammar/Grammar_Points_by_Level" class="mw-redirect" title="Grammar Points by Level">Grammar Points by Level</a> page.</li>
 <li>This list in French: <a rel="nofollow" class="external text" href="http://www.chine-informations.com/mandarin/grammaire/RGLB2">Grammaire chinoise niveau B2</a></li></ul>
-<!-- 
+<!--
 NewPP limit report
 Cached time: 20210129002301
 Cache expiry: 1209600
@@ -3512,7 +3532,7 @@ Transclusion expansion time report (%,ms,calls,template)
 </td></tr>
 </tbody></table>
 <h2><span class="mw-headline" id="Grammatical_Structures">Grammatical Structures</span></h2>
-<p>These are grammatical structures that do not correspond to one particular part of speech. 
+<p>These are grammatical structures that do not correspond to one particular part of speech.
 </p>
 <h3><span id="&quot;If&quot;_Statements"></span><span class="mw-headline" id=".22If.22_Statements">"If" Statements</span></h3>
 <table class="wikitable" style="width:50em; text-align:left">
@@ -3669,7 +3689,7 @@ Transclusion expansion time report (%,ms,calls,template)
 </tbody></table>
 <h2><span class="mw-headline" id="See_Also">See Also</span></h2>
 <ul><li>For more information on the levels used here, see the <a href="/chinese/grammar/Grammar_Points_by_Level" class="mw-redirect" title="Grammar Points by Level">Grammar Points by Level</a> page.</li></ul>
-<!-- 
+<!--
 NewPP limit report
 Cached time: 20201213230936
 Cache expiry: 1209600
