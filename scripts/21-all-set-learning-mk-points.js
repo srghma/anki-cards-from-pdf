@@ -45,7 +45,38 @@ output = output.map(body => {
   }
 })
 
-output = output.map(x => `<h1>${x.header}</h1>\n${x.body}`).join('\n')
+function mapWithForEachToArray(xs, fn) {
+  const output = []
+  xs.forEach(x => output.push(fn(x)))
+  return output
+}
+
+output.map(({ header, body }) => {
+  dom.window.document.body.innerHTML = body
+
+  return mapWithForEachToArray(
+    dom.window.document.querySelectorAll('.wikitable'),
+    tableEl => {
+      const subtitle = tableEl.previousSibling.previousSibling.textContent.trim()
+
+      return mapWithForEachToArray(
+        tableEl.querySelectorAll('tr'),
+        trEl => {
+          const tdEls = trEl.querySelectorAll('td')
+          if (tdEls.length < 3) { return }
+          return {
+            linkHref:  tdEls[0].querySelector('a').href,
+            linkEn:    tdEls[0].textContent.trim(),
+            structure: tdEls[1].textContent.trim(),
+            example:   tdEls[2].textContent.trim(),
+            header,
+            subtitle,
+          }
+        }
+      ).filter(R.identity)
+    }
+  )
+}).flat().flat()
 
 output_ = `
 <!DOCTYPE HTML>
@@ -115,23 +146,42 @@ table td.cell-large, table td.cell-large {
     font-weight: bold
 }
 
+  body.hide-examples .wikitable tr > td:nth-child(3) {
+    display: none;
+  }
+
+  #hide-examples-button {
+    position: sticky;
+    top: 10px;
+    left: 10px;
+  }
   </style>
 
   <script>
-  window.hideExamples = function() {
-    document.querySelectorAll('.liju').forEach(function(example) {
-      if (example.style.display !== "none") {
-        example.style.display = "none";
+    function toggleClass(element, myclass) {
+      if (element.classList) {
+        element.classList.toggle(myclass);
       } else {
-        example.style.display = "block";
+        // For IE9
+        var classes = element.className.split(" ");
+        var i = classes.indexOf(myclass);
+
+        if (i >= 0)
+          classes.splice(i, 1);
+        else
+          classes.push(myclass);
+          element.className = classes.join(" ");
       }
-    })
-  }
+    }
+
+    window.hideExamples = function() {
+      toggleClass(document.querySelector('body'), "hide-examples")
+    }
   </script>
  </head>
  <body>
-  <button onclick="hideExamples()">HIDE EXAMPLES</button>
-  ${output}
+  <button id="hide-examples-button" onclick="hideExamples()">HIDE<br>EXAMPLES</button>
+  ${output.map(x => `<h1>${x.header}</h1>\n${x.body}`).join('\n')}
  </body>
 </html>
 `
