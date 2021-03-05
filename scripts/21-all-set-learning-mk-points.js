@@ -161,20 +161,34 @@ function mergeDuplicatesBy(array, getKey, mergeWith) {
   return Object.values(buff)
 }
 
-output__ = output_.map(x => ({
-  hanzi:                x.hanzi,
-  ruby:                 x.ruby,
-  ru_marked:            x.ru_marked,
-  ru_numbered:          x.ru_numbered,
-  en_marked:            x.en_marked,
-  en_numbered:          x.en_numbered,
-  purpleculternumbered: x.purpleculternumbered,
-  english:              x.english,
-  article_title:        x.linkEn,
-  notes:                [x.header, x.subtitle].join('|'),
-  grammar_construct:    x.structure,
-  source_url:           x.linkHref,
+output__ = tables.map((x, index) => ({
+  index: index + 1,
+  // hanzi:                x.hanzi,
+  // ruby:                 x.ruby,
+  // ru_marked:            x.ru_marked,
+  // ru_numbered:          x.ru_numbered,
+  // en_marked:            x.en_marked,
+  // en_numbered:          x.en_numbered,
+  // purpleculternumbered: x.purpleculternumbered,
+  // english:              x.english,
+  example:        x.example,
+  // article_title:        x.linkEn,
+  // notes:                [x.header, x.subtitle].join('|'),
+  // grammar_construct:    x.structure,
+  // source_url:           x.linkHref,
 }))
+
+output__ = mergeDuplicatesBy(
+  output__,
+  x => x.example,
+  (x, y) => {
+    return {
+      example: x.example,
+      index: Math.min(x.index, y.index)
+    }
+  }
+)
+
 
 output___ = mergeDuplicatesBy(
   output__,
@@ -202,7 +216,7 @@ output___ = mergeDuplicatesBy(
   const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))
   const s = require('csv-writer').createObjectCsvStringifier({ header }).stringifyRecords(input)
   fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', s)
-})(output___);
+})(output__);
 
 /////////////////////////////////////////////////////////////////////////////////////
 
