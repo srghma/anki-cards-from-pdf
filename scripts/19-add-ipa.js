@@ -23,13 +23,13 @@ words = R.uniq(output.map(x => {
   return raw.match(/class="tooltips">([^<]+)<\/div>/g).map(str => str.split('').filter(isHanzi).join('')).filter(R.identity)
 }).flat())
 
-// ipwordscache_path = '/home/srghma/projects/anki-cards-from-pdf/ipacache.json'
-// ipwordscache = {}
-// try {
-//   ipwordscache = JSON.parse(fs.readFileSync(ipwordscache_path).toString())
-// } catch (e) {
-//   console.log(e)
-// }
+ipwordscache_path = '/home/srghma/projects/anki-cards-from-pdf/ipacache.json'
+ipwordscache = {}
+try {
+  ipwordscache = JSON.parse(fs.readFileSync(ipwordscache_path).toString())
+} catch (e) {
+  console.log(e)
+}
 
 unknownwords = words.filter(w => !ipwordscache[w])
 console.log(unknownwords.join('\n'))

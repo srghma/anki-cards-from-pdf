@@ -1,5 +1,3 @@
-fetch = require('node-fetch')
-
 function removeAllNodes(elements) {
   elements.forEach(e => {
     e.parentNode.removeChild(e);
@@ -7,6 +5,8 @@ function removeAllNodes(elements) {
 }
 
 exports.purpleculter_get = async function purpleculter_get(dom, str) {
+  const fetch = require('node-fetch')
+
   const body = `wdqchs=${encodeURIComponent(str)}&correcttone=on&colorpy=on&convert=y&reviewlist=&tone_type=number`
 
   const r = await fetch("https://www.purpleculture.net/chinese-pinyin-converter/?session=45d7a7a7bf8995fdd1cd78e31e185f0a", {

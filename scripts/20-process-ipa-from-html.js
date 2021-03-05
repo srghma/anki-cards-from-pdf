@@ -4,7 +4,7 @@ function mapWithForEachToArray(xs, fn) {
   return output
 }
 
-dom.window.document.body.innerHTML = fs.readFileSync('/tmp/zshGUoeMA').toString()
+dom.window.document.body.innerHTML = fs.readFileSync('/tmp/zshQgv6SU').toString()
 
 ipwordscache_new = mapWithForEachToArray(
   dom.window.document.querySelectorAll('div.big-hanzi p'),
@@ -64,6 +64,6 @@ ipwordscache = { ...ipwordscache_old, ...ipwordscache_new }
 
 ipwordscache_path = '/home/srghma/projects/anki-cards-from-pdf/ipacache.json'
 
-fs.writeFileSync(ipwordscache_path, JSON.stringify(ipwordscache_new, null, 2))
+fs.writeFileSync(ipwordscache_path, JSON.stringify(ipwordscache, null, 2))
 
 ipwordscache = JSON.parse(fs.readFileSync(ipwordscache_path))

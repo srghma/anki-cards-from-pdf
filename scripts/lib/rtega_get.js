@@ -1,5 +1,5 @@
-fetch = require('node-fetch')
-jsdom = require('jsdom')
+const fetch = require('node-fetch')
+const jsdom = require('jsdom')
 
 exports.rtega_get = async function rtega_get(str) {
   const r = await fetch(`http://rtega.be/chmn/?c=${encodeURIComponent(str)}`, {

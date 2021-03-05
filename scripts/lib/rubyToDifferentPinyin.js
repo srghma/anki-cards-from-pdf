@@ -1,4 +1,4 @@
-convertToRuTable = require('./processPurpleculture').convertToRuTable
+const convertToRuTable = require('./processPurpleculture').convertToRuTable
 
 function removeAllNodes(elements) {
   elements.forEach(e => {

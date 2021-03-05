@@ -45,13 +45,15 @@ output = output.map(body => {
   }
 })
 
+/////////////////////////////////////////////////////////////////////////////////////
+
 function mapWithForEachToArray(xs, fn) {
   const output = []
   xs.forEach(x => output.push(fn(x)))
   return output
 }
 
-output.map(({ header, body }) => {
+tables = output.map(({ header, body }) => {
   dom.window.document.body.innerHTML = body
 
   return mapWithForEachToArray(
@@ -65,7 +67,7 @@ output.map(({ header, body }) => {
           const tdEls = trEl.querySelectorAll('td')
           if (tdEls.length < 3) { return }
           return {
-            linkHref:  tdEls[0].querySelector('a').href,
+            linkHref:  'https://resources.allsetlearning.com' + tdEls[0].querySelector('a').href,
             linkEn:    tdEls[0].textContent.trim(),
             structure: tdEls[1].textContent.trim(),
             example:   tdEls[2].textContent.trim(),
@@ -77,6 +79,132 @@ output.map(({ header, body }) => {
     }
   )
 }).flat().flat()
+
+async function mymapper(x) {
+  dom.window.document.body.innerHTML = x.example
+  const sentence = dom.window.document.body.textContent.trim()
+  if (!RA.isNonEmptyString(sentence)) { throw new Error('sentence') }
+
+  let translation = null
+  try {
+    translation = await translate.translate(sentence, 'en')
+    console.log({ sentence, translation })
+  } catch (e) {
+    console.error({ e, x })
+    return
+  }
+
+  let purpleculternumbered = null
+  try {
+    purpleculternumbered = await require('./scripts/lib/purpleculter_get').purpleculter_get(dom, sentence)
+    console.log({ sentence, purpleculternumbered })
+  } catch (e) {
+    console.error({ e, x })
+    return
+  }
+
+  return {
+    ...x,
+    purpleculternumbered,
+    translation,
+  }
+}
+
+output = []
+;(async function(input){
+  for (let i = 0; i < input.length; i++) {
+    const res = await mymapper(input[i])
+    if (res) {
+      fs.appendFileSync('allsetpinyincache.json', JSON.stringify(res))
+      output.push(res)
+    }
+    console.log({ i, l: input.length })
+  };
+})(tables);
+
+output_ = output.map(x => {
+  const ruby = require('./scripts/lib/processPurpleculture').processPurpleculture(ipwordscache, x.purpleculternumbered)
+  return {
+    ...x,
+    // sentence_without_html
+    hanzi:       x.example.replace(/\s+/g, ' ').trim(),
+    ruby,
+    ru_marked:   rubyToDifferentPinyin(dom, 'ru', 'marked', ruby),
+    ru_numbered: rubyToDifferentPinyin(dom, 'ru', 'numbered', ruby),
+    en_marked:   rubyToDifferentPinyin(dom, 'en', 'marked', ruby),
+    en_numbered: rubyToDifferentPinyin(dom, 'en', 'numbered', ruby),
+    // en_cased:    rubyToDifferentPinyin(dom, 'en', 'cased', ruby),
+    purpleculternumbered: x.purpleculternumbered,
+    english:     x.translation[0],
+  }
+})
+
+// words = R.uniq(output.map(x => {
+//   const raw = x['purpleculternumbered']
+//   if (!RA.isNonEmptyString(raw)) { console.error(x); throw new Error('raw') }
+//   return raw.match(/class="tooltips">([^<]+)<\/div>/g).map(str => str.split('').filter(isHanzi).join('')).filter(R.identity)
+// }).flat())
+// unknownwords = words.filter(w => !ipwordscache[w])
+// console.log(unknownwords.join('\n'))
+
+function mergeDuplicatesBy(array, getKey, mergeWith) {
+  const buff = {}
+  array.forEach(function (arrayElement) {
+    const key = getKey(arrayElement)
+    const alreadyExistingVal = buff[key]
+    if (alreadyExistingVal) {
+      buff[key] = mergeWith(alreadyExistingVal, arrayElement)
+    } else {
+      buff[key] = arrayElement
+    }
+  })
+  return Object.values(buff)
+}
+
+output__ = output_.map(x => ({
+  hanzi:                x.hanzi,
+  ruby:                 x.ruby,
+  ru_marked:            x.ru_marked,
+  ru_numbered:          x.ru_numbered,
+  en_marked:            x.en_marked,
+  en_numbered:          x.en_numbered,
+  purpleculternumbered: x.purpleculternumbered,
+  english:              x.english,
+  article_title:        x.linkEn,
+  notes:                [x.header, x.subtitle].join('|'),
+  grammar_construct:    x.structure,
+  source_url:           x.linkHref,
+}))
+
+output___ = mergeDuplicatesBy(
+  output__,
+  x => x.hanzi,
+  (x, y) => {
+    console.log({ x, y })
+    return {
+      hanzi:                x.hanzi,
+      ruby:                 x.ruby,
+      ru_marked:            x.ru_marked,
+      ru_numbered:          x.ru_numbered,
+      en_marked:            x.en_marked,
+      en_numbered:          x.en_numbered,
+      purpleculternumbered: x.purpleculternumbered,
+      english:              x.english,
+      article_title:        `<a href="${x.source_url}">${x.article_title}</a>, <a href="${y.source_url}">${y.article_title}</a>`,
+      notes:                x.notes + ',' + y.notes,
+      grammar_construct:    x.grammar_construct,
+      source_url:           '',
+    }
+  }
+)
+
+;(function(input){
+  const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))
+  const s = require('csv-writer').createObjectCsvStringifier({ header }).stringifyRecords(input)
+  fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', s)
+})(output___);
+
+/////////////////////////////////////////////////////////////////////////////////////
 
 output_ = `
 <!DOCTYPE HTML>
