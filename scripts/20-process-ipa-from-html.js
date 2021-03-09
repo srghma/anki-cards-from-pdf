@@ -1,10 +1,28 @@
+const csv = require('csv-parser')
+const fs = require('fs')
+const R = require('ramda')
+const RA = require('ramda-adjunct')
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const dom = new JSDOM(``);
+const {Translate} = require('@google-cloud/translate').v2;
+const translate = new Translate({projectId: "annular-form-299211"});
+
 function mapWithForEachToArray(xs, fn) {
   const output = []
   xs.forEach(x => output.push(fn(x)))
   return output
 }
 
-dom.window.document.body.innerHTML = fs.readFileSync('/tmp/zshQgv6SU').toString()
+ipwordscache_path = '/home/srghma/projects/anki-cards-from-pdf/ipacache.json'
+ipwordscache = {}
+try {
+  ipwordscache = JSON.parse(require('fs').readFileSync(ipwordscache_path).toString())
+} catch (e) {
+  console.log(e)
+}
+
+dom.window.document.body.innerHTML = require('fs').readFileSync('/home/srghma/projects/anki-cards-from-pdf/ipa-output/4.html').toString()
 
 ipwordscache_new = mapWithForEachToArray(
   dom.window.document.querySelectorAll('div.big-hanzi p'),
@@ -62,8 +80,6 @@ ipwordscache_new = Object.fromEntries(ipwordscache_new)
 ipwordscache_old = ipwordscache
 ipwordscache = { ...ipwordscache_old, ...ipwordscache_new }
 
-ipwordscache_path = '/home/srghma/projects/anki-cards-from-pdf/ipacache.json'
+require('fs').writeFileSync(ipwordscache_path, JSON.stringify(ipwordscache, null, 2))
 
-fs.writeFileSync(ipwordscache_path, JSON.stringify(ipwordscache, null, 2))
-
-ipwordscache = JSON.parse(fs.readFileSync(ipwordscache_path))
+ipwordscache = JSON.parse(require('fs').readFileSync(ipwordscache_path))
