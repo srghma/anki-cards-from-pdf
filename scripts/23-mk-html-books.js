@@ -105,29 +105,77 @@ textes = await Promise.all(folders.map(createHtml))
 // processPurplecultureHtml("/home/srghma/Desktop/languages/chinese/Sherlock")
 
 // ipwordscache =
-// purplecultureWords
 async function addPinyinAndIpaToHtml({ outputdir }) {
-  // const purplecultureWords_ = Object.fromEntries(purplecultureWords.map(({ ch, tr }) => [ch, tr]))
+  const purplecultureWords_ = Object.fromEntries(R.reverse(R.sortBy(x => x[0].length, purplecultureWords.map(({ ch, tr }) => [ch, tr]))))
 
   let text = await require('fs').promises.readFile(`${outputdir}/myhtmls1.html`)
   text = text.toString()
 
-  R.forEach(
-    ([k, v]) => {
-      console.log({ k, v })
+  text = text.replace(/[\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf\u3400-\u4dbf\u4e00-\u9fff\u3400-\u4dbf\uf900-\ufaff\u3300-\u33ff\uf900-\ufaff]+/g, k => {
+    const v = ipwordscache[k]
 
-      const v_ = v.map(({ chineseIerogliphOrWord, chineseIerogliphOrWordPronounce }) => {
-        const chineseIerogliphOrWordPronounce_ = R.uniq(chineseIerogliphOrWordPronounce).map(x => {
-          return `<span class="my-chinese-ipa">${x}</span>`
-        }).join('')
+    if(!v) { console.log({ k }); throw new Error('no ipa') }
 
-        return `<span class="my-chinese-container"><span class="my-chinese-word">${chineseIerogliphOrWord}</span><span class="my-chinese-ipa-container">${chineseIerogliphOrWordPronounce_}</span></span>`
-      })
+    const v_ = v.map(({ chineseIerogliphOrWord, chineseIerogliphOrWordPronounce }) => {
+      let pinyin = purplecultureWords_[chineseIerogliphOrWord]
 
-      text = text.replace(k, v_)
-    },
-    R.reverse(R.sortBy(x => x[0].length, R.toPairs(ipwordscache)))
-  )
+      if (!pinyin) {
+        pinyin = chineseIerogliphOrWord.split('').map(x => {
+          const o = purplecultureWords_[x]
+          if (!o) { throw new Error('no purpleculture splitted transl') }
+          return o
+        }).join('').trim()
+      }
+
+      if (!RA.isNonEmptyString(pinyin)) {
+        console.log({ chineseIerogliphOrWord });
+        throw new Error('no pinyin')
+      }
+
+      const chineseIerogliphOrWordPronounce_ = R.uniq(chineseIerogliphOrWordPronounce).map(x => {
+        return `<span class="my-chinese-ipa">${x}</span>`
+      }).join('')
+
+      return `<span class="my-chinese-container"><span class="my-chinese-word">${chineseIerogliphOrWord}</span><span class="my-chinese-pinyin">${pinyin}</span><span class="my-chinese-ipa-container">${chineseIerogliphOrWordPronounce_}</span></span>`
+    })
+
+    return v_.join('')
+  })
+
+  text = text.replace(/"myhtmls.html/g, '"')
+
+  text = text.replace(/(<style type="text\/css">)\n/g, `
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Voces&display=swap" rel="stylesheet">
+
+$1
+@font-face {
+  font-family: 'CNstrokeorder';
+  src: url('file:///home/srghma/projects/anki-cards-from-pdf/CNstrokeorder.ttf');
+}
+@font-face {
+  font-family: 'KanjiStrokeOrders';
+  src: url('file:///home/srghma/projects/anki-cards-from-pdf/KanjiStrokeOrders.ttf');
+}
+body {
+  font-size: 35px;
+  font-family: 'Noto Sans SC', sans-serif;
+}
+.my-chinese-container {
+  flex-direction: column-reverse;
+  display: inline-flex;
+  text-align: center;
+  margin-left: 10px;
+}
+.my-chinese-word {
+  font-size: 45px;
+}
+.my-chinese-ipa { margin-left: 10px; font-family: 'Voces', cursive; }
+.my-chinese-pinyin, .my-chinese-ipa-container {
+  font-size: 15px;
+}
+`)
 
   await require('fs').promises.writeFile(`${outputdir}/myhtmls2.html`, text)
 }
