@@ -1,5 +1,4 @@
 const exec = require('await-exec')
-const fs = require('fs').promises
 const fixRadicalToKanji = require('./lib/fixRadicalToKanji').fixRadicalToKanji
 const R = require('ramda')
 const RA = require('ramda-adjunct')
@@ -16,7 +15,7 @@ async function createHtml({ pdf, outputdir }) {
   await exec(`rm -f ${outputdir}/*.html ${outputdir}/*.png ${outputdir}/*.jpg`)
   await exec(`pdftohtml -enc UTF-8 ${pdf} ${outputdir}/myhtml`)
 
-  let text = await fs.readFile(`${outputdir}/myhtmls.html`)
+  let text = await require('fs').promises.readFile(`${outputdir}/myhtmls.html`)
 
   text = text.toString()
   text = fixRadicalToKanji(text)
@@ -55,9 +54,9 @@ color: blue;
 }
 `)
 
-  // await fs.writeFile(`${outputdir}/myhtmls-w.txt`, textWithoutHtml)
-  await fs.writeFile(`${outputdir}/myhtmls1.html`, text)
-  // await fs.writeFile(`${outputdir}/myhtmls.txt`, text)
+  // await require('fs').promises.writeFile(`${outputdir}/myhtmls-w.txt`, textWithoutHtml)
+  await require('fs').promises.writeFile(`${outputdir}/myhtmls1.html`, text)
+  // await require('fs').promises.writeFile(`${outputdir}/myhtmls.txt`, text)
 
   return text
 }
@@ -87,20 +86,50 @@ textes = await Promise.all(folders.map(createHtml))
 
 // R.reverse(R.sortBy(x => x.length, (Object.keys(ipwordscache))))
 
-async function processPurplecultureHtml({ outputdir }) {
-  let text = await fs.readFile(`/home/srghma/Downloads/myhtmls.txt`)
+// async function processPurplecultureHtml({ outputdir }) {
+//   let text = await require('fs').promises.readFile(`/home/srghma/Downloads/myhtmls.txt`)
 
-  text = text.toString()
+//   text = text.toString()
 
-  text = text.replace(/< /g, '<')
-  text = text.replace(/ >/g, '>')
-  text = text.replace(/ \/>/g, '/>')
-  text = text.replace(/<\/ /g, '</')
-  text = text.replace(/href = " myhtmls . html # (\d+) "/g, 'href="myhtmls.html#$1"')
-  text = text.replace(/href="myhtmls.html#/g, 'href="myhtmls-processed.html#')
+//   text = text.replace(/< /g, '<')
+//   text = text.replace(/ >/g, '>')
+//   text = text.replace(/ \/>/g, '/>')
+//   text = text.replace(/<\/ /g, '</')
+//   text = text.replace(/href = " myhtmls . html # (\d+) "/g, 'href="myhtmls.html#$1"')
+//   text = text.replace(/href="myhtmls.html#/g, 'href="myhtmls-processed.html#')
 
-  await fs.writeFile(`${outputdir}/myhtmls-processed.html`, text)
-}
+//   await require('fs').promises.writeFile(`${outputdir}/myhtmls-processed.html`, text)
+// }
 
 // processPurplecultureHtml("/home/srghma/Desktop/languages/chinese/HuaMa")
 // processPurplecultureHtml("/home/srghma/Desktop/languages/chinese/Sherlock")
+
+// ipwordscache =
+// purplecultureWords
+async function addPinyinAndIpaToHtml({ outputdir }) {
+  // const purplecultureWords_ = Object.fromEntries(purplecultureWords.map(({ ch, tr }) => [ch, tr]))
+
+  let text = await require('fs').promises.readFile(`${outputdir}/myhtmls1.html`)
+  text = text.toString()
+
+  R.forEach(
+    ([k, v]) => {
+      console.log({ k, v })
+
+      const v_ = v.map(({ chineseIerogliphOrWord, chineseIerogliphOrWordPronounce }) => {
+        const chineseIerogliphOrWordPronounce_ = R.uniq(chineseIerogliphOrWordPronounce).map(x => {
+          return `<span class="my-chinese-ipa">${x}</span>`
+        }).join('')
+
+        return `<span class="my-chinese-container"><span class="my-chinese-word">${chineseIerogliphOrWord}</span><span class="my-chinese-ipa-container">${chineseIerogliphOrWordPronounce_}</span></span>`
+      })
+
+      text = text.replace(k, v_)
+    },
+    R.reverse(R.sortBy(x => x[0].length, R.toPairs(ipwordscache)))
+  )
+
+  await require('fs').promises.writeFile(`${outputdir}/myhtmls2.html`, text)
+}
+
+await Promise.all(folders.map(addPinyinAndIpaToHtml))
