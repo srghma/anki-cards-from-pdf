@@ -13,7 +13,9 @@ folders = [
 async function createHtml({ pdf, outputdir }) {
   await exec(`mkdir -p ${outputdir}`)
   await exec(`rm -f ${outputdir}/*.html ${outputdir}/*.png ${outputdir}/*.jpg`)
-  await exec(`pdftohtml -enc UTF-8 ${pdf} ${outputdir}/myhtml`)
+  await exec(`/nix/store/5drv2qajbhb8qbr9pd2arq1b3p68l1aa-poppler-utils-21.03.0/bin/pdftohtml -enc UTF-8 ${pdf} ${outputdir}/myhtml`)
+  // await exec(`pdftops ${pdf} ${outputdir}/myps.ps`)
+  // await exec(`pdftotext -layout ${pdf} ${outputdir}/my.txt`)
 
   let text = await require('fs').promises.readFile(`${outputdir}/myhtmls.html`)
 
@@ -29,7 +31,7 @@ async function createHtml({ pdf, outputdir }) {
   text = text.replace(/<b>(\d+)<\/b><br\/>\n([^<]+)<br\/>/g, '<b><i>$1</i> $2</b><br/>')
 
   text = text.replace(/﻿/g, '')
-  text = text.replace(/([^(>|！|。|…|\.)])(<\/a>)?<br\/>\n/g, '$1$2')
+  // text = text.replace(/([^(>|！|。|…|\.)])(<\/a>)?<br\/>\n/g, '$1$2')
 
   // remove space between hanzi
   text = text.replace(/([\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf\u3400-\u4dbf\u4e00-\u9fff\u3400-\u4dbf\uf900-\ufaff\u3300-\u33ff\uf900-\ufaff])\s+([\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf\u3400-\u4dbf\u4e00-\u9fff\u3400-\u4dbf\uf900-\ufaff\u3300-\u33ff\uf900-\ufaff])/ug, '$1$2')
@@ -42,15 +44,15 @@ async function createHtml({ pdf, outputdir }) {
 
   text = text.replace(/(<style type="text\/css">)\n/g, `$1
 img {
-max-width: 90%;
-max-height: 80%;
-display: block;
-margin-left: auto;
-margin-right: auto;
+  max-width: 90%;
+  max-height: 80%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 a {
-text-decoration: none;
-color: blue;
+  text-decoration: none;
+  color: blue;
 }
 `)
 
@@ -169,11 +171,11 @@ body {
   margin-left: 10px;
 }
 .my-chinese-word {
-  font-size: 45px;
+  font-size: 55px;
 }
 .my-chinese-ipa { margin-left: 10px; font-family: 'Voces', cursive; }
 .my-chinese-pinyin, .my-chinese-ipa-container {
-  font-size: 15px;
+  font-size: 30px;
 }
 `)
 
