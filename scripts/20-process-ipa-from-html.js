@@ -22,7 +22,7 @@ try {
   console.log(e)
 }
 
-dom.window.document.body.innerHTML = require('fs').readFileSync('/home/srghma/projects/anki-cards-from-pdf/ipa-output/4.html').toString()
+dom.window.document.body.innerHTML = require('fs').readFileSync('/home/srghma/projects/anki-cards-from-pdf/ipa-output/5.html').toString()
 
 ipwordscache_new = mapWithForEachToArray(
   dom.window.document.querySelectorAll('div.big-hanzi p'),
