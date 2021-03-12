@@ -34,7 +34,7 @@ exptract_pdf_squiggly() {
   in_dir="$1"
   in_filename="$2"
   in_ext="pdf"
-  out_dir="$HOME/projects/extract-pdf-notes"
+  out_dir="$(dirname "${BASH_SOURCE[0]}")"
   out_filename="from-pdf-tmp"
   out_ext="json"
 
@@ -60,9 +60,21 @@ exptract_pdf_squiggly() {
 #   "/home/srghma/Dropbox/zotfile/jap/Genki - An Integrated Course in Elementary Japanese [Second Edition] (2011)" \
 #   "Genki - I"
 
-exptract_pdf_squiggly \
-  "/home/srghma/Dropbox/zotfile/jap" \
-  "Harry Potter and the Philosophers Stone by J.K. Rowling, Hiroko Matsuoka"
+# exptract_pdf_squiggly \
+#   "/home/srghma/Dropbox/zotfile/jap" \
+#   "Harry Potter and the Philosophers Stone by J.K. Rowling, Hiroko Matsuoka"
+
+# exptract_pdf_squiggly \
+#   "/home/srghma/Dropbox/zotfile/chinese" \
+#   "Sherlock"
+
+docker run \
+  -it \
+  -v "$HOME/Desktop/languages/chinese/In_Search_of_Hua_Ma.pdf":/myfile.pdf \
+  -v "$PWD/extract_pdf_to_html.py":/usr/bin/myprog \
+  --user $(id -u):$(id -u) \
+  extract_pdf_notes \
+  /usr/bin/myprog /myfile.pdf
 
 # sd 'ersu chen' 'versuchen' /tmp/asdf
 # sd '"annotation_text": "erzählte"' '"annotation_text": "erzählen"' /tmp/asdf
