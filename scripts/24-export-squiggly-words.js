@@ -34,7 +34,7 @@ ierogliphs = ierogliphs.map(i => ({ i, words: selectedWordsWithTr.filter(x => x.
 ierogliphs = ierogliphs.map(({ i, words }) => {
   const contextes = words.map((x) => {
     const decks = x.decks.slice(0, 3).map(deck => {
-      return `<div class="context__deck"><span class="context__decks__hanzi">${deck.hanzi}</span><span class="context__decks__hanzi">${deck.english}</span></div>`
+      return `<div class="context__deck"><span class="context__decks__hanzi">${deck.hanzi}</span><span class="context__decks__english">${deck.english}</span></div>`
     }).join('\n')
 
     return `<div class="context"><span class="context__word">${x.word}</span><span class="context__translation">${x.translation}</span><span class="context__decks">\n${decks}\n</span></div>`
