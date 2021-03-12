@@ -71,7 +71,7 @@ exptract_pdf_squiggly() {
 docker run \
   -it \
   -v "$HOME/Desktop/languages/chinese/In_Search_of_Hua_Ma.pdf":/myfile.pdf \
-  -v "$PWD/extract_pdf_to_html.py":/usr/bin/myprog \
+  -v "$PWD/extract_pdf_to_txt.py":/usr/bin/myprog \
   --user $(id -u):$(id -u) \
   extract_pdf_notes \
   /usr/bin/myprog /myfile.pdf
