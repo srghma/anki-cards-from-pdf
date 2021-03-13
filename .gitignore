@@ -14,7 +14,6 @@ report.*.json
 yarn-error.log
 /mycache.json
 /output.csv
-/from-pdf-*.json
 /My First Project.json
 /cedict_db
 /random-scripts/pinyincache.json

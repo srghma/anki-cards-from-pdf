@@ -64,17 +64,17 @@ exptract_pdf_squiggly() {
 #   "/home/srghma/Dropbox/zotfile/jap" \
 #   "Harry Potter and the Philosophers Stone by J.K. Rowling, Hiroko Matsuoka"
 
-# exptract_pdf_squiggly \
-#   "/home/srghma/Dropbox/zotfile/chinese" \
-#   "Sherlock"
+exptract_pdf_squiggly \
+  "/home/srghma/Dropbox/zotfile/chinese" \
+  "Sherlock"
 
-docker run \
-  -it \
-  -v "$HOME/Desktop/languages/chinese/In_Search_of_Hua_Ma.pdf":/myfile.pdf \
-  -v "$PWD/extract_pdf_to_txt.py":/usr/bin/myprog \
-  --user $(id -u):$(id -u) \
-  extract_pdf_notes \
-  /usr/bin/myprog /myfile.pdf
+# docker run \
+#   -it \
+#   -v "$HOME/Desktop/languages/chinese/In_Search_of_Hua_Ma.pdf":/myfile.pdf \
+#   -v "$PWD/extract_pdf_to_txt.py":/usr/bin/myprog \
+#   --user $(id -u):$(id -u) \
+#   extract_pdf_notes \
+#   /usr/bin/myprog /myfile.pdf
 
 # sd 'ersu chen' 'versuchen' /tmp/asdf
 # sd '"annotation_text": "erzählte"' '"annotation_text": "erzählen"' /tmp/asdf
