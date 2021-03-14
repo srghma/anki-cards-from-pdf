@@ -43,21 +43,21 @@ exports.purplecultre_pinyin_converter = async function purplecultre_pinyin_conve
   return node.innerHTML.trim()
 }
 
-const purpleculter_get_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/purpleculter_get_cache.json'
+const purplecultre_pinyin_converter_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/purplecultre_pinyin_converter_cache.json'
 
-let purpleculter_get_cache = {}
-try { purpleculter_get_cache = JSON.parse(fs.readFileSync(purpleculter_get_with_cache_path).toString()) } catch (e) {  }
+let purplecultre_pinyin_converter_cache = {}
+try { purplecultre_pinyin_converter_cache = JSON.parse(fs.readFileSync(purplecultre_pinyin_converter_with_cache_path).toString()) } catch (e) {  }
 
-async function purpleculter_get_with_cache(dom, sentence) {
-  const cached = purpleculter_get_cache[sentence]
+async function purplecultre_pinyin_converter_with_cache(dom, sentence) {
+  const cached = purplecultre_pinyin_converter_cache[sentence]
   if (cached) { return cached }
 
-  const purpleculture_raw = await require('./purpleculter_get').purpleculter_get(dom, sentence)
-  purpleculter_get_cache[sentence] = purpleculture_raw
+  const purpleculture_raw = await require('./purplecultre_pinyin_converter').purplecultre_pinyin_converter(dom, sentence)
+  purplecultre_pinyin_converter_cache[sentence] = purpleculture_raw
 
-  fs.writeFileSync(purpleculter_get_with_cache_path, JSON.stringify(purpleculter_get_cache))
+  fs.writeFileSync(purplecultre_pinyin_converter_with_cache_path, JSON.stringify(purplecultre_pinyin_converter_cache))
 
   return purpleculture_raw
 }
 
-exports.purpleculter_get_with_cache = purpleculter_get_with_cache
+exports.purplecultre_pinyin_converter_with_cache = purplecultre_pinyin_converter_with_cache

@@ -142,7 +142,7 @@ async function mymapper(x) {
   const sentence = removeHTML(dom, x.word)
   let purpleculture_raw = null
   try {
-    purpleculture_raw = await require('./scripts/lib/purplecultre_pinyin_converter_with_cache').purplecultre_pinyin_converter_with_cache(dom, sentence)
+    purpleculture_raw = await require('./scripts/lib/purplecultre_pinyin_converter').purplecultre_pinyin_converter_with_cache(dom, sentence)
     console.log({ sentence, purpleculture_raw })
   } catch (e) {
     console.error({ e, x })
@@ -158,9 +158,19 @@ async function mymapper(x) {
     return
   }
 
+  let purplecultre_dictionary = null
+  try {
+    purplecultre_dictionary = await require('./scripts/lib/purplecultre_dictionary').purplecultre_dictionary_with_cache(dom, sentence)
+    console.log({ sentence, purplecultre_dictionary })
+  } catch (e) {
+    console.error({ e, x })
+    return
+  }
+
   return {
     ...x,
     purpleculture_raw,
+    purplecultre_dictionary,
     trainchinese,
   }
 }
@@ -170,7 +180,6 @@ output = []
   for (let i = 0; i < input.length; i++) {
     const res = await mymapper(input[i])
     if (res) {
-      fs.appendFileSync('allsetpinyincache.json', JSON.stringify(res))
       output.push(res)
     }
     console.log({ i, l: input.length })
@@ -184,7 +193,35 @@ console.log(output.map(x => x.word).filter(x => ipwordscache[x] == null).join('\
 kanji = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
 
 output_ = output.map(x => {
-  let english = x.translation
+  dom.window.document.body.innerHTML = x.purplecultre_dictionary
+  let purplecultre_dictionary_en = dom.window.document.querySelector('.en')
+
+  if (purplecultre_dictionary_en) {
+    purplecultre_dictionary_en = purplecultre_dictionary_en.textContent.trim()
+    purplecultre_dictionary_en = purplecultre_dictionary_en.replace(/Classifiers: \S+/g, '')
+    if (purplecultre_dictionary_en.startsWith('old variant of')) { purplecultre_dictionary_en = null }
+  }
+
+  // const asdfasdf = x.trainchinese.map(x => x.ch)
+  // console.log({
+  //   w: x.word,
+  //   wl: x.word.length,
+  //   // trainchinese: x.trainchinese,
+  //   x: asdfasdf,
+  //   xl: asdfasdf.map(x => x.length),
+  //   y: asdfasdf.filter(y => y.length == x.word.length)
+  // })
+
+  let trainchinese = x.trainchinese.filter(x => x).filter(y => y.ch == x.word).map(x => {
+    const pinyin = '<span class="trainchinese-pinyin">' + x.pinyin + '</span>'
+    const type = '<span class="trainchinese-type">' + x.type + '</span>'
+    const transl_____ = '<span class="trainchinese-transl">' + x.transl + '</span>'
+
+    const res = pinyin + ': (' + type + ') ' + transl_____
+    return res
+  })
+
+  let english = [ x.translation, purplecultre_dictionary_en, ...trainchinese ].filter(R.identity).join('\n<br>\n')
 
   // custom translation
   if (x.word.length == 1) {
@@ -201,7 +238,7 @@ output_ = output.map(x => {
     // en_cased:    rubyToDifferentPinyin(dom, 'en', 'cased', ruby),
     hanzi:         x.word.replace(/\s+/g, ' ').trim(),
     english,
-    article_title: `<span class="context__decks">\n${x.decks.slice(0, 3).map(printDeckItem).join('\n')}\n</span>`,
+    article_title: `<span class="context__decks">\n${x.decks.slice(0, 3).map(printDeckItem).join('\n')}\n</span>`.replace(new RegExp(x.word, "g"), `<b>${x.word}</b>`),
     ruby,
     ruby_raw:      x.purpleculture_raw,
     ru_marked:     rubyToDifferentPinyin(dom, 'ru', 'marked', ruby),
