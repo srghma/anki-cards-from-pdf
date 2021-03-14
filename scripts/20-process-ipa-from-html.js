@@ -8,12 +8,6 @@ const dom = new JSDOM(``);
 const {Translate} = require('@google-cloud/translate').v2;
 const translate = new Translate({projectId: "annular-form-299211"});
 
-function mapWithForEachToArray(xs, fn) {
-  const output = []
-  xs.forEach(x => output.push(fn(x)))
-  return output
-}
-
 ipwordscache_path = '/home/srghma/projects/anki-cards-from-pdf/ipacache.json'
 ipwordscache = {}
 try {
@@ -22,12 +16,18 @@ try {
   console.log(e)
 }
 
-dom.window.document.body.innerHTML = require('fs').readFileSync('/home/srghma/projects/anki-cards-from-pdf/ipa-output/5.html').toString()
+function mapWithForEachToArray(xs, fn) {
+  const output = []
+  xs.forEach(x => output.push(fn(x)))
+  return output
+}
+
+dom.window.document.body.innerHTML = require('fs').readFileSync('/home/srghma/projects/anki-cards-from-pdf/ipa-output/6.html').toString()
 
 ipwordscache_new = mapWithForEachToArray(
   dom.window.document.querySelectorAll('div.big-hanzi p'),
   pEl => {
-    const chineseText = mapWithForEachToArray(pEl.querySelectorAll('a.hsk-white'), aEl => aEl.textContent.trim()).join('')
+    const chineseText = mapWithForEachToArray(pEl.querySelectorAll('a.hsk-white'), aEl => { console.log(aEl); return aEl.textContent.trim() }).join('')
 
     console.log({ chineseText, innerHTML: pEl.innerHTML })
 

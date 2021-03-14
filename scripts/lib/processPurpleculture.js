@@ -129,7 +129,8 @@ function processPurpleculture_remove_add_ipa(ipwordscache, text) {
 
     const ipa = ipwordscache[group1]
 
-    if (!ipa) { console.error({ text, match, group1 }); throw new Error('no ipa') }
+    // if (!ipa) { console.error({ text, match, group1 }); throw new Error('no ipa') }
+    if (!ipa) { return match }
 
     const ipa_ = ipa.map(({ chineseIerogliphOrWordPronounce }) => {
       if (chineseIerogliphOrWordPronounce.length <= 0) {

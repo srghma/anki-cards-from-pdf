@@ -1,3 +1,5 @@
+const R = require('ramda')
+const RA = require('ramda-adjunct')
 const fetch = require('node-fetch')
 
 function removeAllNodes(elements) {
@@ -34,5 +36,55 @@ exports.trainchinese = async function trainchinese(dom, str) {
 
   const node = dom.window.document.querySelector('table.table')
 
-  return node.innerHTML.trim()
+  const buff = []
+
+  node.querySelectorAll('div.chinese').forEach(chNode => {
+    const ch = chNode.textContent.trim().split('').filter(require('./isHanzi').isHanziOrSpecial).join('')
+
+    const pinyin = chNode.nextSibling.nextSibling.textContent.trim()
+
+    if (RA.isNilOrEmpty(pinyin)) { throw new Error('pinyin') }
+
+    const typeAndTransl__Node = chNode.nextSibling.nextSibling.nextSibling.nextSibling
+
+    if (RA.isNilOrEmpty(typeAndTransl__Node)) { throw new Error('typeAndTransl__Node') }
+
+    const transl__ = typeAndTransl__Node.querySelector('span').textContent.trim()
+
+    typeAndTransl__Node.querySelector('span').remove()
+
+    const type = typeAndTransl__Node.textContent.trim()
+
+    if (RA.isNilOrEmpty(transl__)) { throw new Error('transl') }
+    if (RA.isNilOrEmpty(type)) { throw new Error('type') }
+
+    buff.push({
+      ch,
+      pinyin,
+      transl: transl__,
+      type,
+    })
+  })
+
+  return buff
 }
+
+/////////////////
+const trainchinese_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/trainchinese_cache.json'
+
+let trainchinese_cache = {}
+try { trainchinese_cache = JSON.parse(fs.readFileSync(trainchinese_with_cache_path).toString()) } catch (e) {  }
+
+async function trainchinese_with_cache(dom, sentence) {
+  const cached = trainchinese_cache[sentence]
+  if (cached) { return cached }
+
+  const x = await require('./trainchinese').trainchinese(dom, sentence)
+  trainchinese_cache[sentence] = x
+
+  fs.writeFileSync(trainchinese_with_cache_path, JSON.stringify(trainchinese_cache))
+
+  return x
+}
+
+exports.trainchinese_with_cache = trainchinese_with_cache

@@ -19,7 +19,7 @@ async function mymapper(x) {
 
   let transl = null
   try {
-    transl = await require('./scripts/lib/trainchinese').trainchinese(dom, kanji)
+    transl = await require('./scripts/lib/trainchinese').trainchinese_with_cache(dom, kanji)
     // console.log({ kanji, transl })
   } catch (e) {
     console.error({ kanji, e })
@@ -35,18 +35,10 @@ async function mymapper(x) {
 // ;(async function(input){
 //   for (let i = 0; i < input.length; i++) {
 //     const res = await mymapper(input[i])
-
-//     fs.appendFileSync('trainchinesecache.json', JSON.stringify(res))
-
 //     output.push(res)
-
 //     console.log({ i, l: input.length })
 //   };
 // })(other);
-
-output = JSON.parse("[" + fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/trainchinesecache.json').toString().replace(/}{/g, "},{") + "]")
-output = output.filter(x => x.transl)
-output = R.uniqBy(x => x.sentence, output)
 
 function processTrainchineseTransl(x) {
   const transl = x.transl
@@ -55,39 +47,6 @@ function processTrainchineseTransl(x) {
   if (RA.isNilOrEmpty(kanji)) { throw new Error('kanji') }
 
   dom.window.document.body.innerHTML = transl
-
-  const buff = []
-  dom.window.document.body.querySelectorAll('div.chinese').forEach(chNode => {
-    const ch = chNode.textContent.trim().split('').filter(isHanzi).join('')
-
-    if (ch.length > 1) {
-      // console.log({ ch, chl: ch.length, kanji: kanji.length })
-      return
-    }
-
-    const pinyin = chNode.nextSibling.nextSibling.textContent.trim()
-
-    if (RA.isNilOrEmpty(pinyin)) { throw new Error('pinyin') }
-
-    const typeAndTransl__Node = chNode.nextSibling.nextSibling.nextSibling.nextSibling
-
-    if (RA.isNilOrEmpty(typeAndTransl__Node)) { throw new Error('typeAndTransl__Node') }
-
-    const transl__ = typeAndTransl__Node.querySelector('span').textContent.trim()
-
-    typeAndTransl__Node.querySelector('span').remove()
-
-    const type = typeAndTransl__Node.textContent.trim()
-
-    if (RA.isNilOrEmpty(transl__)) { throw new Error('transl') }
-    if (RA.isNilOrEmpty(type)) { throw new Error('type') }
-
-    buff.push({
-      pinyin,
-      transl: transl__,
-      type,
-    })
-  })
 
   if (RA.isNilOrEmpty(buff)) {
     // console.log(x)

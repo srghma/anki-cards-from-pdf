@@ -4,7 +4,7 @@ function removeAllNodes(elements) {
   })
 }
 
-exports.purpleculter_get = async function purpleculter_get(dom, str) {
+exports.purplecultre_pinyin_converter = async function purplecultre_pinyin_converter(dom, str) {
   const fetch = require('node-fetch')
 
   const body = `wdqchs=${encodeURIComponent(str)}&correcttone=on&colorpy=on&convert=y&reviewlist=&tone_type=number`
@@ -42,3 +42,22 @@ exports.purpleculter_get = async function purpleculter_get(dom, str) {
   removeAllNodes(node.querySelectorAll('*[style*="display: none;"]'))
   return node.innerHTML.trim()
 }
+
+const purpleculter_get_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/purpleculter_get_cache.json'
+
+let purpleculter_get_cache = {}
+try { purpleculter_get_cache = JSON.parse(fs.readFileSync(purpleculter_get_with_cache_path).toString()) } catch (e) {  }
+
+async function purpleculter_get_with_cache(dom, sentence) {
+  const cached = purpleculter_get_cache[sentence]
+  if (cached) { return cached }
+
+  const purpleculture_raw = await require('./purpleculter_get').purpleculter_get(dom, sentence)
+  purpleculter_get_cache[sentence] = purpleculture_raw
+
+  fs.writeFileSync(purpleculter_get_with_cache_path, JSON.stringify(purpleculter_get_cache))
+
+  return purpleculture_raw
+}
+
+exports.purpleculter_get_with_cache = purpleculter_get_with_cache
