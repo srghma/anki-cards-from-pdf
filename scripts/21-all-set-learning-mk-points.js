@@ -47,12 +47,6 @@ output = output.map(body => {
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-function mapWithForEachToArray(xs, fn) {
-  const output = []
-  xs.forEach(x => output.push(fn(x)))
-  return output
-}
-
 tables = output.map(({ header, body }) => {
   dom.window.document.body.innerHTML = body
 
