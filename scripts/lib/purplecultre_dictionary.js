@@ -31,7 +31,18 @@ exports.purplecultre_dictionary = async function purplecultre_dictionary(dom, st
   const t = await r.text()
 
   dom.window.document.body.innerHTML = t
-  const node = dom.window.document.querySelector('#dicdetails div.d-flex')
+
+  const node = dom.window.document.querySelector('#dicdetails')
+
+  const maybeRemove = x => { if (x) { x.remove() } }
+
+  maybeRemove(node.querySelector('.loginmsg'))
+  maybeRemove(node.querySelector('.savesingle'))
+  maybeRemove(node.querySelector('#animate-button'))
+
+  const x = node.lastElementChild
+  if (x && x.classList[0] == "pt-2") { maybeRemove(x) }
+
   return node.innerHTML.trim()
 }
 

@@ -10,47 +10,38 @@ const { JSDOM } = jsdom;
 const dom = new JSDOM(``);
 const {Translate} = require('@google-cloud/translate').v2;
 const translate = new Translate({projectId: "annular-form-299211"});
+const Queue = require('promise-queue')
 
 input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
 
 async function mymapper(x) {
   const kanji = x['kanji']
   if (!RA.isNonEmptyString(kanji)) { throw new Error('kanji') }
-
-  const sentence = x['_48']
-
-  if (sentence == '') { return }
-
-  if (!RA.isNonEmptyString(sentence)) { throw new Error('sentence') }
-
   let translation = null
   try {
-    translation = await translate.translate(sentence, 'ru')
-    console.log({ sentence, translation })
+    translation = await require('./scripts/lib/purplecultre_dictionary').purplecultre_dictionary_with_cache(dom, kanji)
+    console.log({ kanji, translation })
   } catch (e) {
-    console.error(e)
+    console.error({ kanji, e })
     return
   }
-
   return {
     kanji,
     translation,
   }
 }
 
+queue = new Queue(3, Infinity)
 output = []
-
-;(async function(input){
-  for (let i = 0; i < input.length; i++) {
-    const res = await mymapper(input[i])
-
+input.forEach((x, index) => {
+  queue.add(async function() {
+    const res = await mymapper(x)
     if (res) {
-      fs.appendFileSync('purplecache.json', JSON.stringify(res))
+      console.log({ index, l: input.length })
       output.push(res)
-      console.log({ i, l: input.length })
     }
-  };
-})(input);
+  })
+})
 
 output_ = output.filter(R.identity).map(x => {
   return {
