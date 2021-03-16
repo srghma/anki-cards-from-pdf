@@ -1,8 +1,4 @@
-function removeAllNodes(elements) {
-  elements.forEach(e => {
-    e.parentNode.removeChild(e);
-  })
-}
+function removeAllNodes(elements) { elements.forEach(e => { e.parentNode.removeChild(e); }) }
 
 exports.purplecultre_dictionary = async function purplecultre_dictionary(dom, str) {
   const fetch = require('node-fetch')
@@ -48,6 +44,8 @@ exports.purplecultre_dictionary = async function purplecultre_dictionary(dom, st
 
 const purplecultre_dictionary_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/purplecultre_dictionary_cache.json'
 
+// remove = input.slice(-200).map(x => x.kanji)
+// remove.forEach(x => { delete purplecultre_dictionary_cache[x] })
 let purplecultre_dictionary_cache = {}
 try { purplecultre_dictionary_cache = JSON.parse(fs.readFileSync(purplecultre_dictionary_with_cache_path).toString()) } catch (e) {  }
 

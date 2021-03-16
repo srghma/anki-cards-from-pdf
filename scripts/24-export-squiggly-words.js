@@ -116,8 +116,6 @@ translation = translation[0].split('\n').filter(x => x !== '')
 
 if (translation.length !== selectedWords.length) { throw new Error('not equal length') }
 
-sentencesDeck = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/Chinese_ Sherlock.txt').pipe(csv({ separator: "\t", headers: "hanzi english ruby".split(" ") })))
-
 selectedWordsWithTr = R.zip(selectedWords, translation)
 selectedWordsWithTr = R.merge(R.fromPairs(selectedWordsWithTr), R.fromPairs(keywords))
 selectedWordsWithTr = R.values(R.mapObjIndexed((translation, word) => ({ word, translation, decks: sentencesDeck.filter(x => x.hanzi.includes(word)) }), selectedWordsWithTr))
