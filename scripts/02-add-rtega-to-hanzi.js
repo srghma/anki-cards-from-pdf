@@ -1,46 +1,48 @@
-// node --experimental-repl-await
-
-// const pinyinConvert = require('pinyin-convert')
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 const csv = require('csv-parser')
 const fs = require('fs')
-const R = require('ramda')
 const chineseToPinyin = require('chinese-to-pinyin')
-const rtega_get = require('./scripts/lib/rtega_get').rtega_get
-const readStreamArray = require('./scripts/lib/readStreamArray')
+const readStreamArray = require('./scripts/lib/readStreamArray').readStreamArray
+const mkQueue = require('./scripts/lib/mkQueue').mkQueue
+const R = require('ramda')
+const RA = require('ramda-adjunct')
 
-input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: "\t", headers: [ "hanzi" ] })))
+input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
 
-let output = []
+const queueSize = 1
+doms = Array.from({ length: queueSize }, (_, i) => { return new JSDOM(``) })
 
-;(async function(){
-  async function mymapper(x) {
-    const hanzi = x['hanzi']
+output = []
+promises = input.map((x, inputIndex) => async jobIndex => {
+  const kanji = x['kanji']
 
-    let mnemonic = null
-
-    try {
-      mnemonic = await rtega_get(hanzi)
-      console.log({ hanzi, mnemonic })
-    } catch (e) {
-      console.error(e)
-    }
-
-    return {
-      hanzi,
-      mnemonic,
-    }
+  if (x._66) {
+    console.log({ m: "skipping", kanji: x.kanji })
+    return
   }
 
-  for (let i = 0; i < input.length; i++) {
-    const res = await mymapper(input[i])
+  const dom = doms[jobIndex]
+  if (!RA.isNonEmptyString(kanji)) { throw new Error('kanji') }
+  if (!dom) { throw new Error('dom') }
 
-    fs.appendFileSync('rtegacache.json', JSON.stringify(res))
+  let translation = null
+  try {
+    translation = await require('./scripts/lib/rtega_get').rtega_get_with_cache(dom, kanji)
 
-    output.push(res)
+    if (!translation) {
+      console.log({ m: "didnt find", kanji: x.kanji })
+      return
+    }
+  } catch (e) {
+    console.error({ m: "error", inputIndex, kanji, e })
+    return
+  }
 
-    console.log({ i, l: input.length })
-  };
-})();
+  console.log({ m: "finished", jobIndex, inputIndex, length: input.length })
+  output.push({ kanji, translation })
+})
+await mkQueue(queueSize).addAll(promises)
 
 output_ = output.filter(x => x.mnemonic != '').map(x => {
   const s = x.mnemonic

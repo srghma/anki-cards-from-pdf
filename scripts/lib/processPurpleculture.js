@@ -2,17 +2,10 @@ const R = require('ramda')
 const RA = require('ramda-adjunct')
 const chinesePinyinMnemonics = require('./chinesePinyinMnemonics').chinesePinyinMnemonics
 const isHanzi = require('./isHanzi').isHanzi
-
-const arrayToRecord = (headers) => (x) => {
-  buff = {}
-  headers.forEach((h, i) => {
-    buff[h] = x[i]
-  })
-  return buff
-}
+const arrayToRecordByPosition = require('./arrayToRecordByPosition').arrayToRecordByPosition
 
 let convertToRuTable = R.pipe(
-  R.map(arrayToRecord([
+  R.map(arrayToRecordByPosition([
     'numbered',
     'marked',
     'bopomofo',
@@ -23,8 +16,8 @@ let convertToRuTable = R.pipe(
     'cased',
     'ru',
   ])),
-  R.sortBy(x => x.numbered.length),
-  R.reverse
+  // R.sortBy(x => x.numbered.length),
+  // R.reverse
 )(require('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-ru-by-kfcd.json'))
 
 let chinesePinyinMnemonicsUnused = JSON.parse(JSON.stringify(chinesePinyinMnemonics))
@@ -156,4 +149,4 @@ function processPurpleculture(ipwordscache, text) {
 
 exports.convertToRuTable = convertToRuTable
 exports.processPurpleculture = processPurpleculture
-exports.arrayToRecord = arrayToRecord
+exports.arrayToRecordByPosition = arrayToRecordByPosition

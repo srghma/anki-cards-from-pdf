@@ -28,9 +28,9 @@ const isHanzi = require('./scripts/lib/isHanzi').isHanzi
 // x = R.uniq(fs.readFileSync("/home/srghma/Downloads/Hanping Chinese HSK.txt").toString().split('').filter(isHanzi))
 // console.log('\n' + x.join('\n'))
 
-dir = 'patricia-schultzs-1000-places-to-see-before'
+dir = 'the-ultimate-japan-travel-destinations-list'
 
-ps = Array.from({ length: 28 }, (_, i) => i + 1).map(async x => {
+ps = Array.from({ length: 21 }, (_, i) => i + 1).map(async x => {
   const r = await fetch(`https://www.listchallenges.com/${dir}/list/${x}`, {
     "headers": {
       "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
@@ -66,10 +66,11 @@ images = ps.map(x => {
   })
 }).flat()
 
-queue = new Queue(20, Infinity)
+queue = new Queue(200, Infinity)
 
 fulldir = `/home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/${dir}`
 await mkdirp(fulldir)
+
 images.forEach(x => {
   queue.add(async function() {
     const extname = path.extname(x.src)

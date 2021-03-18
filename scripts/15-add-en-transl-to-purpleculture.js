@@ -3,6 +3,7 @@ const checkDuplicateKeys = require('./scripts/lib/checkDuplicateKeys').checkDupl
 const isHanzi = require('./scripts/lib/isHanzi').isHanzi
 const mkQueue = require('./scripts/lib/mkQueue').mkQueue
 const mapWithForEachToArray = require('./scripts/lib/mapWithForEachToArray').mapWithForEachToArray
+const arrayToRecordByPosition = require('./scripts/lib/arrayToRecordByPosition').arrayToRecordByPosition
 const csv = require('csv-parser')
 const fs = require('fs')
 const R = require('ramda')
@@ -13,9 +14,11 @@ const dom = new JSDOM(``);
 const {Translate} = require('@google-cloud/translate').v2;
 const translate = new Translate({projectId: "annular-form-299211"});
 
-input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
+input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji", "freq" ] })))
 
-const queueSize = 5
+// freq = R.fromPairs(input.map(x => [x.kanji, Number(x.freq)]))
+
+const queueSize = 10
 doms = Array.from({ length: queueSize }, (_, i) => { return new JSDOM(``) })
 
 output = []
@@ -28,17 +31,15 @@ promises = input.map((x, inputIndex) => async jobIndex => {
   let translation = null
   try {
     translation = await require('./scripts/lib/purplecultre_dictionary').purplecultre_dictionary_with_cache(dom, kanji)
-    console.log({ m: "finished", inputIndex, kanji })
   } catch (e) {
     console.error({ m: "error", inputIndex, kanji, e })
     return
   }
   if (translation) {
-    console.log({ jobIndex, l: input.length })
+    console.log({ m: "finished", jobIndex, inputIndex, length: input.length })
     output.push({ kanji, translation })
   }
 })
-
 await mkQueue(queueSize).addAll(promises)
 
 output_ = output.filter(R.identity).map(x => {
@@ -101,7 +102,7 @@ output_ = output.filter(R.identity).map(x => {
 
   return {
     kanji: x.kanji,
-    // orig_transl: x.translation,
+    purplecultre_dictionary_orig_transl: x.translation,
     translation,
     hsk,
     examples: examples.join('<br>'),
@@ -112,66 +113,56 @@ output_ = output.filter(R.identity).map(x => {
   }
 })
 
-const google_translate_cache = {}
-async function google_translate_with_cache(input, to) {
-  if (!google_translate_cache[to]) { google_translate_cache[to] = {} }
-  const google_translate_cache_to = google_translate_cache[to]
-  const x = google_translate_cache_to[input]
-  if (x) { return x }
-  const translation = await translate.translate(input, to)
-  google_translate_cache_to[input] = translation
-  return translation
-}
-
 output__ = []
 promises = output_.map((x, index) => async jobIndex => {
   if (x.pinyinWithHtml.length == 0) {
     output__.push(x)
     return
   }
-
   let translationInput = x.pinyinWithHtml.map(x => x.englishs).join('\n')
-  translation = await google_translate_with_cache(translationInput, 'ru')
+  translation = await require('./scripts/lib/google_translate_with_cache').google_translate_with_cache(translationInput, 'ru')
   translation = translation[0].split('\n')
   translation = translation.map(x => x.trim())
   translation = translation.filter(x => x != '')
-
   if (translation.length !== x.pinyinWithHtml.length) {
     console.log({
       m: 'error',
       ru_translation: translation,
       ...x
     })
-
     output__.push(x)
     return
-
     // throw new Error(`${translation.length} != ${x.pinyinWithHtml.length}`)
   }
-
   const pinyinWithHtml = R.zipWith((pinyinWithHtmlEl, ru) => ({ ...pinyinWithHtmlEl, ru }), x.pinyinWithHtml, translation)
-
   // console.log({ m: 'finished', index, from: output_.length })
-
   output__.push({
     ...x,
     pinyinWithHtml,
   })
 })
-
 await mkQueue(10).addAll(promises)
 
+require('./scripts/lib/google_translate_with_cache').google_translate_sync()
+
+// R.fromPairs(R.sortBy((x) => x[1], R.toPairs(pinyin)))
+// errors.sort()
+
+// R.fromPairs([...convertToRuTable_, ].map(x => [x, pinyin_[x]]))
+
 output___ = output__.map(x => {
-  pinyinWithHtml = x.pinyinWithHtml.map(x => {
-    img_src = require('any-ascii')(x.pinyinsText)
+  pinyinWithHtml = x.pinyinWithHtml.map(pinyinWithHtmlElem => {
+    img_src = purplecultureMarkedToNumbered(x, pinyinWithHtmlElem.pinyinsText)
 
     return `
 <div class="my-pinyin-image-container pinyin-mnemonic-${img_src}"><span></span><img></img></div>
-<div class="my-pinyin-tone">${x.pinyinsHTML}</div>
-<div class="my-pinyin-english">${x.englishs}</div>
-<div class="my-pinyin-ru">${x.ru}</div>
+<div class="my-pinyin-tone">${pinyinWithHtmlElem.pinyinsHTML}</div>
+<div class="my-pinyin-english">${pinyinWithHtmlElem.englishs}</div>
+<div class="my-pinyin-ru">${pinyinWithHtmlElem.ru}</div>
 `
-  }).join('<br>')
+  })
+
+  pinyinWithHtml = pinyinWithHtml.join('<br>')
 
   translation = x.translation
     .replace(new RegExp('<b>English Definition: </b>', 'g'), '')
@@ -185,15 +176,44 @@ output___ = output__.map(x => {
 
   return {
     kanji:              x.kanji,
+    purplecultre_dictionary_orig_transl: x.purplecultre_dictionary_orig_transl,
     translation,
     hsk:                x.hsk,
     examples:           x.examples,
     tree:               x.tree,
     img:                x.img,
     pinyinWithHtml,
-    // pinyinWithoutMarks: x.pinyinWithoutMarks,
   }
 })
+
+// pinyin_ = R.toPairs(pinyin).map(([mark, { output, ierogliphs }]) => ({ mark, numbered: output, ierogliphs, numberedWithout: output.replace(/\d/, ''), numberedNumber: Number(output.replace(/\D*(\d)/, '$1')) }))
+// pinyin_ = R.groupBy(R.prop('numberedWithout'), pinyin_)
+// pinyin_ = R.sortBy(x => x[0], R.toPairs(pinyin_))
+// pinyin_ = pinyin_.map(x => {
+//   const find = n => {
+//     const output = x[1].find(y => y.numberedNumber == n)
+//     if(!output) { return null }
+//     const ierogliphs = R.sortBy(x => {
+//       const x1 = freq[x]
+//       return x1 || Infinity
+//     }, output.ierogliphs)
+//     return `${output.mark}\n${ierogliphs.join(',')}`
+//   }
+//   return [
+//     x[0],
+//     find(1),
+//     find(2),
+//     find(3),
+//     find(4),
+//     find(5),
+//   ]
+// })
+
+// allPinyinColumn.map(allPinyinColumnEl => {
+//   if (!pinyin_[allPinyinColumnEl]) { return [] }
+//   console.log(R.values(pinyin_[allPinyinColumnEl]))
+//   return R.values(pinyin_[allPinyinColumnEl]).map(R.pick(["mark", "ierogliphs"]))
+// })
 
 ;(function(input){
   const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))
