@@ -99,27 +99,45 @@ allKanji = R.groupBy(R.prop('withoutMark'), R.sortBy(R.prop('withoutMark'), allK
 // fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-countries.json', JSON.stringify(pinyinToCountry, null, 2))
 pinyinToCountry = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-countries.json').toString())
 
-const Scraper = require('images-scraper')
-const google = new Scraper({
-  puppeteer: {
-    headless: true,
-  },
-})
+// const Scraper = require('images-scraper')
+// const google = new Scraper({
+//   puppeteer: {
+//     headless: true,
+//   },
+// })
 
-promises = R.values(R.mapObjIndexed(
-  (v, k) => {
-    if (!v.name) { return null }
-    const place = `${v.country} ${v.name}`
-    return [
-      `${place} statue`,
-      `${place} museum`,
-      `${place} water`,
-      `${place} temple church`,
-      `${place} restaurant`,
-    ].map((q, i) => ({ i: i + 1, q, k }))
-  },
-  pinyinToCountry
-)).filter(R.identity).flat()
+// promises = R.values(R.mapObjIndexed(
+//   (v, k) => {
+//     if (!v.name) { return null }
+//     const place = `${v.country} ${v.name}`
+//     return [
+//       `${place} statue`,
+//       `${place} museum`,
+//       `${place} water`,
+//       `${place} temple church`,
+//       `${place} restaurant`,
+//     ].map((q, i) => ({ i: i + 1, q, k }))
+//   },
+//   pinyinToCountry
+// )).filter(R.identity).flat()
+
+
+// {
+//   duan
+//   Duan Lake in New York
+//   1: https://lh5.googleusercontent.com/p/AF1QipMUAWiagjd64VyRadCIJdfuhcv26vIhm929iP3S=w203-h270-k-no
+//   3: https://lh5.googleusercontent.com/p/AF1QipNgr18lyxkNt93Z3aMYBDhaYHa1g4cnFkadj7So=w203-h270-k-no
+//   4: https://lh5.googleusercontent.com/p/AF1QipN2U-3ZYSwioOWhSTtw2qpxo7bIiZIoGg_bV2pV=w203-h152-k-no
+
+
+//   chuai
+//   Chuailo Resort
+//   Мізорам, Індія
+//   https://lh5.googleusercontent.com/p/AF1QipMXHv5QsLI51OcV7MK23jLv3EU8k04PqADjAWS4=w203-h114-k-no
+//   https://lh5.googleusercontent.com/p/AF1QipOwWgvr98WNqTD2rE7GTFagP9cQmMQBKlLWzjyS=w203-h270-k-no
+//   https://lh5.googleusercontent.com/p/AF1QipM4XmcxMaesHNCowwH56kGB484qghQowdJQwHHQ=w203-h270-k-no
+//   https://lh5.googleusercontent.com/p/AF1QipPjUSsgCWDE6Zo8grlIXN1UHDKBqPu2IWGN1mSp=w203-h152-k-no
+// }
 
 mkQueue(1).addAll(
   promises.map(({ i, k, q }) => async jobIndex => {
@@ -165,11 +183,19 @@ mapper = (v, k) => {
       ["Other", "other", v_.filter(x => x.freq > 5000 && x.hsk === null)],
     ].map(printRow).filter(x => x != null)
 
+    let images = pinyinToCountry[k][v_[0].number]
+
+    if (Array.isArray(images)) {
+      images = images.map(x => `<a href="${x.source}" class="example-image"><img src="${x.url}" alt="${x.title}"></a>`)
+    } else {
+      images = []
+    }
+
     let head = mark
     head = nodeWith('a', { href: `https://www.google.com/search?tbm=isch&q=${linkContent.split(' ').map(encodeURIComponent).join('+')}`, target: "_blank" }, head)
     head = nodeWith('span', { class: "marked" }, head)
 
-    return [head, ...printedValues].join('\n')
+    return [head, ...printedValues, ...images].join('\n')
   }
 
   const find = n => v.filter(x => x.number == n)
@@ -205,6 +231,8 @@ fileContent = `<!DOCTYPE HTML>
 tr:nth-child(even) {background: #CCC; }
 tr:nth-child(odd) {background: #FFF; }
 .row-other { display: none; }
+.example-image { display: block; }
+.example-image img { max-height: 200px; max-width: 200px; }
   </style>
  </head><body><table>
    <tr>

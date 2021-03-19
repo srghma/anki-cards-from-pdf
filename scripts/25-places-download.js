@@ -28,7 +28,7 @@ const isHanzi = require('./scripts/lib/isHanzi').isHanzi
 // x = R.uniq(fs.readFileSync("/home/srghma/Downloads/Hanping Chinese HSK.txt").toString().split('').filter(isHanzi))
 // console.log('\n' + x.join('\n'))
 
-dir = 'the-ultimate-japan-travel-destinations-list'
+dir = '50-things-to-see-in-ukraine'
 
 ps = Array.from({ length: 21 }, (_, i) => i + 1).map(async x => {
   const r = await fetch(`https://www.listchallenges.com/${dir}/list/${x}`, {
