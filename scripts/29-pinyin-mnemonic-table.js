@@ -2,6 +2,7 @@ const readStreamArray = require('./scripts/lib/readStreamArray').readStreamArray
 const checkDuplicateKeys = require('./scripts/lib/checkDuplicateKeys').checkDuplicateKeys
 const isHanzi = require('./scripts/lib/isHanzi').isHanzi
 const mkQueue = require('./scripts/lib/mkQueue').mkQueue
+const nodeWith = require('./scripts/lib/nodeWith').nodeWith
 const mapWithForEachToArray = require('./scripts/lib/mapWithForEachToArray').mapWithForEachToArray
 const arrayToRecordByPosition = require('./scripts/lib/arrayToRecordByPosition').arrayToRecordByPosition
 const csv = require('csv-parser')
@@ -13,6 +14,7 @@ const { JSDOM } = jsdom;
 const dom = new JSDOM(``);
 const {Translate} = require('@google-cloud/translate').v2;
 const translate = new Translate({projectId: "annular-form-299211"});
+// const cities = require('all-the-cities')
 
 // table = await readStreamArray(fs.createReadStream('/home/srghma/projects/anki-cards-from-pdf/chinese pinyin mnemonics2.tsv').pipe(csv({ separator: "\t", headers: "ru en 0 1 2 3 4 5".split(" ") })))
 // table = table.map(x => ({ ...x, ruen: `${x.ru}|${x.en}` }))
@@ -46,40 +48,103 @@ allKanji = allKanji.map(kanjiInfo => kanjiInfo.pinyin.map(pinyinInfo => ({
 }))).flat()
 allKanji = R.groupBy(R.prop('withoutMark'), R.sortBy(R.prop('withoutMark'), allKanji))
 
-nodeWith = R.curryN(3, (nodeName, props, content) => {
-  if (props) {
-    if (Array.isArray(props)) {
-      props = props.join(' ')
-    } else {
-      props = R.toPairs(props)
+// cities_ = R.reverse(R.sortBy(R.prop('population'), cities))
+// cities_ = R.map(R.pick('cityId name country'.split(' ')), cities_)
+// cities_ = R.fromPairs(R.map(x => [x.cityId, R.pick('name country'.split(' '), x)], cities_))
 
-      props = props.map(([k, v]) => {
-        if (Array.isArray(v)) { v = v.join(' ') }
-        return `${k}="${v}"`
-      }).join(' ')
-    }
+// citiesBuff = cities_
+// output = R.fromPairs(R.reverse(R.sortBy(R.prop('length'), R.keys(allKanji))).map(pinyin => {
+//   let foundInStart = true
+//   let [citiesWith, citiesWithout] = R.partition(city => city.country != 'CN' && city.name.toLowerCase().startsWith(pinyin), citiesBuff)
 
-    if (props.length == 0) {
-      props = null
-    }
-  }
+//   if (citiesWith.length <= 0) {
+//     [citiesWith, citiesWithout] = R.partition(city => city.name.toLowerCase().startsWith(pinyin), citiesBuff)
+//   }
 
-  return `<${nodeName}${props ? ' ' + props : ''}>${content}</${nodeName}>`
+//   if (citiesWith.length <= 0) {
+//     foundInStart = false
+//     [citiesWith, citiesWithout] = R.partition(city => city.name.toLowerCase().includes(pinyin), citiesBuff)
+//   }
+
+//   if (citiesWith.length <= 0) {
+//     return [pinyin, null]
+//   }
+
+//   if (foundInStart) {
+//     citiesBuff = citiesWithout
+//     return [pinyin, citiesWith[0]]
+//   } else {
+//     // console.log({ x, citiesWithout })
+//     let citiesWithFirst5 = citiesWith.slice(0, 1)
+//     const citiesWithOther = citiesWith.slice(1)
+//     citiesBuff = [...citiesWithOther, ...citiesWithout]
+//     citiesWithFirst5 = citiesWithFirst5[0]
+
+//     return [pinyin, citiesWithFirst5]
+//   }
+// }))
+// output_ = R.mapObjIndexed((v, k) => R.pick('name country'.split(' '), v), output)
+
+// require("i18n-iso-countries").registerLocale(require("i18n-iso-countries/langs/en.json"))
+
+// pinyinToCountry = R.mapObjIndexed((x, pinyin) => {
+//   if (!x) { return null }
+//   const country = require("i18n-iso-countries").getName(x.country, "en", {select: "official"})
+//   const name = x.name.replace(new RegExp(pinyin, "i"), pinyin.toUpperCase())
+//   return { name, country, "1": "", "2": "", "3": "", "4": "", "5": "" }
+// }, output)
+
+// pinyinToCountry
+
+// fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-countries.json', JSON.stringify(pinyinToCountry, null, 2))
+pinyinToCountry = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-countries.json').toString())
+
+const Scraper = require('images-scraper')
+const google = new Scraper({
+  puppeteer: {
+    headless: true,
+  },
 })
+
+promises = R.values(R.mapObjIndexed(
+  (v, k) => {
+    if (!v.name) { return null }
+    const place = `${v.country} ${v.name}`
+    return [
+      `${place} statue`,
+      `${place} museum`,
+      `${place} water`,
+      `${place} temple church`,
+      `${place} restaurant`,
+    ].map((q, i) => ({ i: i + 1, q, k }))
+  },
+  pinyinToCountry
+)).filter(R.identity).flat()
+
+mkQueue(1).addAll(
+  promises.map(({ i, k, q }) => async jobIndex => {
+    if (pinyinToCountry[k][i]) {
+      console.log({ m: "skipping", k, q, i })
+      return
+    }
+    const images = await google.scrape(q, 5)
+    console.log({ images, k, q, i })
+    pinyinToCountry[k][i] = images
+    fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-countries.json', JSON.stringify(pinyinToCountry, null, 2))
+  })
+)
 
 mapper = (v, k) => {
   const ru = require('./scripts/lib/purplecultureSimpleEnToSimpleRu').convertToRuTable[k]
 
   if (!ru) { throw new Error(k) }
 
-  const print = (v_) => {
+  const print = (v_, linkContent) => {
     if (v_.length <= 0) { return null }
-
     const mark = v_[0].marked
-
     const findHSK = n => v_.filter(x => x.hsk == n)
 
-    const print = ([k, class_, v]) => {
+    const printRow  = ([k, class_, v]) => {
       if (v.length <= 0) { return null }
       const key = nodeWith('span', { class: "key" }, k)
       const val = v
@@ -98,23 +163,34 @@ mapper = (v, k) => {
       ["HSK 6", "hsk-6", findHSK(6)],
       ["5000",  "5000", v_.filter(x => x.freq <= 5000 && x.hsk === null)],
       ["Other", "other", v_.filter(x => x.freq > 5000 && x.hsk === null)],
-    ].map(print).filter(x => x != null)
+    ].map(printRow).filter(x => x != null)
 
-    const head = nodeWith('span', { class: "marked" }, mark)
+    let head = mark
+    head = nodeWith('a', { href: `https://www.google.com/search?tbm=isch&q=${linkContent.split(' ').map(encodeURIComponent).join('+')}`, target: "_blank" }, head)
+    head = nodeWith('span', { class: "marked" }, head)
 
     return [head, ...printedValues].join('\n')
   }
 
   const find = n => v.filter(x => x.number == n)
 
+  let place = pinyinToCountry[k]
+
+  if (place) {
+    place = `${place.country} ${place.name}`
+  } else {
+    place = ''
+  }
+
   return [
     k,
     ru,
-    print(find(1)),
-    print(find(2)),
-    print(find(3)),
-    print(find(4)),
-    print(find(5)),
+    place,
+    print(find(1), `${place} statue`),
+    print(find(2), `${place} museum`),
+    print(find(3), `${place} water`),
+    print(find(4), `${place} temple church`),
+    print(find(5), `${place} restaurant`),
   ]
 }
 
@@ -134,7 +210,7 @@ tr:nth-child(odd) {background: #FFF; }
    <tr>
     ${["", "", "", "1, ˉ", "2, ˊ", "3, ˇ", "4, ˋ", "5, ."].map(nodeWith('th', null)).join('\n')}
    </tr>
-   ${allKanji_.map(R.map(x => x ? nodeWith('td', null, x) : '')).map(nodeWith('tr', null)).join('\n')}
+   ${allKanji_.map(R.map(x => nodeWith('td', null, x || ''))).map(x => nodeWith('tr', null, x.join('  \n'))).join('\n')}
   </table>
  </body>
 </html>`
