@@ -46,7 +46,37 @@ allKanji = allKanji.map(kanjiInfo => kanjiInfo.pinyin.map(pinyinInfo => ({
   marked: pinyinInfo.marked,
   withoutMark: pinyinInfo.withoutMark,
 }))).flat()
-allKanji = R.groupBy(R.prop('withoutMark'), R.sortBy(R.prop('withoutMark'), allKanji))
+
+// { '1': 332, '2': 258, '3': 321, '4': 355, '5': 36 }
+// R.mapObjIndexed(R.compose(R.prop('length'), R.uniq, R.map(R.prop('withoutMark'))), R.groupBy(R.prop('number'), allKanji))
+
+pinyin = R.mapObjIndexed(R.compose(x => x.sort(), R.uniq, R.map(R.prop('withoutMark'))), R.groupBy(R.prop('number'), allKanji))
+
+pinyin = R.toPairs({
+  '1': '1-world',
+  '2': '2-ch',
+  '3': '3-eu',
+  '4': '4-us',
+  '5': '5-ukr',
+}).map(([ n, dir ]) => {
+  return R.zip(pinyin[n], fs.readdirSync(`/home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/${dir}`))
+    .map(([ pinyin, filename ]) => ({ n, dir, pinyin, filename }))
+}).flat()
+
+pinyinCss = pinyin.map(x => `.pinyin-mnemonic-${x.pinyin}${x.n} img { content: url(mnemonic-places/${x.dir}/${encodeURIComponent(x.filename)}); }
+.pinyin-mnemonic-${x.pinyin}${x.n} span:before { content: "${x.filename.replace(/\.jpg/g, '')}"; }
+`).join('\n')
+
+// wont be removed if underscore
+fs.writeFileSync('/home/srghma/.local/share/Anki2/User 1/collection.media/_pinyin-to-countries.css', pinyinCss)
+
+allKanjiForTable = R.groupBy(R.prop('withoutMark'), R.sortBy(R.prop('withoutMark'), allKanji))
+
+pinyinToImageForTable = R.pipe(
+  R.groupBy(R.prop('pinyin')),
+  R.map(R.groupBy(R.prop('n'))),
+  R.map(R.map(x => x[0]))
+)(pinyin)
 
 // cities_ = R.reverse(R.sortBy(R.prop('population'), cities))
 // cities_ = R.map(R.pick('cityId name country'.split(' ')), cities_)
@@ -97,7 +127,7 @@ allKanji = R.groupBy(R.prop('withoutMark'), R.sortBy(R.prop('withoutMark'), allK
 // pinyinToCountry
 
 // fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-countries.json', JSON.stringify(pinyinToCountry, null, 2))
-pinyinToCountry = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-countries.json').toString())
+// pinyinToCountry = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-countries.json').toString())
 
 // const Scraper = require('images-scraper')
 // const google = new Scraper({
@@ -139,25 +169,25 @@ pinyinToCountry = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-f
 //   https://lh5.googleusercontent.com/p/AF1QipPjUSsgCWDE6Zo8grlIXN1UHDKBqPu2IWGN1mSp=w203-h152-k-no
 // }
 
-mkQueue(1).addAll(
-  promises.map(({ i, k, q }) => async jobIndex => {
-    if (pinyinToCountry[k][i]) {
-      console.log({ m: "skipping", k, q, i })
-      return
-    }
-    const images = await google.scrape(q, 5)
-    console.log({ images, k, q, i })
-    pinyinToCountry[k][i] = images
-    fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-countries.json', JSON.stringify(pinyinToCountry, null, 2))
-  })
-)
+// mkQueue(1).addAll(
+//   promises.map(({ i, k, q }) => async jobIndex => {
+//     if (pinyinToCountry[k][i]) {
+//       console.log({ m: "skipping", k, q, i })
+//       return
+//     }
+//     const images = await google.scrape(q, 5)
+//     console.log({ images, k, q, i })
+//     pinyinToCountry[k][i] = images
+//     fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-countries.json', JSON.stringify(pinyinToCountry, null, 2))
+//   })
+// )
 
 mapper = (v, k) => {
   const ru = require('./scripts/lib/purplecultureSimpleEnToSimpleRu').convertToRuTable[k]
 
   if (!ru) { throw new Error(k) }
 
-  const print = (v_, linkContent) => {
+  const print = (v_) => {
     if (v_.length <= 0) { return null }
     const mark = v_[0].marked
     const findHSK = n => v_.filter(x => x.hsk == n)
@@ -183,44 +213,30 @@ mapper = (v, k) => {
       ["Other", "other", v_.filter(x => x.freq > 5000 && x.hsk === null)],
     ].map(printRow).filter(x => x != null)
 
-    let images = pinyinToCountry[k][v_[0].number]
-
-    if (Array.isArray(images)) {
-      images = images.map(x => `<a href="${x.source}" class="example-image"><img src="${x.url}" alt="${x.title}"></a>`)
-    } else {
-      images = []
-    }
+    let image = pinyinToImageForTable[k][v_[0].number]
+    image = `<img src="file:///home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/${encodeURIComponent(image.dir)}/${encodeURIComponent(image.filename)}" alt="${image.filename.replace(/\.jpg/, '')}"></a>`
 
     let head = mark
-    head = nodeWith('a', { href: `https://www.google.com/search?tbm=isch&q=${linkContent.split(' ').map(encodeURIComponent).join('+')}`, target: "_blank" }, head)
+    // head = nodeWith('a', { href: `https://www.google.com/search?tbm=isch&q=${linkContent.split(' ').map(encodeURIComponent).join('+')}`, target: "_blank" }, head)
     head = nodeWith('span', { class: "marked" }, head)
 
-    return [head, ...printedValues, ...images].join('\n')
+    return [head, ...printedValues, image].join('\n')
   }
 
   const find = n => v.filter(x => x.number == n)
 
-  let place = pinyinToCountry[k]
-
-  if (place) {
-    place = `${place.country} ${place.name}`
-  } else {
-    place = ''
-  }
-
   return [
     k,
     ru,
-    place,
-    print(find(1), `${place} statue`),
-    print(find(2), `${place} museum`),
-    print(find(3), `${place} water`),
-    print(find(4), `${place} temple church`),
-    print(find(5), `${place} restaurant`),
+    print(find(1)),
+    print(find(2)),
+    print(find(3)),
+    print(find(4)),
+    print(find(5)),
   ]
 }
 
-allKanji_ = R.values(R.mapObjIndexed(mapper, allKanji))
+allKanji_ = R.values(R.mapObjIndexed(mapper, allKanjiForTable))
 
 fileContent = `<!DOCTYPE HTML>
 <html>
