@@ -19,7 +19,7 @@ convertToRuTable = R.fromPairs(convertToRuTable.map(x => [x.marked.replace('·',
 // convertToRuTable_ = R.uniq(R.toPairs(convertToRuTable).map(x => x[1].replace(/\d/, '')))
 
 // errors = []
-pinyin = {}
+// pinyin = {}
 function purplecultureMarkedToNumbered(x, input) {
   const convertToRuTable_ = {
     ...convertToRuTable,
@@ -29,8 +29,8 @@ function purplecultureMarkedToNumbered(x, input) {
     'kèi':  'gei4',
     'kei':  'gei5',
     'fiào': 'fiao4',
-    'r':    'r',
-    'xx':   'xx',
+    'r':    'r5',
+    'xx':   'xx5',
   }
 
   let output = convertToRuTable_[input]
@@ -40,11 +40,11 @@ function purplecultureMarkedToNumbered(x, input) {
     // errors.push({ x, input })
   }
 
-  if (!pinyin[input]) {
-    pinyin[input] = { output, ierogliphs: [] }
-  }
+  // if (!pinyin[input]) {
+  //   pinyin[input] = { output, ierogliphs: [] }
+  // }
 
-  pinyin[input].ierogliphs.push(x.kanji)
+  // pinyin[input].ierogliphs.push(x.kanji)
 
   return output
 }

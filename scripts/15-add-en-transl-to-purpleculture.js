@@ -44,7 +44,6 @@ await mkQueue(queueSize).addAll(promises)
 
 output_ = output.filter(R.identity).map(x => {
   const removeIf = (x) => x && x.remove()
-
   let translation = x.translation
     .replace(/(href|src)="\//g, '$1="https://www.purpleculture.net/')
     .replace(/<div class="swordlist"><b>More: <\/b>.*?<\/div>/g, '')
@@ -151,11 +150,14 @@ require('./scripts/lib/google_translate_with_cache').google_translate_sync()
 // R.fromPairs([...convertToRuTable_, ].map(x => [x, pinyin_[x]]))
 
 output___ = output__.map(x => {
-  pinyinWithHtml = x.pinyinWithHtml.map(pinyinWithHtmlElem => {
-    img_src = purplecultureMarkedToNumbered(x, pinyinWithHtmlElem.pinyinsText)
+  let pinyinWithHtml = x.pinyinWithHtml.map(pinyinWithHtmlElem => {
+    const pinyinWithNumber = purplecultureMarkedToNumbered(x, pinyinWithHtmlElem.pinyinsText)
+
+    const pinyin = pinyinWithNumber.replace(/\d+/g, '')
+    const pinyinNumber = pinyinWithNumber.replace(/\D+/g, '')
 
     return `
-<div class="my-pinyin-image-container pinyin-mnemonic-${img_src}"><span></span><img></img></div>
+<div class="my-pinyin-image-container pinyin-${pinyin} pinyin-number-${pinyinNumber}"><span></span><img><img></div>
 <div class="my-pinyin-tone">${pinyinWithHtmlElem.pinyinsHTML}</div>
 <div class="my-pinyin-english">${pinyinWithHtmlElem.englishs}</div>
 <div class="my-pinyin-ru">${pinyinWithHtmlElem.ru}</div>
@@ -164,25 +166,25 @@ output___ = output__.map(x => {
 
   pinyinWithHtml = pinyinWithHtml.join('<br>')
 
-  translation = x.translation
-    .replace(new RegExp('<b>English Definition: </b>', 'g'), '')
-    .replace(new RegExp('style="line-height:1.6"', 'g'), '')
-    .replace(new RegExp('id="sen0"', 'g'), '')
-    .replace(new RegExp(`<ruby class="mainsc">${x.kanji}</ruby>`, 'g'), '')
-    .replace(new RegExp(` class="d-flex"`, 'g'), '')
-    .replace(new RegExp(`<br><br>`, 'g'), '')
-    .replace(/<li class="pt-2">[^<]*<\/li>/g, '')
-    .replace(/<ul style="[^"]*"><\/ul>/g, '')
+  // const translation = x.translation
+  //   .replace(new RegExp('<b>English Definition: </b>', 'g'), '')
+  //   .replace(new RegExp('style="line-height:1.6"', 'g'), '')
+  //   .replace(new RegExp('id="sen0"', 'g'), '')
+  //   .replace(new RegExp(`<ruby class="mainsc">${x.kanji}</ruby>`, 'g'), '')
+  //   .replace(new RegExp(` class="d-flex"`, 'g'), '')
+  //   .replace(new RegExp(`<br><br>`, 'g'), '')
+  //   .replace(/<li class="pt-2">[^<]*<\/li>/g, '')
+  //   .replace(/<ul style="[^"]*"><\/ul>/g, '')
 
   return {
     kanji:              x.kanji,
-    purplecultre_dictionary_orig_transl: x.purplecultre_dictionary_orig_transl,
-    translation,
-    hsk:                x.hsk,
-    examples:           x.examples,
-    tree:               x.tree,
-    img:                x.img,
     pinyinWithHtml,
+    // purplecultre_dictionary_orig_transl: x.purplecultre_dictionary_orig_transl,
+    // translation,
+    // hsk:                x.hsk,
+    // examples:           x.examples,
+    // tree:               x.tree,
+    // img:                x.img,
   }
 })
 

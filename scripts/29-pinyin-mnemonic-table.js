@@ -50,21 +50,23 @@ allKanji = allKanji.map(kanjiInfo => kanjiInfo.pinyin.map(pinyinInfo => ({
 // { '1': 332, '2': 258, '3': 321, '4': 355, '5': 36 }
 // R.mapObjIndexed(R.compose(R.prop('length'), R.uniq, R.map(R.prop('withoutMark'))), R.groupBy(R.prop('number'), allKanji))
 
-pinyin = R.mapObjIndexed(R.compose(x => x.sort(), R.uniq, R.map(R.prop('withoutMark'))), R.groupBy(R.prop('number'), allKanji))
+// pinyin = R.mapObjIndexed(R.compose(x => x.sort(), R.uniq, R.map(R.prop('withoutMark'))), R.groupBy(R.prop('number'), allKanji))
 
-pinyin = R.toPairs({
-  '1': '1-world',
-  '2': '2-ch',
-  '3': '3-eu',
-  '4': '4-us',
-  '5': '5-ukr',
-}).map(([ n, dir ]) => {
-  return R.zip(pinyin[n], fs.readdirSync(`/home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/${dir}`))
-    .map(([ pinyin, filename ]) => ({ n, dir, pinyin, filename }))
-}).flat()
+dir = '1-world'
+parentDir = '/home/srghma/.local/share/Anki2/User 1/collection.media'
+files = fs.readdirSync(`${parentDir}/mnemonic-places/${dir}`)
+filesWithPinyin = R.zip(R.uniq(R.map(R.prop('withoutMark'), allKanji)).sort(), files)
 
-pinyinCss = pinyin.map(x => `.pinyin-mnemonic-${x.pinyin}${x.n} img { content: url(mnemonic-places/${x.dir}/${encodeURIComponent(x.filename)}); }
-.pinyin-mnemonic-${x.pinyin}${x.n} span:before { content: "${x.filename.replace(/\.jpg/g, '')}"; }
+pinyinCss = [
+  "1-high.jpg",
+  "2-what.jpg",
+  "3-convultion.jpg",
+  "4-no.jpg",
+  "5-stop.jpg",
+].map((x, i) => `.my-pinyin-image-container.pinyin-number-${i + 1} img:nth-child(3) { content: url(mnemonic-places/${x}); }`).join('\n')
+
+pinyinCss = pinyinCss + '\n' + filesWithPinyin.map(x => `.my-pinyin-image-container.pinyin-${x[0]} img:nth-child(2) { content: url(mnemonic-places/${dir}/${encodeURIComponent(x[1])}); }
+.my-pinyin-image-container.pinyin-${x[0]} span:before { content: "${x[1].replace(/\.jpg/g, '')}"; }
 `).join('\n')
 
 fs.writeFileSync('/home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/pinyin-to-countries.css', pinyinCss)
