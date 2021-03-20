@@ -67,8 +67,7 @@ pinyinCss = pinyin.map(x => `.pinyin-mnemonic-${x.pinyin}${x.n} img { content: u
 .pinyin-mnemonic-${x.pinyin}${x.n} span:before { content: "${x.filename.replace(/\.jpg/g, '')}"; }
 `).join('\n')
 
-// wont be removed if underscore
-fs.writeFileSync('/home/srghma/.local/share/Anki2/User 1/collection.media/_pinyin-to-countries.css', pinyinCss)
+fs.writeFileSync('/home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/pinyin-to-countries.css', pinyinCss)
 
 allKanjiForTable = R.groupBy(R.prop('withoutMark'), R.sortBy(R.prop('withoutMark'), allKanji))
 
