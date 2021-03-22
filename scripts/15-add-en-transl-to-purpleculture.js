@@ -20,7 +20,6 @@ input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 Nih
 
 const queueSize = 10
 doms = Array.from({ length: queueSize }, (_, i) => { return new JSDOM(``) })
-
 output = []
 promises = input.map((x, inputIndex) => async jobIndex => {
   const kanji = x['kanji']
