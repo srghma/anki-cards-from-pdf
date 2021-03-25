@@ -20,9 +20,9 @@ const mkQueue = require('./scripts/lib/mkQueue').mkQueue
 
 input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/big-table.csv').pipe(csv({ separator: ",", headers: [ "word", "freq" ] })))
 
-words = input.map(x => x.word).join('\n')
-ru_transl = await translate.translate(words, 'ru')
-ru_transl_ = ru_transl.split('\n')
+// words = input.map(x => x.word).join('\n')
+// ru_transl = await translate.translate(words, 'ru')
+// ru_transl_ = ru_transl.split('\n')
 
 const queueSize = 10
 doms = Array.from({ length: queueSize }, (_, i) => { return new JSDOM(``) })
@@ -57,3 +57,9 @@ promises = input.map((x, inputIndex) => async jobIndex => {
   }
 })
 mkQueue(queueSize).addAll(promises)
+
+;(function(input){
+  const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))
+  const s = require('csv-writer').createObjectCsvStringifier({ header }).stringifyRecords(input)
+  fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', s)
+})(output);
