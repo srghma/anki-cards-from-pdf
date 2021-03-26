@@ -26,7 +26,19 @@ function svg2img_promised(svgString) {
 }
 
 
-allKanjiOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: "\t", headers: "kanji hanziyan".split(" ") })))
+allKanjiOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: "\t", headers: "kanji _1 _2".split(" ") })))
+allKanjiOrig_ = allKanjiOrig.map(x => {
+  const f = x => x.replace(' style="padding-top:30px; "', '').replace('<br style="clear:left; ">', '').replace(' class="isection wiki_class"', '').replace(/&nbsp; <\/div>$/, '').replace(/^<div> /, '')
+  const _1 = f(x._1)
+  const _2 = f(x._2)
+  return { kanji: x.kanji, _1, _2  }
+})
+;(function(input){
+  const s = input.map(x => Object.values(x).join('\t')).join('\n')
+  // const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))
+  // const s = require('csv-writer').createObjectCsvStringifier({ header, fieldDelimeter: ";" }).stringifyRecords(input)
+  fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', s)
+})(allKanjiOrig_);
 
 images = allKanjiOrig.map(R.prop('hanziyan')).map(x => {
   return Array.from(x.matchAll(/#(\w+), #\w+ { background-image: url\('(data:image[^']+)'\) }/g)).map(x => ({ name: x[1], data: x[2] }))
