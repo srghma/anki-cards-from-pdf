@@ -33,6 +33,7 @@ allKanjiOrig_ = allKanjiOrig.map(x => {
   const _2 = f(x._2)
   return { kanji: x.kanji, _1, _2  }
 })
+
 ;(function(input){
   const s = input.map(x => Object.values(x).join('\t')).join('\n')
   // const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))

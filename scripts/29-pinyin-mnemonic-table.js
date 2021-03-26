@@ -14,6 +14,8 @@ const { JSDOM } = jsdom;
 const dom = new JSDOM(``);
 const {Translate} = require('@google-cloud/translate').v2;
 const translate = new Translate({projectId: "annular-form-299211"});
+toNumber = x => Number(x) === 0 ? null : Number(x)
+
 // const cities = require('all-the-cities')
 
 // table = await readStreamArray(fs.createReadStream('/home/srghma/projects/anki-cards-from-pdf/chinese pinyin mnemonics2.tsv').pipe(csv({ separator: "\t", headers: "ru en 0 1 2 3 4 5".split(" ") })))
@@ -24,7 +26,6 @@ const translate = new Translate({projectId: "annular-form-299211"});
 //   return R.pick('1 2 3 4 5'.split(' '), x)
 // }, table)
 
-allKanjiOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: "\t", headers: "kanji hsk freq pinyin".split(" ") })))
 allKanji = R.map(R.pick("kanji hsk freq pinyin".split(" ")), allKanjiOrig)
 allKanji = R.map(R.over(R.lensProp("pinyin"), x => {
   x = Array.from(x.matchAll(/<a class="pinyin tone(\d+)\s*" href="https:\/\/www\.purpleculture\.net\/mp3\/([^\.]+)\.mp3">([^<]+)<\/a>/g))
@@ -33,10 +34,6 @@ allKanji = R.map(R.over(R.lensProp("pinyin"), x => {
   console.log(x)
   return x
 }), allKanji)
-toNumber = x => {
-  x = Number(x)
-  return x === 0 ? null : x
-}
 allKanji = allKanji.map(kanjiInfo => kanjiInfo.pinyin.map(pinyinInfo => ({
   // numbered: 'shan4',
   kanji: kanjiInfo.kanji,
@@ -56,7 +53,6 @@ dir = '1-world'
 parentDir = '/home/srghma/.local/share/Anki2/User 1/collection.media'
 files = fs.readdirSync(`${parentDir}/mnemonic-places/${dir}`)
 filesWithPinyin = R.zip(R.uniq(R.map(R.prop('withoutMark'), allKanji)).sort(), files)
-
 pinyinCss = [
   "1-high.jpg",
   "2-what.jpg",
@@ -64,15 +60,11 @@ pinyinCss = [
   "4-no.jpg",
   "5-stop.jpg",
 ].map((x, i) => `.my-pinyin-image-container.pinyin-number-${i + 1} img:nth-child(3) { content: url(mnemonic-places/${x}); }`).join('\n')
-
 pinyinCss = pinyinCss + '\n' + filesWithPinyin.map(x => `.my-pinyin-image-container.pinyin-${x[0]} img:nth-child(2) { content: url(mnemonic-places/${dir}/${encodeURIComponent(x[1])}); }
 .my-pinyin-image-container.pinyin-${x[0]} span:before { content: "${x[1].replace(/\.jpg/g, '')}"; }
 `).join('\n')
-
 fs.writeFileSync('/home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/pinyin-to-countries.css', pinyinCss)
-
 allKanjiForTable = R.groupBy(R.prop('withoutMark'), R.sortBy(R.prop('withoutMark'), allKanji))
-
 pinyinToImageForTable = R.pipe(
   R.groupBy(R.prop('pinyin')),
   R.map(R.groupBy(R.prop('n'))),
