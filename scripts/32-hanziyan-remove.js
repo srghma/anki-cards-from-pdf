@@ -129,7 +129,7 @@ allKanjiOrig_ = allKanjiOrig.map(x => {
 }).filter(R.identity)
 
 ;(function(input){
-  const s = input.map(({ kanji, hanziyan }) => `${kanji}\t${hanziyan}`).join('\n')
+  const s = input.map(x => Object.values(x).join('\t')).join('\n')
   // const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))
   // const s = require('csv-writer').createObjectCsvStringifier({ header, fieldDelimeter: ";" }).stringifyRecords(input)
   fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', s)
