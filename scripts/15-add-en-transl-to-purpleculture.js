@@ -1,5 +1,7 @@
 const readStreamArray = require('./scripts/lib/readStreamArray').readStreamArray
+const removeHTML = require('./scripts/lib/removeHTML').removeHTML
 const checkDuplicateKeys = require('./scripts/lib/checkDuplicateKeys').checkDuplicateKeys
+const purplecultureMarkedToNumbered = require('./scripts/lib/purplecultureMarkedToNumbered').purplecultureMarkedToNumbered
 const isHanzi = require('./scripts/lib/isHanzi').isHanzi
 const mkQueue = require('./scripts/lib/mkQueue').mkQueue
 const mapWithForEachToArray = require('./scripts/lib/mapWithForEachToArray').mapWithForEachToArray
@@ -117,7 +119,13 @@ promises = output_.map((x, index) => async jobIndex => {
     output__.push(x)
     return
   }
+  const dom = doms[jobIndex]
   let translationInput = x.pinyinWithHtml.map(x => x.englishs).join('\n')
+
+  if (!translationInput) { return }
+
+  translationInput = removeHTML(dom, translationInput)
+
   translation = await require('./scripts/lib/google_translate_with_cache').google_translate_with_cache(translationInput, 'ru')
   translation = translation[0].split('\n')
   translation = translation.map(x => x.trim())
@@ -139,7 +147,7 @@ promises = output_.map((x, index) => async jobIndex => {
     pinyinWithHtml,
   })
 })
-await mkQueue(10).addAll(promises)
+await mkQueue(queueSize).addAll(promises)
 
 require('./scripts/lib/google_translate_with_cache').google_translate_sync()
 
@@ -149,22 +157,28 @@ require('./scripts/lib/google_translate_with_cache').google_translate_sync()
 // R.fromPairs([...convertToRuTable_, ].map(x => [x, pinyin_[x]]))
 
 output___ = output__.map(x => {
+  const markHelp = x => {
+    if (!x) { return '' }
+    x = removeHTML(dom, x)
+    x = x.trim().replace(/\[(\w+)\]/g, '<span class="purpleculture-english__pinyin-info">[$1]</span>')
+    x = x.split('').map(x => {
+      if (isHanzi(x)) { return `<span class="purpleculture-english__pinyin-info">${x}</span>` }
+      return x
+    }).join('')
+    return x
+  }
   let pinyinWithHtml = x.pinyinWithHtml.map(pinyinWithHtmlElem => {
     const pinyinWithNumber = purplecultureMarkedToNumbered(x, pinyinWithHtmlElem.pinyinsText)
-
     const pinyin = pinyinWithNumber.replace(/\d+/g, '')
     const pinyinNumber = pinyinWithNumber.replace(/\D+/g, '')
-
     return `
-<div class="my-pinyin-image-container pinyin-${pinyin} pinyin-number-${pinyinNumber}"><span></span><img><img></div>
-<div class="my-pinyin-tone">${pinyinWithHtmlElem.pinyinsHTML}</div>
-<div class="my-pinyin-english">${pinyinWithHtmlElem.englishs}</div>
-<div class="my-pinyin-ru">${pinyinWithHtmlElem.ru}</div>
-`
+  <div class="my-pinyin-image-container pinyin-${pinyin} pinyin-number-${pinyinNumber}"><span></span><img><img></div>
+  <div class="my-pinyin-tone">${pinyinWithHtmlElem.pinyinsHTML}</div>
+  <div class="my-pinyin-english">${markHelp(pinyinWithHtmlElem.englishs)}</div>
+  <div class="my-pinyin-ru">${markHelp(pinyinWithHtmlElem.ru)}</div>
+  `
   })
-
   pinyinWithHtml = pinyinWithHtml.join('<br>')
-
   // const translation = x.translation
   //   .replace(new RegExp('<b>English Definition: </b>', 'g'), '')
   //   .replace(new RegExp('style="line-height:1.6"', 'g'), '')
@@ -174,7 +188,6 @@ output___ = output__.map(x => {
   //   .replace(new RegExp(`<br><br>`, 'g'), '')
   //   .replace(/<li class="pt-2">[^<]*<\/li>/g, '')
   //   .replace(/<ul style="[^"]*"><\/ul>/g, '')
-
   return {
     kanji:              x.kanji,
     pinyinWithHtml,

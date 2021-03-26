@@ -17,5 +17,4 @@ function isHanzi(ch) {
 }
 
 exports.isHanzi = isHanzi
-exports.isHanzi = isHanzi
 exports.isHanziOrSpecial = isHanziOrSpecial

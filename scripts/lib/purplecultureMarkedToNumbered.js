@@ -48,3 +48,5 @@ function purplecultureMarkedToNumbered(x, input) {
 
   return output
 }
+
+exports.purplecultureMarkedToNumbered = purplecultureMarkedToNumbered

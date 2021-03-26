@@ -17,7 +17,6 @@ const easypronunciation_chinese = require('./scripts/lib/easypronunciation_chine
 const processPurpleculture = require('./scripts/lib/processPurpleculture').processPurpleculture
 const removeHTML = require('./scripts/lib/removeHTML').removeHTML
 const mapWithForEachToArray = require('./scripts/lib/mapWithForEachToArray').mapWithForEachToArray
-const download = require('image-downloader')
 const Queue = require('promise-queue')
 const path = require('path')
 const anyAscii = require('any-ascii')
@@ -74,7 +73,7 @@ await mkdirp(fulldir)
 images.forEach(x => {
   queue.add(async function() {
     const extname = path.extname(x.src)
-    const resp = await download.image({ url: `https://www.listchallenges.com${x.src}`, dest: `${fulldir}/${anyAscii(decodeURIComponent(entities.decodeHTML(x.alt)))}${extname}` })
+    const resp = await require('image-downloader').image({ url: `https://www.listchallenges.com${x.src}`, dest: `${fulldir}/${anyAscii(decodeURIComponent(entities.decodeHTML(x.alt)))}${extname}` })
     console.log('Saved to', resp.filename)
   })
 })
