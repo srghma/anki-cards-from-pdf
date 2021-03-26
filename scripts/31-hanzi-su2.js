@@ -54,6 +54,7 @@ output = R.toPairs(input_).map(([kanji, { wiki, slide }]) => {
 
 images = R.uniq(R.map(R.prop('images'), output).flat()).map(img => ({ src: img, filename: 'hanzisu' + decodeURI(img).replace('http://hanzi.su/data', '').replace(/[\.\/]/g, '-').replace('-png', '.png') }))
 
+await mkdirp(fulldir)
 promises = images.map(x => async jobIndex => {
   const extname = path.extname(x.src)
   try {
