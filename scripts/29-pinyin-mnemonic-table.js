@@ -115,7 +115,7 @@ allKanji = allKanji.map(kanjiInfo => kanjiInfo.purpleculture_pinyin.map(pinyinIn
 // .my-pinyin-image-container.pinyin-${x[0]} span:before { content: "${x[1].replace(/\.jpg/g, '')}"; }
 // `).join('\n')
 // fs.writeFileSync('/home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/pinyin-to-countries.css', pinyinCss)
-// allKanjiForTable = R.groupBy(R.prop('withoutMark'), R.sortBy(R.prop('withoutMark'), allKanji))
+allKanjiForTable = R.groupBy(R.prop('withoutMark'), R.sortBy(R.prop('withoutMark'), allKanji))
 // pinyinToImageForTable = R.pipe(
 //   R.groupBy(R.prop('purpleculture_pinyin')),
 //   R.map(R.groupBy(R.prop('n'))),
@@ -176,47 +176,44 @@ cities_ = R.fromPairs(R.map(x => [x.cityId, R.pick('name country'.split(' '), x)
 
 pinyinToCountry = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-countries.json').toString())
 
-const Scraper = require('images-scraper')
-const google = new Scraper({
-  puppeteer: {
-    headless: true,
-  },
-})
-
-promises = R.values(R.mapObjIndexed(
-  (v, k) => {
-    if (!v.name) { return null }
-    const place = `${v.country} ${v.name}`
-    return [
-      `${place} statue`,
-      `${place} museum`,
-      `${place} water`,
-      `${place} temple church`,
-      `${place} restaurant`,
-    ].map((q, i) => ({ i: i + 1, q, k }))
-  },
-  pinyinToCountry
-)).filter(R.identity).flat()
-
-mkQueue(1).addAll(
-  promises.map(({ i, k, q }) => async jobIndex => {
-    if (pinyinToCountry[k][i]) {
-      console.log({ m: "skipping", k, q, i })
-      return
-    }
-    const images = await google.scrape(q, 5)
-    console.log({ images, k, q, i })
-    pinyinToCountry[k][i] = images
-    fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-countries.json', JSON.stringify(pinyinToCountry, null, 2))
-  })
-)
+// const Scraper = require('images-scraper')
+// const google = new Scraper({
+//   puppeteer: {
+//     headless: true,
+//   },
+// })
+// promises = R.values(R.mapObjIndexed(
+//   (v, k) => {
+//     if (!v.name) { return null }
+//     const place = `${v.country} ${v.name}`
+//     return [
+//       `${place} statue`,
+//       `${place} museum`,
+//       `${place} water`,
+//       `${place} temple church`,
+//       `${place} restaurant`,
+//     ].map((q, i) => ({ i: i + 1, q, k }))
+//   },
+//   pinyinToCountry
+// )).filter(R.identity).flat()
+// mkQueue(1).addAll(
+//   promises.map(({ i, k, q }) => async jobIndex => {
+//     if (pinyinToCountry[k][i]) {
+//       console.log({ m: "skipping", k, q, i })
+//       return
+//     }
+//     const images = await google.scrape(q, 5)
+//     console.log({ images, k, q, i })
+//     pinyinToCountry[k][i] = images
+//     fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-countries.json', JSON.stringify(pinyinToCountry, null, 2))
+//   })
+// )
 
 mapper = (v, k) => {
-  const print = (v_) => {
+  const print = (v_, linkContent) => {
     if (v_.length <= 0) { return null }
     const mark = v_[0].marked
     const findHSK = n => v_.filter(x => x.purpleculture_hsk == n)
-
     const printRow  = ([k, class_, v]) => {
       if (v.length <= 0) { return null }
       const key = nodeWith('span', { class: "key" }, k)
@@ -226,7 +223,6 @@ mapper = (v, k) => {
         .join(',')
       return nodeWith('div', { class: ["row", `row-${class_}`] }, `${key}: ${val}`)
     }
-
     const printedValues = [
       ["HSK 1", "hsk-1", findHSK(1)],
       ["HSK 2", "hsk-2", findHSK(2)],
@@ -237,32 +233,37 @@ mapper = (v, k) => {
       ["5000",  "5000", v_.filter(x => x.chinese_junda_freq_ierogliph_number <= 5000 && x.purpleculture_hsk === null)],
       ["Other", "other", v_.filter(x => x.chinese_junda_freq_ierogliph_number > 5000 && x.purpleculture_hsk === null)],
     ].map(printRow).filter(x => x != null)
-
-    let image = pinyinToImageForTable[k][v_[0].number]
-    // image = `<img src="file:///home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/${encodeURIComponent(image.dir)}/${encodeURIComponent(image.filename)}" alt="${image.filename.replace(/\.jpg/, '')}"></a>`
-    image = `<img src="file:///home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/${encodeURIComponent(image.dir)}/${encodeURIComponent(image.filename)}" alt="${image.filename.replace(/\.jpg/, '')}">`
-
+    // let image = pinyinToImageForTable[k][v_[0].number]
+    // image = [`<img src="file:///home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/${encodeURIComponent(image.dir)}/${encodeURIComponent(image.filename)}" alt="${image.filename.replace(/\.jpg/, '')}">`]
+    let images = pinyinToCountry[k][v_[0].number]
+    if (Array.isArray(images)) {
+      images = images.map(x => `<a href="${x.source}" class="example-image"><img src="${x.url}" alt="${x.title || ''}"></a>`)
+    } else {
+      images = []
+    }
     let head = mark
     head = nodeWith('a', { href: `https://www.google.com/search?tbm=isch&q=${linkContent.split(' ').map(encodeURIComponent).join('+')}`, target: "_blank" }, head)
     head = nodeWith('span', { class: "marked" }, head)
-
-    return [head, ...printedValues, image].join('\n')
+    return [head, ...printedValues, ...images].join('\n')
   }
-
   const find = n => v.filter(x => x.number == n)
-
+  let place = pinyinToCountry[k]
+  if (place) {
+    place = `${place.country} ${place.name}`
+  } else {
+    place = ''
+  }
   return [
     k,
-    print(find(1)),
-    print(find(2)),
-    print(find(3)),
-    print(find(4)),
-    print(find(5)),
+    place,
+    print(find(1), `${place} statue`),
+    print(find(2), `${place} museum`),
+    print(find(3), `${place} water`),
+    print(find(4), `${place} temple church`),
+    print(find(5), `${place} restaurant`),
   ]
 }
-
 allKanji_ = R.values(R.mapObjIndexed(mapper, allKanjiForTable))
-
 fileContent = `<!DOCTYPE HTML>
 <html>
  <head>
@@ -271,6 +272,7 @@ fileContent = `<!DOCTYPE HTML>
   <style>
 tr:nth-child(even) {background: #CCC; }
 tr:nth-child(odd) {background: #FFF; }
+td { vertical-align: top; }
 .row-other { display: none; }
 .example-image { display: block; }
 .example-image img { max-height: 200px; max-width: 200px; }
@@ -283,5 +285,4 @@ tr:nth-child(odd) {background: #FFF; }
   </table>
  </body>
 </html>`
-
 fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/table.html', fileContent)
