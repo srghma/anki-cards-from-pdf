@@ -13,8 +13,8 @@ allKanjiOrig_ = R.map(R.props("k1 sound".split(' ')), allKanjiOrig_)
 
 listOfKanji = allKanjiOrig.map(x => ({
   kanji:                               x.kanji,
-  purpleculture_hsk:                   toNumber(x.purpleculture_hsk),
-  chinese_junda_freq_ierogliph_number: toNumber(x.chinese_junda_freq_ierogliph_number),
+  purpleculture_hsk:                   toNumberOrNull(x.purpleculture_hsk),
+  chinese_junda_freq_ierogliph_number: toNumberOrNull(x.chinese_junda_freq_ierogliph_number),
   purpleculture_pinyin:                x.purpleculture_pinyin ? (Array.from(x.purpleculture_pinyin.matchAll(/mp3\/([^\.]+)/g) || [])).map(x => x[1]) : []
 }))
 pinyinToKanji = listOfKanji.map(x => x.purpleculture_pinyin.map(purpleculture_pinyin=> ({ ...x, purpleculture_pinyin}))).flat()

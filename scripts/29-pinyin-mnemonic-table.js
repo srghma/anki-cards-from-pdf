@@ -14,7 +14,7 @@ const { JSDOM } = jsdom;
 const dom = new JSDOM(``);
 const {Translate} = require('@google-cloud/translate').v2;
 const translate = new Translate({projectId: "annular-form-299211"});
-toNumber = x => Number(x) === 0 ? null : Number(x)
+toNumberOrNull = x => Number(x) === 0 ? null : Number(x)
 
 // const cities = require('all-the-cities')
 
@@ -30,8 +30,8 @@ allKanjiOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads
 
 // listOfKanji = allKanjiOrig.map(x => ({
 //   kanji:                               x.kanji,
-//   purpleculture_hsk:                   toNumber(x.purpleculture_hsk),
-//   chinese_junda_freq_ierogliph_number: toNumber(x.chinese_junda_freq_ierogliph_number),
+//   purpleculture_hsk:                   toNumberOrNull(x.purpleculture_hsk),
+//   chinese_junda_freq_ierogliph_number: toNumberOrNull(x.chinese_junda_freq_ierogliph_number),
 //   purpleculture_pinyin:                x.purpleculture_pinyin ? (Array.from(x.purpleculture_pinyin.matchAll(/mp3\/([^\.]+)/g) || [])).map(x => x[1]) : []
 // }))
 // pinyinToKanji = listOfKanji.map(x => x.purpleculture_pinyin.map(purpleculture_pinyin=> ({ ...x, purpleculture_pinyin}))).flat()
@@ -90,9 +90,9 @@ allKanji = R.map(R.over(R.lensProp("purpleculture_pinyin"), x => {
 allKanji = allKanji.map(kanjiInfo => kanjiInfo.purpleculture_pinyin.map(pinyinInfo => ({
   // numbered: 'shan4',
   kanji: kanjiInfo.kanji,
-  purpleculture_hsk: toNumber(kanjiInfo.purpleculture_hsk),
-  chinese_junda_freq_ierogliph_number: toNumber(kanjiInfo.chinese_junda_freq_ierogliph_number),
-  number: toNumber(pinyinInfo.number),
+  purpleculture_hsk: toNumberOrNull(kanjiInfo.purpleculture_hsk),
+  chinese_junda_freq_ierogliph_number: toNumberOrNull(kanjiInfo.chinese_junda_freq_ierogliph_number),
+  number: toNumberOrNull(pinyinInfo.number),
   marked: pinyinInfo.marked,
   withoutMark: pinyinInfo.withoutMark,
 }))).flat()
