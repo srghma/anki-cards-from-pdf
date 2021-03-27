@@ -61,7 +61,7 @@ let headers = [
   "chinese_mnemonics_deck__equiv",
   "tags"
 ]
-fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: '\t', headers })).on('data', (data) => results.push(data)).on('end', () => { console.log(results); })
+fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: '\t', headers })).on('data', (data) => results.push(data)).on('end', () => { console.log(results); })
 
 let results_ = results.filter((x) => x["kanji"].includes("・"))
 
@@ -95,4 +95,4 @@ results_.forEach(x => {
 })
 
 const createCsvWriter = require('csv-writer').createObjectCsvWriter
-createCsvWriter({ path: '/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt', header:  headers.map(x => ({ id: x, title: x })) }).writeRecords(changed).then(() => { console.log('...Done') })
+createCsvWriter({ path: '/home/srghma/Downloads/All Kanji.txt', header:  headers.map(x => ({ id: x, title: x })) }).writeRecords(changed).then(() => { console.log('...Done') })

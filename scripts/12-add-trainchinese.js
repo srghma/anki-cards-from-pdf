@@ -8,7 +8,7 @@ const RA = require('ramda-adjunct')
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 
-input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
+input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
 
 const dom = new JSDOM(``);
 

@@ -15,7 +15,7 @@ const translate = new Translate({projectId: "annular-form-299211"});
 const processPurpleculture = require('./scripts/lib/processPurpleculture').processPurpleculture
 const humanum = require('./scripts/lib/humanum').humanum
 
-input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
+input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
 
 async function mymapper(x) {
   const kanji = x.kanji

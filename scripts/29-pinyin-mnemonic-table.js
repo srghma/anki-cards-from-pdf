@@ -26,19 +26,72 @@ toNumber = x => Number(x) === 0 ? null : Number(x)
 //   return R.pick('1 2 3 4 5'.split(' '), x)
 // }, table)
 
-allKanji = R.map(R.pick("kanji hsk freq pinyin".split(" ")), allKanjiOrig)
-allKanji = R.map(R.over(R.lensProp("pinyin"), x => {
+allKanjiOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: "kanji c ms purpleculture_pinyin purpleculture_hsk chinese_junda_freq_ierogliph_number".split(" ") })))
+
+// listOfKanji = allKanjiOrig.map(x => ({
+//   kanji:                               x.kanji,
+//   purpleculture_hsk:                   toNumber(x.purpleculture_hsk),
+//   chinese_junda_freq_ierogliph_number: toNumber(x.chinese_junda_freq_ierogliph_number),
+//   purpleculture_pinyin:                x.purpleculture_pinyin ? (Array.from(x.purpleculture_pinyin.matchAll(/mp3\/([^\.]+)/g) || [])).map(x => x[1]) : []
+// }))
+// pinyinToKanji = listOfKanji.map(x => x.purpleculture_pinyin.map(purpleculture_pinyin=> ({ ...x, purpleculture_pinyin}))).flat()
+// pinyinToKanji = R.groupBy(R.prop('purpleculture_pinyin'), pinyinToKanji)
+
+// printed = listOfKanji.map(x => {
+//   const printRow  = ([k, class_, v]) => {
+//     v = R.sortBy(R.prop('chinese_junda_freq_ierogliph_number'), v)
+//     if (v.length <= 0) { return null }
+//     const key = nodeWith('span', { class: "key" }, k)
+//     const val = v
+//       .map(R.prop('kanji'))
+//       .map(nodeWith('span', { class: ["kanji"] }))
+//       .join(',')
+//     return nodeWith('div', { class: ["row", `row-${class_}`] }, `${key}: ${val}`)
+//   }
+//   const withSamePronouciation_ = x.purpleculture_pinyin.map(pinyin => {
+//     const v_ = pinyinToKanji[pinyin]
+//     const findHSK = n => v_.filter(x => x.purpleculture_hsk == n)
+//     const printedValues = [
+//       ["HSK 1", "hsk-1", findHSK(1)],
+//       ["HSK 2", "hsk-2", findHSK(2)],
+//       ["HSK 3", "hsk-3", findHSK(3)],
+//       ["HSK 4", "hsk-4", findHSK(4)],
+//       ["HSK 5", "hsk-5", findHSK(5)],
+//       ["HSK 6", "hsk-6", findHSK(6)],
+//       ["5000",  "5000", v_.filter(x => x.chinese_junda_freq_ierogliph_number <= 5000 && x.purpleculture_hsk === null)],
+//       ["Other", "other", v_.filter(x => x.chinese_junda_freq_ierogliph_number > 5000 && x.purpleculture_hsk === null)],
+//     ].map(printRow).filter(x => x != null)
+//     return `
+//     <div class="pinyin">${pinyin}</div>
+//     <div class="same-pronounciation">${printedValues}</div>
+//     `
+//   }).join('\n')
+//   return {
+//     kanji: x.kanji,
+//     withSamePronouciation_,
+//   }
+// })
+
+// ;(function(input){
+//   const s = input.map(x => Object.values(x).join('\t')).join('\n')
+//   // const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))
+//   // const s = require('csv-writer').createObjectCsvStringifier({ header, fieldDelimeter: ";" }).stringifyRecords(input)
+//   fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', s)
+// })(printed);
+
+allKanji = R.map(R.pick("kanji purpleculture_hsk chinese_junda_freq_ierogliph_number purpleculture_pinyin".split(" ")), allKanjiOrig)
+allKanji = R.map(R.over(R.lensProp("purpleculture_pinyin"), x => {
   x = Array.from(x.matchAll(/<a class="pinyin tone(\d+)\s*" href="https:\/\/www\.purpleculture\.net\/mp3\/([^\.]+)\.mp3">([^<]+)<\/a>/g))
   x = x.map(x => ({ number: x[1], numbered: x[2], marked: x[3] }))
   x = x.map(x => ({ ...x, withoutMark: x.numbered.replace(/\d+/g, '') }))
   console.log(x)
   return x
 }), allKanji)
-allKanji = allKanji.map(kanjiInfo => kanjiInfo.pinyin.map(pinyinInfo => ({
+allKanji = allKanji.map(kanjiInfo => kanjiInfo.purpleculture_pinyin.map(pinyinInfo => ({
   // numbered: 'shan4',
   kanji: kanjiInfo.kanji,
-  hsk: toNumber(kanjiInfo.hsk),
-  freq: toNumber(kanjiInfo.freq),
+  purpleculture_hsk: toNumber(kanjiInfo.purpleculture_hsk),
+  chinese_junda_freq_ierogliph_number: toNumber(kanjiInfo.chinese_junda_freq_ierogliph_number),
   number: toNumber(pinyinInfo.number),
   marked: pinyinInfo.marked,
   withoutMark: pinyinInfo.withoutMark,
@@ -66,7 +119,7 @@ pinyinCss = pinyinCss + '\n' + filesWithPinyin.map(x => `.my-pinyin-image-contai
 fs.writeFileSync('/home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/pinyin-to-countries.css', pinyinCss)
 allKanjiForTable = R.groupBy(R.prop('withoutMark'), R.sortBy(R.prop('withoutMark'), allKanji))
 pinyinToImageForTable = R.pipe(
-  R.groupBy(R.prop('pinyin')),
+  R.groupBy(R.prop('purpleculture_pinyin')),
   R.map(R.groupBy(R.prop('n'))),
   R.map(R.map(x => x[0]))
 )(pinyin)
@@ -183,7 +236,7 @@ mapper = (v, k) => {
   const print = (v_) => {
     if (v_.length <= 0) { return null }
     const mark = v_[0].marked
-    const findHSK = n => v_.filter(x => x.hsk == n)
+    const findHSK = n => v_.filter(x => x.purpleculture_hsk == n)
 
     const printRow  = ([k, class_, v]) => {
       if (v.length <= 0) { return null }
@@ -202,8 +255,8 @@ mapper = (v, k) => {
       ["HSK 4", "hsk-4", findHSK(4)],
       ["HSK 5", "hsk-5", findHSK(5)],
       ["HSK 6", "hsk-6", findHSK(6)],
-      ["5000",  "5000", v_.filter(x => x.freq <= 5000 && x.hsk === null)],
-      ["Other", "other", v_.filter(x => x.freq > 5000 && x.hsk === null)],
+      ["5000",  "5000", v_.filter(x => x.chinese_junda_freq_ierogliph_number <= 5000 && x.purpleculture_hsk === null)],
+      ["Other", "other", v_.filter(x => x.chinese_junda_freq_ierogliph_number > 5000 && x.purpleculture_hsk === null)],
     ].map(printRow).filter(x => x != null)
 
     let image = pinyinToImageForTable[k][v_[0].number]

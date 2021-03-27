@@ -8,7 +8,7 @@ const mkQueue = require('./scripts/lib/mkQueue').mkQueue
 const R = require('ramda')
 const RA = require('ramda-adjunct')
 
-input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
+input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
 
 const queueSize = 1
 doms = Array.from({ length: queueSize }, (_, i) => { return new JSDOM(``) })

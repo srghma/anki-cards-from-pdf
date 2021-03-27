@@ -1,4 +1,4 @@
-input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji", "freq" ] })))
+input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji", "freq" ] })))
 
 ;(function(input){
   const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))

@@ -188,7 +188,7 @@ ipwordscache_path = '/home/srghma/projects/anki-cards-from-pdf/ipacache.json'
 ipwordscache = JSON.parse(require('fs').readFileSync(ipwordscache_path))
 console.log(output.map(x => x.word).filter(x => ipwordscache[x] == null).join('\n'))
 
-kanji = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
+kanji = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
 
 output_ = output.map(x => {
   dom.window.document.body.innerHTML = x.purplecultre_dictionary

@@ -26,7 +26,7 @@ function svg2img_promised(svgString) {
 }
 
 
-allKanjiOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: "\t", headers: "kanji _1 _2".split(" ") })))
+allKanjiOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: "kanji _1 _2".split(" ") })))
 allKanjiOrig_ = allKanjiOrig.map(x => {
   const f = x => x.replace(' style="padding-top:30px; "', '').replace('<br style="clear:left; ">', '').replace(' class="isection wiki_class"', '').replace(/&nbsp; <\/div>$/, '').replace(/^<div> /, '')
   const _1 = f(x._1)

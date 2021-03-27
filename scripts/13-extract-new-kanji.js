@@ -7,7 +7,7 @@ const R = require('ramda')
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 
-input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/01 NihongoShark.com_ Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
+input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
 
 newkanji = Object.fromEntries([
   '/home/srghma/Downloads/In-Search-of-Hua-Ma-by-John-Pasden_-Jared-Turner-_z-lib.org__1.txt',

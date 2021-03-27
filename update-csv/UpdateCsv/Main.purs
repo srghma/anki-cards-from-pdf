@@ -85,7 +85,7 @@ main :: Effect Unit
 main = do
   config <- Options.Applicative.execParser PdfAnkiTranslator.Config.opts
 
-  inputStream <- Node.FS.Stream.createReadStream "/home/srghma/Documents/01 NihongoShark.com_ Kanji.csv"
+  inputStream <- Node.FS.Stream.createReadStream "/home/srghma/Documents/All Kanji.csv"
 
   launchAff_ do
     (input :: Array (Array String)) <- CsvParse.parse { delimiter: "\t" } inputStream
