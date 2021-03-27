@@ -16,8 +16,6 @@ const {Translate} = require('@google-cloud/translate').v2;
 const translate = new Translate({projectId: "annular-form-299211"});
 toNumberOrNull = x => Number(x) === 0 ? null : Number(x)
 
-// const cities = require('all-the-cities')
-
 // table = await readStreamArray(fs.createReadStream('/home/srghma/projects/anki-cards-from-pdf/chinese pinyin mnemonics2.tsv').pipe(csv({ separator: "\t", headers: "ru en 0 1 2 3 4 5".split(" ") })))
 // table = table.map(x => ({ ...x, ruen: `${x.ru}|${x.en}` }))
 // table = R.map(x => x[0], R.groupBy(R.prop('ruen'), table))
@@ -102,41 +100,39 @@ allKanji = allKanji.map(kanjiInfo => kanjiInfo.purpleculture_pinyin.map(pinyinIn
 
 // pinyin = R.mapObjIndexed(R.compose(x => x.sort(), R.uniq, R.map(R.prop('withoutMark'))), R.groupBy(R.prop('number'), allKanji))
 
-dir = '1-world'
-parentDir = '/home/srghma/.local/share/Anki2/User 1/collection.media'
-files = fs.readdirSync(`${parentDir}/mnemonic-places/${dir}`)
-filesWithPinyin = R.zip(R.uniq(R.map(R.prop('withoutMark'), allKanji)).sort(), files)
-pinyinCss = [
-  "1-high.jpg",
-  "2-what.jpg",
-  "3-convultion.jpg",
-  "4-no.jpg",
-  "5-stop.jpg",
-].map((x, i) => `.my-pinyin-image-container.pinyin-number-${i + 1} img:nth-child(3) { content: url(mnemonic-places/${x}); }`).join('\n')
-pinyinCss = pinyinCss + '\n' + filesWithPinyin.map(x => `.my-pinyin-image-container.pinyin-${x[0]} img:nth-child(2) { content: url(mnemonic-places/${dir}/${encodeURIComponent(x[1])}); }
-.my-pinyin-image-container.pinyin-${x[0]} span:before { content: "${x[1].replace(/\.jpg/g, '')}"; }
-`).join('\n')
-fs.writeFileSync('/home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/pinyin-to-countries.css', pinyinCss)
-allKanjiForTable = R.groupBy(R.prop('withoutMark'), R.sortBy(R.prop('withoutMark'), allKanji))
-pinyinToImageForTable = R.pipe(
-  R.groupBy(R.prop('purpleculture_pinyin')),
-  R.map(R.groupBy(R.prop('n'))),
-  R.map(R.map(x => x[0]))
-)(pinyin)
+// dir = '1-world'
+// parentDir = '/home/srghma/.local/share/Anki2/User 1/collection.media'
+// files = fs.readdirSync(`${parentDir}/mnemonic-places/${dir}`)
+// filesWithPinyin = R.zip(R.uniq(R.map(R.prop('withoutMark'), allKanji)).sort(), files)
+// pinyinCss = [
+//   "1-high.jpg",
+//   "2-what.jpg",
+//   "3-convultion.jpg",
+//   "4-no.jpg",
+//   "5-stop.jpg",
+// ].map((x, i) => `.my-pinyin-image-container.pinyin-number-${i + 1} img:nth-child(3) { content: url(mnemonic-places/${x}); }`).join('\n')
+// pinyinCss = pinyinCss + '\n' + filesWithPinyin.map(x => `.my-pinyin-image-container.pinyin-${x[0]} img:nth-child(2) { content: url(mnemonic-places/${dir}/${encodeURIComponent(x[1])}); }
+// .my-pinyin-image-container.pinyin-${x[0]} span:before { content: "${x[1].replace(/\.jpg/g, '')}"; }
+// `).join('\n')
+// fs.writeFileSync('/home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/pinyin-to-countries.css', pinyinCss)
+// allKanjiForTable = R.groupBy(R.prop('withoutMark'), R.sortBy(R.prop('withoutMark'), allKanji))
+// pinyinToImageForTable = R.pipe(
+//   R.groupBy(R.prop('purpleculture_pinyin')),
+//   R.map(R.groupBy(R.prop('n'))),
+//   R.map(R.map(x => x[0]))
+// )(pinyin)
 
-// cities_ = R.reverse(R.sortBy(R.prop('population'), cities))
-// cities_ = R.map(R.pick('cityId name country'.split(' ')), cities_)
-// cities_ = R.fromPairs(R.map(x => [x.cityId, R.pick('name country'.split(' '), x)], cities_))
+cities_ = R.reverse(R.sortBy(R.prop('population'), require('all-the-cities')))
+cities_ = R.map(R.pick('cityId name country'.split(' ')), cities_)
+cities_ = R.fromPairs(R.map(x => [x.cityId, R.pick('name country'.split(' '), x)], cities_))
 
 // citiesBuff = cities_
 // output = R.fromPairs(R.reverse(R.sortBy(R.prop('length'), R.keys(allKanji))).map(pinyin => {
 //   let foundInStart = true
 //   let [citiesWith, citiesWithout] = R.partition(city => city.country != 'CN' && city.name.toLowerCase().startsWith(pinyin), citiesBuff)
-
 //   if (citiesWith.length <= 0) {
 //     [citiesWith, citiesWithout] = R.partition(city => city.name.toLowerCase().startsWith(pinyin), citiesBuff)
 //   }
-
 //   if (citiesWith.length <= 0) {
 //     foundInStart = false
 //     [citiesWith, citiesWithout] = R.partition(city => city.name.toLowerCase().includes(pinyin), citiesBuff)
@@ -173,66 +169,49 @@ pinyinToImageForTable = R.pipe(
 // pinyinToCountry
 
 // fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-countries.json', JSON.stringify(pinyinToCountry, null, 2))
-// pinyinToCountry = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-countries.json').toString())
 
-// const Scraper = require('images-scraper')
-// const google = new Scraper({
-//   puppeteer: {
-//     headless: true,
-//   },
-// })
+// export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+// export PUPPETEER_EXECUTABLE_PATH=/nix/store/3pvqzg29lhyc0gh3hbfpymf7yganvni8-google-chrome-beta-88.0.4324.50/bin/google-chrome-beta
+// node --experimental-repl-await --unhandled-rejections=strict
 
-// promises = R.values(R.mapObjIndexed(
-//   (v, k) => {
-//     if (!v.name) { return null }
-//     const place = `${v.country} ${v.name}`
-//     return [
-//       `${place} statue`,
-//       `${place} museum`,
-//       `${place} water`,
-//       `${place} temple church`,
-//       `${place} restaurant`,
-//     ].map((q, i) => ({ i: i + 1, q, k }))
-//   },
-//   pinyinToCountry
-// )).filter(R.identity).flat()
+pinyinToCountry = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-countries.json').toString())
 
+const Scraper = require('images-scraper')
+const google = new Scraper({
+  puppeteer: {
+    headless: true,
+  },
+})
 
-// {
-//   duan
-//   Duan Lake in New York
-//   1: https://lh5.googleusercontent.com/p/AF1QipMUAWiagjd64VyRadCIJdfuhcv26vIhm929iP3S=w203-h270-k-no
-//   3: https://lh5.googleusercontent.com/p/AF1QipNgr18lyxkNt93Z3aMYBDhaYHa1g4cnFkadj7So=w203-h270-k-no
-//   4: https://lh5.googleusercontent.com/p/AF1QipN2U-3ZYSwioOWhSTtw2qpxo7bIiZIoGg_bV2pV=w203-h152-k-no
+promises = R.values(R.mapObjIndexed(
+  (v, k) => {
+    if (!v.name) { return null }
+    const place = `${v.country} ${v.name}`
+    return [
+      `${place} statue`,
+      `${place} museum`,
+      `${place} water`,
+      `${place} temple church`,
+      `${place} restaurant`,
+    ].map((q, i) => ({ i: i + 1, q, k }))
+  },
+  pinyinToCountry
+)).filter(R.identity).flat()
 
-
-//   chuai
-//   Chuailo Resort
-//   Мізорам, Індія
-//   https://lh5.googleusercontent.com/p/AF1QipMXHv5QsLI51OcV7MK23jLv3EU8k04PqADjAWS4=w203-h114-k-no
-//   https://lh5.googleusercontent.com/p/AF1QipOwWgvr98WNqTD2rE7GTFagP9cQmMQBKlLWzjyS=w203-h270-k-no
-//   https://lh5.googleusercontent.com/p/AF1QipM4XmcxMaesHNCowwH56kGB484qghQowdJQwHHQ=w203-h270-k-no
-//   https://lh5.googleusercontent.com/p/AF1QipPjUSsgCWDE6Zo8grlIXN1UHDKBqPu2IWGN1mSp=w203-h152-k-no
-// }
-
-// mkQueue(1).addAll(
-//   promises.map(({ i, k, q }) => async jobIndex => {
-//     if (pinyinToCountry[k][i]) {
-//       console.log({ m: "skipping", k, q, i })
-//       return
-//     }
-//     const images = await google.scrape(q, 5)
-//     console.log({ images, k, q, i })
-//     pinyinToCountry[k][i] = images
-//     fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-countries.json', JSON.stringify(pinyinToCountry, null, 2))
-//   })
-// )
+mkQueue(1).addAll(
+  promises.map(({ i, k, q }) => async jobIndex => {
+    if (pinyinToCountry[k][i]) {
+      console.log({ m: "skipping", k, q, i })
+      return
+    }
+    const images = await google.scrape(q, 5)
+    console.log({ images, k, q, i })
+    pinyinToCountry[k][i] = images
+    fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/pinyin-to-countries.json', JSON.stringify(pinyinToCountry, null, 2))
+  })
+)
 
 mapper = (v, k) => {
-  const ru = require('./scripts/lib/purplecultureSimpleEnToSimpleRu').convertToRuTable[k]
-
-  if (!ru) { throw new Error(k) }
-
   const print = (v_) => {
     if (v_.length <= 0) { return null }
     const mark = v_[0].marked
@@ -273,7 +252,6 @@ mapper = (v, k) => {
 
   return [
     k,
-    ru,
     print(find(1)),
     print(find(2)),
     print(find(3)),
