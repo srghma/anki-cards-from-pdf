@@ -109,16 +109,15 @@ const easypronunciation_chinese = require('./scripts/lib/easypronunciation_chine
 const processPurpleculture = require('./scripts/lib/processPurpleculture').processPurpleculture
 const removeHTML = require('./scripts/lib/removeHTML').removeHTML
 
-selectedWords = R.uniq(require('/home/srghma/projects/anki-cards-from-pdf/from-pdf-tmp.json').map(x => fixRadicalToKanji(x.annotation_text).split('').filter(isHanzi).join('')))
+sherlockSentencesTable = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
 
-translation = await translate.translate(selectedWords.join('\n'), 'en')
-translation = translation[0].split('\n').filter(x => x !== '')
-
-if (translation.length !== selectedWords.length) { throw new Error('not equal length') }
-
-selectedWordsWithTr = R.zip(selectedWords, translation)
-selectedWordsWithTr = R.merge(R.fromPairs(selectedWordsWithTr), R.fromPairs(keywords))
-selectedWordsWithTr = R.values(R.mapObjIndexed((translation, word) => ({ word, translation, decks: sentencesDeck.filter(x => x.hanzi.includes(word)) }), selectedWordsWithTr))
+// selectedWords = R.uniq(require('/home/srghma/projects/anki-cards-from-pdf/from-pdf-tmp.json').map(x => fixRadicalToKanji(x.annotation_text).split('').filter(isHanzi).join('')))
+// translation = await translate.translate(selectedWords.join('\n'), 'en')
+// translation = translation[0].split('\n').filter(x => x !== '')
+// if (translation.length !== selectedWords.length) { throw new Error('not equal length') }
+// selectedWordsWithTr = R.zip(selectedWords, translation)
+// selectedWordsWithTr = R.merge(R.fromPairs(selectedWordsWithTr), R.fromPairs(keywords))
+// selectedWordsWithTr = R.values(R.mapObjIndexed((translation, word) => ({ word, translation, decks: sentencesDeck.filter(x => x.hanzi.includes(word)) }), selectedWordsWithTr))
 
 function printDeckItem(deck) {
   return `<div class="context__deck"><span class="context__decks__hanzi">${deck.hanzi}</span><span class="context__decks__english">${deck.english}</span></div>`
@@ -136,11 +135,21 @@ function printDeckItem(deck) {
 //   }
 // })
 
+allKanjiTable = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
+
 async function mymapper(x) {
   const sentence = removeHTML(dom, x.word)
+
+  // custom translation
+  if (x.word.length == 1) {
+    const kanjiElemWithTr = allKanjiTable.find(kanjiElem => kanjiElem.kanji == x.word)
+    if (!kanjiElemWithTr) { throw new Error('asdfasdf') }
+    english = kanjiElemWithTr._54 + '<br>' + kanjiElemWithTr._55
+  }
+
   let purpleculture_raw = null
   try {
-    purpleculture_raw = await require('./scripts/lib/purplecultre_pinyin_converter').purplecultre_pinyin_converter_with_cache(dom, sentence)
+    purpleculture_raw = await require('./scripts/lib/purpleculture_pinyin_converter').purpleculture_pinyin_converter_with_cache(dom, sentence)
     console.log({ sentence, purpleculture_raw })
   } catch (e) {
     console.error({ e, x })
@@ -156,10 +165,10 @@ async function mymapper(x) {
     return
   }
 
-  let purplecultre_dictionary = null
+  let purpleculture_dictionary = null
   try {
-    purplecultre_dictionary = await require('./scripts/lib/purplecultre_dictionary').purplecultre_dictionary_with_cache(dom, sentence)
-    console.log({ sentence, purplecultre_dictionary })
+    purpleculture_dictionary = await require('./scripts/lib/purpleculture_dictionary').purpleculture_dictionary_with_cache(dom, sentence)
+    console.log({ sentence, purpleculture_dictionary })
   } catch (e) {
     console.error({ e, x })
     return
@@ -168,7 +177,7 @@ async function mymapper(x) {
   return {
     ...x,
     purpleculture_raw,
-    purplecultre_dictionary,
+    purpleculture_dictionary,
     trainchinese,
   }
 }
@@ -188,16 +197,14 @@ ipwordscache_path = '/home/srghma/projects/anki-cards-from-pdf/ipacache.json'
 ipwordscache = JSON.parse(require('fs').readFileSync(ipwordscache_path))
 console.log(output.map(x => x.word).filter(x => ipwordscache[x] == null).join('\n'))
 
-kanji = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
-
 output_ = output.map(x => {
-  dom.window.document.body.innerHTML = x.purplecultre_dictionary
-  let purplecultre_dictionary_en = dom.window.document.querySelector('.en')
+  dom.window.document.body.innerHTML = x.purpleculture_dictionary
+  let purpleculture_dictionary_en = dom.window.document.querySelector('.en')
 
-  if (purplecultre_dictionary_en) {
-    purplecultre_dictionary_en = purplecultre_dictionary_en.textContent.trim()
-    purplecultre_dictionary_en = purplecultre_dictionary_en.replace(/Classifiers: \S+/g, '')
-    if (purplecultre_dictionary_en.startsWith('old variant of')) { purplecultre_dictionary_en = null }
+  if (purpleculture_dictionary_en) {
+    purpleculture_dictionary_en = purpleculture_dictionary_en.textContent.trim()
+    purpleculture_dictionary_en = purpleculture_dictionary_en.replace(/Classifiers: \S+/g, '')
+    if (purpleculture_dictionary_en.startsWith('old variant of')) { purpleculture_dictionary_en = null }
   }
 
   // const asdfasdf = x.trainchinese.map(x => x.ch)
@@ -219,14 +226,7 @@ output_ = output.map(x => {
     return res
   })
 
-  let english = [ x.translation, purplecultre_dictionary_en, ...trainchinese ].filter(R.identity).join('\n<br>\n')
-
-  // custom translation
-  if (x.word.length == 1) {
-    const kanjiElemWithTr = kanji.find(kanjiElem => kanjiElem.kanji == x.word)
-    if (!kanjiElemWithTr) { throw new Error('asdfasdf') }
-    english = kanjiElemWithTr._54 + '<br>' + kanjiElemWithTr._55
-  }
+  let english = [ x.translation, purpleculture_dictionary_en, ...trainchinese ].filter(R.identity).join('\n<br>\n')
 
   const ruby = require('./scripts/lib/processPurpleculture').processPurpleculture(ipwordscache, x.purpleculture_raw)
 
@@ -239,8 +239,6 @@ output_ = output.map(x => {
     article_title: `<span class="context__decks">\n${x.decks.slice(0, 3).map(printDeckItem).join('\n')}\n</span>`.replace(new RegExp(x.word, "g"), `<b>${x.word}</b>`),
     ruby,
     ruby_raw:      x.purpleculture_raw,
-    ru_marked:     rubyToDifferentPinyin(dom, 'ru', 'marked', ruby),
-    ru_numbered:   rubyToDifferentPinyin(dom, 'ru', 'numbered', ruby),
     en_marked:     rubyToDifferentPinyin(dom, 'en', 'marked', ruby),
     en_numbered:   rubyToDifferentPinyin(dom, 'en', 'numbered', ruby),
   }

@@ -66,7 +66,7 @@ async function mymapper(x) {
 
   let purpleculture_raw = null
   try {
-    purpleculture_raw = await require('./scripts/lib/purplecultre_pinyin_converter').purplecultre_pinyin_converter(dom, sentence_without_html)
+    purpleculture_raw = await require('./scripts/lib/purpleculture_pinyin_converter').purpleculture_pinyin_converter(dom, sentence_without_html)
     // console.log({ sentence_without_html, purpleculture_raw })
   } catch (e) {
     console.error({ sentence, e })

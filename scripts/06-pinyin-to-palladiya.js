@@ -5,7 +5,7 @@
 const csv = require('csv-parser')
 const fs = require('fs')
 const R = require('ramda')
-const purplecultre_pinyin_converter = require('./purplecultre_pinyin_converter').purplecultre_pinyin_converter
+const purpleculture_pinyin_converter = require('./purpleculture_pinyin_converter').purpleculture_pinyin_converter
 
 function readStreamArray(stream) {
   return new Promise((resolve, reject) => {
@@ -25,7 +25,7 @@ async function mymapper(x) {
   let purpleculternumbered = null
 
   try {
-    purpleculternumbered = await purplecultre_pinyin_converter(sentence)
+    purpleculternumbered = await purpleculture_pinyin_converter(sentence)
     console.log({ sentence, purpleculternumbered })
   } catch (e) {
     console.error(e)

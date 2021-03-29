@@ -31,7 +31,7 @@ promises = input.map((x, inputIndex) => async jobIndex => {
   if (!dom) { throw new Error('dom') }
   let translation = null
   try {
-    translation = await require('./scripts/lib/purplecultre_dictionary').purplecultre_dictionary_with_cache(dom, kanji)
+    translation = await require('./scripts/lib/purpleculture_dictionary').purpleculture_dictionary_with_cache(dom, kanji)
   } catch (e) {
     console.error({ m: "error", inputIndex, kanji, e })
     return
@@ -102,7 +102,7 @@ output_ = output.filter(R.identity).map(x => {
 
   return {
     kanji: x.kanji,
-    purplecultre_dictionary_orig_transl: x.translation,
+    purpleculture_dictionary_orig_transl: x.translation,
     translation,
     hsk,
     examples: examples.join('<br>'),
@@ -191,7 +191,7 @@ output___ = output__.map(x => {
   return {
     kanji:              x.kanji,
     pinyinWithHtml,
-    // purplecultre_dictionary_orig_transl: x.purplecultre_dictionary_orig_transl,
+    // purpleculture_dictionary_orig_transl: x.purpleculture_dictionary_orig_transl,
     // translation,
     // hsk:                x.hsk,
     // examples:           x.examples,

@@ -90,7 +90,7 @@ async function mymapper(x) {
 
   let purpleculternumbered = null
   try {
-    purpleculternumbered = await require('./scripts/lib/purplecultre_pinyin_converter').purplecultre_pinyin_converter(dom, sentence)
+    purpleculternumbered = await require('./scripts/lib/purpleculture_pinyin_converter').purpleculture_pinyin_converter(dom, sentence)
     console.log({ sentence, purpleculternumbered })
   } catch (e) {
     console.error({ e, x })

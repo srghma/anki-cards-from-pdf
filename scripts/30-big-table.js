@@ -19,6 +19,7 @@ const removeHTML = require('./scripts/lib/removeHTML').removeHTML
 const mkQueue = require('./scripts/lib/mkQueue').mkQueue
 
 input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/big-table.csv').pipe(csv({ separator: ",", headers: [ "word", "freq" ] })))
+// input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/big-table-hsk.csv').pipe(csv({ separator: ",", headers: [ "word", "freq" ] })))
 
 // words = input.map(x => x.word).join('\n')
 // ru_transl = await translate.translate(words, 'ru')
@@ -37,7 +38,7 @@ promises = input.map((x, inputIndex) => async jobIndex => {
 
   let dict = null
   try {
-    dict = await require('./scripts/lib/purplecultre_dictionary').purplecultre_dictionary_with_cache(dom, word)
+    dict = await require('./scripts/lib/purpleculture_dictionary').purpleculture_dictionary_with_cache(dom, word)
   } catch (e) {
     console.error({ m: "error", inputIndex, word, e })
     return
@@ -45,7 +46,7 @@ promises = input.map((x, inputIndex) => async jobIndex => {
 
   let translation = null
   try {
-    translation = await require('./scripts/lib/purplecultre_pinyin_converter').purplecultre_pinyin_converter_with_cache(dom, word)
+    translation = await require('./scripts/lib/purpleculture_pinyin_converter').purpleculture_pinyin_converter_with_cache(dom, word)
   } catch (e) {
     console.error({ m: "error", inputIndex, word, e })
     return
