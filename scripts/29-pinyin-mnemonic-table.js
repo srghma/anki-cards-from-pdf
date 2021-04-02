@@ -24,7 +24,7 @@ toNumberOrNull = x => Number(x) === 0 ? null : Number(x)
 //   return R.pick('1 2 3 4 5'.split(' '), x)
 // }, table)
 
-allKanjiOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: "kanji c ms purpleculture_pinyin purpleculture_hsk chinese_junda_freq_ierogliph_number".split(" ") })))
+allKanjiOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: "kanji 2 3 4 5 6 7 8 purpleculture_pinyin purpleculture_hsk chinese_junda_freq_ierogliph_number".split(" ") })))
 
 // listOfKanji = allKanjiOrig.map(x => ({
 //   kanji:                               x.kanji,
@@ -116,6 +116,85 @@ allKanji = allKanji.map(kanjiInfo => kanjiInfo.purpleculture_pinyin.map(pinyinIn
 // `).join('\n')
 // fs.writeFileSync('/home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/pinyin-to-countries.css', pinyinCss)
 allKanjiForTable = R.groupBy(R.prop('withoutMark'), R.sortBy(R.prop('withoutMark'), allKanji))
+
+t = `a	ai	ao	an	ang	e	ei	en	eng	er	o	ou		yi		ya	yao	ye	you	yan	yang	yin	ying	yong	wu	wa	wai	wei	wo	wan	wang	wen	weng	yu	yue	yuan	yun
+ba	bai	bao	ban	bang		bei	ben	beng		bo			bi			biao	bie		bian		bin	bing		bu
+pa	pai	pao	pan	pang		pei	pen	peng		po	pou		pi			piao	pie		pian		pin	ping		pu
+ma	mai	mao	man	mang	me	mei	men	meng		mo	mou		mi			miao	mie	miu	mian		min	ming		mu
+fa			fan	fang		fei	fen	feng		fo	fou													fu
+da	dai	dao	dan	dang	de	dei	den	deng			dou	dong	di			diao	die	diu	dian			ding		du			dui	duo	duan		dun
+ta	tai	tao	tan	tang	te			teng			tou	tong	ti			tiao	tie		tian			ting		tu			tui	tuo	tuan		tun
+na	nai	nao	nan	nang	ne	nei	nen	neng			nou	nong	ni			niao	nie	niu	nian	niang	nin	ning		nu				nuo	nuan				nü	nüe
+la	lai	lao	lan	lang	le	lei		leng		lo	lou	long	li		lia	liao	lie	liu	lian	liang	lin	ling		lu				luo	luan		lun		lü	lüe
+za	zai	zao	zan	zang	ze	zei	zen	zeng			zou	zong		zi										zu			zui	zuo	zuan		zun
+ca	cai	cao	can	cang	ce	cei	cen	ceng			cou	cong		ci										cu			cui	cuo	cuan		cun
+sa	sai	sao	san	sang	se		sen	seng			sou	song		si										su			sui	suo	suan		sun
+zha	zhai	zhao	zhan	zhang	zhe	zhei	zhen	zheng			zhou	zhong		zhi										zhu	zhua	zhuai	zhui	zhuo	zhuan	zhuang	zhun
+cha	chai	chao	chan	chang	che		chen	cheng			chou	chong		chi										chu	chua	chuai	chui	chuo	chuan	chuang	chun
+sha	shai	shao	shan	shang	she	shei	shen	sheng			shou			shi										shu	shua	shuai	shui	shuo	shuan	shuang	shun
+    rao	ran	rang	re		ren	reng			rou	rong		ri										ru	rua		rui	ruo	ruan		run
+                          ji		jia	jiao	jie	jiu	jian	jiang	jin	jing	jiong										ju	jue	juan	jun
+                          qi		qia	qiao	qie	qiu	qian	qiang	qin	qing	qiong										qu	que	quan	qun
+                          xi		xia	xiao	xie	xiu	xian	xiang	xin	xing	xiong										xu	xue	xuan	xun
+ga	gai	gao	gan	gang	ge	gei	gen	geng			gou	gong												gu	gua	guai	gui	guo	guan	guang	gun
+ka	kai	kao	kan	kang	ke	kei	ken	keng			kou	kong												ku	kua	kuai	kui	kuo	kuan	kuang	kun
+ha	hai	hao	han	hang	he	hei	hen	heng			hou	hong												hu	hua	huai	hui	huo	huan	huang	hun`
+
+t_ = t.split('\n').map(R.trim()).filter(R.identity).map(R.split('\t')).flat().flat().filter(R.identity).map(x => {
+  if(!x) { return null }
+  const x_ = {
+    'nü': 'nv',
+    'lü': 'lv',
+    'lüe': 'lve',
+    'nüe': 'nve',
+  }[x] || x
+  const r = allKanjiForTable[x_]
+  if (!r) {
+    if(x === 'cei') { return null }
+    if(x === 'zhei') { return null }
+    if(x === 'chua') { return null }
+    if(x === 'rua') { return null }
+    if(x === 'eng') { return null }
+    if(x === 'den') { return null }
+    throw new Error(x)
+  }
+  return [x, r]
+}).filter(R.identity)
+
+t__ = t_.map(([k, v]) => {
+  return R.values(R.mapObjIndexed(
+    (v, k) => {
+      if (!v) { return null }
+      const mark = v[0].marked
+      const findHSK = n => v.filter(x => x.purpleculture_hsk == n)
+      const printRow  = ([k, class_, v]) => {
+        if (v.length <= 0) { return null }
+        const key = nodeWith('span', { class: "key" }, k)
+        const val = v
+          .map(R.prop('kanji'))
+          .map(nodeWith('span', { class: ["kanji"] }))
+          .join(',')
+        return nodeWith('div', { class: ["row", `row-${class_}`] }, `${key}: ${val}`)
+      }
+      const printedValues = [
+        ["HSK 1", "hsk-1", findHSK(1)],
+        ["HSK 2", "hsk-2", findHSK(2)],
+        ["HSK 3", "hsk-3", findHSK(3)],
+        ["HSK 4", "hsk-4", findHSK(4)],
+        ["HSK 5", "hsk-5", findHSK(5)],
+        ["HSK 6", "hsk-6", findHSK(6)],
+        ["5000",  "5000", v.filter(x => x.chinese_junda_freq_ierogliph_number <= 5000 && x.purpleculture_hsk === null)],
+        ["Other", "other", v.filter(x => x.chinese_junda_freq_ierogliph_number > 5000 && x.purpleculture_hsk === null)],
+      ].map(printRow).filter(x => x != null)
+      let head = mark
+      head = nodeWith('span', { class: "marked" }, head)
+      return [head, ...printedValues].join('\n')
+    },
+    ({ 1: null, 2: null, 3: null, 4: null, 5: null, ...(R.groupBy(R.prop('number'), v)) })
+  ))
+})
+
+
 // pinyinToImageForTable = R.pipe(
 //   R.groupBy(R.prop('purpleculture_pinyin')),
 //   R.map(R.groupBy(R.prop('n'))),
@@ -233,16 +312,20 @@ mapper = (v, k) => {
       ["5000",  "5000", v_.filter(x => x.chinese_junda_freq_ierogliph_number <= 5000 && x.purpleculture_hsk === null)],
       ["Other", "other", v_.filter(x => x.chinese_junda_freq_ierogliph_number > 5000 && x.purpleculture_hsk === null)],
     ].map(printRow).filter(x => x != null)
+
     // let image = pinyinToImageForTable[k][v_[0].number]
     // image = [`<img src="file:///home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/${encodeURIComponent(image.dir)}/${encodeURIComponent(image.filename)}" alt="${image.filename.replace(/\.jpg/, '')}">`]
-    let images = pinyinToCountry[k][v_[0].number]
-    if (Array.isArray(images)) {
-      images = images.map(x => `<a href="${x.source}" class="example-image"><img src="${x.url}" alt="${x.title || ''}"></a>`)
-    } else {
-      images = []
-    }
+
+    let images = []
+    // let images = pinyinToCountry[k][v_[0].number]
+    // if (Array.isArray(images)) {
+    //   images = images.map(x => `<a href="${x.source}" class="example-image"><img src="${x.url}" alt="${x.title || ''}"></a>`)
+    // } else {
+    //   images = []
+    // }
+
     let head = mark
-    head = nodeWith('a', { href: `https://www.google.com/search?tbm=isch&q=${linkContent.split(' ').map(encodeURIComponent).join('+')}`, target: "_blank" }, head)
+    // head = nodeWith('a', { href: `https://www.google.com/search?tbm=isch&q=${linkContent.split(' ').map(encodeURIComponent).join('+')}`, target: "_blank" }, head)
     head = nodeWith('span', { class: "marked" }, head)
     return [head, ...printedValues, ...images].join('\n')
   }
@@ -255,7 +338,7 @@ mapper = (v, k) => {
   }
   return [
     k,
-    place,
+    // place,
     print(find(1), `${place} statue`),
     print(find(2), `${place} museum`),
     print(find(3), `${place} water`),
@@ -264,6 +347,7 @@ mapper = (v, k) => {
   ]
 }
 allKanji_ = R.values(R.mapObjIndexed(mapper, allKanjiForTable))
+
 fileContent = `<!DOCTYPE HTML>
 <html>
  <head>
@@ -279,9 +363,9 @@ td { vertical-align: top; }
   </style>
  </head><body><table>
    <tr>
-    ${["", "", "", "1, ˉ", "2, ˊ", "3, ˇ", "4, ˋ", "5, ."].map(nodeWith('th', null)).join('\n')}
+    ${["1, ˉ", "2, ˊ", "3, ˇ", "4, ˋ", "5, ."].map(nodeWith('th', null)).join('\n')}
    </tr>
-   ${allKanji_.map(R.map(x => nodeWith('td', null, x || ''))).map(x => nodeWith('tr', null, x.join('  \n'))).join('\n')}
+   ${t__.map(R.map(x => nodeWith('td', null, x || ''))).map(x => nodeWith('tr', null, x.join('  \n'))).join('\n')}
   </table>
  </body>
 </html>`

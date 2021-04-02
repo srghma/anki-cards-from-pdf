@@ -58,8 +58,17 @@ async function mapper(output, { word, sentences }, inputIndex, dom) {
     trainchinese = await require('./scripts/lib/trainchinese').trainchinese_with_cache(dom, word)
     console.log({ word, trainchinese })
   } catch (e) {
+    // console.error({ e, word })
+    // return
+  }
+
+  let google_translate = null
+  try {
+    google_translate = await require('./scripts/lib/google_translate_with_cache').google_translate_with_cache(word, 'ru')
+    console.log({ word, google_translate })
+  } catch (e) {
     console.error({ e, word })
-    return
+    // return
   }
 
   let purpleculture_dictionary = null
@@ -68,29 +77,35 @@ async function mapper(output, { word, sentences }, inputIndex, dom) {
     console.log({ word, purpleculture_dictionary })
   } catch (e) {
     console.error({ e, word })
-    return
+    // return
   }
 
   output.push({
     word,
     sentences,
     // purpleculture_raw,
+    google_translate,
     trainchinese,
     purpleculture_dictionary,
   })
 }
 
 output = []
-const queueSize = 10
+const queueSize = 1
 doms = Array.from({ length: queueSize }, (_, i) => { return new JSDOM(``) })
 await mkQueue(queueSize).addAll(sherlockSentencesTable_.map((x, inputIndex) => async jobIndex => { mapper(output, x, inputIndex, doms[jobIndex]) }))
 
+require('./scripts/lib/google_translate_with_cache').google_translate_sync()
+
+sherlockSentencesTable_.length == output.length
+
 ipwordscache_path = '/home/srghma/projects/anki-cards-from-pdf/ipacache.json'
 ipwordscache = JSON.parse(require('fs').readFileSync(ipwordscache_path))
-console.log(output.map(x => x.word).filter(x => ipwordscache[x] == null).join('\n'))
+// console.log(output.map(x => x.word).filter(x => ipwordscache[x] == null).join('\n'))
 
 output_ = output.map(x => {
   dom.window.document.body.innerHTML = x.purpleculture_dictionary
+
   let purpleculture_dictionary_en = dom.window.document.querySelector('.en')
 
   if (purpleculture_dictionary_en) {
@@ -99,40 +114,35 @@ output_ = output.map(x => {
     if (purpleculture_dictionary_en.startsWith('old variant of')) { purpleculture_dictionary_en = null }
   }
 
-  // const asdfasdf = x.trainchinese.map(x => x.ch)
-  // console.log({
-  //   w: x.word,
-  //   wl: x.word.length,
-  //   // trainchinese: x.trainchinese,
-  //   x: asdfasdf,
-  //   xl: asdfasdf.map(x => x.length),
-  //   y: asdfasdf.filter(y => y.length == x.word.length)
-  // })
-
-  let trainchinese = x.trainchinese.filter(x => x).filter(y => y.ch == x.word).map(x => {
+  let trainchinese = (x.trainchinese || []).filter(x => x).filter(y => y.ch == x.word).map(x => {
     const pinyin = '<span class="trainchinese-pinyin">' + x.pinyin + '</span>'
     const type = '<span class="trainchinese-type">' + x.type + '</span>'
     const transl_____ = '<span class="trainchinese-transl">' + x.transl + '</span>'
 
     const res = pinyin + ': (' + type + ') ' + transl_____
     return res
-  })
+  }).join('<br>')
 
-  let english = [ x.translation, purpleculture_dictionary_en, ...trainchinese ].filter(R.identity).join('\n<br>\n')
-
-  const ruby = require('./scripts/lib/processPurpleculture').processPurpleculture(ipwordscache, x.purpleculture_raw)
+  // const ruby = require('./scripts/lib/processPurpleculture').processPurpleculture(ipwordscache, x.purpleculture_raw)
 
   return {
     // ...x,
     // sentence_without_html
     // en_cased:    rubyToDifferentPinyin(dom, 'en', 'cased', ruby),
-    hanzi:         x.word.replace(/\s+/g, ' ').trim(),
-    english,
-    article_title: `<span class="context__decks">\n${x.decks.slice(0, 3).map(printDeckItem).join('\n')}\n</span>`.replace(new RegExp(x.word, "g"), `<b>${x.word}</b>`),
-    ruby,
-    ruby_raw:      x.purpleculture_raw,
-    en_marked:     rubyToDifferentPinyin(dom, 'en', 'marked', ruby),
-    en_numbered:   rubyToDifferentPinyin(dom, 'en', 'numbered', ruby),
+
+    word: x.word,
+    sentences: x.sentences.map(x => `<div class="context__deck"><span class="context__decks__hanzi">${x.ch}</span><span class="context__decks__english">${x.en}</span><span class="context__decks__article">${x.article}</span></div>`).join(`<br>`),
+    // purpleculture_raw,
+    english: [purpleculture_dictionary_en, x.google_translate[0]].filter(R.identity).join('<br>'),
+    trainchinese,
+
+    // hanzi:         x.word.replace(/\s+/g, ' ').trim(),
+    // english:       x.google_translate,
+    // article_title: `<span class="context__decks">\n${x.decks.slice(0, 3).map(printDeckItem).join('\n')}\n</span>`.replace(new RegExp(x.word, "g"), `<b>${x.word}</b>`),
+    // ruby,
+    // ruby_raw:      x.purpleculture_raw,
+    // en_marked:     rubyToDifferentPinyin(dom, 'en', 'marked', ruby),
+    // en_numbered:   rubyToDifferentPinyin(dom, 'en', 'numbered', ruby),
   }
 })
 
