@@ -77,6 +77,12 @@ const trainchinese_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/
 let trainchinese_cache = {}
 try { trainchinese_cache = JSON.parse(fs.readFileSync(trainchinese_with_cache_path).toString()) } catch (e) {  }
 
+// trainchinese_cache_ = Object.values(trainchinese_cache).flat().filter(R.identity)
+// trainchinese_cache_ = trainchinese_cache_.filter(x => x.ch.length == 1)
+// trainchinese_cache_ = R.uniq(trainchinese_cache_)
+// trainchinese_cache_ = R.groupBy(R.prop('ch'), trainchinese_cache_)
+// Object.keys(trainchinese_cache_).length
+
 async function trainchinese_with_cache(dom, sentence) {
   const cached = trainchinese_cache[sentence]
   if (cached) { return cached }

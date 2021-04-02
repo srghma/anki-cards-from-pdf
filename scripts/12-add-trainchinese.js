@@ -10,7 +10,26 @@ const { JSDOM } = jsdom;
 const dom = new JSDOM(``);
 const mkQueue = require('./scripts/lib/mkQueue').mkQueue
 
-input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
+input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji", "trch" ] })))
+
+output_ = input.map(x => {
+  if (!x.trch) { return null }
+  return {
+    kanji: x.kanji,
+    trch: x.trch.split('<br/>').map(x => {
+      x = R.trim(x)
+      return x.replace(/\S+ \(фамилия\);?/g, '')
+    }).join('\n<br/>\n'),
+  }
+}).filter(R.identity)
+
+;(function(input){
+  const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))
+  const s = require('csv-writer').createObjectCsvStringifier({ header }).stringifyRecords(input)
+  fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', s)
+})(output_);
+
+// input.filter(x => x.trch.length > 1).length
 
 async function mapper(output, kanji, inputIndex, dom) {
   if(!kanji) { throw new Error('') }
