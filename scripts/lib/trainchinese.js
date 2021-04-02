@@ -32,6 +32,8 @@ exports.trainchinese = async function trainchinese(dom, str) {
 
   const t = await r.text()
 
+  if (t.includes('Не удалось ничего найти с')) { return null }
+
   dom.window.document.body.innerHTML = t
 
   const node = dom.window.document.querySelector('table.table')

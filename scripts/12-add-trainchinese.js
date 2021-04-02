@@ -7,16 +7,13 @@ const R = require('ramda')
 const RA = require('ramda-adjunct')
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
+const dom = new JSDOM(``);
+const mkQueue = require('./scripts/lib/mkQueue').mkQueue
 
 input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
 
-const dom = new JSDOM(``);
-
-async function mymapper(x) {
-  const kanji = x
-
+async function mapper(output, kanji, inputIndex, dom) {
   if(!kanji) { throw new Error('') }
-
   let transl = null
   try {
     transl = await require('./scripts/lib/trainchinese').trainchinese_with_cache(dom, kanji)
@@ -24,21 +21,16 @@ async function mymapper(x) {
   } catch (e) {
     console.error({ kanji, e })
   }
-
   return {
     kanji,
     transl
   }
 }
 
-// output = []
-// ;(async function(input){
-//   for (let i = 0; i < input.length; i++) {
-//     const res = await mymapper(input[i])
-//     output.push(res)
-//     console.log({ i, l: input.length })
-//   };
-// })(other);
+output = []
+const queueSize = 1
+doms = Array.from({ length: queueSize }, (_, i) => { return new JSDOM(``) })
+mkQueue(queueSize).addAll(input.map((x, inputIndex) => async jobIndex => { mapper(output, x["kanji"], inputIndex, doms[jobIndex]) }))
 
 function processTrainchineseTransl(x) {
   const transl = x.transl
