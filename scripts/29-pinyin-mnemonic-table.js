@@ -1,4 +1,5 @@
 const readStreamArray = require('./scripts/lib/readStreamArray').readStreamArray
+const tableOrig = require('./scripts/lib/tableOrig').tableOrig
 const checkDuplicateKeys = require('./scripts/lib/checkDuplicateKeys').checkDuplicateKeys
 const isHanzi = require('./scripts/lib/isHanzi').isHanzi
 const mkQueue = require('./scripts/lib/mkQueue').mkQueue
@@ -99,6 +100,41 @@ allKanji = allKanji.map(kanjiInfo => kanjiInfo.purpleculture_pinyin.map(pinyinIn
 // R.mapObjIndexed(R.compose(R.prop('length'), R.uniq, R.map(R.prop('withoutMark'))), R.groupBy(R.prop('number'), allKanji))
 
 // pinyin = R.mapObjIndexed(R.compose(x => x.sort(), R.uniq, R.map(R.prop('withoutMark'))), R.groupBy(R.prop('number'), allKanji))
+
+table = tableOrig.split('\n').map(x => x.split('\t'))
+h = table[0].slice(2)
+h = R.splitEvery(2, h).map(R.prop(0)).map(R.trim)
+table = table.slice(1).map(([verb, _, ...pinyin]) => ({ verb, pinyin: R.splitEvery(2, pinyin) }))
+table = table.map(({ verb, pinyin }) => {
+  return R.zipWith(([pinyin, link], header) => ({ pinyin, link, header, verb }), pinyin, h)
+})
+table = table.flat()
+table = table.filter(({ pinyin }) => pinyin)
+
+const puppeteer = require('puppeteer');
+const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'], headless: false })
+const page = await browser.newPage()
+
+function delay(time) {
+  return new Promise(function(resolve) {
+    setTimeout(resolve, time)
+  });
+}
+
+mkQueue(1).addAll(
+  table.map((x, i) => async jobIndex => {
+    await page.goto(x.link, { waitUntil: 'networkidle2' });
+    await delay(4000)
+    const buffer = await page.screenshot({ type: 'png', fullPage: true });
+    fs.writeFileSync(`/home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places-google/${x.pinyin}.png`, buffer, 'binary')
+    console.log(`wrote ${x.pinyin} ${i}`)
+  })
+)
+
+pinyinCss = table.map(x => `.my-pinyin-image-container.pinyin-${x.pinyin} img:nth-child(2) { content: url(mnemonic-places-google/${x.pinyin}.png); }
+.my-pinyin-image-container.pinyin-${x.pinyin} span:before { content: "${x.header}, ${x.verb}"; }`).join('\n')
+console.log('\n' + pinyinCss)
+
 
 // dir = '1-world'
 // parentDir = '/home/srghma/.local/share/Anki2/User 1/collection.media'
