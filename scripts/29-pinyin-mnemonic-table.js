@@ -354,12 +354,27 @@ fileContent = `<!DOCTYPE HTML>
   <meta charset="utf-8">
   <title>Table</title>
   <style>
-tr:nth-child(even) {background: #CCC; }
-tr:nth-child(odd) {background: #FFF; }
-td { vertical-align: top; }
-.row-other { display: none; }
-.example-image { display: block; }
-.example-image img { max-height: 200px; max-width: 200px; }
+
+  tr:nth-child(even) {background: #CCC; }
+  tr:nth-child(odd) {background: #FFF; }
+  td { vertical-align: top; }
+  .row-other { display: none; }
+  .example-image { display: block; }
+  .example-image img { max-height: 200px; max-width: 200px; }
+   @font-face {
+    font-family: 'CNstrokeorder';
+    src: url('file:///home/srghma/projects/anki-cards-from-pdf/CNstrokeorder.ttf');
+  }
+  @font-face {
+    font-family: 'KanjiStrokeOrders';
+    src: url('file:///home/srghma/projects/anki-cards-from-pdf/KanjiStrokeOrders.ttf');
+  }
+  .tooltips { font-size: 100px; font-family: "KanjiStrokeOrders", "CNstrokeorder"; }
+  .kanji {
+    font-family: "KanjiStrokeOrders", "CNstrokeorder";
+    line-height: 1; font-size: 40px;
+  }
+
   </style>
  </head><body><table>
    <tr>
