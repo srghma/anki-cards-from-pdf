@@ -24,7 +24,7 @@ toNumberOrNull = x => Number(x) === 0 ? null : Number(x)
 //   return R.pick('1 2 3 4 5'.split(' '), x)
 // }, table)
 
-allKanjiOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: "kanji 2 3 4 5 6 7 8 purpleculture_pinyin purpleculture_hsk chinese_junda_freq_ierogliph_number".split(" ") })))
+allKanjiOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: "kanji 2 3 4 5 6 7 8 9 purpleculture_pinyin purpleculture_hsk chinese_junda_freq_ierogliph_number".split(" ") })))
 
 // listOfKanji = allKanjiOrig.map(x => ({
 //   kanji:                               x.kanji,
@@ -165,17 +165,20 @@ t__ = t_.map(([k, v]) => {
   return R.values(R.mapObjIndexed(
     (v, k) => {
       if (!v) { return null }
-      const mark = v[0].marked
+      const { marked, number, withoutMark } = v[0]
+
       const findHSK = n => v.filter(x => x.purpleculture_hsk == n)
+
       const printRow  = ([k, class_, v]) => {
         if (v.length <= 0) { return null }
         const key = nodeWith('span', { class: "key" }, k)
         const val = v
           .map(R.prop('kanji'))
           .map(nodeWith('span', { class: ["kanji"] }))
-          .join(',')
+          .join(', ')
         return nodeWith('div', { class: ["row", `row-${class_}`] }, `${key}: ${val}`)
       }
+
       const printedValues = [
         ["HSK 1", "hsk-1", findHSK(1)],
         ["HSK 2", "hsk-2", findHSK(2)],
@@ -186,14 +189,44 @@ t__ = t_.map(([k, v]) => {
         ["5000",  "5000", v.filter(x => x.chinese_junda_freq_ierogliph_number <= 5000 && x.purpleculture_hsk === null)],
         ["Other", "other", v.filter(x => x.chinese_junda_freq_ierogliph_number > 5000 && x.purpleculture_hsk === null)],
       ].map(printRow).filter(x => x != null)
-      let head = mark
-      head = nodeWith('span', { class: "marked" }, head)
-      return [head, ...printedValues].join('\n')
+
+      // let head = marked
+      // head = nodeWith('span', { class: "marked" }, head)
+      // return [head, ...printedValues].join('\n')
+
+      const printRow2  = ([k, class_, v]) => {
+        if (v.length <= 0) { return null }
+        return `${k}: ${v.map(R.prop('kanji')).join('')}`
+      }
+
+      const freq_hanzi = [
+        ["HSK 1", "hsk-1", findHSK(1)],
+        ["HSK 2", "hsk-2", findHSK(2)],
+        ["HSK 3", "hsk-3", findHSK(3)],
+        ["HSK 4", "hsk-4", findHSK(4)],
+        ["HSK 5", "hsk-5", findHSK(5)],
+        ["HSK 6", "hsk-6", findHSK(6)],
+        ["5000",  "5000", v.filter(x => x.chinese_junda_freq_ierogliph_number <= 5000 && x.purpleculture_hsk === null)],
+      ].map(printRow2).filter(x => x != null)
+
+      return {
+        marked,
+        number,
+        printedValues: printedValues.join('<br>'),
+        freq_hanzi: freq_hanzi.join('<br>'),
+      }
     },
     ({ 1: null, 2: null, 3: null, 4: null, 5: null, ...(R.groupBy(R.prop('number'), v)) })
   ))
 })
 
+t___ = t__.flat().flat().filter(R.identity)
+
+;(function(input){
+  const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))
+  const s = require('csv-writer').createObjectCsvStringifier({ header }).stringifyRecords(input)
+  fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', s)
+})(t___);
 
 // pinyinToImageForTable = R.pipe(
 //   R.groupBy(R.prop('purpleculture_pinyin')),
@@ -288,64 +321,64 @@ pinyinToCountry = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-f
 //   })
 // )
 
-mapper = (v, k) => {
-  const print = (v_, linkContent) => {
-    if (v_.length <= 0) { return null }
-    const mark = v_[0].marked
-    const findHSK = n => v_.filter(x => x.purpleculture_hsk == n)
-    const printRow  = ([k, class_, v]) => {
-      if (v.length <= 0) { return null }
-      const key = nodeWith('span', { class: "key" }, k)
-      const val = v
-        .map(R.prop('kanji'))
-        .map(nodeWith('span', { class: ["kanji"] }))
-        .join(',')
-      return nodeWith('div', { class: ["row", `row-${class_}`] }, `${key}: ${val}`)
-    }
-    const printedValues = [
-      ["HSK 1", "hsk-1", findHSK(1)],
-      ["HSK 2", "hsk-2", findHSK(2)],
-      ["HSK 3", "hsk-3", findHSK(3)],
-      ["HSK 4", "hsk-4", findHSK(4)],
-      ["HSK 5", "hsk-5", findHSK(5)],
-      ["HSK 6", "hsk-6", findHSK(6)],
-      ["5000",  "5000", v_.filter(x => x.chinese_junda_freq_ierogliph_number <= 5000 && x.purpleculture_hsk === null)],
-      ["Other", "other", v_.filter(x => x.chinese_junda_freq_ierogliph_number > 5000 && x.purpleculture_hsk === null)],
-    ].map(printRow).filter(x => x != null)
+// mapper = (v, k) => {
+//   const print = (v_, linkContent) => {
+//     if (v_.length <= 0) { return null }
+//     const mark = v_[0].marked
+//     const findHSK = n => v_.filter(x => x.purpleculture_hsk == n)
+//     const printRow  = ([k, class_, v]) => {
+//       if (v.length <= 0) { return null }
+//       const key = nodeWith('span', { class: "key" }, k)
+//       const val = v
+//         .map(R.prop('kanji'))
+//         .map(nodeWith('span', { class: ["kanji"] }))
+//         .join(',')
+//       return nodeWith('div', { class: ["row", `row-${class_}`] }, `${key}: ${val}`)
+//     }
+//     const printedValues = [
+//       ["HSK 1", "hsk-1", findHSK(1)],
+//       ["HSK 2", "hsk-2", findHSK(2)],
+//       ["HSK 3", "hsk-3", findHSK(3)],
+//       ["HSK 4", "hsk-4", findHSK(4)],
+//       ["HSK 5", "hsk-5", findHSK(5)],
+//       ["HSK 6", "hsk-6", findHSK(6)],
+//       ["5000",  "5000", v_.filter(x => x.chinese_junda_freq_ierogliph_number <= 5000 && x.purpleculture_hsk === null)],
+//       ["Other", "other", v_.filter(x => x.chinese_junda_freq_ierogliph_number > 5000 && x.purpleculture_hsk === null)],
+//     ].map(printRow).filter(x => x != null)
 
-    // let image = pinyinToImageForTable[k][v_[0].number]
-    // image = [`<img src="file:///home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/${encodeURIComponent(image.dir)}/${encodeURIComponent(image.filename)}" alt="${image.filename.replace(/\.jpg/, '')}">`]
+//     // let image = pinyinToImageForTable[k][v_[0].number]
+//     // image = [`<img src="file:///home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/${encodeURIComponent(image.dir)}/${encodeURIComponent(image.filename)}" alt="${image.filename.replace(/\.jpg/, '')}">`]
 
-    let images = []
-    // let images = pinyinToCountry[k][v_[0].number]
-    // if (Array.isArray(images)) {
-    //   images = images.map(x => `<a href="${x.source}" class="example-image"><img src="${x.url}" alt="${x.title || ''}"></a>`)
-    // } else {
-    //   images = []
-    // }
+//     let images = []
+//     // let images = pinyinToCountry[k][v_[0].number]
+//     // if (Array.isArray(images)) {
+//     //   images = images.map(x => `<a href="${x.source}" class="example-image"><img src="${x.url}" alt="${x.title || ''}"></a>`)
+//     // } else {
+//     //   images = []
+//     // }
 
-    let head = mark
-    // head = nodeWith('a', { href: `https://www.google.com/search?tbm=isch&q=${linkContent.split(' ').map(encodeURIComponent).join('+')}`, target: "_blank" }, head)
-    head = nodeWith('span', { class: "marked" }, head)
-    return [head, ...printedValues, ...images].join('\n')
-  }
-  const find = n => v.filter(x => x.number == n)
-  let place = pinyinToCountry[k]
-  if (place) {
-    place = `${place.country} ${place.name}`
-  } else {
-    place = ''
-  }
-  return [
-    k,
-    // place,
-    print(find(1), `${place} statue`),
-    print(find(2), `${place} museum`),
-    print(find(3), `${place} water`),
-    print(find(4), `${place} temple church`),
-    print(find(5), `${place} restaurant`),
-  ]
-}
+//     let head = mark
+//     // head = nodeWith('a', { href: `https://www.google.com/search?tbm=isch&q=${linkContent.split(' ').map(encodeURIComponent).join('+')}`, target: "_blank" }, head)
+//     head = nodeWith('span', { class: "marked" }, head)
+//     return [head, ...printedValues, ...images].join('\n')
+//   }
+//   const find = n => v.filter(x => x.number == n)
+//   let place = pinyinToCountry[k]
+//   if (place) {
+//     place = `${place.country} ${place.name}`
+//   } else {
+//     place = ''
+//   }
+//   return [
+//     k,
+//     // place,
+//     print(find(1), `${place} statue`),
+//     print(find(2), `${place} museum`),
+//     print(find(3), `${place} water`),
+//     print(find(4), `${place} temple church`),
+//     print(find(5), `${place} restaurant`),
+//   ]
+// }
 allKanji_ = R.values(R.mapObjIndexed(mapper, allKanjiForTable))
 
 fileContent = `<!DOCTYPE HTML>
@@ -355,8 +388,8 @@ fileContent = `<!DOCTYPE HTML>
   <title>Table</title>
   <style>
 
-  tr:nth-child(even) {background: #CCC; }
-  tr:nth-child(odd) {background: #FFF; }
+  tr:nth-child(even) { background: #CCC; }
+  tr:nth-child(odd) { background: #FFF; }
   td { vertical-align: top; }
   .row-other { display: none; }
   .example-image { display: block; }
