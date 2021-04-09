@@ -126,25 +126,25 @@ promises = output_.map((x, index) => async jobIndex => {
     return
   }
   const dom = doms[jobIndex]
-  let translationInput = x.pinyinWithHtml.map(x => x.englishs).join('\n')
+  let translationInput = x.pinyinWithHtml.map(x => x.englishs).map(x => x || '++++++++').join('\n')
 
   if (!translationInput) { return }
 
   translationInput = removeHTML(dom, translationInput)
 
-  translation = await require('./scripts/lib/google_translate_with_cache').google_translate_with_cache(translationInput, 'ru')
+  translation = await require('./scripts/lib/google_translate_with_cache').google_translate_with_cache(translationInput, { from: 'zh', to: 'ru' })
   translation = translation[0].split('\n')
-  translation = translation.map(x => x.trim())
-  translation = translation.filter(x => x != '')
+  translation = translation.map(x => x.trim().replace('++++++++', ''))
+
   if (translation.length !== x.pinyinWithHtml.length) {
     console.log({
       m: 'error',
       ru_translation: translation,
       ...x
     })
-    output__.push(x)
-    return
-    // throw new Error(`${translation.length} != ${x.pinyinWithHtml.length}`)
+    // output__.push(x)
+    // return
+    throw new Error(`${translation.length} != ${x.pinyinWithHtml.length}`)
   }
   const pinyinWithHtml = R.zipWith((pinyinWithHtmlEl, ru) => ({ ...pinyinWithHtmlEl, ru }), x.pinyinWithHtml, translation)
   // console.log({ m: 'finished', index, from: output_.length })
@@ -179,63 +179,111 @@ const markHelp = x => {
 
 output__2 = output__2.map(x => ({ ...x, ...(mp3ToPinyinNumberAndOtherInfo(x.pinyinsHTML)), englishs: markHelp(x.englishs), ru: markHelp(x.ru), hsk: toNumberOrNull(x.hsk), chinese_junda_freq_ierogliph_number: toNumberOrNull(freq[x.kanji]) }))
 
-output__2 = R.sortBy(R.prop('withoutMark'), output__2)
-output__2 = R.groupBy(R.prop('withoutMark'), output__2)
-output__2 = R.map(R.sortBy(R.prop('number')), output__2)
+allKanjiForTable = R.groupBy(R.prop('withoutMark'), R.sortBy(R.prop('withoutMark'), output__2))
 
-output___ = R.values(output__2).map(v => {
-  if (!v) { return null }
+t = `a	ai	ao	an	ang	e	ei	en	eng	er	o	ou		yi		ya	yao	ye	you	yan	yang	yin	ying	yong	wu	wa	wai	wei	wo	wan	wang	wen	weng	yu	yue	yuan	yun
+ba	bai	bao	ban	bang		bei	ben	beng		bo			bi			biao	bie		bian		bin	bing		bu
+pa	pai	pao	pan	pang		pei	pen	peng		po	pou		pi			piao	pie		pian		pin	ping		pu
+ma	mai	mao	man	mang	me	mei	men	meng		mo	mou		mi			miao	mie	miu	mian		min	ming		mu
+fa			fan	fang		fei	fen	feng		fo	fou													fu
+da	dai	dao	dan	dang	de	dei	den	deng			dou	dong	di			diao	die	diu	dian			ding		du			dui	duo	duan		dun
+ta	tai	tao	tan	tang	te			teng			tou	tong	ti			tiao	tie		tian			ting		tu			tui	tuo	tuan		tun
+na	nai	nao	nan	nang	ne	nei	nen	neng			nou	nong	ni			niao	nie	niu	nian	niang	nin	ning		nu				nuo	nuan				nü	nüe
+la	lai	lao	lan	lang	le	lei		leng		lo	lou	long	li		lia	liao	lie	liu	lian	liang	lin	ling		lu				luo	luan		lun		lü	lüe
+za	zai	zao	zan	zang	ze	zei	zen	zeng			zou	zong		zi										zu			zui	zuo	zuan		zun
+ca	cai	cao	can	cang	ce	cei	cen	ceng			cou	cong		ci										cu			cui	cuo	cuan		cun
+sa	sai	sao	san	sang	se		sen	seng			sou	song		si										su			sui	suo	suan		sun
+zha	zhai	zhao	zhan	zhang	zhe	zhei	zhen	zheng			zhou	zhong		zhi										zhu	zhua	zhuai	zhui	zhuo	zhuan	zhuang	zhun
+cha	chai	chao	chan	chang	che		chen	cheng			chou	chong		chi										chu	chua	chuai	chui	chuo	chuan	chuang	chun
+sha	shai	shao	shan	shang	she	shei	shen	sheng			shou			shi										shu	shua	shuai	shui	shuo	shuan	shuang	shun
+    rao	ran	rang	re		ren	reng			rou	rong		ri										ru	rua		rui	ruo	ruan		run
+                          ji		jia	jiao	jie	jiu	jian	jiang	jin	jing	jiong										ju	jue	juan	jun
+                          qi		qia	qiao	qie	qiu	qian	qiang	qin	qing	qiong										qu	que	quan	qun
+                          xi		xia	xiao	xie	xiu	xian	xiang	xin	xing	xiong										xu	xue	xuan	xun
+ga	gai	gao	gan	gang	ge	gei	gen	geng			gou	gong												gu	gua	guai	gui	guo	guan	guang	gun
+ka	kai	kao	kan	kang	ke	kei	ken	keng			kou	kong												ku	kua	kuai	kui	kuo	kuan	kuang	kun
+ha	hai	hao	han	hang	he	hei	hen	heng			hou	hong												hu	hua	huai	hui	huo	huan	huang	hun`
 
-  const { marked, number, withoutMark } = v[0]
-
-  const findHSK = n => v.filter(x => x.hsk == n)
-  const nonHSK6000 = v.filter(x => x.chinese_junda_freq_ierogliph_number <= 6000 && x.hsk === null)
-  const other = v.filter(x => x.chinese_junda_freq_ierogliph_number > 6000 && x.hsk === null)
-
-  const front = [
-    ["HSK 1", "hsk-1", findHSK(1)],
-    ["HSK 2", "hsk-2", findHSK(2)],
-    ["HSK 3", "hsk-3", findHSK(3)],
-    ["HSK 4", "hsk-4", findHSK(4)],
-    ["HSK 5", "hsk-5", findHSK(5)],
-    ["HSK 6", "hsk-6", findHSK(6)],
-    ["5000",  "5000", nonHSK6000],
-  ].map(([k, class_, v]) => {
-    if (v.length <= 0) { return null }
-    const key = nodeWith('span', { class: "key" }, k)
-    const val = v.map(v => {
-      return `<div class="my-pinyin-english">${v.englishs}</div>
-  <div class="my-pinyin-ru">${v.ru}</div>`
-    }).join(`\n<br><hr>`)
-
-    return `${key}:\n<br><hr>${val}`
-  }).filter(R.identity).join('<br>')
-
-  const back = [
-    ["HSK 1", "hsk-1", findHSK(1)],
-    ["HSK 2", "hsk-2", findHSK(2)],
-    ["HSK 3", "hsk-3", findHSK(3)],
-    ["HSK 4", "hsk-4", findHSK(4)],
-    ["HSK 5", "hsk-5", findHSK(5)],
-    ["HSK 6", "hsk-6", findHSK(6)],
-    ["5000",  "5000", nonHSK6000],
-    ["Other", "other", other],
-  ].map(([k, class_, v]) => {
-    if (v.length <= 0) { return null }
-    return `${k}: ${v.map(R.prop('kanji')).join('')}`
-  }).filter(R.identity).join(`<br>`)
-
-  return {
-    marked,
-    // withoutMark,
-    // number,
-    front,
-    back,
+t_ = t.split('\n').map(R.trim()).filter(R.identity).map(R.split('\t')).flat().flat().filter(R.identity).map(x => {
+  if(!x) { return null }
+  const x_ = {
+    'nü': 'nv',
+    'lü': 'lv',
+    'lüe': 'lve',
+    'nüe': 'nve',
+  }[x] || x
+  const r = allKanjiForTable[x_]
+  if (!r) {
+    if(x === 'cei') { return null }
+    if(x === 'zhei') { return null }
+    if(x === 'chua') { return null }
+    if(x === 'rua') { return null }
+    if(x === 'eng') { return null }
+    if(x === 'den') { return null }
+    throw new Error(x)
   }
+  return [x, r]
+}).filter(R.identity)
+
+t__ = t_.map(([k, v]) => {
+  return R.mapObjIndexed(
+    (v, k) => {
+      if (!v) { return null }
+
+      const { marked, number, withoutMark } = v[0]
+
+      const findHSK = n => v.filter(x => x.hsk == n)
+      const hsks = [1, 2, 3, 4, 5, 6].map(findHSK).map(R.sortBy(R.prop('kanji')))
+
+      let nonHSK6000 = v.filter(x => x.chinese_junda_freq_ierogliph_number <= 6000 && x.hsk === null)
+      nonHSK6000 = R.sortBy(R.prop('kanji'), nonHSK6000)
+
+      let other = v.filter(x => x.chinese_junda_freq_ierogliph_number > 6000 && x.hsk === null)
+      other = R.sortBy(R.prop('kanji'), other)
+
+      const front = [
+        ["HSK 1", "hsk-1", hsks[0]],
+        ["HSK 2", "hsk-2", hsks[1]],
+        ["HSK 3", "hsk-3", hsks[2]],
+        ["HSK 4", "hsk-4", hsks[3]],
+        ["HSK 5", "hsk-5", hsks[4]],
+        ["HSK 6", "hsk-6", hsks[5]],
+        ["5000",  "5000", nonHSK6000],
+      ].map(([k, class_, v]) => {
+        if (v.length <= 0) { return null }
+        const key = nodeWith('span', { class: "key" }, k)
+        const val = v.map(v => `<div class="my-pinyin-english">${v.englishs}</div>\n<div class="my-pinyin-ru">${v.ru}</div>`).join(`\n<br><hr>`)
+        return `${key}:\n<br><hr>${val}`
+      }).filter(R.identity).join('<br>')
+
+      const back = [
+        ["HSK 1", "hsk-1", hsks[0]],
+        ["HSK 2", "hsk-2", hsks[1]],
+        ["HSK 3", "hsk-3", hsks[2]],
+        ["HSK 4", "hsk-4", hsks[3]],
+        ["HSK 5", "hsk-5", hsks[4]],
+        ["HSK 6", "hsk-6", hsks[5]],
+        ["5000",  "5000", nonHSK6000],
+        ["Other", "other", other],
+      ].map(([k, class_, v]) => {
+        if (v.length <= 0) { return null }
+        return `${k}: ${v.map(R.prop('kanji')).join('')}`
+      }).filter(R.identity).join(`<br>`)
+
+      return {
+        marked,
+        withoutMark,
+        number,
+        front,
+        back,
+      }
+    }, (R.groupBy(R.prop('number'), v)))
 })
+
+t___ = t__.flat().map(R.values).flat().filter(R.identity)
 
 ;(function(input){
   const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))
   const s = require('csv-writer').createObjectCsvStringifier({ header }).stringifyRecords(input)
   fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', s)
-})(output___);
+})(t___);

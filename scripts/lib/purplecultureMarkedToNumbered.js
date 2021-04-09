@@ -1,3 +1,4 @@
+const R = require('ramda')
 const arrayToRecordByPosition = require('./arrayToRecordByPosition').arrayToRecordByPosition
 
 let convertToRuTable = R.map(arrayToRecordByPosition([
