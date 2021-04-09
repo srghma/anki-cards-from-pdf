@@ -12,22 +12,22 @@ const mkQueue = require('./scripts/lib/mkQueue').mkQueue
 
 input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji", "trch" ] })))
 
-output_ = input.map(x => {
-  if (!x.trch) { return null }
-  return {
-    kanji: x.kanji,
-    trch: x.trch.split('<br/>').map(x => {
-      x = R.trim(x)
-      return x.replace(/\S+ \(фамилия\);?/g, '')
-    }).join('\n<br/>\n'),
-  }
-}).filter(R.identity)
+// output_ = input.map(x => {
+//   if (!x.trch) { return null }
+//   return {
+//     kanji: x.kanji,
+//     trch: x.trch.split('<br/>').map(x => {
+//       x = R.trim(x)
+//       return x.replace(/\S+ \(фамилия\);?/g, '')
+//     }).join('\n<br/>\n'),
+//   }
+// }).filter(R.identity)
 
-;(function(input){
-  const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))
-  const s = require('csv-writer').createObjectCsvStringifier({ header }).stringifyRecords(input)
-  fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', s)
-})(output_);
+// ;(function(input){
+//   const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))
+//   const s = require('csv-writer').createObjectCsvStringifier({ header }).stringifyRecords(input)
+//   fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', s)
+// })(output_);
 
 // input.filter(x => x.trch.length > 1).length
 
@@ -36,20 +36,21 @@ async function mapper(output, kanji, inputIndex, dom) {
   let transl = null
   try {
     transl = await require('./scripts/lib/trainchinese').trainchinese_with_cache(dom, kanji)
-    // console.log({ kanji, transl })
+    console.log({ kanji, transl })
   } catch (e) {
     console.error({ kanji, e })
   }
-  return {
+  output.push({
     kanji,
     transl
-  }
+  })
 }
-
 output = []
 const queueSize = 1
 doms = Array.from({ length: queueSize }, (_, i) => { return new JSDOM(``) })
 mkQueue(queueSize).addAll(input.map((x, inputIndex) => async jobIndex => { mapper(output, x["kanji"], inputIndex, doms[jobIndex]) }))
+
+output_ = output.filter(x => x.transl)
 
 function processTrainchineseTransl(x) {
   const transl = x.transl
@@ -77,8 +78,6 @@ function processTrainchineseTransl(x) {
     }).join('\n<br/>\n')
   }
 }
-
-// processTrainchineseTransl(x)
 
 output_ = output.map(processTrainchineseTransl).filter(R.identity)
 
