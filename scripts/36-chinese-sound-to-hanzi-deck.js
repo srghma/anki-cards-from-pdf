@@ -157,30 +157,6 @@ await mkQueue(queueSize).addAll(promises)
 
 require('./scripts/lib/google_translate_with_cache').google_translate_sync()
 
-output__2 = output__.map(x => x.pinyinWithHtml.map(pinyinWithHtmlElem => ({ ...pinyinWithHtmlElem, ...(R.pick("hsk kanji".split(' '), x)) }))).flat()
-
-mp3ToPinyinNumberAndOtherInfo = (x) => {
-  x = Array.from(x.matchAll(/<a class="pinyin tone(\d+)\s*" href="https:\/\/www\.purpleculture\.net\/mp3\/([^\.]+)\.mp3">([^<]+)<\/a>/g))
-  x = x.map(x => ({ number: toNumberOrNull(x[1]), numbered: x[2], marked: x[3] }))
-  x = x.map(x => ({ ...x, withoutMark: x.numbered.replace(/\d+/g, '') }))
-  return x[0]
-}
-
-const markHelp = x => {
-  if (!x) { return '' }
-  x = removeHTML(dom, x)
-  x = x.trim().replace(/\[(\w+)\]/g, '<span class="purpleculture-english__pinyin-info">[$1]</span>')
-  x = x.split('').map(x => {
-    if (isHanzi(x)) { return `<span class="purpleculture-english__pinyin-info">${x}</span>` }
-    return x
-  }).join('')
-  return x
-}
-
-output__2 = output__2.map(x => ({ ...x, ...(mp3ToPinyinNumberAndOtherInfo(x.pinyinsHTML)), englishs: markHelp(x.englishs), ru: markHelp(x.ru), hsk: toNumberOrNull(x.hsk), chinese_junda_freq_ierogliph_number: toNumberOrNull(freq[x.kanji]) }))
-
-allKanjiForTable = R.groupBy(R.prop('withoutMark'), R.sortBy(R.prop('withoutMark'), output__2))
-
 t = `a	ai	ao	an	ang	e	ei	en	eng	er	o	ou		yi		ya	yao	ye	you	yan	yang	yin	ying	yong	wu	wa	wai	wei	wo	wan	wang	wen	weng	yu	yue	yuan	yun
 ba	bai	bao	ban	bang		bei	ben	beng		bo			bi			biao	bie		bian		bin	bing		bu
 pa	pai	pao	pan	pang		pei	pen	peng		po	pou		pi			piao	pie		pian		pin	ping		pu
@@ -203,6 +179,45 @@ sha	shai	shao	shan	shang	she	shei	shen	sheng			shou			shi										shu	shua	shua
 ga	gai	gao	gan	gang	ge	gei	gen	geng			gou	gong												gu	gua	guai	gui	guo	guan	guang	gun
 ka	kai	kao	kan	kang	ke	kei	ken	keng			kou	kong												ku	kua	kuai	kui	kuo	kuan	kuang	kun
 ha	hai	hao	han	hang	he	hei	hen	heng			hou	hong												hu	hua	huai	hui	huo	huan	huang	hun`
+
+const trainchinese_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/trainchinese_cache.json'
+let trainchinese_cache = {}
+try { trainchinese_cache = JSON.parse(fs.readFileSync(trainchinese_with_cache_path).toString()) } catch (e) {  }
+trainchinese_cache_ = R.toPairs(trainchinese_cache).map(([kanji, transl]) => ({ kanji, transl }))
+trainchinese_cache_ = trainchinese_cache_.filter(R.prop('transl'))
+trainchinese_cache_ = trainchinese_cache_.map(({ kanji, transl }) => ({ kanji, transl: transl.filter(x => x.ch == kanji).filter(R.prop('transl')) })).filter(x => x.transl.length > 0)
+trainchinese_cache_ = trainchinese_cache_.map(({ kanji, transl }) => ({ kanji, transl: transl.map(R.over(R.lensProp('transl'), x => x.replace(/\S+ \(фамилия\);?/g, '').trim())) })).filter(x => x.transl.length > 0)
+trainchinese_cache_ = R.fromPairs(trainchinese_cache_.map(({ kanji, transl }) => ([kanji, transl])))
+
+output__2 = output__.map(x => x.pinyinWithHtml.map(pinyinWithHtmlElem => ({ ...pinyinWithHtmlElem, ...(R.pick("hsk kanji".split(' '), x)) }))).flat()
+
+mp3ToPinyinNumberAndOtherInfo = (x) => {
+  x = Array.from(x.matchAll(/<a class="pinyin tone(\d+)\s*" href="https:\/\/www\.purpleculture\.net\/mp3\/([^\.]+)\.mp3">([^<]+)<\/a>/g))
+  x = x.map(x => ({ number: toNumberOrNull(x[1]), numbered: x[2], marked: x[3] }))
+  x = x.map(x => ({ ...x, withoutMark: x.numbered.replace(/\d+/g, '') }))
+  return x[0]
+}
+
+const markHelp = x => {
+  if (!x) { return '' }
+  x = removeHTML(dom, x)
+  x = x.trim().replace(/\[(\w+)\]/g, '<span class="purpleculture-english__pinyin-info">[$1]</span>')
+  x = x.split('').map(x => {
+    if (isHanzi(x)) { return `<span class="purpleculture-english__pinyin-info">${x}</span>` }
+    return x
+  }).join('')
+  return x
+}
+
+output__2 = output__2.map(x => ({ ...x, ...(mp3ToPinyinNumberAndOtherInfo(x.pinyinsHTML)), englishs: markHelp(x.englishs), ru: markHelp(x.ru), hsk: toNumberOrNull(x.hsk), chinese_junda_freq_ierogliph_number: toNumberOrNull(freq[x.kanji]) }))
+
+output__2 = output__2.map(x => {
+  let trainchinese_cache_with_this_mark = trainchinese_cache_[x.kanji] || []
+  // trainchinese_cache_with_this_mark = trainchinese_cache_with_this_mark.filter(y => y.pinyin == x.marked)
+  return { ...x, trainchinese_cache_with_this_mark }
+})
+
+allKanjiForTable = R.groupBy(R.prop('withoutMark'), R.sortBy(R.prop('withoutMark'), output__2))
 
 t_ = t.split('\n').map(R.trim()).filter(R.identity).map(R.split('\t')).flat().flat().filter(R.identity).map(x => {
   if(!x) { return null }
@@ -252,7 +267,17 @@ t__ = t_.map(([k, v]) => {
       ].map(([k, class_, v]) => {
         if (v.length <= 0) { return null }
         const key = nodeWith('span', { class: "key" }, k)
-        const val = v.map(v => `<div class="my-pinyin-english">${v.englishs}</div>\n<div class="my-pinyin-ru">${v.ru}</div>`).join(`\n<br><hr>`)
+        const val = v.map(v => {
+          const trainchinese_cache_with_this_mark = v.trainchinese_cache_with_this_mark.map(x => {
+            const pinyin = '<span class="trainchinese-pinyin">' + x.pinyin + '</span>'
+            const type = '<span class="trainchinese-type">' + x.type + '</span>'
+            const transl_____ = '<span class="trainchinese-transl">' + x.transl + '</span>'
+            const res = pinyin + ': (' + type + ') ' + transl_____
+            return `<div class="my-pinyin-trainchinese">${res}</div>`
+          }).join('<br/>')
+
+          return `<div class="my-pinyin-english">${v.englishs}</div><div class="my-pinyin-ru">${v.ru}</div>${trainchinese_cache_with_this_mark}`
+        }).join(`\n<br><hr>`)
         return `${key}:\n<br><hr>${val}`
       }).filter(R.identity).join('<br>')
 
@@ -277,7 +302,9 @@ t__ = t_.map(([k, v]) => {
         front,
         back,
       }
-    }, (R.groupBy(R.prop('number'), v)))
+    },
+    (R.groupBy(R.prop('number'), v))
+  )
 })
 
 t___ = t__.flat().map(R.values).flat().filter(R.identity)
