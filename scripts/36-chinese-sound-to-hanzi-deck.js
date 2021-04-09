@@ -15,6 +15,11 @@ const { JSDOM } = jsdom;
 const dom = new JSDOM(``);
 const {Translate} = require('@google-cloud/translate').v2;
 const translate = new Translate({projectId: "annular-form-299211"});
+const nodeWith = require('./scripts/lib/nodeWith').nodeWith
+toNumberOrNull = x => {
+  if (!x) { return null }
+  return Number(x) === 0 ? null : Number(x)
+}
 
 input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
 input = input.map(x => ({ kanji: x.kanji, freq: Number(x._12) }))
@@ -152,84 +157,82 @@ await mkQueue(queueSize).addAll(promises)
 
 require('./scripts/lib/google_translate_with_cache').google_translate_sync()
 
-// R.fromPairs(R.sortBy((x) => x[1], R.toPairs(pinyin)))
-// errors.sort()
+output__2 = output__.map(x => x.pinyinWithHtml.map(pinyinWithHtmlElem => ({ ...pinyinWithHtmlElem, ...(R.pick("hsk kanji".split(' '), x)) }))).flat()
 
-// R.fromPairs([...convertToRuTable_, ].map(x => [x, pinyin_[x]]))
+mp3ToPinyinNumberAndOtherInfo = (x) => {
+  x = Array.from(x.matchAll(/<a class="pinyin tone(\d+)\s*" href="https:\/\/www\.purpleculture\.net\/mp3\/([^\.]+)\.mp3">([^<]+)<\/a>/g))
+  x = x.map(x => ({ number: toNumberOrNull(x[1]), numbered: x[2], marked: x[3] }))
+  x = x.map(x => ({ ...x, withoutMark: x.numbered.replace(/\d+/g, '') }))
+  return x[0]
+}
 
-output___ = output__.map(x => {
-  const markHelp = x => {
-    if (!x) { return '' }
-    x = removeHTML(dom, x)
-    x = x.trim().replace(/\[(\w+)\]/g, '<span class="purpleculture-english__pinyin-info">[$1]</span>')
-    x = x.split('').map(x => {
-      if (isHanzi(x)) { return `<span class="purpleculture-english__pinyin-info">${x}</span>` }
-      return x
-    }).join('')
+const markHelp = x => {
+  if (!x) { return '' }
+  x = removeHTML(dom, x)
+  x = x.trim().replace(/\[(\w+)\]/g, '<span class="purpleculture-english__pinyin-info">[$1]</span>')
+  x = x.split('').map(x => {
+    if (isHanzi(x)) { return `<span class="purpleculture-english__pinyin-info">${x}</span>` }
     return x
-  }
+  }).join('')
+  return x
+}
 
-  let pinyinWithHtml = x.pinyinWithHtml.map(pinyinWithHtmlElem => {
-    const pinyinWithNumber = purplecultureMarkedToNumbered(x, pinyinWithHtmlElem.pinyinsText)
-    const pinyin = pinyinWithNumber.replace(/\d+/g, '')
-    const pinyinNumber = pinyinWithNumber.replace(/\D+/g, '')
-    return `
-  <div class="my-pinyin-image-container pinyin-${pinyin} pinyin-number-${pinyinNumber}"><span></span><img><img></div>
-  <div class="my-pinyin-tone">${pinyinWithHtmlElem.pinyinsHTML}</div>
-  <div class="my-pinyin-english">${markHelp(pinyinWithHtmlElem.englishs)}</div>
-  <div class="my-pinyin-ru">${markHelp(pinyinWithHtmlElem.ru)}</div>
-  `
-  })
-  pinyinWithHtml = pinyinWithHtml.join('<br>')
-  // const translation = x.translation
-  //   .replace(new RegExp('<b>English Definition: </b>', 'g'), '')
-  //   .replace(new RegExp('style="line-height:1.6"', 'g'), '')
-  //   .replace(new RegExp('id="sen0"', 'g'), '')
-  //   .replace(new RegExp(`<ruby class="mainsc">${x.kanji}</ruby>`, 'g'), '')
-  //   .replace(new RegExp(` class="d-flex"`, 'g'), '')
-  //   .replace(new RegExp(`<br><br>`, 'g'), '')
-  //   .replace(/<li class="pt-2">[^<]*<\/li>/g, '')
-  //   .replace(/<ul style="[^"]*"><\/ul>/g, '')
+output__2 = output__2.map(x => ({ ...x, ...(mp3ToPinyinNumberAndOtherInfo(x.pinyinsHTML)), englishs: markHelp(x.englishs), ru: markHelp(x.ru), hsk: toNumberOrNull(x.hsk), chinese_junda_freq_ierogliph_number: toNumberOrNull(freq[x.kanji]) }))
+
+output__2 = R.sortBy(R.prop('withoutMark'), output__2)
+output__2 = R.groupBy(R.prop('withoutMark'), output__2)
+output__2 = R.map(R.sortBy(R.prop('number')), output__2)
+
+output___ = R.values(output__2).map(v => {
+  if (!v) { return null }
+
+  const { marked, number, withoutMark } = v[0]
+
+  const findHSK = n => v.filter(x => x.hsk == n)
+  const nonHSK6000 = v.filter(x => x.chinese_junda_freq_ierogliph_number <= 6000 && x.hsk === null)
+  const other = v.filter(x => x.chinese_junda_freq_ierogliph_number > 6000 && x.hsk === null)
+
+  const front = [
+    ["HSK 1", "hsk-1", findHSK(1)],
+    ["HSK 2", "hsk-2", findHSK(2)],
+    ["HSK 3", "hsk-3", findHSK(3)],
+    ["HSK 4", "hsk-4", findHSK(4)],
+    ["HSK 5", "hsk-5", findHSK(5)],
+    ["HSK 6", "hsk-6", findHSK(6)],
+    ["5000",  "5000", nonHSK6000],
+  ].map(([k, class_, v]) => {
+    if (v.length <= 0) { return null }
+    const key = nodeWith('span', { class: "key" }, k)
+    const val = v.map(v => {
+      return `<div class="my-pinyin-english">${v.englishs}</div>
+  <div class="my-pinyin-ru">${v.ru}</div>`
+    }).join(`\n<br><hr>`)
+
+    return `${key}:\n<br><hr>${val}`
+  }).filter(R.identity).join('<br>')
+
+  const back = [
+    ["HSK 1", "hsk-1", findHSK(1)],
+    ["HSK 2", "hsk-2", findHSK(2)],
+    ["HSK 3", "hsk-3", findHSK(3)],
+    ["HSK 4", "hsk-4", findHSK(4)],
+    ["HSK 5", "hsk-5", findHSK(5)],
+    ["HSK 6", "hsk-6", findHSK(6)],
+    ["5000",  "5000", nonHSK6000],
+    ["Other", "other", other],
+  ].map(([k, class_, v]) => {
+    if (v.length <= 0) { return null }
+    return `${k}: ${v.map(R.prop('kanji')).join('')}`
+  }).filter(R.identity).join(`<br>`)
+
   return {
-    kanji:              x.kanji,
-    pinyinWithHtml,
-    // purpleculture_dictionary_orig_transl: x.purpleculture_dictionary_orig_transl,
-    // translation,
-    // hsk:                x.hsk,
-    // examples:           x.examples,
-    // tree:               x.tree,
-    // img:                x.img,
+    marked,
+    // withoutMark,
+    // number,
+    front,
+    back,
   }
 })
-
-// pinyin_ = R.toPairs(pinyin).map(([mark, { output, ierogliphs }]) => ({ mark, numbered: output, ierogliphs, numberedWithout: output.replace(/\d/, ''), numberedNumber: Number(output.replace(/\D*(\d)/, '$1')) }))
-// pinyin_ = R.groupBy(R.prop('numberedWithout'), pinyin_)
-// pinyin_ = R.sortBy(x => x[0], R.toPairs(pinyin_))
-// pinyin_ = pinyin_.map(x => {
-//   const find = n => {
-//     const output = x[1].find(y => y.numberedNumber == n)
-//     if(!output) { return null }
-//     const ierogliphs = R.sortBy(x => {
-//       const x1 = freq[x]
-//       return x1 || Infinity
-//     }, output.ierogliphs)
-//     return `${output.mark}\n${ierogliphs.join(',')}`
-//   }
-//   return [
-//     x[0],
-//     find(1),
-//     find(2),
-//     find(3),
-//     find(4),
-//     find(5),
-//   ]
-// })
-
-// allPinyinColumn.map(allPinyinColumnEl => {
-//   if (!pinyin_[allPinyinColumnEl]) { return [] }
-//   console.log(R.values(pinyin_[allPinyinColumnEl]))
-//   return R.values(pinyin_[allPinyinColumnEl]).map(R.pick(["mark", "ierogliphs"]))
-// })
 
 ;(function(input){
   const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))

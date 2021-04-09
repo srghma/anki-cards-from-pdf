@@ -1,15 +1,16 @@
 allKanjiOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/Chinese.txt').pipe(csv({ separator: "\t", headers: "k1 k2 img".split(" ") })))
-allKanjiOrig_ = allKanjiOrig.map(x => ({ k1: x.k1.trim(), k2: x.k2.split(' ').map(x => x.trim()).filter(R.identity), img: x.img, sound: x._12.trim() }))
-trad = allKanjiOrig_.map(x => x.k2.map(k => ({ k1: k.trim(), img: x.img, sound: x.sound }))).flat()
-allKanjiOrig_ = R.concat(trad, allKanjiOrig_)
-allKanjiOrig_ = R.map(R.props("k1 sound".split(' ')), allKanjiOrig_)
 
-;(function(input){
-  // const s = input.map(x => Object.values(x).join('\t')).join('\n')
-  const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))
-  const s = require('csv-writer').createObjectCsvStringifier({ header, fieldDelimeter: ";" }).stringifyRecords(input)
-  fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', s)
-})(allKanjiOrig_);
+// allKanjiOrig_ = allKanjiOrig.map(x => ({ k1: x.k1.trim(), k2: x.k2.split(' ').map(x => x.trim()).filter(R.identity), img: x.img, sound: x._12.trim() }))
+// trad = allKanjiOrig_.map(x => x.k2.map(k => ({ k1: k.trim(), img: x.img, sound: x.sound }))).flat()
+// allKanjiOrig_ = R.concat(trad, allKanjiOrig_)
+// allKanjiOrig_ = R.map(R.props("k1 sound".split(' ')), allKanjiOrig_)
+
+// ;(function(input){
+//   // const s = input.map(x => Object.values(x).join('\t')).join('\n')
+//   const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))
+//   const s = require('csv-writer').createObjectCsvStringifier({ header, fieldDelimeter: ";" }).stringifyRecords(input)
+//   fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', s)
+// })(allKanjiOrig_);
 
 listOfKanji = allKanjiOrig.map(x => ({
   kanji:                               x.kanji,
