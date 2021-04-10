@@ -128,7 +128,8 @@ promises = output_.map((x, index) => async jobIndex => {
   translationInput = removeHTML(dom, translationInput)
 
   translation = await require('./scripts/lib/google_translate_with_cache').google_translate_with_cache(translationInput, 'ru')
-  translation = translation[0].split('\n')
+  // translation = translation[0]
+  translation = translation.split('\n')
   translation = translation.map(x => x.trim())
   translation = translation.filter(x => x != '')
   if (translation.length !== x.pinyinWithHtml.length) {
@@ -180,6 +181,7 @@ output___ = output__.map(x => {
   <div class="my-pinyin-ru">${markHelp(pinyinWithHtmlElem.ru)}</div>
   `
   })
+
   pinyinWithHtml = pinyinWithHtml.join('<br>')
   // const translation = x.translation
   //   .replace(new RegExp('<b>English Definition: </b>', 'g'), '')

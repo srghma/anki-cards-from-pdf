@@ -273,7 +273,7 @@ t__ = t_.map(([k, v]) => {
       let other = v.filter(x => x.hsk === null && (x.chinese_junda_freq_ierogliph_number == null || x.chinese_junda_freq_ierogliph_number > 7000))
       other = R.sortBy(R.prop('kanji'), other)
 
-      let front = [
+      const subj = [
         ["hsk_1", hsks[0]],
         ["hsk_2", hsks[1]],
         ["hsk_3", hsks[2]],
@@ -282,7 +282,14 @@ t__ = t_.map(([k, v]) => {
         ["hsk_6", hsks[5]],
         ["first",  nonHSK7000],
         ["other", other],
-      ].map(([hsk, v]) => {
+      ]
+
+      let back = subj.filter(([hsk, val]) => val.length > 0).map(([hsk, v]) => {
+        const v_ = v.map(R.prop('kanji')).join('')
+        return `${hsk}: ${v_}`
+      }).join('<br>')
+
+      let front = subj.map(([hsk, v]) => {
         const val = v.map(v => {
           const markHelp = x => {
             if (!x) { return '' }
@@ -319,14 +326,21 @@ t__ = t_.map(([k, v]) => {
         return [hsk, val]
       })
 
-      front = front.map(([hsk, val]) => val.map((valEl, i) => [`${hsk}_${i + 1}`, valEl])).flat()
-      front = front.map(([hsk, val]) => "kanji transl".split(' ').map(field => [`${hsk}_${field}`, val[field]])).flat()
+      // front = front.map(([hsk, val]) => val.map((valEl, i) => [`${hsk}_${i + 1}`, valEl])).flat()
+      // front = front.map(([hsk, val]) => "kanji transl".split(' ').map(field => [`${hsk}_${field}`, val[field]])).flat()
+
+      front = front.filter(([hsk, val]) => val.length > 0).map(([hsk, val]) => {
+        const val_ = val.map(({ kanji, transl }) => `<div class="my-pinyin-hanzi">${kanji}</div>${transl}`).join('<hr>')
+        return `<span class="key">${hsk}</span>:<br>${val_}`
+      }).join('<hr>')
 
       return {
         marked,
         withoutMark,
         number,
-        ...(R.fromPairs(front)),
+        front,
+        back,
+        // ...(R.fromPairs(front)),
       }
     },
     (R.groupBy(R.prop('number'), v))
