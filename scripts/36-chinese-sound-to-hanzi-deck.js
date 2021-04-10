@@ -16,46 +16,21 @@ const dom = new JSDOM(``);
 const {Translate} = require('@google-cloud/translate').v2;
 const translate = new Translate({projectId: "annular-form-299211"});
 const nodeWith = require('./scripts/lib/nodeWith').nodeWith
-toNumberOrNull = x => {
-  if (!x) { return null }
-  return Number(x) === 0 ? null : Number(x)
-}
+toNumberOrNull = x => { if (!x) { return null }; return Number(x) === 0 ? null : Number(x); }
+checkSameLength = (x, y) => { if (x.length != y.length) { throw new Error(`x.length (${x.length}) != y.length (${y.length})`) } }
+zipOrThrowIfNotSameLength = (x, y) => { checkSameLength(x, y); return R.zip(x, y); }
 
 input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
-// input = input.map(x => ({ kanji: x.kanji, freq: toNumberOrNull(x._12) }))
-input_ = input.map(x => x.kanji)
+input = input.map(x => ({ kanji: x.kanji, chinese_junda_freq_ierogliph_number: toNumberOrNull(x._11), google_ru: x._18, google_en: x._19 }))
 
-ru_already_done = x.map(x => x.i)
-ru_not_done = R.difference(input_, ru_already_done)
-fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', ru_not_done.join('\n'))
-output = fs.readFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2-output.txt').toString()
-output_ = output.split('\n').filter(R.identity)
+// input_ = input.filter(x => !x.en).map(x => x.kanji)
+// fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', input_.join('\n'))
+// output = fs.readFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2-output.txt').toString()
+// output_ = output.split('\n').filter(R.identity)
+// output_ = zipOrThrowIfNotSameLength(input_, output_)
+// output_ = output_.filter(x => !(x[1].length == 1 && isHanzi(x[1])))
 
-checkSameLength = (x, y) => {
-  if (x.length != y.length) { throw new Error(`x.length (${x.length}) != y.length (${y.length})`) }
-}
-
-zipOrThrowIfNotSameLength = (x, y) => {
-  checkSameLength(x, y)
-  return R.zip(x, y)
-}
-
-output_ = zipOrThrowIfNotSameLength(ru_not_done, output_)
-
-output_ = output_.filter(x => !(x[1].length == 1 && isHanzi(x[1])))
-
-;(function(input){
-  const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))
-  const s = require('csv-writer').createObjectCsvStringifier({ header }).stringifyRecords(input)
-  fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', s)
-})(output_);
-
-// ru_not_done_transl = await translate.translate(ru_not_done.join('\n'), { to: 'ru' })
-// ru_not_done_transl = ru_not_done_transl[0]
-
-ru_not_done_transl = await
-
-freq = R.fromPairs(input.map(x => [x.kanji, x.freq]))
+toFreqAndGoogle = R.fromPairs(input.map(x => [x.kanji, x]))
 
 const queueSize = 10
 doms = Array.from({ length: queueSize }, (_, i) => { return new JSDOM(``) })
@@ -164,7 +139,7 @@ promises = output_.map((x, index) => async jobIndex => {
   translationInput = removeHTML(dom, translationInput)
 
   translation = await require('./scripts/lib/google_translate_with_cache').google_translate_with_cache(translationInput, { from: 'zh', to: 'ru' })
-  translation = translation[0].split('\n')
+  translation = translation.split('\n')
   translation = translation.map(x => x.trim().replace('++++++++', ''))
 
   if (translation.length !== x.pinyinWithHtml.length) {
@@ -247,7 +222,9 @@ output__2 = output__2.map(x => {
     englishs: markHelp(x.englishs),
     ru: markHelp(x.ru),
     hsk: toNumberOrNull(x.hsk),
-    chinese_junda_freq_ierogliph_number: toNumberOrNull(freq[x.kanji])
+    chinese_junda_freq_ierogliph_number: toNumberOrNull(toFreqAndGoogle[x.kanji].chinese_junda_freq_ierogliph_number),
+    google_en: toFreqAndGoogle[x.kanji].google_en,
+    google_ru: toFreqAndGoogle[x.kanji].google_ru,
   }
 })
 
@@ -290,21 +267,21 @@ t__ = t_.map(([k, v]) => {
       const findHSK = n => v.filter(x => x.hsk == n)
       const hsks = [1, 2, 3, 4, 5, 6].map(findHSK).map(R.sortBy(R.prop('kanji')))
 
-      let nonHSK7000 = v.filter(x => x.chinese_junda_freq_ierogliph_number != null && x.hsk === null)
+      let nonHSK7000 = v.filter(x => x.hsk === null && x.chinese_junda_freq_ierogliph_number != null && x.chinese_junda_freq_ierogliph_number <= 7000)
       nonHSK7000 = R.sortBy(R.prop('kanji'), nonHSK7000)
 
-      let other = v.filter(x => x.chinese_junda_freq_ierogliph_number == null && x.hsk === null))
+      let other = v.filter(x => x.hsk === null && (x.chinese_junda_freq_ierogliph_number == null || x.chinese_junda_freq_ierogliph_number > 7000))
       other = R.sortBy(R.prop('kanji'), other)
 
-      const front = [
-        ["HSK 1", hsks[0]],
-        ["HSK 2", hsks[1]],
-        ["HSK 3", hsks[2]],
-        ["HSK 4", hsks[3]],
-        ["HSK 5", hsks[4]],
-        ["HSK 6", hsks[5]],
-        ["7000",  nonHSK7000],
-        ["Other", other],
+      let front = [
+        ["hsk_1", hsks[0]],
+        ["hsk_2", hsks[1]],
+        ["hsk_3", hsks[2]],
+        ["hsk_4", hsks[3]],
+        ["hsk_5", hsks[4]],
+        ["hsk_6", hsks[5]],
+        ["first",  nonHSK7000],
+        ["other", other],
       ].map(([hsk, v]) => {
         const val = v.map(v => {
           const markHelp = x => {
@@ -326,7 +303,15 @@ t__ = t_.map(([k, v]) => {
             return `<div class="my-pinyin-trainchinese">${res}</div>`
           }).join('<br/>')
 
-          const transl = `<div class="my-pinyin-english">${v.englishs}</div><div class="my-pinyin-ru">${v.ru}</div>${trainchinese_cache_with_this_mark}`
+          const nodeWithIfNotEmpty = (name, options, x) => x ? nodeWith(name, options, x) : ''
+
+          const div_englishs = nodeWithIfNotEmpty('div', { class: "my-pinyin-english" }, v.englishs)
+          const div_ru = nodeWithIfNotEmpty('div', { class: "my-pinyin-ru" }, v.ru)
+
+          const div_google_ru = nodeWithIfNotEmpty('div', { class: "my-pinyin-google-ru" }, v.google_ru)
+          const div_google_en = nodeWithIfNotEmpty('div', { class: "my-pinyin-google-en" }, v.google_en)
+
+          const transl = `${div_englishs}${div_ru}${div_google_en}${div_google_ru}${trainchinese_cache_with_this_mark}`
 
           return { kanji: v.kanji, transl }
         })
@@ -334,11 +319,14 @@ t__ = t_.map(([k, v]) => {
         return [hsk, val]
       })
 
+      front = front.map(([hsk, val]) => val.map((valEl, i) => [`${hsk}_${i + 1}`, valEl])).flat()
+      front = front.map(([hsk, val]) => "kanji transl".split(' ').map(field => [`${hsk}_${field}`, val[field]])).flat()
+
       return {
         marked,
         withoutMark,
         number,
-        front: R.fromPairs(front),
+        ...(R.fromPairs(front)),
       }
     },
     (R.groupBy(R.prop('number'), v))
@@ -347,14 +335,15 @@ t__ = t_.map(([k, v]) => {
 
 t___ = t__.flat().map(R.values).flat().filter(R.identity)
 
-stats = t___.map(R.prop('front'))
-stats = R.map(R.mapObjIndexed(R.prop('length')), stats)
-stats = R.reduce(R.mergeWith((x, y) => R.max(x || 0, y || 0)), {}, stats)
+// stats = t___.map(R.prop('front'))
+// stats = R.map(R.mapObjIndexed(R.prop('length')), stats)
+// stats = R.reduce(R.mergeWith((x, y) => R.max(x || 0, y || 0)), {}, stats)
 
-others = t___.map(R.prop('front')).map(R.prop('Other'))
+// others = t___.map(R.prop('front')).map(R.prop('Other'))
 
 ;(function(input){
-  const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))
+  const keys = R.uniq(input.map(R.keys).flat())
+  const header = keys.map(x => ({ id: x, title: x }))
   const s = require('csv-writer').createObjectCsvStringifier({ header }).stringifyRecords(input)
   fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', s)
 })(t___);
