@@ -198,18 +198,27 @@ mp3ToPinyinNumberAndOtherInfo = (x) => {
   return x[0]
 }
 
-const markHelp = x => {
-  if (!x) { return '' }
-  x = removeHTML(dom, x)
-  x = x.trim().replace(/\[(\w+)\]/g, '<span class="purpleculture-english__pinyin-info">[$1]</span>')
-  x = x.split('').map(x => {
-    if (isHanzi(x)) { return `<span class="purpleculture-english__pinyin-info">${x}</span>` }
+output__2 = output__2.map(x => {
+  const markHelp = x => {
+    if (!x) { return '' }
+    x = removeHTML(dom, x)
+    x = x.trim().replace(/\[(\w+)\]/g, '<span class="purpleculture-english__pinyin-info">[$1]</span>')
+    x = x.split('').map(x => {
+      if (isHanzi(x)) { return `<span class="purpleculture-english__pinyin-info">${x}</span>` }
+      return x
+    }).join('')
     return x
-  }).join('')
-  return x
-}
+  }
 
-output__2 = output__2.map(x => ({ ...x, ...(mp3ToPinyinNumberAndOtherInfo(x.pinyinsHTML)), englishs: markHelp(x.englishs), ru: markHelp(x.ru), hsk: toNumberOrNull(x.hsk), chinese_junda_freq_ierogliph_number: toNumberOrNull(freq[x.kanji]) }))
+  return {
+    ...x,
+    ...(mp3ToPinyinNumberAndOtherInfo(x.pinyinsHTML)),
+    englishs: markHelp(x.englishs),
+    ru: markHelp(x.ru),
+    hsk: toNumberOrNull(x.hsk),
+    chinese_junda_freq_ierogliph_number: toNumberOrNull(freq[x.kanji])
+  }
+})
 
 output__2 = output__2.map(x => {
   let trainchinese_cache_with_this_mark = trainchinese_cache_[x.kanji] || []
@@ -264,19 +273,31 @@ t__ = t_.map(([k, v]) => {
         ["HSK 5", "hsk-5", hsks[4]],
         ["HSK 6", "hsk-6", hsks[5]],
         ["5000",  "5000", nonHSK6000],
+        ["Other", "other", other],
       ].map(([k, class_, v]) => {
         if (v.length <= 0) { return null }
         const key = nodeWith('span', { class: "key" }, k)
         const val = v.map(v => {
+          const markHelp = x => {
+            if (!x) { return '' }
+            x = removeHTML(dom, x)
+            x = x.trim().replace(/\[(\w+)\]/g, '<span class="trainchinese-transl__pinyin-info">[$1]</span>')
+            x = x.split('').map(x => {
+              if (isHanzi(x)) { return `<span class="trainchinese-transl__hanzi-info">${x}</span>` }
+              return x
+            }).join('')
+            return x
+          }
+
           const trainchinese_cache_with_this_mark = v.trainchinese_cache_with_this_mark.map(x => {
             const pinyin = '<span class="trainchinese-pinyin">' + x.pinyin + '</span>'
             const type = '<span class="trainchinese-type">' + x.type + '</span>'
-            const transl_____ = '<span class="trainchinese-transl">' + x.transl + '</span>'
+            const transl_____ = '<span class="trainchinese-transl">' + markHelp(x.transl) + '</span>'
             const res = pinyin + ': (' + type + ') ' + transl_____
             return `<div class="my-pinyin-trainchinese">${res}</div>`
           }).join('<br/>')
 
-          return `<div class="my-pinyin-english">${v.englishs}</div><div class="my-pinyin-ru">${v.ru}</div>${trainchinese_cache_with_this_mark}`
+          return `<div class="my-pinyin-hanzi">${v.kanji}</div><div class="my-pinyin-english">${v.englishs}</div><div class="my-pinyin-ru">${v.ru}</div>${trainchinese_cache_with_this_mark}`
         }).join(`\n<br><hr>`)
         return `${key}:\n<br><hr>${val}`
       }).filter(R.identity).join('<br>')
@@ -292,7 +313,13 @@ t__ = t_.map(([k, v]) => {
         ["Other", "other", other],
       ].map(([k, class_, v]) => {
         if (v.length <= 0) { return null }
-        return `${k}: ${v.map(R.prop('kanji')).join('')}`
+
+        const tify = require('chinese-conv').tify
+        const kanjis = v.map(R.prop('kanji'))
+        // const trad = tify(kanjis.join('')).split('')
+        // const kanjis_ = R.uniq(kanjis.concat(trad)).sort()
+
+        return `${k}: ${kanjis.join('')}`
       }).filter(R.identity).join(`<br>`)
 
       return {
