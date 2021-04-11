@@ -20,8 +20,8 @@ toNumberOrNull = x => { if (!x) { return null }; return Number(x) === 0 ? null :
 checkSameLength = (x, y) => { if (x.length != y.length) { throw new Error(`x.length (${x.length}) != y.length (${y.length})`) } }
 zipOrThrowIfNotSameLength = (x, y) => { checkSameLength(x, y); return R.zip(x, y); }
 
-input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
-input = input.map(x => ({ kanji: x.kanji, chinese_junda_freq_ierogliph_number: toNumberOrNull(x._11), google_ru: x._18, google_en: x._19 }))
+inputOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
+input = inputOrig.map(x => ({ kanji: x.kanji, chinese_junda_freq_ierogliph_number: toNumberOrNull(x._10), google_ru: x._20, google_en: x._21 }))
 
 // input_ = input.filter(x => !x.en).map(x => x.kanji)
 // fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', input_.join('\n'))
@@ -330,7 +330,7 @@ t__ = t_.map(([k, v]) => {
       // front = front.map(([hsk, val]) => "kanji transl".split(' ').map(field => [`${hsk}_${field}`, val[field]])).flat()
 
       front = front.filter(([hsk, val]) => val.length > 0).map(([hsk, val]) => {
-        const val_ = val.map(({ kanji, transl }) => `<div class="my-pinyin-hanzi">${kanji}</div>${transl}`).join('<hr>')
+        const val_ = val.map(({ kanji, transl }) => `<div class="my-pinyin-hanzi">${`{{c1::${kanji}}}`}</div>${transl}`).join('<hr>')
         return `<span class="key">${hsk}</span>:<br>${val_}`
       }).join('<hr>')
 
