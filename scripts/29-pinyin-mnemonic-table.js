@@ -15,7 +15,9 @@ const { JSDOM } = jsdom;
 const dom = new JSDOM(``);
 const {Translate} = require('@google-cloud/translate').v2;
 const translate = new Translate({projectId: "annular-form-299211"});
-toNumberOrNull = x => Number(x) === 0 ? null : Number(x)
+toNumberOrNull = str => { if (!str) { return null }; var num = parseFloat(str); if (isFinite(num)) { return num; } else { return null; }; }
+checkSameLength = (x, y) => { if (x.length != y.length) { throw new Error(`x.length (${x.length}) != y.length (${y.length})`) } }
+zipOrThrowIfNotSameLength = (x, y) => { checkSameLength(x, y); return R.zip(x, y); }
 
 // table = await readStreamArray(fs.createReadStream('/home/srghma/projects/anki-cards-from-pdf/chinese pinyin mnemonics2.tsv').pipe(csv({ separator: "\t", headers: "ru en 0 1 2 3 4 5".split(" ") })))
 // table = table.map(x => ({ ...x, ruen: `${x.ru}|${x.en}` }))

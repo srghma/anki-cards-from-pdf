@@ -17,9 +17,9 @@ const {Translate} = require('@google-cloud/translate').v2;
 const translate = new Translate({projectId: "annular-form-299211"});
 
 input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
-input = input.map(x => ({ kanji: x.kanji, freq: Number(x._12) }))
+// input = input.map(x => ({ kanji: x.kanji, freq: Number(x._12) }))
 
-freq = R.fromPairs(input.map(x => [x.kanji, x.freq]))
+// freq = R.fromPairs(input.map(x => [x.kanji, x.freq]))
 
 const queueSize = 10
 doms = Array.from({ length: queueSize }, (_, i) => { return new JSDOM(``) })

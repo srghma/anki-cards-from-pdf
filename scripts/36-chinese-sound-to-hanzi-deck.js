@@ -16,12 +16,12 @@ const dom = new JSDOM(``);
 const {Translate} = require('@google-cloud/translate').v2;
 const translate = new Translate({projectId: "annular-form-299211"});
 const nodeWith = require('./scripts/lib/nodeWith').nodeWith
-toNumberOrNull = x => { if (!x) { return null }; return Number(x) === 0 ? null : Number(x); }
+toNumberOrNull = str => { if (!str) { return null }; var num = parseFloat(str); if (isFinite(num)) { return num; } else { return null; }; }
 checkSameLength = (x, y) => { if (x.length != y.length) { throw new Error(`x.length (${x.length}) != y.length (${y.length})`) } }
 zipOrThrowIfNotSameLength = (x, y) => { checkSameLength(x, y); return R.zip(x, y); }
 
 inputOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
-input = inputOrig.map(x => ({ kanji: x.kanji, chinese_junda_freq_ierogliph_number: toNumberOrNull(x._10), google_ru: x._20, google_en: x._21 }))
+input = inputOrig.map(x => ({ kanji: x.kanji, opposite: x._1.trim(), chinese_junda_freq_ierogliph_number: toNumberOrNull(x._11), google_ru: x._21, google_en: x._22 }))
 
 // input_ = input.filter(x => !x.en).map(x => x.kanji)
 // fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', input_.join('\n'))
