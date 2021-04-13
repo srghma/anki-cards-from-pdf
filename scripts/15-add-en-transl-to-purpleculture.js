@@ -78,14 +78,14 @@ output_ = output.filter(R.identity).map(x => {
 
   pinyinsHTML = mapWithForEachToArray(dom.window.document.body.querySelectorAll('.pinyin'), x => x.outerHTML)
   pinyinsText = mapWithForEachToArray(dom.window.document.body.querySelectorAll('.pinyin'), x => x.textContent.trim())
-  englishs = mapWithForEachToArray(dom.window.document.body.querySelectorAll('span.en'), x => x.textContent)
+  english = mapWithForEachToArray(dom.window.document.body.querySelectorAll('span.en'), x => x.textContent)
 
   dom.window.document.body.querySelectorAll('.pinyin').forEach(e => e.remove())
   dom.window.document.body.querySelectorAll('span.en').forEach(e => e.remove())
 
-  if (pinyinsText.length !== pinyinsHTML.length || pinyinsHTML.length !== englishs.length) { throw new Error('adf') }
+  if (pinyinsText.length !== pinyinsHTML.length || pinyinsHTML.length !== english.length) { throw new Error('adf') }
 
-  pinyinWithHtml = R.zipWith((pinyinsHTML, englishs) => ({ pinyinsHTML, englishs }), pinyinsHTML, englishs)
+  pinyinWithHtml = R.zipWith((pinyinsHTML, english) => ({ pinyinsHTML, english }), pinyinsHTML, english)
   pinyinWithHtml = R.zipWith((obj, pinyinsText) => ({ ...obj, pinyinsText }), pinyinWithHtml, pinyinsText)
 
   pinyinWithoutMarks = R.uniq(pinyinsText.map(require('any-ascii')))
@@ -121,7 +121,7 @@ promises = output_.map((x, index) => async jobIndex => {
     return
   }
   const dom = doms[jobIndex]
-  let translationInput = x.pinyinWithHtml.map(x => x.englishs).join('\n')
+  let translationInput = x.pinyinWithHtml.map(x => x.english).join('\n')
 
   if (!translationInput) { return }
 
@@ -177,7 +177,7 @@ output___ = output__.map(x => {
     return `
   <div class="my-pinyin-image-container pinyin-${pinyin} pinyin-number-${pinyinNumber}"><span></span><img><img></div>
   <div class="my-pinyin-tone">${pinyinWithHtmlElem.pinyinsHTML}</div>
-  <div class="my-pinyin-english">${markHelp(pinyinWithHtmlElem.englishs)}</div>
+  <div class="my-pinyin-english">${markHelp(pinyinWithHtmlElem.english)}</div>
   <div class="my-pinyin-ru">${markHelp(pinyinWithHtmlElem.ru)}</div>
   `
   })

@@ -89,14 +89,14 @@ output_ = output.filter(R.identity).map(x => {
 
   pinyinsHTML = mapWithForEachToArray(dom.window.document.body.querySelectorAll('.pinyin'), x => x.outerHTML)
   pinyinsText = mapWithForEachToArray(dom.window.document.body.querySelectorAll('.pinyin'), x => x.textContent.trim())
-  englishs = mapWithForEachToArray(dom.window.document.body.querySelectorAll('span.en'), x => x.textContent)
+  english = mapWithForEachToArray(dom.window.document.body.querySelectorAll('span.en'), x => x.textContent)
 
   dom.window.document.body.querySelectorAll('.pinyin').forEach(e => e.remove())
   dom.window.document.body.querySelectorAll('span.en').forEach(e => e.remove())
 
-  if (pinyinsText.length !== pinyinsHTML.length || pinyinsHTML.length !== englishs.length) { throw new Error('adf') }
+  if (pinyinsText.length !== pinyinsHTML.length || pinyinsHTML.length !== english.length) { throw new Error('adf') }
 
-  pinyinWithHtml = R.zipWith((pinyinsHTML, englishs) => ({ pinyinsHTML, englishs }), pinyinsHTML, englishs)
+  pinyinWithHtml = R.zipWith((pinyinsHTML, english) => ({ pinyinsHTML, english }), pinyinsHTML, english)
   pinyinWithHtml = R.zipWith((obj, pinyinsText) => ({ ...obj, pinyinsText }), pinyinWithHtml, pinyinsText)
 
   pinyinWithoutMarks = R.uniq(pinyinsText.map(require('any-ascii')))
@@ -132,7 +132,7 @@ promises = output_.map((x, index) => async jobIndex => {
     return
   }
   const dom = doms[jobIndex]
-  let translationInput = x.pinyinWithHtml.map(x => x.englishs).map(x => x || '++++++++').join('\n')
+  let translationInput = x.pinyinWithHtml.map(x => x.english).map(x => x || '++++++++').join('\n')
 
   if (!translationInput) { return }
 
@@ -219,7 +219,7 @@ output__2 = output__2.map(x => {
   return {
     ...x,
     ...(mp3ToPinyinNumberAndOtherInfo(x.pinyinsHTML)),
-    englishs: markHelp(x.englishs),
+    english: markHelp(x.english),
     ru: markHelp(x.ru),
     hsk: toNumberOrNull(x.hsk),
     chinese_junda_freq_ierogliph_number: toNumberOrNull(toFreqAndGoogle[x.kanji].chinese_junda_freq_ierogliph_number),
@@ -312,13 +312,13 @@ t__ = t_.map(([k, v]) => {
 
           const nodeWithIfNotEmpty = (name, options, x) => x ? nodeWith(name, options, x) : ''
 
-          const div_englishs = nodeWithIfNotEmpty('div', { class: "my-pinyin-english" }, v.englishs)
+          const div_english = nodeWithIfNotEmpty('div', { class: "my-pinyin-english" }, v.english)
           const div_ru = nodeWithIfNotEmpty('div', { class: "my-pinyin-ru" }, v.ru)
 
           const div_google_ru = nodeWithIfNotEmpty('div', { class: "my-pinyin-google-ru" }, v.google_ru)
           const div_google_en = nodeWithIfNotEmpty('div', { class: "my-pinyin-google-en" }, v.google_en)
 
-          const transl = `${div_englishs}${div_ru}${div_google_en}${div_google_ru}${trainchinese_cache_with_this_mark}`
+          const transl = `${div_english}${div_ru}${div_google_en}${div_google_ru}${trainchinese_cache_with_this_mark}`
 
           return { kanji: v.kanji, transl }
         })
