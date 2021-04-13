@@ -121,7 +121,7 @@ promises = output_.map((x, index) => async jobIndex => {
     return
   }
   const dom = doms[jobIndex]
-  let translationInput = x.pinyinWithHtml.map(x => x.english).join('\n')
+  let translationInput = x.pinyinWithHtml.map(x => x.english).map(x => x || '++++++++').join('\n')
 
   if (!translationInput) { return }
 
@@ -179,59 +179,32 @@ output___ = output__.map(x => {
   <div class="my-pinyin-tone">${pinyinWithHtmlElem.pinyinsHTML}</div>
   <div class="my-pinyin-english">${markHelp(pinyinWithHtmlElem.english)}</div>
   <div class="my-pinyin-ru">${markHelp(pinyinWithHtmlElem.ru)}</div>
-  `
+  `.replace(/>\s+</g, '><').trim()
   })
 
   pinyinWithHtml = pinyinWithHtml.join('<br>')
-  // const translation = x.translation
-  //   .replace(new RegExp('<b>English Definition: </b>', 'g'), '')
-  //   .replace(new RegExp('style="line-height:1.6"', 'g'), '')
-  //   .replace(new RegExp('id="sen0"', 'g'), '')
-  //   .replace(new RegExp(`<ruby class="mainsc">${x.kanji}</ruby>`, 'g'), '')
-  //   .replace(new RegExp(` class="d-flex"`, 'g'), '')
-  //   .replace(new RegExp(`<br><br>`, 'g'), '')
-  //   .replace(/<li class="pt-2">[^<]*<\/li>/g, '')
-  //   .replace(/<ul style="[^"]*"><\/ul>/g, '')
+  const translation = x.translation
+    .replace(new RegExp('<b>English Definition: </b>', 'g'), '')
+    .replace(new RegExp('style="line-height:1.6"', 'g'), '')
+    .replace(/id="sen\d"/g, '')
+    .replace(/<ruby class="[^"]+">[^<]+<\/ruby>/g, '')
+    .replace(new RegExp(` class="d-flex"`, 'g'), '')
+    .replace(new RegExp(`<br><br>`, 'g'), '')
+    .replace(/<(\w+) >/g, '<$1>')
+    .replace(new RegExp(`<div></div>`, 'g'), '')
+    .replace(/<li class="pt-2">[^<]*<\/li>/g, '')
+    .replace(/<ul style="[^"]*"><\/ul>/g, '')
   return {
     kanji:              x.kanji,
+    purpleculture_dictionary_orig_transl: x.purpleculture_dictionary_orig_transl,
     pinyinWithHtml,
-    // purpleculture_dictionary_orig_transl: x.purpleculture_dictionary_orig_transl,
-    // translation,
+    translation,
     hsk:                x.hsk,
     examples:           x.examples,
     tree:               x.tree,
-    img:                x.img,
+    img:                x.img && `<img src="${x.img}">`,
   }
 })
-
-// pinyin_ = R.toPairs(pinyin).map(([mark, { output, ierogliphs }]) => ({ mark, numbered: output, ierogliphs, numberedWithout: output.replace(/\d/, ''), numberedNumber: Number(output.replace(/\D*(\d)/, '$1')) }))
-// pinyin_ = R.groupBy(R.prop('numberedWithout'), pinyin_)
-// pinyin_ = R.sortBy(x => x[0], R.toPairs(pinyin_))
-// pinyin_ = pinyin_.map(x => {
-//   const find = n => {
-//     const output = x[1].find(y => y.numberedNumber == n)
-//     if(!output) { return null }
-//     const ierogliphs = R.sortBy(x => {
-//       const x1 = freq[x]
-//       return x1 || Infinity
-//     }, output.ierogliphs)
-//     return `${output.mark}\n${ierogliphs.join(',')}`
-//   }
-//   return [
-//     x[0],
-//     find(1),
-//     find(2),
-//     find(3),
-//     find(4),
-//     find(5),
-//   ]
-// })
-
-// allPinyinColumn.map(allPinyinColumnEl => {
-//   if (!pinyin_[allPinyinColumnEl]) { return [] }
-//   console.log(R.values(pinyin_[allPinyinColumnEl]))
-//   return R.values(pinyin_[allPinyinColumnEl]).map(R.pick(["mark", "ierogliphs"]))
-// })
 
 ;(function(input){
   const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))

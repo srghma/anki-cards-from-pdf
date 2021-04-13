@@ -215,7 +215,6 @@ output__2 = output__2.map(x => {
     }).join('')
     return x
   }
-
   return {
     ...x,
     ...(mp3ToPinyinNumberAndOtherInfo(x.pinyinsHTML)),
@@ -230,7 +229,7 @@ output__2 = output__2.map(x => {
 
 output__2 = output__2.map(x => {
   let trainchinese_cache_with_this_mark = trainchinese_cache_[x.kanji] || []
-  // trainchinese_cache_with_this_mark = trainchinese_cache_with_this_mark.filter(y => y.pinyin == x.marked)
+  trainchinese_cache_with_this_mark = trainchinese_cache_with_this_mark.filter(y => y.pinyin == x.marked)
   return { ...x, trainchinese_cache_with_this_mark }
 })
 
@@ -329,8 +328,13 @@ t__ = t_.map(([k, v]) => {
       // front = front.map(([hsk, val]) => val.map((valEl, i) => [`${hsk}_${i + 1}`, valEl])).flat()
       // front = front.map(([hsk, val]) => "kanji transl".split(' ').map(field => [`${hsk}_${field}`, val[field]])).flat()
 
+      // front = front.filter(([hsk, val]) => val.length > 0).map(([hsk, val]) => {
+      //   const val_ = val.map(({ kanji, transl }) => `<div class="my-pinyin-hanzi">${`{{c1::${kanji}}}`}</div>${transl}`).join('<hr>')
+      //   return `<span class="key">${hsk}</span>:<br>${val_}`
+      // }).join('<hr>')
+
       front = front.filter(([hsk, val]) => val.length > 0).map(([hsk, val]) => {
-        const val_ = val.map(({ kanji, transl }) => `<div class="my-pinyin-hanzi">${`{{c1::${kanji}}}`}</div>${transl}`).join('<hr>')
+        const val_ = val.map(({ kanji, transl }) => `<div class="my-pinyin-hanzi">${kanji}</div>${transl}`).join('<hr>')
         return `<span class="key">${hsk}</span>:<br>${val_}`
       }).join('<hr>')
 
