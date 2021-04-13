@@ -16,6 +16,7 @@ const dom = new JSDOM(``);
 const {Translate} = require('@google-cloud/translate').v2;
 const translate = new Translate({projectId: "annular-form-299211"});
 const nodeWith = require('./scripts/lib/nodeWith').nodeWith
+const TongWen = require('./scripts/lib/TongWen').TongWen
 toNumberOrNull = str => { if (!str) { return null }; var num = parseFloat(str); if (isFinite(num)) { return num; } else { return null; }; }
 checkSameLength = (x, y) => { if (x.length != y.length) { throw new Error(`x.length (${x.length}) != y.length (${y.length})`) } }
 zipOrThrowIfNotSameLength = (x, y) => { checkSameLength(x, y); return R.zip(x, y); }
@@ -284,7 +285,9 @@ t__ = t_.map(([k, v]) => {
       ]
 
       let back = subj.filter(([hsk, val]) => val.length > 0).map(([hsk, v]) => {
-        const v_ = v.map(R.prop('kanji')).join('')
+        let v_ = v.map(R.prop('kanji'))
+        // v_ = v_.map(x => [x, toFreqAndGoogle[x].opposite].filter(R.identity).join(''))
+        v_ = v_.join('')
         return `${hsk}: ${v_}`
       }).join('<br>')
 
@@ -317,7 +320,13 @@ t__ = t_.map(([k, v]) => {
           const div_google_ru = nodeWithIfNotEmpty('div', { class: "my-pinyin-google-ru" }, v.google_ru)
           const div_google_en = nodeWithIfNotEmpty('div', { class: "my-pinyin-google-en" }, v.google_en)
 
-          const transl = `${div_english}${div_ru}${div_google_en}${div_google_ru}${trainchinese_cache_with_this_mark}`
+          let type = null
+          if (TongWen.s_2_t.hasOwnProperty(v.kanji)) { type = 'simpl' }
+          if (TongWen.t_2_s.hasOwnProperty(v.kanji)) { type = 'trad' }
+
+          const div_type = nodeWithIfNotEmpty('div', { class: "my-pinyin-type" }, type)
+
+          const transl = `${div_type}${div_english}${div_ru}${div_google_en}${div_google_ru}${trainchinese_cache_with_this_mark}`
 
           return { kanji: v.kanji, transl }
         })
@@ -334,7 +343,13 @@ t__ = t_.map(([k, v]) => {
       // }).join('<hr>')
 
       front = front.filter(([hsk, val]) => val.length > 0).map(([hsk, val]) => {
-        const val_ = val.map(({ kanji, transl }) => `<div class="my-pinyin-hanzi">${kanji}</div>${transl}`).join('<hr>')
+        const val_ = val.map(({ kanji, transl }) => {
+          const nodeWithIfNotEmpty = (name, options, x) => x ? nodeWith(name, options, x) : ''
+
+          const div_kanji = nodeWithIfNotEmpty('div', { class: "my-pinyin-hanzi" }, kanji)
+
+          return `${div_kanji}${transl}`
+        }).join('<hr>')
         return `<span class="key">${hsk}</span>:<br>${val_}`
       }).join('<hr>')
 

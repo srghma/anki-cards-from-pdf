@@ -1,4 +1,5 @@
 var TongWen = {};
+
 TongWen.s_2_t = {
 "\u3447":"\u3473",
 "\u359e":"\u558e",
@@ -2508,5 +2509,7 @@ TongWen.s_2_t = {
 "\u9f9b":"\u9f95",
 "\u9f9f":"\u9f9c",
 };
+
+TongWen.t_2_s = Object.fromEntries(Object.entries(TongWen.s_2_t).map(x => [x[1], x[0]]))
 
 exports.TongWen = TongWen
