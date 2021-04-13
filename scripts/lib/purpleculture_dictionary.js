@@ -30,6 +30,8 @@ exports.purpleculture_dictionary = async function purpleculture_dictionary(dom, 
 
   dom.window.document.body.innerHTML = t
 
+  console.log(t)
+
   const node = dom.window.document.querySelector('#dicdetails')
 
   const maybeRemove = x => { if (x) { x.remove() } }

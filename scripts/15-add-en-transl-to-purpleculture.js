@@ -21,12 +21,12 @@ input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Ka
 
 // freq = R.fromPairs(input.map(x => [x.kanji, x.freq]))
 
-const queueSize = 10
+const queueSize = 2
 doms = Array.from({ length: queueSize }, (_, i) => { return new JSDOM(``) })
 output = []
 promises = input.map((x, inputIndex) => async jobIndex => {
   const kanji = x['kanji']
-  console.log({ m: "doing", inputIndex, jobIndex, kanji })
+  // console.log({ m: "doing", inputIndex, jobIndex, kanji })
   const dom = doms[jobIndex]
   if (!RA.isNonEmptyString(kanji)) { throw new Error('kanji') }
   if (!dom) { throw new Error('dom') }
@@ -38,7 +38,7 @@ promises = input.map((x, inputIndex) => async jobIndex => {
     return
   }
   if (translation) {
-    console.log({ m: "finished", jobIndex, inputIndex, length: input.length })
+    // console.log({ m: "finished", jobIndex, inputIndex, length: input.length })
     output.push({ kanji, translation })
   }
 })
@@ -127,7 +127,7 @@ promises = output_.map((x, index) => async jobIndex => {
 
   translationInput = removeHTML(dom, translationInput)
 
-  translation = await require('./scripts/lib/google_translate_with_cache').google_translate_with_cache(translationInput, 'ru')
+  translation = await require('./scripts/lib/google_translate_with_cache').google_translate_with_cache(translationInput, { to: 'ru' })
   // translation = translation[0]
   translation = translation.split('\n')
   translation = translation.map(x => x.trim())
@@ -197,10 +197,10 @@ output___ = output__.map(x => {
     pinyinWithHtml,
     // purpleculture_dictionary_orig_transl: x.purpleculture_dictionary_orig_transl,
     // translation,
-    // hsk:                x.hsk,
-    // examples:           x.examples,
-    // tree:               x.tree,
-    // img:                x.img,
+    hsk:                x.hsk,
+    examples:           x.examples,
+    tree:               x.tree,
+    img:                x.img,
   }
 })
 
