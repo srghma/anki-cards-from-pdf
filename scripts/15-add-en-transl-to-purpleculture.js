@@ -21,10 +21,17 @@ input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Ka
 
 // freq = R.fromPairs(input.map(x => [x.kanji, x.freq]))
 
-output___ = gen_purpleculture_info(input)
+output___ = await require('./scripts/gen_purpleculture_info').gen_purpleculture_info(input)
+
+// output____ = output___.map(x => ({
+//   ...x,
+//   sounds: Array.from(x.pinyinWithHtml.matchAll(/allsetlearning-([^\.]+).mp3/g)).map(R.prop(1)).map(x => `[sound:allsetlearning-${x}.mp3]`).join('<br>')
+// }))
 
 ;(function(input){
-  const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))
+  let header = R.uniq(R.map(R.keys, input).flat())
+  console.log({ header })
+  header = header.map(x => ({ id: x, title: x }))
   const s = require('csv-writer').createObjectCsvStringifier({ header }).stringifyRecords(input)
   fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', s)
 })(output___);

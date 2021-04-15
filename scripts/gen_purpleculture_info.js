@@ -47,6 +47,7 @@ async function gen_purpleculture_info(input) {
   output_ = output.filter(R.identity).map(x => {
     const removeIf = (x) => x && x.remove()
     let translation = x.translation
+      .replace(/\/mp3\//g, 'allsetlearning-')
       .replace(/(href|src)="\//g, '$1="https://www.purpleculture.net/')
       .replace(/<div class="swordlist"><b>More: <\/b>.*?<\/div>/g, '')
       .replace(/<div><b>Example Words: <\/b><\/div>/g, '')
@@ -170,20 +171,25 @@ async function gen_purpleculture_info(input) {
       return x
     }
 
-    let pinyinWithHtml = x.pinyinWithHtml.map(pinyinWithHtmlElem => {
+    // max is 5 - Math.max(...output____.map(x => x.sounds.length))
+    let pinyinWithHtml = x.pinyinWithHtml.map((pinyinWithHtmlElem, i) => {
       const pinyinWithNumber = purplecultureMarkedToNumbered(x, pinyinWithHtmlElem.pinyinsText)
       const pinyin = pinyinWithNumber.replace(/\d+/g, '')
       const pinyinNumber = pinyinWithNumber.replace(/\D+/g, '')
-      return `
-    <div class="my-pinyin-image-container pinyin-${pinyin} pinyin-number-${pinyinNumber}"><span></span><img><img></div>
-    <div class="my-pinyin-tone">${pinyinWithHtmlElem.pinyinsHTML}</div>
-    <div class="my-pinyin-english">${markHelp(pinyinWithHtmlElem.english)}</div>
-    <div class="my-pinyin-ru">${markHelp(pinyinWithHtmlElem.ru)}</div>
-    `.replace(/>\s+</g, '><').trim()
+      const sound = `allsetlearning-${pinyinWithNumber}.mp3`
+      // <div class="my-pinyin-sound">[sound:${sound}]</div>
+      const translation = `
+        <div class="my-pinyin-image-container pinyin-${pinyin} pinyin-number-${pinyinNumber}"><span></span><img><img></div>
+        <div class="my-pinyin-tone">${pinyinWithHtmlElem.pinyinsHTML}</div>
+        <div class="my-pinyin-english">${markHelp(pinyinWithHtmlElem.english)}</div>
+        <div class="my-pinyin-ru">${markHelp(pinyinWithHtmlElem.ru)}</div>
+        `.replace(/>\s+</g, '><').trim()
+
+      return { [`translation${i}`]: translation, [`sound${i}`]: `[sound:${sound}]` }
     })
 
-    pinyinWithHtml = pinyinWithHtml.join('<br>')
-    const translation = x.translation
+    // pinyinWithHtml = pinyinWithHtml.join('<br>')
+    const info = x.translation
       .replace(new RegExp('<b>English Definition: </b>', 'g'), '')
       .replace(new RegExp('style="line-height:1.6"', 'g'), '')
       .replace(/id="sen\d"/g, '')
@@ -194,15 +200,16 @@ async function gen_purpleculture_info(input) {
       .replace(new RegExp(`<div></div>`, 'g'), '')
       .replace(/<li class="pt-2">[^<]*<\/li>/g, '')
       .replace(/<ul style="[^"]*"><\/ul>/g, '')
+
     return {
       kanji:              x.kanji,
       purpleculture_dictionary_orig_transl: x.purpleculture_dictionary_orig_transl,
-      pinyinWithHtml,
-      translation,
+      info,
       hsk:                x.hsk,
       examples:           x.examples,
       tree:               x.tree,
       img:                x.img && `<img src="${x.img}">`,
+      ...(R.mergeAll(pinyinWithHtml))
     }
   })
 

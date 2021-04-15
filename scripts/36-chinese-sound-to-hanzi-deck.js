@@ -22,7 +22,7 @@ checkSameLength = (x, y) => { if (x.length != y.length) { throw new Error(`x.len
 zipOrThrowIfNotSameLength = (x, y) => { checkSameLength(x, y); return R.zip(x, y); }
 
 inputOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
-input = inputOrig.map(x => ({ kanji: x.kanji, opposite: x._1.trim(), chinese_junda_freq_ierogliph_number: toNumberOrNull(x._11), google_ru: x._21, google_en: x._22 }))
+input = inputOrig.map(x => ({ kanji: x.kanji, opposite: x._17.trim(), chinese_junda_freq_ierogliph_number: toNumberOrNull(x._27), google_ru: x._30, google_en: x._31 }))
 
 // input_ = input.filter(x => !x.en).map(x => x.kanji)
 // fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', input_.join('\n'))
@@ -222,9 +222,6 @@ output__2 = output__2.map(x => {
     english: markHelp(x.english),
     ru: markHelp(x.ru),
     hsk: toNumberOrNull(x.hsk),
-    chinese_junda_freq_ierogliph_number: toNumberOrNull(toFreqAndGoogle[x.kanji].chinese_junda_freq_ierogliph_number),
-    google_en: toFreqAndGoogle[x.kanji].google_en,
-    google_ru: toFreqAndGoogle[x.kanji].google_ru,
   }
 })
 
@@ -263,6 +260,10 @@ t__ = t_.map(([k, v]) => {
       if (!v) { return null }
 
       const { marked, number, withoutMark } = v[0]
+
+      const chinese_junda_freq_ierogliph_number = toNumberOrNull(toFreqAndGoogle[x.kanji].chinese_junda_freq_ierogliph_number)
+      const google_en = toFreqAndGoogle[x.kanji].google_en
+      const google_ru = toFreqAndGoogle[x.kanji].google_ru
 
       const findHSK = n => v.filter(x => x.hsk == n)
       const hsks = [1, 2, 3, 4, 5, 6].map(findHSK).map(R.sortBy(R.prop('kanji')))
@@ -317,8 +318,9 @@ t__ = t_.map(([k, v]) => {
           const div_english = nodeWithIfNotEmpty('div', { class: "my-pinyin-english" }, v.english)
           const div_ru = nodeWithIfNotEmpty('div', { class: "my-pinyin-ru" }, v.ru)
 
-          const div_google_ru = nodeWithIfNotEmpty('div', { class: "my-pinyin-google-ru" }, v.google_ru)
-          const div_google_en = nodeWithIfNotEmpty('div', { class: "my-pinyin-google-en" }, v.google_en)
+          const do_print_google = !div_english && !div_ru
+          // const div_google_ru = nodeWithIfNotEmpty('div', { class: "my-pinyin-google-ru" }, v.google_ru)
+          const div_google_en = nodeWithIfNotEmpty('div', { class: "my-pinyin-google-en" }, do_print_google ? v.google_en : null)
 
           let type = null
           if (TongWen.s_2_t.hasOwnProperty(v.kanji)) { type = 'simpl' }
@@ -326,7 +328,7 @@ t__ = t_.map(([k, v]) => {
 
           const div_type = nodeWithIfNotEmpty('div', { class: "my-pinyin-type" }, type)
 
-          const transl = `${div_type}${div_english}${div_ru}${div_google_en}${div_google_ru}${trainchinese_cache_with_this_mark}`
+          const transl = `${div_type}${div_english}${div_ru}${div_google_en}${trainchinese_cache_with_this_mark}`
 
           return { kanji: v.kanji, transl }
         })
@@ -346,19 +348,28 @@ t__ = t_.map(([k, v]) => {
         const val_ = val.map(({ kanji, transl }) => {
           const nodeWithIfNotEmpty = (name, options, x) => x ? nodeWith(name, options, x) : ''
 
-          const div_kanji = nodeWithIfNotEmpty('div', { class: "my-pinyin-hanzi" }, kanji)
+          const kanjiOpposite = toFreqAndGoogle[kanji].opposite
 
-          return `${div_kanji}${transl}`
+          const div_kanji = nodeWithIfNotEmpty('div', { class: "my-pinyin-hanzi" }, kanji)
+          const div_kanji_opposite = nodeWithIfNotEmpty('div', { class: "my-pinyin-hanzi" }, kanjiOpposite)
+          const div_transl = nodeWithIfNotEmpty('div', { class: "my-pinyin-translation-container" }, transl)
+
+          return `${div_kanji}${div_kanji_opposite}${div_transl}`
         }).join('<hr>')
         return `<span class="key">${hsk}</span>:<br>${val_}`
       }).join('<hr>')
+
+      const numbered = `${withoutMark}${number}`
+      const sound = `allsetlearning-${numbered}.mp3`
 
       return {
         marked,
         withoutMark,
         number,
+        numbered,
         front,
         back,
+        sound: `[sound:${sound}]`,
         // ...(R.fromPairs(front)),
       }
     },
