@@ -16,7 +16,7 @@ const svg2img = require('svg2img')
 const btoa = require('btoa')
 const mkdirp = require('mkdirp')
 
-content = R.uniq(fs.readFileSync('/home/srghma/Desktop/languages/chinese/Sherlock/myhtmls-w.txt').toString().split('').filter(isHanzi)).map((x, i) => ({ kanji: x, i: i + 1 }))
+content = R.uniq(fs.readFileSync('/home/srghma/Downloads/未来简史-by-Yuval-Noah-Harari_-林俊宏-_z-lib.org_.txt').toString().split('').filter(isHanzi)).map((x, i) => ({ kanji: x, i: i + 1 }))
 
 ;(function(input){
   const header = Object.keys(input[0]).map(x => ({ id: x, title: x }))

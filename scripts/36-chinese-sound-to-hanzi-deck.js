@@ -21,8 +21,17 @@ toNumberOrNull = str => { if (!str) { return null }; var num = parseFloat(str); 
 checkSameLength = (x, y) => { if (x.length != y.length) { throw new Error(`x.length (${x.length}) != y.length (${y.length})`) } }
 zipOrThrowIfNotSameLength = (x, y) => { checkSameLength(x, y); return R.zip(x, y); }
 
-inputOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
-input = inputOrig.map(x => ({ kanji: x.kanji, opposite: x._17.trim(), chinese_junda_freq_ierogliph_number: toNumberOrNull(x._27), google_ru: x._30, google_en: x._31 }))
+inputOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/from transl to ierogliph.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
+input = inputOrig.map(x => ({
+  kanji: x.kanji,
+  opposite: x._17.trim(),
+  chinese_junda_freq_ierogliph_number: toNumberOrNull(x._27),
+  google_ru: x._30,
+  google_en: x._31,
+  sherlock_index: toNumberOrNull(x._21),
+  harry_1_index: toNumberOrNull(x._89),
+  noah_index: toNumberOrNull(x._90),
+}))
 
 // input_ = input.filter(x => !x.en).map(x => x.kanji)
 // fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', input_.join('\n'))
@@ -261,9 +270,15 @@ t__ = t_.map(([k, v]) => {
 
       const { marked, number, withoutMark } = v[0]
 
-      const chinese_junda_freq_ierogliph_number = toNumberOrNull(toFreqAndGoogle[x.kanji].chinese_junda_freq_ierogliph_number)
-      const google_en = toFreqAndGoogle[x.kanji].google_en
-      const google_ru = toFreqAndGoogle[x.kanji].google_ru
+      v = v.map(x => {
+        return {
+          ...(toFreqAndGoogle[x.kanji] || {}),
+          ...x,
+        }
+      })
+
+      min_sherlock_index = v.map(R.prop('sherlock_index')).filter(R.identity)
+      min_sherlock_index = min_sherlock_index.length > 0 ? Math.min(...min_sherlock_index) : null
 
       const findHSK = n => v.filter(x => x.hsk == n)
       const hsks = [1, 2, 3, 4, 5, 6].map(findHSK).map(R.sortBy(R.prop('kanji')))
@@ -326,7 +341,12 @@ t__ = t_.map(([k, v]) => {
           if (TongWen.s_2_t.hasOwnProperty(v.kanji)) { type = 'simpl' }
           if (TongWen.t_2_s.hasOwnProperty(v.kanji)) { type = 'trad' }
 
-          const div_type = nodeWithIfNotEmpty('div', { class: "my-pinyin-type" }, type)
+          const div_type = nodeWithIfNotEmpty('div', { class: "my-pinyin-type" }, [
+            type,
+            v.sherlock_index ? `Sherlock ${v.sherlock_index}` : '',
+            v.harry_1_index ? `Harry#1 ${v.harry_1_index}` : '',
+            v.noah_index ? `Noah ${v.noah_index}` : '',
+          ].filter(R.identity).join(', '))
 
           const transl = `${div_type}${div_english}${div_ru}${div_google_en}${trainchinese_cache_with_this_mark}`
 
@@ -354,7 +374,17 @@ t__ = t_.map(([k, v]) => {
           const div_kanji_opposite = nodeWithIfNotEmpty('div', { class: "my-pinyin-hanzi" }, kanjiOpposite)
           const div_transl = nodeWithIfNotEmpty('div', { class: "my-pinyin-translation-container" }, transl)
 
-          return `${div_kanji}${div_kanji_opposite}${div_transl}`
+          const div_kanji__pleco =
+            kanji
+            ? `<a class="pleco-link" target="_blank" href="plecoapi://x-callback-url/s?q=${encodeURIComponent(kanji)}">(pleco)</a>`
+            : ''
+
+          const div_kanji_opposite__pleco =
+            kanjiOpposite
+            ? `<a class="pleco-link" target="_blank" href="plecoapi://x-callback-url/s?q=${encodeURIComponent(kanjiOpposite)}">(pleco)</a>`
+            : ''
+
+          return [div_kanji, div_kanji__pleco, div_kanji_opposite, div_kanji_opposite__pleco, div_transl].join('')
         }).join('<hr>')
         return `<span class="key">${hsk}</span>:<br>${val_}`
       }).join('<hr>')
@@ -363,13 +393,14 @@ t__ = t_.map(([k, v]) => {
       const sound = `allsetlearning-${numbered}.mp3`
 
       return {
+        numbered,
         marked,
         withoutMark,
         number,
-        numbered,
         front,
         back,
         sound: `[sound:${sound}]`,
+        min_sherlock_index,
         // ...(R.fromPairs(front)),
       }
     },
