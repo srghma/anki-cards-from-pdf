@@ -21,7 +21,7 @@ toNumberOrNull = str => { if (!str) { return null }; var num = parseFloat(str); 
 checkSameLength = (x, y) => { if (x.length != y.length) { throw new Error(`x.length (${x.length}) != y.length (${y.length})`) } }
 zipOrThrowIfNotSameLength = (x, y) => { checkSameLength(x, y); return R.zip(x, y); }
 
-inputOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/from transl to ierogliph.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
+inputOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
 input = inputOrig.map(x => ({
   kanji: x.kanji,
   opposite: x._17.trim(),
@@ -272,8 +272,8 @@ t__ = t_.map(([k, v]) => {
 
       v = v.map(x => {
         return {
-          ...(toFreqAndGoogle[x.kanji] || {}),
           ...x,
+          ...(toFreqAndGoogle[x.kanji] || {}),
         }
       })
 
