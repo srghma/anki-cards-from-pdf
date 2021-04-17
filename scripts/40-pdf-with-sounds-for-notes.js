@@ -1,79 +1,126 @@
 // ./node_modules/.bin/babel-node --config-file ./babel.config.js scripts/40-pdf-with-sounds-for-notes.js
 const R = require('ramda')
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
 // import React from 'react'
 // import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer'
 // import ReactPDF from '@react-pdf/renderer'
 
-let t = `a	ai	ao	an	ang	e	ei	en	eng	er	o	ou		yi		ya	yao	ye	you	yan	yang	yin	ying	yong	wu	wa	wai	wei	wo	wan	wang	wen	weng	yu	yue	yuan	yun
-ba	bai	bao	ban	bang		bei	ben	beng		bo			bi			biao	bie		bian		bin	bing		bu
-pa	pai	pao	pan	pang		pei	pen	peng		po	pou		pi			piao	pie		pian		pin	ping		pu
-ma	mai	mao	man	mang	me	mei	men	meng		mo	mou		mi			miao	mie	miu	mian		min	ming		mu
-fa			fan	fang		fei	fen	feng		fo	fou													fu
-da	dai	dao	dan	dang	de	dei	den	deng			dou	dong	di			diao	die	diu	dian			ding		du			dui	duo	duan		dun
-ta	tai	tao	tan	tang	te			teng			tou	tong	ti			tiao	tie		tian			ting		tu			tui	tuo	tuan		tun
-na	nai	nao	nan	nang	ne	nei	nen	neng			nou	nong	ni			niao	nie	niu	nian	niang	nin	ning		nu				nuo	nuan				nü	nüe
-la	lai	lao	lan	lang	le	lei		leng		lo	lou	long	li		lia	liao	lie	liu	lian	liang	lin	ling		lu				luo	luan		lun		lü	lüe
-za	zai	zao	zan	zang	ze	zei	zen	zeng			zou	zong		zi										zu			zui	zuo	zuan		zun
-ca	cai	cao	can	cang	ce	cei	cen	ceng			cou	cong		ci										cu			cui	cuo	cuan		cun
-sa	sai	sao	san	sang	se		sen	seng			sou	song		si										su			sui	suo	suan		sun
-zha	zhai	zhao	zhan	zhang	zhe	zhei	zhen	zheng			zhou	zhong		zhi										zhu	zhua	zhuai	zhui	zhuo	zhuan	zhuang	zhun
-cha	chai	chao	chan	chang	che		chen	cheng			chou	chong		chi										chu	chua	chuai	chui	chuo	chuan	chuang	chun
-sha	shai	shao	shan	shang	she	shei	shen	sheng			shou			shi										shu	shua	shuai	shui	shuo	shuan	shuang	shun
-    rao	ran	rang	re		ren	reng			rou	rong		ri										ru	rua		rui	ruo	ruan		run
-                          ji		jia	jiao	jie	jiu	jian	jiang	jin	jing	jiong										ju	jue	juan	jun
-                          qi		qia	qiao	qie	qiu	qian	qiang	qin	qing	qiong										qu	que	quan	qun
-                          xi		xia	xiao	xie	xiu	xian	xiang	xin	xing	xiong										xu	xue	xuan	xun
-ga	gai	gao	gan	gang	ge	gei	gen	geng			gou	gong												gu	gua	guai	gui	guo	guan	guang	gun
-ka	kai	kao	kan	kang	ke	kei	ken	keng			kou	kong												ku	kua	kuai	kui	kuo	kuan	kuang	kun
-ha	hai	hao	han	hang	he	hei	hen	heng			hou	hong												hu	hua	huai	hui	huo	huan	huang	hun`
+const tOrig = fs.readFileSync('./table-with-tabs.txt').toString()
 
-t = t.split('\n').map(R.trim()).filter(R.identity).map(line => ({ s: line[0], lines: R.split('\t', line).flat().flat().filter(R.identity) }))
+const tOrigLines = tOrig.split('\n')
 
-const PDFDocument = require('pdfkit');
-const fs = require('fs');
+const splitLine = line => R.split('\t', line).flat().flat()
+
+const sections = tOrigLines.map(line => ({ sectionLetter: line[0], pinyins: splitLine(line).filter(R.identity) }))
 
 // Create a document
-const doc = new PDFDocument();
+const doc = new PDFDocument({
+  bufferPages: true,
+  size: 'A3',
+  layout: 'landscape',
+  margins: { top: 0, left: 0, bottom: 0, right: 0 },
+});
 const { outline } = doc;
 
 // Pipe its output somewhere, like to a file or HTTP response
 // See below for browser usage
 doc.pipe(fs.createWriteStream(`${process.cwd()}/chinese-table-of-sounds.pdf`));
 
-t.forEach(({ s, lines }, sIndex) => {
-  const top = outline.addItem(s);
+// doc.page.layout = 'landscape'
+// doc.page.margins = { top: 0, left: 0, bottom: 0, right: 0 }
+// const A3Size = [841.89, 1190.55]
+// doc.page.width = A3Size[0]
+// doc.page.height = A3Size[1]
+// doc.page.size = 'A3'
+// console.log(doc.page)
 
-  lines.forEach((line, lineIndex) => {
+let x = tOrigLines.map(splitLine)
+x = x.slice(0, x.length - 1)
+
+let l = Math.max(...R.map(R.prop('length'), x))
+
+let rowToLength = R.range(0, l).map(i => {
+  const x1 = x.map(R.prop(i))
+  const x2 = x1.map(R.prop('length'))
+  const x3 = Math.max(...x2)
+  return x3
+  // return {
+  //   x1,
+  //   x2,
+  //   x3
+  // }
+})
+
+tOrigLines.map(splitLine).forEach((line, lineIndex) => {
+  doc.addNamedDestination('root');
+
+  line.forEach((pinyin, pinyinIndex) => {
+    const prevRowsLengths = rowToLength.slice(0, pinyinIndex)
+    const indentationChars = R.sum(prevRowsLengths) + prevRowsLengths.length
+
+    const top = 30 * lineIndex
+    const right = indentationChars * 6.5
+
+    console.log({
+      top,
+      right,
+      pinyin,
+      prevRowsLengths,
+      indentationChars,
+    })
+
     doc
       .font('fonts/PalatinoBold.ttf')
       .fontSize(13)
-      .text(line, 10, 10);
+      .text(pinyin, right, top, {
+        goTo: pinyin
+      });
+  })
+})
+
+
+const addPageOptions = {
+  size: 'A4',
+  layout: 'portrait',
+  margins: { top: 0, left: 0, bottom: 0, right: 0 }
+}
+doc.addPage(addPageOptions)
+
+sections.forEach(({ sectionLetter, pinyins }, sIndex) => {
+  const top = outline.addItem(sectionLetter);
+
+  pinyins.forEach((pinyin, pinyinIndex) => {
+    doc.addNamedDestination(pinyin);
+
+    doc
+      .font('fonts/PalatinoBold.ttf')
+      .fontSize(13)
+      .text(pinyin, 10, 10, {
+        goTo: "root"
+      });
 
     const types = "ˉ ´ ˉ `".split(' ')
 
-    types.forEach((type, lineIndex) => {
+    types.forEach((type, pinyinIndex) => {
       doc
         .font('fonts/PalatinoBold.ttf')
         .fontSize(20)
-        .text(type, 70 + 150 * lineIndex, 30);
+        .text(type, 70 + 150 * pinyinIndex, 30, {
+          goTo: "root"
+        });
     })
 
-    // const isFirstPage = lineIndex == 0
-    const isSLastPage = sIndex == t.length - 1
-    const isLastPage = lineIndex == lines.length - 1
+    // const isFirstPage = pinyinIndex == 0
+    const isSLastPage = sIndex == sections.length - 1
+    const isLastPage = pinyinIndex == pinyins.length - 1
 
-    top.addItem(line);
+    top.addItem(pinyin);
 
     if (!(isSLastPage && isLastPage)) {
-      doc.addPage({
-        margins: {
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0
-        }
-      })
+      doc.addPage(addPageOptions)
     }
   })
 })
+doc.flushPages()
 doc.end();
