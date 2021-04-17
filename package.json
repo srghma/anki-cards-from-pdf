@@ -31,6 +31,7 @@
     "jsdom": "^16.4.0",
     "kanji.js": "^1.2.2",
     "mkdirp": "^1.0.4",
+    "pdfkit": "^0.12.1",
     "pinyin-convert": "^1.11.0",
     "pinyin-or-hanzi": "^1.127.0",
     "promise-queue": "^2.2.5",
