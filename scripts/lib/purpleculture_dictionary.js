@@ -26,11 +26,12 @@ exports.purpleculture_dictionary = async function purpleculture_dictionary(dom, 
 
   const t = await r.text()
 
+  if (t.includes(`An Error occurred, please refresh`)) { return null }
   if (t.includes(`Sorry, we didn't find the text in our dictionary`)) { return null }
 
   dom.window.document.body.innerHTML = t
 
-  console.log(t)
+  // console.log(t)
 
   const node = dom.window.document.querySelector('#dicdetails')
 
@@ -56,12 +57,14 @@ try { purpleculture_dictionary_cache = JSON.parse(fs.readFileSync(purpleculture_
 async function purpleculture_dictionary_with_cache(dom, sentence) {
   if (purpleculture_dictionary_cache.hasOwnProperty(sentence)) { return purpleculture_dictionary_cache[sentence] }
 
-  const purpleculture_raw = await require('./purpleculture_dictionary').purpleculture_dictionary(dom, sentence)
-  purpleculture_dictionary_cache[sentence] = purpleculture_raw
+  return null
 
-  fs.writeFileSync(purpleculture_dictionary_with_cache_path, JSON.stringify(purpleculture_dictionary_cache))
+  // const purpleculture_raw = await require('./purpleculture_dictionary').purpleculture_dictionary(dom, sentence)
+  // purpleculture_dictionary_cache[sentence] = purpleculture_raw
 
-  return purpleculture_raw
+  // fs.writeFileSync(purpleculture_dictionary_with_cache_path, JSON.stringify(purpleculture_dictionary_cache))
+
+  // return purpleculture_raw
 }
 
 exports.purpleculture_dictionary_with_cache = purpleculture_dictionary_with_cache

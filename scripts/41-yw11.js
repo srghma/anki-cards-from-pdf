@@ -18,11 +18,55 @@ const translate = new Translate({projectId: "annular-form-299211"});
 
 input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
 
-// input = input.map(x => ({ kanji: x.kanji, freq: Number(x._12) }))
+const queueSize = 1
+doms = Array.from({ length: queueSize }, (_, i) => { return new JSDOM(``) })
+output = []
+promises = input.map((x, inputIndex) => async jobIndex => {
+  const kanji = x['kanji']
+  // console.log({ m: "doing", inputIndex, jobIndex, kanji })
+  const dom = doms[jobIndex]
+  if (!RA.isNonEmptyString(kanji)) { throw new Error('kanji') }
+  if (!dom) { throw new Error('dom') }
+  let translation = null
+  try {
+    translation = await require('./scripts/lib/yw11').yw11_dictionary_with_cache(dom, kanji)
+  } catch (e) {
+    console.error({ m: "error", inputIndex, kanji, e })
+    return
+  }
+  if (translation) {
+    // console.log({ m: "finished", jobIndex, inputIndex, length: input.length })
+    output.push({ kanji, translation })
+  }
+})
+mkQueue(queueSize).addAll(promises)
 
-// freq = R.fromPairs(input.map(x => [x.kanji, x.freq]))
+outputfixed = output.map(x => ({ ...x, translation: x.translation.replace(/http:\/\/www.chazidian.comhttps/g, 'https') }))
 
-output___ = await require('./scripts/gen_purpleculture_info').gen_purpleculture_info(input)
+outputfixed = outputfixed.map(x => { return { ...x, images: (Array.from(x.translation.matchAll(/<img src="(.*?)"/g)) || []).map(x => x[1]) } })
+
+imagesAll = R.uniq(outputfixed.map(R.prop('images')).flat())
+
+// images.filter(x => R.any(image => !image.startsWith('https://images.yw11.com/zixing/'), x.images))
+
+output_ = output.map(x => ({
+  kanji: x.kanji,
+  translation: x.translation.replace(/>\s+</g, '><').trim().replace(/id="[^"]+"/g, '').replace(/https:\/\/images\.yw11\.com\/zixing\//g, 'yw11-zixing-')
+}))
+
+// await mkdirp(fulldir)
+promises = imagesAll.map(x => async jobIndex => {
+  const filename = x.replace(/https:\/\/images\.yw11\.com\/zixing\//g, 'yw11-zixing-')
+  const dest = `/home/srghma/.local/share/Anki2/User 1/collection.media/${filename}`
+  if (fs.existsSync(dest)) { return }
+  try {
+    const resp = await require('image-downloader').image({ url: x, dest })
+    console.log('Saved to', resp.filename)
+  } catch (e) {
+    console.log({ x, e })
+  }
+})
+await mkQueue(10).addAll(promises)
 
 // allKanji = R.uniq(output___.map(x => (x.purpleculture_dictionary_orig_transl || '')).join('').split('').filter(isHanzi))
 // fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', allKanji.join('\n'))
