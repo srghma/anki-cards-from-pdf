@@ -78,6 +78,6 @@ async function yw11_dictionary_with_cache(dom, sentence) {
   return yw11_raw
 }
 
-exports.yw11_dictionary_cache = yw11_dictionary_cache
+// exports.yw11_dictionary_cache = yw11_dictionary_cache
 exports.yw11_dictionary = yw11_dictionary
 exports.yw11_dictionary_with_cache = yw11_dictionary_with_cache

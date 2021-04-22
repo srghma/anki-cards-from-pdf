@@ -18,7 +18,7 @@ const translate = new Translate({projectId: "annular-form-299211"});
 
 input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
 
-const queueSize = 1
+const queueSize = 10
 doms = Array.from({ length: queueSize }, (_, i) => { return new JSDOM(``) })
 output = []
 promises = input.map((x, inputIndex) => async jobIndex => {
@@ -35,24 +35,20 @@ promises = input.map((x, inputIndex) => async jobIndex => {
     return
   }
   if (translation) {
-    // console.log({ m: "finished", jobIndex, inputIndex, length: input.length })
+    console.log({ m: "finished", jobIndex, inputIndex, length: input.length })
     output.push({ kanji, translation })
   }
 })
 mkQueue(queueSize).addAll(promises)
+input.length
+output.length
 
 outputfixed = output.map(x => ({ ...x, translation: x.translation.replace(/http:\/\/www.chazidian.comhttps/g, 'https') }))
-
 outputfixed = outputfixed.map(x => { return { ...x, images: (Array.from(x.translation.matchAll(/<img src="(.*?)"/g)) || []).map(x => x[1]) } })
 
 imagesAll = R.uniq(outputfixed.map(R.prop('images')).flat())
 
 // images.filter(x => R.any(image => !image.startsWith('https://images.yw11.com/zixing/'), x.images))
-
-output_ = output.map(x => ({
-  kanji: x.kanji,
-  translation: x.translation.replace(/>\s+</g, '><').trim().replace(/id="[^"]+"/g, '').replace(/https:\/\/images\.yw11\.com\/zixing\//g, 'yw11-zixing-')
-}))
 
 // await mkdirp(fulldir)
 promises = imagesAll.map(x => async jobIndex => {
@@ -68,6 +64,11 @@ promises = imagesAll.map(x => async jobIndex => {
 })
 await mkQueue(10).addAll(promises)
 
+output_ = outputfixed.map(x => ({
+  kanji: x.kanji,
+  translation: x.translation.replace(/>\s+</g, '><').trim().replace(/id="[^"]+"/g, '').replace(/https:\/\/images\.yw11\.com\/zixing\//g, 'yw11-zixing-')
+}))
+
 // allKanji = R.uniq(output___.map(x => (x.purpleculture_dictionary_orig_transl || '')).join('').split('').filter(isHanzi))
 // fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', allKanji.join('\n'))
 
@@ -82,4 +83,4 @@ await mkQueue(10).addAll(promises)
   header = header.map(x => ({ id: x, title: x }))
   const s = require('csv-writer').createObjectCsvStringifier({ header }).stringifyRecords(input)
   fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', s)
-})(output___);
+})(output_);

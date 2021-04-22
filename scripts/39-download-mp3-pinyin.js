@@ -60,7 +60,7 @@ async function mapper({ filename, inputIndex, jobIndex }) {
   const path = `/home/srghma/.local/share/Anki2/User 1/collection.media/allsetlearning-${filename}.mp3`
   const exists = await checkFileExists(path)
   if (exists) {
-    console.error({ m: 'exists', filename, inputIndex, jobIndex })
+    // console.error({ m: 'exists', filename, inputIndex, jobIndex })
     return
   }
   try {

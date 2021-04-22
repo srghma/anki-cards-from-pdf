@@ -24,6 +24,7 @@ zipOrThrowIfNotSameLength = (x, y) => { checkSameLength(x, y); return R.zip(x, y
 inputOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
 input = inputOrig.map(x => ({
   kanji: x.kanji,
+  purpleculture_orig: x._1,
   opposite: x._17.trim(),
   chinese_junda_freq_ierogliph_number: toNumberOrNull(x._27),
   google_ru: x._30,
@@ -51,7 +52,13 @@ promises = input.map((x, inputIndex) => async jobIndex => {
   const dom = doms[jobIndex]
   if (!RA.isNonEmptyString(kanji)) { throw new Error('kanji') }
   if (!dom) { throw new Error('dom') }
+
   let translation = null
+
+  translation = toFreqAndGoogle[kanji] && toFreqAndGoogle[kanji].purpleculture_orig
+
+  if (translation.trim()) { output.push({ kanji, translation }) }
+
   try {
     translation = await require('./scripts/lib/purpleculture_dictionary').purpleculture_dictionary_with_cache(dom, kanji)
   } catch (e) {
@@ -204,17 +211,16 @@ trainchinese_cache_ = trainchinese_cache_.filter(R.prop('transl'))
 trainchinese_cache_ = trainchinese_cache_.map(({ kanji, transl }) => ({ kanji, transl: transl.filter(x => x.ch == kanji).filter(R.prop('transl')) })).filter(x => x.transl.length > 0)
 trainchinese_cache_ = trainchinese_cache_.map(({ kanji, transl }) => ({ kanji, transl: transl.map(R.over(R.lensProp('transl'), x => x.replace(/\S+ \(фамилия\);?/g, '').trim())) })).filter(x => x.transl.length > 0)
 trainchinese_cache_ = R.fromPairs(trainchinese_cache_.map(({ kanji, transl }) => ([kanji, transl])))
-
 output__2 = output__.map(x => x.pinyinWithHtml.map(pinyinWithHtmlElem => ({ ...pinyinWithHtmlElem, ...(R.pick("hsk kanji".split(' '), x)) }))).flat()
 
-mp3ToPinyinNumberAndOtherInfo = (x) => {
-  x = Array.from(x.matchAll(/<a class="pinyin tone(\d+)\s*" href="https:\/\/www\.purpleculture\.net\/mp3\/([^\.]+)\.mp3">([^<]+)<\/a>/g))
-  x = x.map(x => ({ number: toNumberOrNull(x[1]), numbered: x[2], marked: x[3] }))
-  x = x.map(x => ({ ...x, withoutMark: x.numbered.replace(/\d+/g, '') }))
-  return x[0]
-}
-
 output__2 = output__2.map(x => {
+  const mp3ToPinyinNumberAndOtherInfo = (x) => {
+    x = Array.from(x.matchAll(/<a class="pinyin tone(\d+)\s*" href="https:\/\/www\.purpleculture\.net\/mp3\/([^\.]+)\.mp3">([^<]+)<\/a>/g))
+    x = x.map(x => ({ number: toNumberOrNull(x[1]), numbered: x[2], marked: x[3] }))
+    x = x.map(x => ({ ...x, withoutMark: x.numbered.replace(/\d+/g, '') }))
+    return x[0]
+  }
+
   const markHelp = x => {
     if (!x) { return '' }
     x = removeHTML(dom, x)
@@ -258,6 +264,7 @@ t_ = t.split('\n').map(R.trim()).filter(R.identity).map(R.split('\t')).flat().fl
     if(x === 'rua') { return null }
     if(x === 'eng') { return null }
     if(x === 'den') { return null }
+    // prob not all exported
     throw new Error(x)
   }
   return [x, r]
@@ -368,10 +375,10 @@ t__ = t_.map(([k, v]) => {
         const val_ = val.map(({ kanji, transl }) => {
           const nodeWithIfNotEmpty = (name, options, x) => x ? nodeWith(name, options, x) : ''
 
-          const kanjiOpposite = toFreqAndGoogle[kanji].opposite
+          const kanjiOpposite = toFreqAndGoogle[kanji].opposite.split('')
 
           const div_kanji = nodeWithIfNotEmpty('div', { class: "my-pinyin-hanzi" }, kanji)
-          const div_kanji_opposite = nodeWithIfNotEmpty('div', { class: "my-pinyin-hanzi" }, kanjiOpposite)
+          const div_kanji_opposite = nodeWithIfNotEmpty('div', {}, kanjiOpposite.map(k => nodeWithIfNotEmpty('span', { class: "my-pinyin-hanzi" }, k)).join(''))
           const div_transl = nodeWithIfNotEmpty('div', { class: "my-pinyin-translation-container" }, transl)
 
           const div_kanji__pleco =
@@ -380,8 +387,8 @@ t__ = t_.map(([k, v]) => {
             : ''
 
           const div_kanji_opposite__pleco =
-            kanjiOpposite
-            ? `<a class="pleco-link" target="_blank" href="plecoapi://x-callback-url/s?q=${encodeURIComponent(kanjiOpposite)}">(pleco)</a>`
+            kanjiOpposite.length > 0
+            ? `<a class="pleco-link" target="_blank" href="plecoapi://x-callback-url/s?q=${encodeURIComponent(kanjiOpposite.join(''))}">(pleco)</a>`
             : ''
 
           return [div_kanji, div_kanji__pleco, div_kanji_opposite, div_kanji_opposite__pleco, div_transl].join('')
