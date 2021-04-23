@@ -48,6 +48,29 @@ outputfixed = outputfixed.map(x => { return { ...x, images: (Array.from(x.transl
 
 imagesAll = R.uniq(outputfixed.map(R.prop('images')).flat())
 
+imagesAll_ = imagesAll.filter(x => x.endsWith('.png'))
+imagesAll_ = imagesAll_.map(x => {
+  const filename = x.replace(/https:\/\/images\.yw11\.com\/zixing\//g, 'yw11-zixing-')
+  const dest = `/home/srghma/.local/share/Anki2/User 1/collection.media/${filename}`
+  return dest
+}).filter(dest => fs.existsSync(dest))
+
+require('child_process').spawn('convert', imagesAll_.concat(`/home/srghma/Downloads/output.pdf`))
+
+// imagesAll_.forEach(x => {
+//   const filename = x.replace(/https:\/\/images\.yw11\.com\/zixing\//g, 'yw11-zixing-')
+//   const dest = `/home/srghma/.local/share/Anki2/User 1/collection.media/${filename}`
+//   if (!fs.existsSync(dest)) {
+//     console.log(`doesnt ex ${dest}`)
+//     return
+//   }
+//   const size = fs.statSync(dest).size
+//   if (size === 0) {
+//     console.log(filename)
+//     fs.unlinkSync(dest)
+//   }
+// })
+
 // images.filter(x => R.any(image => !image.startsWith('https://images.yw11.com/zixing/'), x.images))
 
 // await mkdirp(fulldir)
@@ -58,6 +81,11 @@ promises = imagesAll.map(x => async jobIndex => {
   try {
     const resp = await require('image-downloader').image({ url: x, dest })
     console.log('Saved to', resp.filename)
+    const size = fs.statSync(dest).size
+    if (size === 0) {
+      console.log('Deleting', dest)
+      fs.unlinkSync(dest)
+    }
   } catch (e) {
     console.log({ x, e })
   }
@@ -66,7 +94,7 @@ await mkQueue(10).addAll(promises)
 
 output_ = outputfixed.map(x => ({
   kanji: x.kanji,
-  translation: x.translation.replace(/>\s+</g, '><').trim().replace(/id="[^"]+"/g, '').replace(/https:\/\/images\.yw11\.com\/zixing\//g, 'yw11-zixing-')
+  translation: x.translation.replace(/>\s+</g, '><').trim().replace(/id="[^"]+"/g, '').replace(/<p><\/p>/g, '').replace(/　　　/g, ', ').replace('<br< p=""></br<></p>', '<br>').replace(/<img src="([^"]+)" alt="([^"]+)">/g, '<a href="$1" target="_blank"><img src="$1" alt="$2"></a>').replace(/src="https:\/\/images\.yw11\.com\/zixing\//g, 'src="yw11-zixing-')
 }))
 
 // allKanji = R.uniq(output___.map(x => (x.purpleculture_dictionary_orig_transl || '')).join('').split('').filter(isHanzi))

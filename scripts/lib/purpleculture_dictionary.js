@@ -1,8 +1,13 @@
 function removeAllNodes(elements) { elements.forEach(e => { e.parentNode.removeChild(e); }) }
 
-exports.purpleculture_dictionary = async function purpleculture_dictionary(dom, str) {
-  const fetch = require('node-fetch')
+// const fetch = require('node-fetch')
 
+const fetch = require('socks5-node-fetch')({
+  socksHost: '88.202.177.242',
+  socksPort: '1080',
+})
+
+exports.purpleculture_dictionary = async function purpleculture_dictionary(dom, str) {
   const r = await fetch(`https://www.purpleculture.net/dictionary_details/?word=${encodeURIComponent(str)}`, {
     "headers": {
       "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
@@ -57,14 +62,14 @@ try { purpleculture_dictionary_cache = JSON.parse(fs.readFileSync(purpleculture_
 async function purpleculture_dictionary_with_cache(dom, sentence) {
   if (purpleculture_dictionary_cache.hasOwnProperty(sentence)) { return purpleculture_dictionary_cache[sentence] }
 
-  return null
+  // return null
 
-  // const purpleculture_raw = await require('./purpleculture_dictionary').purpleculture_dictionary(dom, sentence)
-  // purpleculture_dictionary_cache[sentence] = purpleculture_raw
+  const purpleculture_raw = await require('./purpleculture_dictionary').purpleculture_dictionary(dom, sentence)
+  purpleculture_dictionary_cache[sentence] = purpleculture_raw
 
-  // fs.writeFileSync(purpleculture_dictionary_with_cache_path, JSON.stringify(purpleculture_dictionary_cache))
+  fs.writeFileSync(purpleculture_dictionary_with_cache_path, JSON.stringify(purpleculture_dictionary_cache))
 
-  // return purpleculture_raw
+  return purpleculture_raw
 }
 
 exports.purpleculture_dictionary_with_cache = purpleculture_dictionary_with_cache

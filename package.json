@@ -38,6 +38,7 @@
     "ramda": "^0.27.1",
     "ramda-adjunct": "^2.31.1",
     "react": "^17.0.2",
+    "socks5-node-fetch": "^0.0.4",
     "stream": "^0.0.2",
     "string.prototype.replaceall": "^1.0.5",
     "xhr2": "^0.2.0"

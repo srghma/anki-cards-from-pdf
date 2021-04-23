@@ -17,11 +17,8 @@ const {Translate} = require('@google-cloud/translate').v2;
 const translate = new Translate({projectId: "annular-form-299211"});
 
 input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
-
-// input = input.map(x => ({ kanji: x.kanji, freq: Number(x._12) }))
-
+input = input.map(x => ({ kanji: x.kanji, purpleculture_dictionary_orig_transl: x._1.trim() }))
 // freq = R.fromPairs(input.map(x => [x.kanji, x.freq]))
-
 output___ = await require('./scripts/gen_purpleculture_info').gen_purpleculture_info(input)
 
 // allKanji = R.uniq(output___.map(x => (x.purpleculture_dictionary_orig_transl || '')).join('').split('').filter(isHanzi))

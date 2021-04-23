@@ -24,8 +24,12 @@ async function gen_purpleculture_info(input) {
   const queueSize = 2
   doms = Array.from({ length: queueSize }, (_, i) => { return new JSDOM(``) })
   output = []
-  promises = input.map((x, inputIndex) => async jobIndex => {
-    const kanji = x['kanji']
+  promises = input.map(({ kanji, purpleculture_dictionary_orig_transl }, inputIndex) => async jobIndex => {
+    if (purpleculture_dictionary_orig_transl) {
+      output.push({ kanji, translation: purpleculture_dictionary_orig_transl })
+      return
+    }
+
     // console.log({ m: "doing", inputIndex, jobIndex, kanji })
     const dom = doms[jobIndex]
     if (!RA.isNonEmptyString(kanji)) { throw new Error('kanji') }
