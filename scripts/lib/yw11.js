@@ -1,27 +1,11 @@
+const fetchWithTimeout = require('./fetchWithTimeout').fetchWithTimeout
+
 function removeAllNodes(elements) { elements.forEach(e => { e.parentNode.removeChild(e); }) }
 
-function timeoutPromise(ms, promise) {
-  return new Promise((resolve, reject) => {
-    const timeoutId = setTimeout(() => {
-      reject(new Error("promise timeout"))
-    }, ms);
-    promise.then(
-      (res) => {
-        clearTimeout(timeoutId);
-        resolve(res);
-      },
-      (err) => {
-        clearTimeout(timeoutId);
-        reject(err);
-      }
-    );
-  })
-}
+const fetch = require('node-fetch')
 
 async function yw11_dictionary(dom, str) {
-  const fetch = require('node-fetch')
-
-  const rPromise = fetch(`https://www.yw11.com/zidian/index/search/${encodeURIComponent(str)}`, {
+  const r = await fetchWithTimeout(fetch, 30000, `https://www.yw11.com/zidian/index/search/${encodeURIComponent(str)}`, {
     "headers": {
       "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
       "accept-language": "en-US,en;q=0.9,ru-UA;q=0.8,ru;q=0.7,ja-JP;q=0.6,ja;q=0.5",
@@ -40,8 +24,6 @@ async function yw11_dictionary(dom, str) {
     "method": "GET",
     "mode": "cors"
   })
-
-  const r = await timeoutPromise(30000, rPromise)
 
   const t = await r.text()
 

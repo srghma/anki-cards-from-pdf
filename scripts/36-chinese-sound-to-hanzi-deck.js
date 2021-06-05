@@ -32,7 +32,10 @@ input = inputOrig.map(x => ({
   sherlock_index: toNumberOrNull(x._21),
   harry_1_index: toNumberOrNull(x._89),
   noah_index: toNumberOrNull(x._90),
+  bkrs_pinyin: x._94.split(', '),
+  bkrs_transl: x._95,
 }))
+toFreqAndGoogle = R.fromPairs(input.map(x => [x.kanji, x]))
 
 // input_ = input.filter(x => !x.en).map(x => x.kanji)
 // fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', input_.join('\n'))
@@ -40,8 +43,6 @@ input = inputOrig.map(x => ({
 // output_ = output.split('\n').filter(R.identity)
 // output_ = zipOrThrowIfNotSameLength(input_, output_)
 // output_ = output_.filter(x => !(x[1].length == 1 && isHanzi(x[1])))
-
-toFreqAndGoogle = R.fromPairs(input.map(x => [x.kanji, x]))
 
 const queueSize = 10
 doms = Array.from({ length: queueSize }, (_, i) => { return new JSDOM(``) })
@@ -180,28 +181,7 @@ await mkQueue(queueSize).addAll(promises)
 
 require('./scripts/lib/google_translate_with_cache').google_translate_sync()
 
-t = `a	ai	ao	an	ang	e	ei	en	eng	er	o	ou		yi		ya	yao	ye	you	yan	yang	yin	ying	yong	wu	wa	wai	wei	wo	wan	wang	wen	weng	yu	yue	yuan	yun
-ba	bai	bao	ban	bang		bei	ben	beng		bo			bi			biao	bie		bian		bin	bing		bu
-pa	pai	pao	pan	pang		pei	pen	peng		po	pou		pi			piao	pie		pian		pin	ping		pu
-ma	mai	mao	man	mang	me	mei	men	meng		mo	mou		mi			miao	mie	miu	mian		min	ming		mu
-fa			fan	fang		fei	fen	feng		fo	fou													fu
-da	dai	dao	dan	dang	de	dei	den	deng			dou	dong	di			diao	die	diu	dian			ding		du			dui	duo	duan		dun
-ta	tai	tao	tan	tang	te			teng			tou	tong	ti			tiao	tie		tian			ting		tu			tui	tuo	tuan		tun
-na	nai	nao	nan	nang	ne	nei	nen	neng			nou	nong	ni			niao	nie	niu	nian	niang	nin	ning		nu				nuo	nuan				nü	nüe
-la	lai	lao	lan	lang	le	lei		leng		lo	lou	long	li		lia	liao	lie	liu	lian	liang	lin	ling		lu				luo	luan		lun		lü	lüe
-za	zai	zao	zan	zang	ze	zei	zen	zeng			zou	zong		zi										zu			zui	zuo	zuan		zun
-ca	cai	cao	can	cang	ce	cei	cen	ceng			cou	cong		ci										cu			cui	cuo	cuan		cun
-sa	sai	sao	san	sang	se		sen	seng			sou	song		si										su			sui	suo	suan		sun
-zha	zhai	zhao	zhan	zhang	zhe	zhei	zhen	zheng			zhou	zhong		zhi										zhu	zhua	zhuai	zhui	zhuo	zhuan	zhuang	zhun
-cha	chai	chao	chan	chang	che		chen	cheng			chou	chong		chi										chu	chua	chuai	chui	chuo	chuan	chuang	chun
-sha	shai	shao	shan	shang	she	shei	shen	sheng			shou			shi										shu	shua	shuai	shui	shuo	shuan	shuang	shun
-    rao	ran	rang	re		ren	reng			rou	rong		ri										ru	rua		rui	ruo	ruan		run
-                          ji		jia	jiao	jie	jiu	jian	jiang	jin	jing	jiong										ju	jue	juan	jun
-                          qi		qia	qiao	qie	qiu	qian	qiang	qin	qing	qiong										qu	que	quan	qun
-                          xi		xia	xiao	xie	xiu	xian	xiang	xin	xing	xiong										xu	xue	xuan	xun
-ga	gai	gao	gan	gang	ge	gei	gen	geng			gou	gong												gu	gua	guai	gui	guo	guan	guang	gun
-ka	kai	kao	kan	kang	ke	kei	ken	keng			kou	kong												ku	kua	kuai	kui	kuo	kuan	kuang	kun
-ha	hai	hao	han	hang	he	hei	hen	heng			hou	hong												hu	hua	huai	hui	huo	huan	huang	hun`
+t = fs.readFileSync('./table-with-tabs.txt').toString()
 
 const trainchinese_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/trainchinese_cache.json'
 let trainchinese_cache = {}
@@ -211,10 +191,16 @@ trainchinese_cache_ = trainchinese_cache_.filter(R.prop('transl'))
 trainchinese_cache_ = trainchinese_cache_.map(({ kanji, transl }) => ({ kanji, transl: transl.filter(x => x.ch == kanji).filter(R.prop('transl')) })).filter(x => x.transl.length > 0)
 trainchinese_cache_ = trainchinese_cache_.map(({ kanji, transl }) => ({ kanji, transl: transl.map(R.over(R.lensProp('transl'), x => x.replace(/\S+ \(фамилия\);?/g, '').trim())) })).filter(x => x.transl.length > 0)
 trainchinese_cache_ = R.fromPairs(trainchinese_cache_.map(({ kanji, transl }) => ([kanji, transl])))
-output__2 = output__.map(x => x.pinyinWithHtml.map(pinyinWithHtmlElem => ({ ...pinyinWithHtmlElem, ...(R.pick("hsk kanji".split(' '), x)) }))).flat()
 
+output__2 = output__.map(x => x.pinyinWithHtml.map(pinyinWithHtmlElem => ({ ...pinyinWithHtmlElem, ...(R.pick("hsk kanji".split(' '), x)) }))).flat()
 output__2 = output__2.map(x => {
   const mp3ToPinyinNumberAndOtherInfo = (x) => {
+    // const bkrs_pinyin = toFreqAndGoogle[x.kanji].bkrs_pinyin
+    // const purpleculture_pinyin = Array.from(x.matchAll(/<a class="pinyin tone\d+\s*" href="https:\/\/www\.purpleculture\.net\/mp3\/[^\.]+\.mp3">([^<]+)<\/a>/g)).map(x => x[1])
+
+    // const pinyinMarked = R.uniq(R.concat(purpleculture_pinyin, bkrs_pinyin))
+    // const pinyinNumbered
+
     x = Array.from(x.matchAll(/<a class="pinyin tone(\d+)\s*" href="https:\/\/www\.purpleculture\.net\/mp3\/([^\.]+)\.mp3">([^<]+)<\/a>/g))
     x = x.map(x => ({ number: toNumberOrNull(x[1]), numbered: x[2], marked: x[3] }))
     x = x.map(x => ({ ...x, withoutMark: x.numbered.replace(/\d+/g, '') }))
@@ -284,7 +270,7 @@ t__ = t_.map(([k, v]) => {
         }
       })
 
-      min_sherlock_index = v.map(R.prop('sherlock_index')).filter(R.identity)
+      let min_sherlock_index = v.map(R.prop('sherlock_index')).filter(R.identity)
       min_sherlock_index = min_sherlock_index.length > 0 ? Math.min(...min_sherlock_index) : null
 
       const findHSK = n => v.filter(x => x.hsk == n)
@@ -296,6 +282,13 @@ t__ = t_.map(([k, v]) => {
       let other = v.filter(x => x.hsk === null && (x.chinese_junda_freq_ierogliph_number == null || x.chinese_junda_freq_ierogliph_number > 7000))
       other = R.sortBy(R.prop('kanji'), other)
 
+      const already_processed_kanji = ([...hsks, nonHSK7000, other]).flat().map(R.prop('kanji')).join('')
+      const bkrs_all = input.filter(x => x.bkrs_pinyin.includes(marked))
+      const bkrs = bkrs_all.filter(x => !already_processed_kanji.includes(x.kanji))
+
+      // console.log({ hsks, nonHSK7000, other, already_processed_kanji })
+      // console.log({ bkrs_all: bkrs_all.length, bkrs: bkrs.length })
+
       const subj = [
         ["hsk_1", hsks[0]],
         ["hsk_2", hsks[1]],
@@ -303,8 +296,9 @@ t__ = t_.map(([k, v]) => {
         ["hsk_4", hsks[3]],
         ["hsk_5", hsks[4]],
         ["hsk_6", hsks[5]],
-        ["first",  nonHSK7000],
+        ["first", nonHSK7000],
         ["other", other],
+        ["bkrs", bkrs]
       ]
 
       let back = subj.filter(([hsk, val]) => val.length > 0).map(([hsk, v]) => {
@@ -327,7 +321,7 @@ t__ = t_.map(([k, v]) => {
             return x
           }
 
-          const trainchinese_cache_with_this_mark = v.trainchinese_cache_with_this_mark.map(x => {
+          const trainchinese_cache_with_this_mark = (v.trainchinese_cache_with_this_mark || []).map(x => {
             const pinyin = '<span class="trainchinese-pinyin">' + x.pinyin + '</span>'
             const type = '<span class="trainchinese-type">' + x.type + '</span>'
             const transl_____ = '<span class="trainchinese-transl">' + markHelp(x.transl) + '</span>'
@@ -373,9 +367,9 @@ t__ = t_.map(([k, v]) => {
 
       front = front.filter(([hsk, val]) => val.length > 0).map(([hsk, val]) => {
         const val_ = val.map(({ kanji, transl }) => {
-          const nodeWithIfNotEmpty = (name, options, x) => x ? nodeWith(name, options, x) : ''
+          const nodeWithIfNotEmpty = (name, options, x) => (x || x.length > 0) ? nodeWith(name, options, x) : ''
 
-          const kanjiOpposite = toFreqAndGoogle[kanji].opposite.split('')
+          const kanjiOpposite = toFreqAndGoogle[kanji].opposite.split('').filter(x => x !== kanji)
 
           const div_kanji = nodeWithIfNotEmpty('div', { class: "my-pinyin-hanzi" }, kanji)
           const div_kanji_opposite = nodeWithIfNotEmpty('div', {}, kanjiOpposite.map(k => nodeWithIfNotEmpty('span', { class: "my-pinyin-hanzi" }, k)).join(''))

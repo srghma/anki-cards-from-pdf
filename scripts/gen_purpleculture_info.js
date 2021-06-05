@@ -21,7 +21,7 @@ checkSameLength = (x, y) => { if (x.length != y.length) { throw new Error(`x.len
 zipOrThrowIfNotSameLength = (x, y) => { checkSameLength(x, y); return R.zip(x, y); }
 
 async function gen_purpleculture_info(input) {
-  const queueSize = 2
+  const queueSize = 1
   doms = Array.from({ length: queueSize }, (_, i) => { return new JSDOM(``) })
   output = []
   promises = input.map(({ kanji, purpleculture_dictionary_orig_transl }, inputIndex) => async jobIndex => {

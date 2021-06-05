@@ -1,14 +1,47 @@
+const fetchWithTimeout = require('./fetchWithTimeout').fetchWithTimeout
+
 function removeAllNodes(elements) { elements.forEach(e => { e.parentNode.removeChild(e); }) }
 
-// const fetch = require('node-fetch')
+const socks = require('fs').readFileSync('/home/srghma/Downloads/socks5.csv').toString().split('\n').map(x => x.split('","')[0].slice(1))
 
-const fetch = require('socks5-node-fetch')({
-  socksHost: '88.202.177.242',
-  socksPort: '1080',
-})
+const brokensocks = []
+
+const fetch = async (url, options) => {
+  let t = null
+
+  const socks_ = R.difference(socks, brokensocks)
+
+  for (const sock of socks_) {
+    const [socksHost, socksPort] = sock.split(':')
+    console.log(`trying ${socksHost}:${socksPort} for ${url}`);
+
+    const fetch = require('socks5-node-fetch')({
+      socksHost,
+      socksPort,
+    })
+
+    try {
+      const resp = await fetchWithTimeout(fetch, 30 * 1000, url, options)
+
+      t = await resp.text()
+
+      const isBroken =
+        t.includes(`Attention Required`) || t.includes(`This website is using a security service to protect itself from online attacks.`)
+      if (isBroken) {
+        brokensocks.push(sock)
+        console.log(brokensocks)
+        continue
+      }
+
+      return t
+    } catch (e) {
+      console.log('error', e)
+    }
+  }
+}
 
 exports.purpleculture_dictionary = async function purpleculture_dictionary(dom, str) {
-  const r = await fetch(`https://www.purpleculture.net/dictionary_details/?word=${encodeURIComponent(str)}`, {
+  const t = await fetch(`https://www.purpleculture.net/dictionary_details/?word=${encodeURIComponent(str)}`, {
     "headers": {
       "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
       "accept-language": "en-US,en;q=0.9,ru-UA;q=0.8,ru;q=0.7,ja-JP;q=0.6,ja;q=0.5",
@@ -29,10 +62,10 @@ exports.purpleculture_dictionary = async function purpleculture_dictionary(dom, 
     "mode": "cors"
   });
 
-  const t = await r.text()
-
   if (t.includes(`An Error occurred, please refresh`)) { return null }
   if (t.includes(`Sorry, we didn't find the text in our dictionary`)) { return null }
+
+  console.log(t)
 
   dom.window.document.body.innerHTML = t
 
@@ -62,14 +95,14 @@ try { purpleculture_dictionary_cache = JSON.parse(fs.readFileSync(purpleculture_
 async function purpleculture_dictionary_with_cache(dom, sentence) {
   if (purpleculture_dictionary_cache.hasOwnProperty(sentence)) { return purpleculture_dictionary_cache[sentence] }
 
-  // return null
+  return null
 
-  const purpleculture_raw = await require('./purpleculture_dictionary').purpleculture_dictionary(dom, sentence)
-  purpleculture_dictionary_cache[sentence] = purpleculture_raw
+  // const purpleculture_raw = await require('./purpleculture_dictionary').purpleculture_dictionary(dom, sentence)
+  // purpleculture_dictionary_cache[sentence] = purpleculture_raw
 
-  fs.writeFileSync(purpleculture_dictionary_with_cache_path, JSON.stringify(purpleculture_dictionary_cache))
+  // fs.writeFileSync(purpleculture_dictionary_with_cache_path, JSON.stringify(purpleculture_dictionary_cache))
 
-  return purpleculture_raw
+  // return purpleculture_raw
 }
 
 exports.purpleculture_dictionary_with_cache = purpleculture_dictionary_with_cache

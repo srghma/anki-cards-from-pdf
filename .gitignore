@@ -19,3 +19,4 @@ yarn-error.log
 /random-scripts/pinyincache.json
 *cache*
 !ipacache.json
+!yw11_dictionary_cache.json

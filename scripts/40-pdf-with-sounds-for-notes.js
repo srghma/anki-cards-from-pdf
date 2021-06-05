@@ -7,12 +7,9 @@ const fs = require('fs');
 // import ReactPDF from '@react-pdf/renderer'
 
 const tOrig = fs.readFileSync('./table-with-tabs.txt').toString()
-
 const tOrigLines = tOrig.split('\n')
-
 const splitLine = line => R.split('\t', line).flat().flat()
-
-const sections = tOrigLines.map(line => ({ sectionLetter: line[0], pinyins: splitLine(line).filter(R.identity) }))
+const sections = tOrigLines.filter(R.identity).map(line => ({ sectionLetter: line.trim()[0], pinyins: splitLine(line).filter(R.identity) }))
 
 // Create a document
 const doc = new PDFDocument({
@@ -37,9 +34,7 @@ doc.pipe(fs.createWriteStream(`${process.cwd()}/chinese-table-of-sounds.pdf`));
 
 let x = tOrigLines.map(splitLine)
 x = x.slice(0, x.length - 1)
-
 let l = Math.max(...R.map(R.prop('length'), x))
-
 let rowToLength = R.range(0, l).map(i => {
   const x1 = x.map(R.prop(i))
   const x2 = x1.map(R.prop('length'))
@@ -51,17 +46,13 @@ let rowToLength = R.range(0, l).map(i => {
   //   x3
   // }
 })
-
 tOrigLines.map(splitLine).forEach((line, lineIndex) => {
   doc.addNamedDestination('root');
-
   line.forEach((pinyin, pinyinIndex) => {
     const prevRowsLengths = rowToLength.slice(0, pinyinIndex)
     const indentationChars = R.sum(prevRowsLengths) + prevRowsLengths.length
-
     const top = 30 * lineIndex
     const right = indentationChars * 6.5
-
     console.log({
       top,
       right,
@@ -69,7 +60,6 @@ tOrigLines.map(splitLine).forEach((line, lineIndex) => {
       prevRowsLengths,
       indentationChars,
     })
-
     doc
       .font('fonts/PalatinoBold.ttf')
       .fontSize(13)

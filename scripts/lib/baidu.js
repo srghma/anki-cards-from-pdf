@@ -70,14 +70,16 @@ let eachNIndex = 0
 exports.baidu_with_cache = async function baidu_with_cache(dom, sentence) {
   const cached = baidu_cache[sentence]
   if (cached) { return cached }
-  const x = await exports.baidu(dom, sentence)
-  baidu_cache[sentence] = x
-  eachNIndex++
-  if (eachNIndex % 10 === 0) {
-    console.log('syncking baidu')
-    fs.writeFileSync(baidu_with_cache_path, JSON.stringify(baidu_cache))
-  }
-  return x
+
+  return null
+  // const x = await exports.baidu(dom, sentence)
+  // baidu_cache[sentence] = x
+  // eachNIndex++
+  // if (eachNIndex % 10 === 0) {
+  //   console.log('syncking baidu')
+  //   fs.writeFileSync(baidu_with_cache_path, JSON.stringify(baidu_cache))
+  // }
+  // return x
 }
 
 exports.baidu_translate_sync = function baidu_translate_sync() {

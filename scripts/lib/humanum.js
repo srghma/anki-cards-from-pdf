@@ -24,6 +24,8 @@ async function humanum(dom, str) {
 
   const t = await r.text()
 
+  if (t.includes('字未收錄於本資料庫')) { return { res: "not_in_db" } }
+
   dom.window.document.body.innerHTML = t
 
   const img = dom.window.document.querySelector('#char_anc_div img')
@@ -31,7 +33,18 @@ async function humanum(dom, str) {
   let sinopsis = null
   let explanation = null
 
+  if (!dom.window.document.querySelector('#explainShapeTable')) {
+    return {
+      origText: t,
+      res: "no_explainShapeTable"
+    }
+  } // TODO
+
   let explainShapeTable = dom.window.document.querySelector('#explainShapeTable tr.greyTr > td > div')
+
+  // if (!explainShapeTable) {
+  //   console.log(t)
+  // }
 
   // POSSIBLE EXCEPTION
   // http://humanum.arts.cuhk.edu.hk/Lexis/lexi-mf/search.php?word=%E6%90%BA
@@ -41,13 +54,14 @@ async function humanum(dom, str) {
   explainShapeTable = explainShapeTable.split(/<div style="float:right; margin-right: 10px; color: #666666">.* Characters<\/div><br>/)
   // console.log(explainShapeTable)
 
-  sinopsis = explainShapeTable[0].trim()
-  explanation = explainShapeTable[1].trim()
+  sinopsis = explainShapeTable[0]
+  explanation = explainShapeTable[1]
 
   return {
-    image: img && img.src,
-    sinopsis,
-    explanation,
+    origText: t,
+    image: img && ("http://humanum.arts.cuhk.edu.hk/Lexis/lexi-mf/" + img.src),
+    sinopsis: sinopsis && sinopsis.trim().replace(/href="search\.php\?word/g, 'href="http://humanum.arts.cuhk.edu.hk/Lexis/lexi-mf/search.php?word=').trim(),
+    explanation: explanation && explanation.trim().replace(/href="search\.php\?word/g, 'href="http://humanum.arts.cuhk.edu.hk/Lexis/lexi-mf/search.php?word=').trim(),
   }
 }
 

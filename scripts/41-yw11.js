@@ -16,14 +16,15 @@ const dom = new JSDOM(``);
 const {Translate} = require('@google-cloud/translate').v2;
 const translate = new Translate({projectId: "annular-form-299211"});
 
-input = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
+inputOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
+input = inputOrig
 
-const queueSize = 10
+const queueSize = 15
 doms = Array.from({ length: queueSize }, (_, i) => { return new JSDOM(``) })
 output = []
 promises = input.map((x, inputIndex) => async jobIndex => {
   const kanji = x['kanji']
-  // console.log({ m: "doing", inputIndex, jobIndex, kanji })
+  console.log({ m: "doing", jobIndex, inputIndex, kanji })
   const dom = doms[jobIndex]
   if (!RA.isNonEmptyString(kanji)) { throw new Error('kanji') }
   if (!dom) { throw new Error('dom') }
@@ -31,7 +32,8 @@ promises = input.map((x, inputIndex) => async jobIndex => {
   try {
     translation = await require('./scripts/lib/yw11').yw11_dictionary_with_cache(dom, kanji)
   } catch (e) {
-    console.error({ m: "error", inputIndex, kanji, e })
+    console.error({ m: "error", jobIndex, inputIndex, kanji, e })
+    output.push({ kanji, translation })
     return
   }
   if (translation) {
@@ -43,7 +45,7 @@ mkQueue(queueSize).addAll(promises)
 input.length
 output.length
 
-outputfixed = output.map(x => ({ ...x, translation: x.translation.replace(/http:\/\/www.chazidian.comhttps/g, 'https') }))
+outputfixed = output.filter(x => x.translation).map(x => ({ ...x, translation: x.translation.replace(/http:\/\/www.chazidian.comhttps/g, 'https') }))
 outputfixed = outputfixed.map(x => { return { ...x, images: (Array.from(x.translation.matchAll(/<img src="(.*?)"/g)) || []).map(x => x[1]) } })
 
 imagesAll = R.uniq(outputfixed.map(R.prop('images')).flat())
@@ -55,7 +57,66 @@ imagesAll_ = imagesAll_.map(x => {
   return dest
 }).filter(dest => fs.existsSync(dest))
 
-require('child_process').spawn('convert', imagesAll_.concat(`/home/srghma/Downloads/output.pdf`))
+files = fs.readdirSync('/home/srghma/.local/share/Anki2/User 1/collection.media/')
+files = files.filter(x => x.includes('yw11-zixing-zi') && x.includes('.png'))
+
+const output_imagetexts__path = '/home/srghma/projects/anki-cards-from-pdf/image-texts.json'
+const vision = require('@google-cloud/vision');
+const client = new vision.ImageAnnotatorClient();
+let output_imagetexts = {}
+try { output_imagetexts = JSON.parse(fs.readFileSync(output_imagetexts__path).toString()) } catch (e) {  }
+
+// Object.keys(output_imagetexts).length
+// R.values(output_imagetexts)[100][0].description
+// R.keys(output_imagetexts)[100]
+
+promises = files.map((file, inputIndex) => async jobIndex => {
+  if (output_imagetexts.hasOwnProperty(file)) { return }
+  const dest = `/home/srghma/.local/share/Anki2/User 1/collection.media/${file}`
+  try {
+    const results = await client.textDetection(dest)
+    console.log(file)
+    console.log(results)
+    const [result] = results
+    const detections = result.textAnnotations;
+    const texts = []
+    detections.forEach(text => {
+      // console.log(text)
+      texts.push(text)
+    });
+    console.log({ m: "finished", jobIndex, inputIndex, length: files.length })
+    output_imagetexts[file] = texts
+    fs.writeFileSync(output_imagetexts__path, JSON.stringify(output_imagetexts))
+  } catch (e) {
+    console.log(e)
+  }
+})
+await mkQueue(10).addAll(promises)
+
+R.toPairs(output_imagetexts).filter(x => x[1].length <= 0).map(R.prop(0)).forEach(x => {
+  console.log(x)
+  delete output_imagetexts[x]
+})
+
+imgWithDescr = R.toPairs(output_imagetexts).filter(x => x[1].length > 0).map(x => ({ k: x[0], d: x[1][0].description }))
+
+let imgWithDescr__output = []
+promises = imgWithDescr.map((x, index) => async jobIndex => {
+  try {
+    const translation = await require('./scripts/lib/google_translate_with_cache').google_translate_with_cache(x.d, { to: 'en' })
+    imgWithDescr__output.push({
+      ...x,
+      translation,
+    })
+  } catch (e) {
+    console.log(e)
+  }
+})
+await mkQueue(10).addAll(promises)
+
+require('./scripts/lib/google_translate_with_cache').google_translate_sync()
+
+// require('child_process').spawn('convert', imagesAll_.concat(`/home/srghma/Downloads/output.pdf`))
 
 // imagesAll_.forEach(x => {
 //   const filename = x.replace(/https:\/\/images\.yw11\.com\/zixing\//g, 'yw11-zixing-')
@@ -73,11 +134,20 @@ require('child_process').spawn('convert', imagesAll_.concat(`/home/srghma/Downlo
 
 // images.filter(x => R.any(image => !image.startsWith('https://images.yw11.com/zixing/'), x.images))
 
+function existsAsync(path) {
+  return new Promise(function(resolve, reject){
+    fs.exists(path, function(exists){
+      resolve(exists);
+    })
+  })
+}
+
 // await mkdirp(fulldir)
 promises = imagesAll.map(x => async jobIndex => {
   const filename = x.replace(/https:\/\/images\.yw11\.com\/zixing\//g, 'yw11-zixing-')
   const dest = `/home/srghma/.local/share/Anki2/User 1/collection.media/${filename}`
-  if (fs.existsSync(dest)) { return }
+  const exists = await existsAsync(dest)
+  if (exists) { return }
   try {
     const resp = await require('image-downloader').image({ url: x, dest })
     console.log('Saved to', resp.filename)
@@ -94,8 +164,16 @@ await mkQueue(10).addAll(promises)
 
 output_ = outputfixed.map(x => ({
   kanji: x.kanji,
-  translation: x.translation.replace(/>\s+</g, '><').trim().replace(/id="[^"]+"/g, '').replace(/<p><\/p>/g, '').replace(/　　　/g, ', ').replace('<br< p=""></br<></p>', '<br>').replace(/<img src="([^"]+)" alt="([^"]+)">/g, '<a href="$1" target="_blank"><img src="$1" alt="$2"></a>').replace(/src="https:\/\/images\.yw11\.com\/zixing\//g, 'src="yw11-zixing-')
+  translation: x.translation.replace(/>\s+</g, '><').trim().replace(/id="[^"]+"/g, '').replace(/<p><\/p>/g, '').replace(/　　　/g, ', ').replace('<br< p=""></br<></p>', '<br>').replace(/<img src="([^"]+)" alt="([^"]+)">/g, '<a href="$1" target="_blank"><img src="$1" alt="$2"></a>').replace(/src="https:\/\/images\.yw11\.com\/zixing\//g, 'src="yw11-zixing-').replace(/style="[^"]+"/g, '').replace(/class="[^"]+"/g, '').replace(/<h4\s+>/g, '<h4>').replace(/<(\S+)\s+>/g, '<$1>')
 }))
+
+;(function(input){
+  let header = R.uniq(R.map(R.keys, input).flat())
+  console.log({ header })
+  header = header.map(x => ({ id: x, title: x }))
+  const s = require('csv-writer').createObjectCsvStringifier({ header }).stringifyRecords(input)
+  fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', s)
+})(output_);
 
 // allKanji = R.uniq(output___.map(x => (x.purpleculture_dictionary_orig_transl || '')).join('').split('').filter(isHanzi))
 // fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', allKanji.join('\n'))
@@ -105,10 +183,19 @@ output_ = outputfixed.map(x => ({
 //   sounds: Array.from(x.pinyinWithHtml.matchAll(/allsetlearning-([^\.]+).mp3/g)).map(R.prop(1)).map(x => `[sound:allsetlearning-${x}.mp3]`).join('<br>')
 // }))
 
+imgWithDescr__output_ = R.fromPairs(imgWithDescr__output.map(x => ([x.k, x])))
+output = inputOrig.map(({ kanji, _91 }) => {
+  return {
+    kanji,
+    images: (Array.from(_91.matchAll(/<img src="(.*?)"/g)) || []).map(x => x[1]).filter(x => x.endsWith('.png'))[0]
+  }
+}).filter(x => x.images).map(x => ({ kanji: x.kanji, ...imgWithDescr__output_[x.images] })).filter(x => x.d).map(R.pick('kanji d translation'.split(' ')))
+output = output.map(x => ({ kanji: x.kanji, d: x.d.replace(/\n/g, '<br>'), translation: x.translation.replace(/\n/g, '<br>') }))
+
 ;(function(input){
   let header = R.uniq(R.map(R.keys, input).flat())
   console.log({ header })
   header = header.map(x => ({ id: x, title: x }))
   const s = require('csv-writer').createObjectCsvStringifier({ header }).stringifyRecords(input)
   fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', s)
-})(output_);
+})(output);

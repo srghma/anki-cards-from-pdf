@@ -1,0 +1,1283 @@
+.two_children__horiz_even  { display: flex; flex-direction: row; }
+.two_children__horiz_even div:first-child:nth-last-child(2),
+.two_children__horiz_even div:first-child:nth-last-child(2) ~ div
+ { width: 50%; }
+
+.pinyin__root_container {
+  width: 100%;
+}
+.pinyin__containers {
+  width: 100%;
+}
+
+@font-face { font-family: HanaMin; src: url('NotoSans-Medium.ttf'), url('NotoSansSC-Regular.otf'), url('HanaMinA.ttf'), url('HanaMinB.ttf'), url('HanaMinC.ttf'), url('HanaMinI.ttf'); }
+
+@font-face { font-family: Noto; src: url('NotoSans-Medium.ttf'), url('NotoSansSC-Regular.otf'), url('NotoSerifCJK.ttc'); }
+@font-face { font-family: TH-Tshyn; src: url('TH-Tshyn-P0-1000.ttf'), url('TH-Tshyn-P1-1000.ttf'), url('TH-Tshyn-P2-1000.ttf'), url('TH-Tshyn-P16-1000.ttf'); }
+@font-face { font-family: yugothb; src: url('HanaMinA.ttf'), url('HanaMinB.ttf'), url('HanaMinC.ttf'), url('HanaMinI.ttf'); }
+@font-face { font-family: CNstrokeorder; src: url('CNstrokeorder.ttf'); }
+@font-face { font-family: KanjiStrokeOrders; src: url('KanjiStrokeOrders.ttf'); }
+
+.modal__modal {
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  max-width: 85%;
+  margin: 0 auto;
+  padding: 30px;
+  background: #535353;
+  border-radius: 4px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+.modal__close-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 20px;
+}
+.modal__overlay {
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+}
+.modal--is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+/***************************/
+
+.nightMode {
+  color: white;
+  background-color: #2c2c2c;
+}
+
+.my-pinyin-hanzi_container--back .my-pinyin-translation-container::before { visibility: visible; position: absolute; content: "?"; font-size: 28px; }
+.my-pinyin-hanzi_container--back .my-pinyin-translation-container { visibility: hidden; position: relative; height: 30px; }
+.my-pinyin-hanzi_container--back .my-pinyin-translation-container--force-show::before { display: none; }
+.my-pinyin-hanzi_container--back .my-pinyin-translation-container--force-show { visibility: initial; position: initial; height: initial; }
+
+.my-pinyin-hanzi_container--front .my-pinyin-hanzi::before { visibility: visible; position: absolute; content: "?"; }
+.my-pinyin-hanzi_container--front .my-pinyin-hanzi { visibility: hidden; position: relative; }
+.my-pinyin-hanzi_container--front .my-pinyin-hanzi--force-show::before { display: none; }
+.my-pinyin-hanzi_container--front .my-pinyin-hanzi--force-show { visibility: initial; position: initial; }
+
+.key { font-size: 30px; background-color: cornflowerblue; }
+.my-pinyin-hanzi { font-size: 28px; }
+.my-pinyin-english { color: #d8d8ff; }
+
+/***************************/
+
+.yw11_image__container { display: flex; flex-direction: row; }
+.yw11_image__container * { flex: 1 1 0px; }
+
+.ch_with_same_pronounciation .kanji {
+    font-size: 18px;
+    color: white;
+    background-color: inherit;
+}
+
+.my-pinyin-image-container span:before { display: block; }
+
+.purpleculture_pinyin--front .my-pinyin-tone { display: none; }
+.purpleculture_pinyin--front .purpleculture-english__pinyin-info { display: none; }
+.purpleculture_pinyin--front .my-pinyin-image-container { display: none; }
+
+
+.trainchinese-container--hide-pinyin .trainchinese-pinyin { display: none; }
+.trainchinese-container--hide-hanzi .trainchinese-transl__pinyin-info { display: none; }
+.trainchinese-container--hide-hanzi .trainchinese-transl__hanzi-info { display: none; }
+
+.hide-my-pinyin-hanzi .my-pinyin-hanzi { display: none; }
+
+.context {
+  display: flex;
+  flex-direction: column;
+}
+
+.context__translation {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.context__deck {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.context__deck > * {
+  display: list-item;
+  list-style: trad-chinese-informal outside;
+}
+
+
+
+.trainchinese-pinyin { color: #ff0000 }
+.trainchinese-type { color: #ff9e9e }
+.trainchinese-transl { color: #ffebeb }
+
+#ruby .singlebk {
+  display: inline-block;
+  height: auto;
+  text-align: center;
+  padding: 0 9px;
+  margin: 0;
+  border: 0;
+  line-height: 1;
+}
+
+.pinyin.tone1 {color: #9d9dff}
+.pinyin.tone2 {color: #b1ffb1}
+.pinyin.tone3 {color: #fed3ff}
+.pinyin.tone4 {color: #ff8989}
+.pinyin.tone5 {color: #cecece}
+
+.my-pinyin-tone.pinyin { display: flex; flex-direction: column; }
+.pyd { display: flex; flex-direction: row; text-align: center; justify-content: center; font: bold large serif; font-size: 16px; }
+.pinyin-marked { font-size: 25px; }
+.tooltips-ipa { font-size: 20px; }
+.my-pinyin-english { font-size: 15px; }
+.my-pinyin-ru { font-size: 20px; }
+
+.strokeorderkanjiorhanzi {
+  font-family: "CNstrokeorder", "KanjiStrokeOrders";
+  line-height: 1;
+}
+
+.strokeorderkanji {
+  font-family: "KanjiStrokeOrders";
+  line-height: 1;
+}
+.strokeorderhanzi {
+  font-family: "CNstrokeorder";
+  line-height: 1;
+}
+
+body {
+  text-align: center;
+  font-family: "Noto", "HanaMin";
+  font-size: 16px;
+}
+
+.tiny {font-size: 24px;}
+.small {font-size: 28px;}
+.medium {font-size: 32px;}
+.large {font-size: 96px;}
+.verylarge {font-size: 140px;}
+.italic {font-style: italic;}
+
+.nightMode a { color: #ffffff; }
+a { text-decoration: none; }
+
+
+.hiragana {
+  font-size: 25 px;
+}
+
+.radical-highlight {
+  background-color: #00a0f1;
+}
+
+
+.kanji-highlight {
+  background-color: #f100a0;
+}
+
+.vocabulary-highlight {
+  background-color: #a100f1;
+}
+
+.reading-highlight {
+  background-color: #555;
+}
+
+
+.kanji-highlight, .reading-highlight, .radical-highlight, .vocabulary-highlight {
+  color: white;
+  padding: 2px;
+}
+
+
+
+
+
+
+/* Первый русский перевод отдельной строчкой и зелёным */
+.rustl { color: lightgreen; } /* перенос */
+
+/* Стандартные типы заметок */
+.notes { font-size:100%; text-align:justify; }
+.tags { font-size:100%; text-align:center; }
+.small { font-size:100%; } /* в дополнение к осн. типу */
+
+.list-inline {
+  padding-left: 0;
+  margin-left: -5px;
+  list-style: none;
+}
+
+.list-inline>li {
+  display: inline-block;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.etymology-result ul li div {
+  background-color: #fff;
+  width: 105px;
+  height: 70px;
+  background-size: 60px 60px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  color: transparent;
+  cursor: pointer;
+}
+
+.hanziyuan p { margin: 0 0 10px; }
+.hanziyuan .pre-inline { white-space: pre-line; }
+.hanziyuan img { background-color: #ffffff; vertical-align: middle; border: 0; }
+
+/*
+  Icon Font: WakaFont
+*/
+
+@font-face {
+  font-family: "WakaFont";
+  src: url("_WakaFont.eot");
+  src: url("_WakaFont.woff") format("woff"),
+       url("_WakaFont.ttf") format("truetype"),
+       url("_WakaFont.svg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+[data-icon]:before { content: attr(data-icon); }
+
+[data-icon]:before,
+.radical-animal:before,
+.radical-arrows:before,
+.radical-bar:before,
+.radical-bear:before,
+.radical-beggar:before,
+.radical-black-hole:before,
+.radical-blackjack:before,
+.radical-boob:before,
+.radical-bookshelf:before,
+.radical-butcher:before,
+.radical-cactus:before,
+.radical-cat-pirate:before,
+.radical-chester:before,
+.radical-chinese:before,
+.radical-circus:before,
+.radical-cleat:before,
+.radical-cloak:before,
+.radical-clown:before,
+.radical-coffin:before,
+.radical-comb:before,
+.radical-corn:before,
+.radical-cow-god:before,
+.radical-creeper:before,
+.radical-death-star:before,
+.radical-egg:before,
+.radical-explosion:before,
+.radical-fish-stick:before,
+.radical-fish-tail:before,
+.radical-flowers:before,
+.radical-football:before,
+.radical-four:before,
+.radical-gambler:before,
+.radical-geoduck:before,
+.radical-grass:before,
+.radical-greenhouse:before,
+.radical-gun:before,
+.radical-hat:before,
+.radical-hercules:before,
+.radical-hick:before,
+.radical-hills:before,
+.radical-horns:before,
+.radical-key:before,
+.radical-kick:before,
+.radical-lantern:before,
+.radical-leaf:before,
+.radical-mohawk:before,
+.radical-morning:before,
+.radical-mustache:before,
+.radical-nailbat:before,
+.radical-ox:before,
+.radical-pi:before,
+.radical-poem:before,
+.radical-pool:before,
+.radical-pope:before,
+.radical-potato:before,
+.radical-propaganda:before,
+.radical-psychopath:before,
+.radical-ribs:before,
+.radical-rocket:before,
+.radical-roof:before,
+.radical-sauron:before,
+.radical-saw:before,
+.radical-shark:before,
+.radical-sick:before,
+.radical-signpost:before,
+.radical-slice:before,
+.radical-slinky:before,
+.radical-sock:before,
+.radical-spikes:before,
+.radical-splinter:before,
+.radical-squid:before,
+.radical-stick:before,
+.radical-superman:before,
+.radical-tofu:before,
+.radical-tombstone:before,
+.radical-train:before,
+.radical-triceratops:before,
+.radical-trident:before,
+.radical-tsunami:before,
+.radical-umbrella:before,
+.radical-viking:before,
+.radical-water-slide:before,
+.radical-womb:before,
+.radical-worm:before,
+.radical-zombie:before {
+  display: inline-block;
+  font-family: "WakaFont";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+
+.radical-animal:before { content: "\f100"; }
+.radical-arrows:before { content: "\f101"; }
+.radical-bar:before { content: "\f102"; }
+.radical-bear:before { content: "\f103"; }
+.radical-beggar:before { content: "\f104"; }
+.radical-black-hole:before { content: "\f105"; }
+.radical-blackjack:before { content: "\f106"; }
+.radical-boob:before { content: "\f107"; }
+.radical-bookshelf:before { content: "\f108"; }
+.radical-butcher:before { content: "\f109"; }
+.radical-cactus:before { content: "\f10a"; }
+.radical-cat-pirate:before { content: "\f10b"; }
+.radical-chester:before { content: "\f10c"; }
+.radical-chinese:before { content: "\f10d"; }
+.radical-circus:before { content: "\f10e"; }
+.radical-cleat:before { content: "\f10f"; }
+.radical-cloak:before { content: "\f110"; }
+.radical-clown:before { content: "\f111"; }
+.radical-coffin:before { content: "\f112"; }
+.radical-comb:before { content: "\f113"; }
+.radical-corn:before { content: "\f114"; }
+.radical-cow-god:before { content: "\f115"; }
+.radical-creeper:before { content: "\f116"; }
+.radical-death-star:before { content: "\f117"; }
+.radical-egg:before { content: "\f118"; }
+.radical-explosion:before { content: "\f119"; }
+.radical-fish-stick:before { content: "\f11a"; }
+.radical-fish-tail:before { content: "\f11b"; }
+.radical-flowers:before { content: "\f11c"; }
+.radical-football:before { content: "\f11d"; }
+.radical-four:before { content: "\f11e"; }
+.radical-gambler:before { content: "\f11f"; }
+.radical-geoduck:before { content: "\f120"; }
+.radical-grass:before { content: "\f121"; }
+.radical-greenhouse:before { content: "\f122"; }
+.radical-gun:before { content: "\f123"; }
+.radical-hat:before { content: "\f124"; }
+.radical-hercules:before { content: "\f125"; }
+.radical-hick:before { content: "\f126"; }
+.radical-hills:before { content: "\f127"; }
+.radical-horns:before { content: "\f128"; }
+.radical-key:before { content: "\f129"; }
+.radical-kick:before { content: "\f12a"; }
+.radical-lantern:before { content: "\f12b"; }
+.radical-leaf:before { content: "\f12c"; }
+.radical-mohawk:before { content: "\f12d"; }
+.radical-morning:before { content: "\f12e"; }
+.radical-mustache:before { content: "\f12f"; }
+.radical-nailbat:before { content: "\f130"; }
+.radical-ox:before { content: "\f131"; }
+.radical-pi:before { content: "\f132"; }
+.radical-poem:before { content: "\f133"; }
+.radical-pool:before { content: "\f134"; }
+.radical-pope:before { content: "\f135"; }
+.radical-potato:before { content: "\f136"; }
+.radical-propaganda:before { content: "\f137"; }
+.radical-psychopath:before { content: "\f138"; }
+.radical-ribs:before { content: "\f139"; }
+.radical-rocket:before { content: "\f13a"; }
+.radical-roof:before { content: "\f13b"; }
+.radical-sauron:before { content: "\f13c"; }
+.radical-saw:before { content: "\f13d"; }
+.radical-shark:before { content: "\f13e"; }
+.radical-sick:before { content: "\f13f"; }
+.radical-signpost:before { content: "\f140"; }
+.radical-slice:before { content: "\f141"; }
+.radical-slinky:before { content: "\f142"; }
+.radical-sock:before { content: "\f143"; }
+.radical-spikes:before { content: "\f144"; }
+.radical-splinter:before { content: "\f145"; }
+.radical-squid:before { content: "\f146"; }
+.radical-stick:before { content: "\f147"; }
+.radical-superman:before { content: "\f148"; }
+.radical-tofu:before { content: "\f149"; }
+.radical-tombstone:before { content: "\f14a"; }
+.radical-train:before { content: "\f14b"; }
+.radical-triceratops:before { content: "\f14c"; }
+.radical-trident:before { content: "\f14d"; }
+.radical-tsunami:before { content: "\f14e"; }
+.radical-umbrella:before { content: "\f14f"; }
+.radical-viking:before { content: "\f150"; }
+.radical-water-slide:before { content: "\f151"; }
+.radical-womb:before { content: "\f152"; }
+.radical-worm:before { content: "\f153"; }
+.radical-zombie:before { content: "\f154"; }
+
+
+
+
+
+
+/*
+.my-pinyin-image-container.pinyin-a img:nth-child(2) { content: url(mnemonic-places-google/a.png); }
+.my-pinyin-image-container.pinyin-a span:before { content: "Адольф, арестовывать"; }
+.my-pinyin-image-container.pinyin-ai img:nth-child(2) { content: url(mnemonic-places-google/ai.png); }
+.my-pinyin-image-container.pinyin-ai span:before { content: "АЙболит, арестовывать"; }
+.my-pinyin-image-container.pinyin-ao img:nth-child(2) { content: url(mnemonic-places-google/ao.png); }
+.my-pinyin-image-container.pinyin-ao span:before { content: "АрагОрн, арестовывать"; }
+.my-pinyin-image-container.pinyin-an img:nth-child(2) { content: url(mnemonic-places-google/an.png); }
+.my-pinyin-image-container.pinyin-an span:before { content: "Алексей Навайльный, арестовывать"; }
+.my-pinyin-image-container.pinyin-ang img:nth-child(2) { content: url(mnemonic-places-google/ang.png); }
+.my-pinyin-image-container.pinyin-ang span:before { content: "АНГел, арестовывать"; }
+.my-pinyin-image-container.pinyin-e img:nth-child(2) { content: url(mnemonic-places-google/e.png); }
+.my-pinyin-image-container.pinyin-e span:before { content: "Euronimus, арестовывать"; }
+.my-pinyin-image-container.pinyin-ei img:nth-child(2) { content: url(mnemonic-places-google/ei.png); }
+.my-pinyin-image-container.pinyin-ei span:before { content: "Eminem, арестовывать"; }
+.my-pinyin-image-container.pinyin-en img:nth-child(2) { content: url(mnemonic-places-google/en.png); }
+.my-pinyin-image-container.pinyin-en span:before { content: "Edward Norton, арестовывать"; }
+.my-pinyin-image-container.pinyin-eng img:nth-child(2) { content: url(mnemonic-places-google/eng.png); }
+.my-pinyin-image-container.pinyin-eng span:before { content: "EGGhead, арестовывать"; }
+.my-pinyin-image-container.pinyin-er img:nth-child(2) { content: url(mnemonic-places-google/er.png); }
+.my-pinyin-image-container.pinyin-er span:before { content: "ребенок, арестовывать"; }
+.my-pinyin-image-container.pinyin-o img:nth-child(2) { content: url(mnemonic-places-google/o.png); }
+.my-pinyin-image-container.pinyin-o span:before { content: "олежка, арестовывать"; }
+.my-pinyin-image-container.pinyin-ou img:nth-child(2) { content: url(mnemonic-places-google/ou.png); }
+.my-pinyin-image-container.pinyin-ou span:before { content: "ОУэн уилсон, арестовывать"; }
+.my-pinyin-image-container.pinyin-yi img:nth-child(2) { content: url(mnemonic-places-google/yi.png); }
+.my-pinyin-image-container.pinyin-yi span:before { content: "YIосиф сталин, арестовывать"; }
+.my-pinyin-image-container.pinyin-ya img:nth-child(2) { content: url(mnemonic-places-google/ya.png); }
+.my-pinyin-image-container.pinyin-ya span:before { content: "YAцик?, арестовывать"; }
+.my-pinyin-image-container.pinyin-yao img:nth-child(2) { content: url(mnemonic-places-google/yao.png); }
+.my-pinyin-image-container.pinyin-yao span:before { content: "YAO ming, арестовывать"; }
+.my-pinyin-image-container.pinyin-ye img:nth-child(2) { content: url(mnemonic-places-google/ye.png); }
+.my-pinyin-image-container.pinyin-ye span:before { content: "YEвгений петросян, арестовывать"; }
+.my-pinyin-image-container.pinyin-you img:nth-child(2) { content: url(mnemonic-places-google/you.png); }
+.my-pinyin-image-container.pinyin-you span:before { content: "YO(U)da, арестовывать"; }
+.my-pinyin-image-container.pinyin-yan img:nth-child(2) { content: url(mnemonic-places-google/yan.png); }
+.my-pinyin-image-container.pinyin-yan span:before { content: "weird al YANkovic, арестовывать"; }
+.my-pinyin-image-container.pinyin-yang img:nth-child(2) { content: url(mnemonic-places-google/yang.png); }
+.my-pinyin-image-container.pinyin-yang span:before { content: "YuANG lean, арестовывать"; }
+.my-pinyin-image-container.pinyin-yin img:nth-child(2) { content: url(mnemonic-places-google/yin.png); }
+.my-pinyin-image-container.pinyin-yin span:before { content: "INdiana Jones, арестовывать"; }
+.my-pinyin-image-container.pinyin-ying img:nth-child(2) { content: url(mnemonic-places-google/ying.png); }
+.my-pinyin-image-container.pinyin-ying span:before { content: "channING tatum, арестовывать"; }
+.my-pinyin-image-container.pinyin-yong img:nth-child(2) { content: url(mnemonic-places-google/yong.png); }
+.my-pinyin-image-container.pinyin-yong span:before { content: "NeIl ArmstrONG, арестовывать"; }
+.my-pinyin-image-container.pinyin-wu img:nth-child(2) { content: url(mnemonic-places-google/wu.png); }
+.my-pinyin-image-container.pinyin-wu span:before { content: "Wu-Tang Clan, арестовывать"; }
+.my-pinyin-image-container.pinyin-wa img:nth-child(2) { content: url(mnemonic-places-google/wa.png); }
+.my-pinyin-image-container.pinyin-wa span:before { content: "Вашингтон, арестовывать"; }
+.my-pinyin-image-container.pinyin-wai img:nth-child(2) { content: url(mnemonic-places-google/wai.png); }
+.my-pinyin-image-container.pinyin-wai span:before { content: "bender robot AI, арестовывать"; }
+.my-pinyin-image-container.pinyin-wei img:nth-child(2) { content: url(mnemonic-places-google/wei.png); }
+.my-pinyin-image-container.pinyin-wei span:before { content: "YEIльям дефо, арестовывать"; }
+.my-pinyin-image-container.pinyin-wo img:nth-child(2) { content: url(mnemonic-places-google/wo.png); }
+.my-pinyin-image-container.pinyin-wo span:before { content: "УОллис и громмит, арестовывать"; }
+.my-pinyin-image-container.pinyin-wan img:nth-child(2) { content: url(mnemonic-places-google/wan.png); }
+.my-pinyin-image-container.pinyin-wan span:before { content: "ВАНда вижн, арестовывать"; }
+.my-pinyin-image-container.pinyin-wang img:nth-child(2) { content: url(mnemonic-places-google/wang.png); }
+.my-pinyin-image-container.pinyin-wang span:before { content: "ВАНГа, арестовывать"; }
+.my-pinyin-image-container.pinyin-wen img:nth-child(2) { content: url(mnemonic-places-google/wen.png); }
+.my-pinyin-image-container.pinyin-wen span:before { content: "uncle oWEN, арестовывать"; }
+.my-pinyin-image-container.pinyin-weng img:nth-child(2) { content: url(mnemonic-places-google/weng.png); }
+.my-pinyin-image-container.pinyin-weng span:before { content: "политик, арестовывать"; }
+.my-pinyin-image-container.pinyin-yu img:nth-child(2) { content: url(mnemonic-places-google/yu.png); }
+.my-pinyin-image-container.pinyin-yu span:before { content: "YUriy gagarin, арестовывать"; }
+.my-pinyin-image-container.pinyin-yue img:nth-child(2) { content: url(mnemonic-places-google/yue.png); }
+.my-pinyin-image-container.pinyin-yue span:before { content: "YUдковский Eлиэзер, арестовывать"; }
+.my-pinyin-image-container.pinyin-yuan img:nth-child(2) { content: url(mnemonic-places-google/yuan.png); }
+.my-pinyin-image-container.pinyin-yuan span:before { content: "jekie chan?, арестовывать"; }
+.my-pinyin-image-container.pinyin-yun img:nth-child(2) { content: url(mnemonic-places-google/yun.png); }
+.my-pinyin-image-container.pinyin-yun span:before { content: "karl YUNg, арестовывать"; }
+.my-pinyin-image-container.pinyin-ba img:nth-child(2) { content: url(mnemonic-places-google/ba.png); }
+.my-pinyin-image-container.pinyin-ba span:before { content: "Адольф, бить"; }
+.my-pinyin-image-container.pinyin-bai img:nth-child(2) { content: url(mnemonic-places-google/bai.png); }
+.my-pinyin-image-container.pinyin-bai span:before { content: "АЙболит, бить"; }
+.my-pinyin-image-container.pinyin-bao img:nth-child(2) { content: url(mnemonic-places-google/bao.png); }
+.my-pinyin-image-container.pinyin-bao span:before { content: "АрагОрн, бить"; }
+.my-pinyin-image-container.pinyin-ban img:nth-child(2) { content: url(mnemonic-places-google/ban.png); }
+.my-pinyin-image-container.pinyin-ban span:before { content: "Алексей Навайльный, бить"; }
+.my-pinyin-image-container.pinyin-bang img:nth-child(2) { content: url(mnemonic-places-google/bang.png); }
+.my-pinyin-image-container.pinyin-bang span:before { content: "АНГел, бить"; }
+.my-pinyin-image-container.pinyin-bei img:nth-child(2) { content: url(mnemonic-places-google/bei.png); }
+.my-pinyin-image-container.pinyin-bei span:before { content: "Eminem, бить"; }
+.my-pinyin-image-container.pinyin-ben img:nth-child(2) { content: url(mnemonic-places-google/ben.png); }
+.my-pinyin-image-container.pinyin-ben span:before { content: "Edward Norton, бить"; }
+.my-pinyin-image-container.pinyin-beng img:nth-child(2) { content: url(mnemonic-places-google/beng.png); }
+.my-pinyin-image-container.pinyin-beng span:before { content: "EGGhead, бить"; }
+.my-pinyin-image-container.pinyin-bo img:nth-child(2) { content: url(mnemonic-places-google/bo.png); }
+.my-pinyin-image-container.pinyin-bo span:before { content: "олежка, бить"; }
+.my-pinyin-image-container.pinyin-bi img:nth-child(2) { content: url(mnemonic-places-google/bi.png); }
+.my-pinyin-image-container.pinyin-bi span:before { content: "YIосиф сталин, бить"; }
+.my-pinyin-image-container.pinyin-biao img:nth-child(2) { content: url(mnemonic-places-google/biao.png); }
+.my-pinyin-image-container.pinyin-biao span:before { content: "YAO ming, бить"; }
+.my-pinyin-image-container.pinyin-bie img:nth-child(2) { content: url(mnemonic-places-google/bie.png); }
+.my-pinyin-image-container.pinyin-bie span:before { content: "YEвгений петросян, бить"; }
+.my-pinyin-image-container.pinyin-bian img:nth-child(2) { content: url(mnemonic-places-google/bian.png); }
+.my-pinyin-image-container.pinyin-bian span:before { content: "weird al YANkovic, бить"; }
+.my-pinyin-image-container.pinyin-bin img:nth-child(2) { content: url(mnemonic-places-google/bin.png); }
+.my-pinyin-image-container.pinyin-bin span:before { content: "INdiana Jones, бить"; }
+.my-pinyin-image-container.pinyin-bing img:nth-child(2) { content: url(mnemonic-places-google/bing.png); }
+.my-pinyin-image-container.pinyin-bing span:before { content: "channING tatum, бить"; }
+.my-pinyin-image-container.pinyin-bu img:nth-child(2) { content: url(mnemonic-places-google/bu.png); }
+.my-pinyin-image-container.pinyin-bu span:before { content: "Wu-Tang Clan, бить"; }
+.my-pinyin-image-container.pinyin-pa img:nth-child(2) { content: url(mnemonic-places-google/pa.png); }
+.my-pinyin-image-container.pinyin-pa span:before { content: "Адольф, п"; }
+.my-pinyin-image-container.pinyin-pai img:nth-child(2) { content: url(mnemonic-places-google/pai.png); }
+.my-pinyin-image-container.pinyin-pai span:before { content: "АЙболит, п"; }
+.my-pinyin-image-container.pinyin-pao img:nth-child(2) { content: url(mnemonic-places-google/pao.png); }
+.my-pinyin-image-container.pinyin-pao span:before { content: "АрагОрн, п"; }
+.my-pinyin-image-container.pinyin-pan img:nth-child(2) { content: url(mnemonic-places-google/pan.png); }
+.my-pinyin-image-container.pinyin-pan span:before { content: "Алексей Навайльный, п"; }
+.my-pinyin-image-container.pinyin-pang img:nth-child(2) { content: url(mnemonic-places-google/pang.png); }
+.my-pinyin-image-container.pinyin-pang span:before { content: "АНГел, п"; }
+.my-pinyin-image-container.pinyin-pei img:nth-child(2) { content: url(mnemonic-places-google/pei.png); }
+.my-pinyin-image-container.pinyin-pei span:before { content: "Eminem, п"; }
+.my-pinyin-image-container.pinyin-pen img:nth-child(2) { content: url(mnemonic-places-google/pen.png); }
+.my-pinyin-image-container.pinyin-pen span:before { content: "Edward Norton, п"; }
+.my-pinyin-image-container.pinyin-peng img:nth-child(2) { content: url(mnemonic-places-google/peng.png); }
+.my-pinyin-image-container.pinyin-peng span:before { content: "EGGhead, п"; }
+.my-pinyin-image-container.pinyin-po img:nth-child(2) { content: url(mnemonic-places-google/po.png); }
+.my-pinyin-image-container.pinyin-po span:before { content: "олежка, п"; }
+.my-pinyin-image-container.pinyin-pou img:nth-child(2) { content: url(mnemonic-places-google/pou.png); }
+.my-pinyin-image-container.pinyin-pou span:before { content: "ОУэн уилсон, п"; }
+.my-pinyin-image-container.pinyin-pi img:nth-child(2) { content: url(mnemonic-places-google/pi.png); }
+.my-pinyin-image-container.pinyin-pi span:before { content: "YIосиф сталин, п"; }
+.my-pinyin-image-container.pinyin-piao img:nth-child(2) { content: url(mnemonic-places-google/piao.png); }
+.my-pinyin-image-container.pinyin-piao span:before { content: "YAO ming, п"; }
+.my-pinyin-image-container.pinyin-pie img:nth-child(2) { content: url(mnemonic-places-google/pie.png); }
+.my-pinyin-image-container.pinyin-pie span:before { content: "YEвгений петросян, п"; }
+.my-pinyin-image-container.pinyin-pian img:nth-child(2) { content: url(mnemonic-places-google/pian.png); }
+.my-pinyin-image-container.pinyin-pian span:before { content: "weird al YANkovic, п"; }
+.my-pinyin-image-container.pinyin-pin img:nth-child(2) { content: url(mnemonic-places-google/pin.png); }
+.my-pinyin-image-container.pinyin-pin span:before { content: "INdiana Jones, п"; }
+.my-pinyin-image-container.pinyin-ping img:nth-child(2) { content: url(mnemonic-places-google/ping.png); }
+.my-pinyin-image-container.pinyin-ping span:before { content: "channING tatum, п"; }
+.my-pinyin-image-container.pinyin-pu img:nth-child(2) { content: url(mnemonic-places-google/pu.png); }
+.my-pinyin-image-container.pinyin-pu span:before { content: "Wu-Tang Clan, п"; }
+.my-pinyin-image-container.pinyin-ma img:nth-child(2) { content: url(mnemonic-places-google/ma.png); }
+.my-pinyin-image-container.pinyin-ma span:before { content: "Адольф, молиться"; }
+.my-pinyin-image-container.pinyin-mai img:nth-child(2) { content: url(mnemonic-places-google/mai.png); }
+.my-pinyin-image-container.pinyin-mai span:before { content: "АЙболит, молиться"; }
+.my-pinyin-image-container.pinyin-mao img:nth-child(2) { content: url(mnemonic-places-google/mao.png); }
+.my-pinyin-image-container.pinyin-mao span:before { content: "АрагОрн, молиться"; }
+.my-pinyin-image-container.pinyin-man img:nth-child(2) { content: url(mnemonic-places-google/man.png); }
+.my-pinyin-image-container.pinyin-man span:before { content: "Алексей Навайльный, молиться"; }
+.my-pinyin-image-container.pinyin-mang img:nth-child(2) { content: url(mnemonic-places-google/mang.png); }
+.my-pinyin-image-container.pinyin-mang span:before { content: "АНГел, молиться"; }
+.my-pinyin-image-container.pinyin-me img:nth-child(2) { content: url(mnemonic-places-google/me.png); }
+.my-pinyin-image-container.pinyin-me span:before { content: "Euronimus, молиться"; }
+.my-pinyin-image-container.pinyin-mei img:nth-child(2) { content: url(mnemonic-places-google/mei.png); }
+.my-pinyin-image-container.pinyin-mei span:before { content: "Eminem, молиться"; }
+.my-pinyin-image-container.pinyin-men img:nth-child(2) { content: url(mnemonic-places-google/men.png); }
+.my-pinyin-image-container.pinyin-men span:before { content: "Edward Norton, молиться"; }
+.my-pinyin-image-container.pinyin-meng img:nth-child(2) { content: url(mnemonic-places-google/meng.png); }
+.my-pinyin-image-container.pinyin-meng span:before { content: "EGGhead, молиться"; }
+.my-pinyin-image-container.pinyin-mo img:nth-child(2) { content: url(mnemonic-places-google/mo.png); }
+.my-pinyin-image-container.pinyin-mo span:before { content: "олежка, молиться"; }
+.my-pinyin-image-container.pinyin-mou img:nth-child(2) { content: url(mnemonic-places-google/mou.png); }
+.my-pinyin-image-container.pinyin-mou span:before { content: "ОУэн уилсон, молиться"; }
+.my-pinyin-image-container.pinyin-mi img:nth-child(2) { content: url(mnemonic-places-google/mi.png); }
+.my-pinyin-image-container.pinyin-mi span:before { content: "YIосиф сталин, молиться"; }
+.my-pinyin-image-container.pinyin-miao img:nth-child(2) { content: url(mnemonic-places-google/miao.png); }
+.my-pinyin-image-container.pinyin-miao span:before { content: "YAO ming, молиться"; }
+.my-pinyin-image-container.pinyin-mie img:nth-child(2) { content: url(mnemonic-places-google/mie.png); }
+.my-pinyin-image-container.pinyin-mie span:before { content: "YEвгений петросян, молиться"; }
+.my-pinyin-image-container.pinyin-miu img:nth-child(2) { content: url(mnemonic-places-google/miu.png); }
+.my-pinyin-image-container.pinyin-miu span:before { content: "YO(U)da, молиться"; }
+.my-pinyin-image-container.pinyin-mian img:nth-child(2) { content: url(mnemonic-places-google/mian.png); }
+.my-pinyin-image-container.pinyin-mian span:before { content: "weird al YANkovic, молиться"; }
+.my-pinyin-image-container.pinyin-min img:nth-child(2) { content: url(mnemonic-places-google/min.png); }
+.my-pinyin-image-container.pinyin-min span:before { content: "INdiana Jones, молиться"; }
+.my-pinyin-image-container.pinyin-ming img:nth-child(2) { content: url(mnemonic-places-google/ming.png); }
+.my-pinyin-image-container.pinyin-ming span:before { content: "channING tatum, молиться"; }
+.my-pinyin-image-container.pinyin-mu img:nth-child(2) { content: url(mnemonic-places-google/mu.png); }
+.my-pinyin-image-container.pinyin-mu span:before { content: "Wu-Tang Clan, молиться"; }
+.my-pinyin-image-container.pinyin-fa img:nth-child(2) { content: url(mnemonic-places-google/fa.png); }
+.my-pinyin-image-container.pinyin-fa span:before { content: "Адольф, фотографировать"; }
+.my-pinyin-image-container.pinyin-fan img:nth-child(2) { content: url(mnemonic-places-google/fan.png); }
+.my-pinyin-image-container.pinyin-fan span:before { content: "Алексей Навайльный, фотографировать"; }
+.my-pinyin-image-container.pinyin-fang img:nth-child(2) { content: url(mnemonic-places-google/fang.png); }
+.my-pinyin-image-container.pinyin-fang span:before { content: "АНГел, фотографировать"; }
+.my-pinyin-image-container.pinyin-fei img:nth-child(2) { content: url(mnemonic-places-google/fei.png); }
+.my-pinyin-image-container.pinyin-fei span:before { content: "Eminem, фотографировать"; }
+.my-pinyin-image-container.pinyin-fen img:nth-child(2) { content: url(mnemonic-places-google/fen.png); }
+.my-pinyin-image-container.pinyin-fen span:before { content: "Edward Norton, фотографировать"; }
+.my-pinyin-image-container.pinyin-feng img:nth-child(2) { content: url(mnemonic-places-google/feng.png); }
+.my-pinyin-image-container.pinyin-feng span:before { content: "EGGhead, фотографировать"; }
+.my-pinyin-image-container.pinyin-fo img:nth-child(2) { content: url(mnemonic-places-google/fo.png); }
+.my-pinyin-image-container.pinyin-fo span:before { content: "олежка, фотографировать"; }
+.my-pinyin-image-container.pinyin-fou img:nth-child(2) { content: url(mnemonic-places-google/fou.png); }
+.my-pinyin-image-container.pinyin-fou span:before { content: "ОУэн уилсон, фотографировать"; }
+.my-pinyin-image-container.pinyin-fu img:nth-child(2) { content: url(mnemonic-places-google/fu.png); }
+.my-pinyin-image-container.pinyin-fu span:before { content: "Wu-Tang Clan, фотографировать"; }
+.my-pinyin-image-container.pinyin-da img:nth-child(2) { content: url(mnemonic-places-google/da.png); }
+.my-pinyin-image-container.pinyin-da span:before { content: "Адольф, дирижировать"; }
+.my-pinyin-image-container.pinyin-dai img:nth-child(2) { content: url(mnemonic-places-google/dai.png); }
+.my-pinyin-image-container.pinyin-dai span:before { content: "АЙболит, дирижировать"; }
+.my-pinyin-image-container.pinyin-dao img:nth-child(2) { content: url(mnemonic-places-google/dao.png); }
+.my-pinyin-image-container.pinyin-dao span:before { content: "АрагОрн, дирижировать"; }
+.my-pinyin-image-container.pinyin-dan img:nth-child(2) { content: url(mnemonic-places-google/dan.png); }
+.my-pinyin-image-container.pinyin-dan span:before { content: "Алексей Навайльный, дирижировать"; }
+.my-pinyin-image-container.pinyin-dang img:nth-child(2) { content: url(mnemonic-places-google/dang.png); }
+.my-pinyin-image-container.pinyin-dang span:before { content: "АНГел, дирижировать"; }
+.my-pinyin-image-container.pinyin-de img:nth-child(2) { content: url(mnemonic-places-google/de.png); }
+.my-pinyin-image-container.pinyin-de span:before { content: "Euronimus, дирижировать"; }
+.my-pinyin-image-container.pinyin-dei img:nth-child(2) { content: url(mnemonic-places-google/dei.png); }
+.my-pinyin-image-container.pinyin-dei span:before { content: "Eminem, дирижировать"; }
+.my-pinyin-image-container.pinyin-den img:nth-child(2) { content: url(mnemonic-places-google/den.png); }
+.my-pinyin-image-container.pinyin-den span:before { content: "Edward Norton, дирижировать"; }
+.my-pinyin-image-container.pinyin-deng img:nth-child(2) { content: url(mnemonic-places-google/deng.png); }
+.my-pinyin-image-container.pinyin-deng span:before { content: "EGGhead, дирижировать"; }
+.my-pinyin-image-container.pinyin-dou img:nth-child(2) { content: url(mnemonic-places-google/dou.png); }
+.my-pinyin-image-container.pinyin-dou span:before { content: "ОУэн уилсон, дирижировать"; }
+.my-pinyin-image-container.pinyin-dong img:nth-child(2) { content: url(mnemonic-places-google/dong.png); }
+.my-pinyin-image-container.pinyin-dong span:before { content: "spONGebob, дирижировать"; }
+.my-pinyin-image-container.pinyin-di img:nth-child(2) { content: url(mnemonic-places-google/di.png); }
+.my-pinyin-image-container.pinyin-di span:before { content: "YIосиф сталин, дирижировать"; }
+.my-pinyin-image-container.pinyin-diao img:nth-child(2) { content: url(mnemonic-places-google/diao.png); }
+.my-pinyin-image-container.pinyin-diao span:before { content: "YAO ming, дирижировать"; }
+.my-pinyin-image-container.pinyin-die img:nth-child(2) { content: url(mnemonic-places-google/die.png); }
+.my-pinyin-image-container.pinyin-die span:before { content: "YEвгений петросян, дирижировать"; }
+.my-pinyin-image-container.pinyin-diu img:nth-child(2) { content: url(mnemonic-places-google/diu.png); }
+.my-pinyin-image-container.pinyin-diu span:before { content: "YO(U)da, дирижировать"; }
+.my-pinyin-image-container.pinyin-dian img:nth-child(2) { content: url(mnemonic-places-google/dian.png); }
+.my-pinyin-image-container.pinyin-dian span:before { content: "weird al YANkovic, дирижировать"; }
+.my-pinyin-image-container.pinyin-ding img:nth-child(2) { content: url(mnemonic-places-google/ding.png); }
+.my-pinyin-image-container.pinyin-ding span:before { content: "channING tatum, дирижировать"; }
+.my-pinyin-image-container.pinyin-du img:nth-child(2) { content: url(mnemonic-places-google/du.png); }
+.my-pinyin-image-container.pinyin-du span:before { content: "Wu-Tang Clan, дирижировать"; }
+.my-pinyin-image-container.pinyin-dui img:nth-child(2) { content: url(mnemonic-places-google/dui.png); }
+.my-pinyin-image-container.pinyin-dui span:before { content: "YEIльям дефо, дирижировать"; }
+.my-pinyin-image-container.pinyin-duo img:nth-child(2) { content: url(mnemonic-places-google/duo.png); }
+.my-pinyin-image-container.pinyin-duo span:before { content: "УОллис и громмит, дирижировать"; }
+.my-pinyin-image-container.pinyin-duan img:nth-child(2) { content: url(mnemonic-places-google/duan.png); }
+.my-pinyin-image-container.pinyin-duan span:before { content: "ВАНда вижн, дирижировать"; }
+.my-pinyin-image-container.pinyin-dun img:nth-child(2) { content: url(mnemonic-places-google/dun.png); }
+.my-pinyin-image-container.pinyin-dun span:before { content: "uncle oWEN, дирижировать"; }
+.my-pinyin-image-container.pinyin-ta img:nth-child(2) { content: url(mnemonic-places-google/ta.png); }
+.my-pinyin-image-container.pinyin-ta span:before { content: "Адольф, танцевать"; }
+.my-pinyin-image-container.pinyin-tai img:nth-child(2) { content: url(mnemonic-places-google/tai.png); }
+.my-pinyin-image-container.pinyin-tai span:before { content: "АЙболит, танцевать"; }
+.my-pinyin-image-container.pinyin-tao img:nth-child(2) { content: url(mnemonic-places-google/tao.png); }
+.my-pinyin-image-container.pinyin-tao span:before { content: "АрагОрн, танцевать"; }
+.my-pinyin-image-container.pinyin-tan img:nth-child(2) { content: url(mnemonic-places-google/tan.png); }
+.my-pinyin-image-container.pinyin-tan span:before { content: "Алексей Навайльный, танцевать"; }
+.my-pinyin-image-container.pinyin-tang img:nth-child(2) { content: url(mnemonic-places-google/tang.png); }
+.my-pinyin-image-container.pinyin-tang span:before { content: "АНГел, танцевать"; }
+.my-pinyin-image-container.pinyin-te img:nth-child(2) { content: url(mnemonic-places-google/te.png); }
+.my-pinyin-image-container.pinyin-te span:before { content: "Euronimus, танцевать"; }
+.my-pinyin-image-container.pinyin-teng img:nth-child(2) { content: url(mnemonic-places-google/teng.png); }
+.my-pinyin-image-container.pinyin-teng span:before { content: "EGGhead, танцевать"; }
+.my-pinyin-image-container.pinyin-tou img:nth-child(2) { content: url(mnemonic-places-google/tou.png); }
+.my-pinyin-image-container.pinyin-tou span:before { content: "ОУэн уилсон, танцевать"; }
+.my-pinyin-image-container.pinyin-tong img:nth-child(2) { content: url(mnemonic-places-google/tong.png); }
+.my-pinyin-image-container.pinyin-tong span:before { content: "spONGebob, танцевать"; }
+.my-pinyin-image-container.pinyin-ti img:nth-child(2) { content: url(mnemonic-places-google/ti.png); }
+.my-pinyin-image-container.pinyin-ti span:before { content: "YIосиф сталин, танцевать"; }
+.my-pinyin-image-container.pinyin-tiao img:nth-child(2) { content: url(mnemonic-places-google/tiao.png); }
+.my-pinyin-image-container.pinyin-tiao span:before { content: "YAO ming, танцевать"; }
+.my-pinyin-image-container.pinyin-tie img:nth-child(2) { content: url(mnemonic-places-google/tie.png); }
+.my-pinyin-image-container.pinyin-tie span:before { content: "YEвгений петросян, танцевать"; }
+.my-pinyin-image-container.pinyin-tian img:nth-child(2) { content: url(mnemonic-places-google/tian.png); }
+.my-pinyin-image-container.pinyin-tian span:before { content: "weird al YANkovic, танцевать"; }
+.my-pinyin-image-container.pinyin-ting img:nth-child(2) { content: url(mnemonic-places-google/ting.png); }
+.my-pinyin-image-container.pinyin-ting span:before { content: "channING tatum, танцевать"; }
+.my-pinyin-image-container.pinyin-tu img:nth-child(2) { content: url(mnemonic-places-google/tu.png); }
+.my-pinyin-image-container.pinyin-tu span:before { content: "Wu-Tang Clan, танцевать"; }
+.my-pinyin-image-container.pinyin-tui img:nth-child(2) { content: url(mnemonic-places-google/tui.png); }
+.my-pinyin-image-container.pinyin-tui span:before { content: "YEIльям дефо, танцевать"; }
+.my-pinyin-image-container.pinyin-tuo img:nth-child(2) { content: url(mnemonic-places-google/tuo.png); }
+.my-pinyin-image-container.pinyin-tuo span:before { content: "УОллис и громмит, танцевать"; }
+.my-pinyin-image-container.pinyin-tuan img:nth-child(2) { content: url(mnemonic-places-google/tuan.png); }
+.my-pinyin-image-container.pinyin-tuan span:before { content: "ВАНда вижн, танцевать"; }
+.my-pinyin-image-container.pinyin-tun img:nth-child(2) { content: url(mnemonic-places-google/tun.png); }
+.my-pinyin-image-container.pinyin-tun span:before { content: "uncle oWEN, танцевать"; }
+.my-pinyin-image-container.pinyin-na img:nth-child(2) { content: url(mnemonic-places-google/na.png); }
+.my-pinyin-image-container.pinyin-na span:before { content: "Адольф, нырять"; }
+.my-pinyin-image-container.pinyin-nai img:nth-child(2) { content: url(mnemonic-places-google/nai.png); }
+.my-pinyin-image-container.pinyin-nai span:before { content: "АЙболит, нырять"; }
+.my-pinyin-image-container.pinyin-nao img:nth-child(2) { content: url(mnemonic-places-google/nao.png); }
+.my-pinyin-image-container.pinyin-nao span:before { content: "АрагОрн, нырять"; }
+.my-pinyin-image-container.pinyin-nan img:nth-child(2) { content: url(mnemonic-places-google/nan.png); }
+.my-pinyin-image-container.pinyin-nan span:before { content: "Алексей Навайльный, нырять"; }
+.my-pinyin-image-container.pinyin-nang img:nth-child(2) { content: url(mnemonic-places-google/nang.png); }
+.my-pinyin-image-container.pinyin-nang span:before { content: "АНГел, нырять"; }
+.my-pinyin-image-container.pinyin-ne img:nth-child(2) { content: url(mnemonic-places-google/ne.png); }
+.my-pinyin-image-container.pinyin-ne span:before { content: "Euronimus, нырять"; }
+.my-pinyin-image-container.pinyin-nei img:nth-child(2) { content: url(mnemonic-places-google/nei.png); }
+.my-pinyin-image-container.pinyin-nei span:before { content: "Eminem, нырять"; }
+.my-pinyin-image-container.pinyin-nen img:nth-child(2) { content: url(mnemonic-places-google/nen.png); }
+.my-pinyin-image-container.pinyin-nen span:before { content: "Edward Norton, нырять"; }
+.my-pinyin-image-container.pinyin-neng img:nth-child(2) { content: url(mnemonic-places-google/neng.png); }
+.my-pinyin-image-container.pinyin-neng span:before { content: "EGGhead, нырять"; }
+.my-pinyin-image-container.pinyin-nou img:nth-child(2) { content: url(mnemonic-places-google/nou.png); }
+.my-pinyin-image-container.pinyin-nou span:before { content: "ОУэн уилсон, нырять"; }
+.my-pinyin-image-container.pinyin-nong img:nth-child(2) { content: url(mnemonic-places-google/nong.png); }
+.my-pinyin-image-container.pinyin-nong span:before { content: "spONGebob, нырять"; }
+.my-pinyin-image-container.pinyin-ni img:nth-child(2) { content: url(mnemonic-places-google/ni.png); }
+.my-pinyin-image-container.pinyin-ni span:before { content: "YIосиф сталин, нырять"; }
+.my-pinyin-image-container.pinyin-niao img:nth-child(2) { content: url(mnemonic-places-google/niao.png); }
+.my-pinyin-image-container.pinyin-niao span:before { content: "YAO ming, нырять"; }
+.my-pinyin-image-container.pinyin-nie img:nth-child(2) { content: url(mnemonic-places-google/nie.png); }
+.my-pinyin-image-container.pinyin-nie span:before { content: "YEвгений петросян, нырять"; }
+.my-pinyin-image-container.pinyin-niu img:nth-child(2) { content: url(mnemonic-places-google/niu.png); }
+.my-pinyin-image-container.pinyin-niu span:before { content: "YO(U)da, нырять"; }
+.my-pinyin-image-container.pinyin-nian img:nth-child(2) { content: url(mnemonic-places-google/nian.png); }
+.my-pinyin-image-container.pinyin-nian span:before { content: "weird al YANkovic, нырять"; }
+.my-pinyin-image-container.pinyin-niang img:nth-child(2) { content: url(mnemonic-places-google/niang.png); }
+.my-pinyin-image-container.pinyin-niang span:before { content: "YuANG lean, нырять"; }
+.my-pinyin-image-container.pinyin-nin img:nth-child(2) { content: url(mnemonic-places-google/nin.png); }
+.my-pinyin-image-container.pinyin-nin span:before { content: "INdiana Jones, нырять"; }
+.my-pinyin-image-container.pinyin-ning img:nth-child(2) { content: url(mnemonic-places-google/ning.png); }
+.my-pinyin-image-container.pinyin-ning span:before { content: "channING tatum, нырять"; }
+.my-pinyin-image-container.pinyin-nu img:nth-child(2) { content: url(mnemonic-places-google/nu.png); }
+.my-pinyin-image-container.pinyin-nu span:before { content: "Wu-Tang Clan, нырять"; }
+.my-pinyin-image-container.pinyin-nuo img:nth-child(2) { content: url(mnemonic-places-google/nuo.png); }
+.my-pinyin-image-container.pinyin-nuo span:before { content: "УОллис и громмит, нырять"; }
+.my-pinyin-image-container.pinyin-nuan img:nth-child(2) { content: url(mnemonic-places-google/nuan.png); }
+.my-pinyin-image-container.pinyin-nuan span:before { content: "ВАНда вижн, нырять"; }
+.my-pinyin-image-container.pinyin-nü img:nth-child(2) { content: url(mnemonic-places-google/nü.png); }
+.my-pinyin-image-container.pinyin-nü span:before { content: "YUriy gagarin, нырять"; }
+.my-pinyin-image-container.pinyin-nüe img:nth-child(2) { content: url(mnemonic-places-google/nüe.png); }
+.my-pinyin-image-container.pinyin-nüe span:before { content: "YUдковский Eлиэзер, нырять"; }
+.my-pinyin-image-container.pinyin-la img:nth-child(2) { content: url(mnemonic-places-google/la.png); }
+.my-pinyin-image-container.pinyin-la span:before { content: "Адольф, лизать"; }
+.my-pinyin-image-container.pinyin-lai img:nth-child(2) { content: url(mnemonic-places-google/lai.png); }
+.my-pinyin-image-container.pinyin-lai span:before { content: "АЙболит, лизать"; }
+.my-pinyin-image-container.pinyin-lao img:nth-child(2) { content: url(mnemonic-places-google/lao.png); }
+.my-pinyin-image-container.pinyin-lao span:before { content: "АрагОрн, лизать"; }
+.my-pinyin-image-container.pinyin-lan img:nth-child(2) { content: url(mnemonic-places-google/lan.png); }
+.my-pinyin-image-container.pinyin-lan span:before { content: "Алексей Навайльный, лизать"; }
+.my-pinyin-image-container.pinyin-lang img:nth-child(2) { content: url(mnemonic-places-google/lang.png); }
+.my-pinyin-image-container.pinyin-lang span:before { content: "АНГел, лизать"; }
+.my-pinyin-image-container.pinyin-le img:nth-child(2) { content: url(mnemonic-places-google/le.png); }
+.my-pinyin-image-container.pinyin-le span:before { content: "Euronimus, лизать"; }
+.my-pinyin-image-container.pinyin-lei img:nth-child(2) { content: url(mnemonic-places-google/lei.png); }
+.my-pinyin-image-container.pinyin-lei span:before { content: "Eminem, лизать"; }
+.my-pinyin-image-container.pinyin-leng img:nth-child(2) { content: url(mnemonic-places-google/leng.png); }
+.my-pinyin-image-container.pinyin-leng span:before { content: "EGGhead, лизать"; }
+.my-pinyin-image-container.pinyin-lo img:nth-child(2) { content: url(mnemonic-places-google/lo.png); }
+.my-pinyin-image-container.pinyin-lo span:before { content: "олежка, лизать"; }
+.my-pinyin-image-container.pinyin-lou img:nth-child(2) { content: url(mnemonic-places-google/lou.png); }
+.my-pinyin-image-container.pinyin-lou span:before { content: "ОУэн уилсон, лизать"; }
+.my-pinyin-image-container.pinyin-long img:nth-child(2) { content: url(mnemonic-places-google/long.png); }
+.my-pinyin-image-container.pinyin-long span:before { content: "spONGebob, лизать"; }
+.my-pinyin-image-container.pinyin-li img:nth-child(2) { content: url(mnemonic-places-google/li.png); }
+.my-pinyin-image-container.pinyin-li span:before { content: "YIосиф сталин, лизать"; }
+.my-pinyin-image-container.pinyin-lia img:nth-child(2) { content: url(mnemonic-places-google/lia.png); }
+.my-pinyin-image-container.pinyin-lia span:before { content: "YAцик?, лизать"; }
+.my-pinyin-image-container.pinyin-liao img:nth-child(2) { content: url(mnemonic-places-google/liao.png); }
+.my-pinyin-image-container.pinyin-liao span:before { content: "YAO ming, лизать"; }
+.my-pinyin-image-container.pinyin-lie img:nth-child(2) { content: url(mnemonic-places-google/lie.png); }
+.my-pinyin-image-container.pinyin-lie span:before { content: "YEвгений петросян, лизать"; }
+.my-pinyin-image-container.pinyin-liu img:nth-child(2) { content: url(mnemonic-places-google/liu.png); }
+.my-pinyin-image-container.pinyin-liu span:before { content: "YO(U)da, лизать"; }
+.my-pinyin-image-container.pinyin-lian img:nth-child(2) { content: url(mnemonic-places-google/lian.png); }
+.my-pinyin-image-container.pinyin-lian span:before { content: "weird al YANkovic, лизать"; }
+.my-pinyin-image-container.pinyin-liang img:nth-child(2) { content: url(mnemonic-places-google/liang.png); }
+.my-pinyin-image-container.pinyin-liang span:before { content: "YuANG lean, лизать"; }
+.my-pinyin-image-container.pinyin-lin img:nth-child(2) { content: url(mnemonic-places-google/lin.png); }
+.my-pinyin-image-container.pinyin-lin span:before { content: "INdiana Jones, лизать"; }
+.my-pinyin-image-container.pinyin-ling img:nth-child(2) { content: url(mnemonic-places-google/ling.png); }
+.my-pinyin-image-container.pinyin-ling span:before { content: "channING tatum, лизать"; }
+.my-pinyin-image-container.pinyin-lu img:nth-child(2) { content: url(mnemonic-places-google/lu.png); }
+.my-pinyin-image-container.pinyin-lu span:before { content: "Wu-Tang Clan, лизать"; }
+.my-pinyin-image-container.pinyin-luo img:nth-child(2) { content: url(mnemonic-places-google/luo.png); }
+.my-pinyin-image-container.pinyin-luo span:before { content: "УОллис и громмит, лизать"; }
+.my-pinyin-image-container.pinyin-luan img:nth-child(2) { content: url(mnemonic-places-google/luan.png); }
+.my-pinyin-image-container.pinyin-luan span:before { content: "ВАНда вижн, лизать"; }
+.my-pinyin-image-container.pinyin-lun img:nth-child(2) { content: url(mnemonic-places-google/lun.png); }
+.my-pinyin-image-container.pinyin-lun span:before { content: "uncle oWEN, лизать"; }
+.my-pinyin-image-container.pinyin-lü img:nth-child(2) { content: url(mnemonic-places-google/lü.png); }
+.my-pinyin-image-container.pinyin-lü span:before { content: "YUriy gagarin, лизать"; }
+.my-pinyin-image-container.pinyin-lüe img:nth-child(2) { content: url(mnemonic-places-google/lüe.png); }
+.my-pinyin-image-container.pinyin-lüe span:before { content: "YUдковский Eлиэзер, лизать"; }
+.my-pinyin-image-container.pinyin-za img:nth-child(2) { content: url(mnemonic-places-google/za.png); }
+.my-pinyin-image-container.pinyin-za span:before { content: "Адольф, знакомиться"; }
+.my-pinyin-image-container.pinyin-zai img:nth-child(2) { content: url(mnemonic-places-google/zai.png); }
+.my-pinyin-image-container.pinyin-zai span:before { content: "АЙболит, знакомиться"; }
+.my-pinyin-image-container.pinyin-zao img:nth-child(2) { content: url(mnemonic-places-google/zao.png); }
+.my-pinyin-image-container.pinyin-zao span:before { content: "АрагОрн, знакомиться"; }
+.my-pinyin-image-container.pinyin-zan img:nth-child(2) { content: url(mnemonic-places-google/zan.png); }
+.my-pinyin-image-container.pinyin-zan span:before { content: "Алексей Навайльный, знакомиться"; }
+.my-pinyin-image-container.pinyin-zang img:nth-child(2) { content: url(mnemonic-places-google/zang.png); }
+.my-pinyin-image-container.pinyin-zang span:before { content: "АНГел, знакомиться"; }
+.my-pinyin-image-container.pinyin-ze img:nth-child(2) { content: url(mnemonic-places-google/ze.png); }
+.my-pinyin-image-container.pinyin-ze span:before { content: "Euronimus, знакомиться"; }
+.my-pinyin-image-container.pinyin-zei img:nth-child(2) { content: url(mnemonic-places-google/zei.png); }
+.my-pinyin-image-container.pinyin-zei span:before { content: "Eminem, знакомиться"; }
+.my-pinyin-image-container.pinyin-zen img:nth-child(2) { content: url(mnemonic-places-google/zen.png); }
+.my-pinyin-image-container.pinyin-zen span:before { content: "Edward Norton, знакомиться"; }
+.my-pinyin-image-container.pinyin-zeng img:nth-child(2) { content: url(mnemonic-places-google/zeng.png); }
+.my-pinyin-image-container.pinyin-zeng span:before { content: "EGGhead, знакомиться"; }
+.my-pinyin-image-container.pinyin-zou img:nth-child(2) { content: url(mnemonic-places-google/zou.png); }
+.my-pinyin-image-container.pinyin-zou span:before { content: "ОУэн уилсон, знакомиться"; }
+.my-pinyin-image-container.pinyin-zong img:nth-child(2) { content: url(mnemonic-places-google/zong.png); }
+.my-pinyin-image-container.pinyin-zong span:before { content: "spONGebob, знакомиться"; }
+.my-pinyin-image-container.pinyin-zi img:nth-child(2) { content: url(mnemonic-places-google/zi.png); }
+.my-pinyin-image-container.pinyin-zi span:before { content: "YIосиф сталин, знакомиться"; }
+.my-pinyin-image-container.pinyin-zu img:nth-child(2) { content: url(mnemonic-places-google/zu.png); }
+.my-pinyin-image-container.pinyin-zu span:before { content: "Wu-Tang Clan, знакомиться"; }
+.my-pinyin-image-container.pinyin-zui img:nth-child(2) { content: url(mnemonic-places-google/zui.png); }
+.my-pinyin-image-container.pinyin-zui span:before { content: "YEIльям дефо, знакомиться"; }
+.my-pinyin-image-container.pinyin-zuo img:nth-child(2) { content: url(mnemonic-places-google/zuo.png); }
+.my-pinyin-image-container.pinyin-zuo span:before { content: "УОллис и громмит, знакомиться"; }
+.my-pinyin-image-container.pinyin-zuan img:nth-child(2) { content: url(mnemonic-places-google/zuan.png); }
+.my-pinyin-image-container.pinyin-zuan span:before { content: "ВАНда вижн, знакомиться"; }
+.my-pinyin-image-container.pinyin-zun img:nth-child(2) { content: url(mnemonic-places-google/zun.png); }
+.my-pinyin-image-container.pinyin-zun span:before { content: "uncle oWEN, знакомиться"; }
+.my-pinyin-image-container.pinyin-ca img:nth-child(2) { content: url(mnemonic-places-google/ca.png); }
+.my-pinyin-image-container.pinyin-ca span:before { content: "Адольф, целовать"; }
+.my-pinyin-image-container.pinyin-cai img:nth-child(2) { content: url(mnemonic-places-google/cai.png); }
+.my-pinyin-image-container.pinyin-cai span:before { content: "АЙболит, целовать"; }
+.my-pinyin-image-container.pinyin-cao img:nth-child(2) { content: url(mnemonic-places-google/cao.png); }
+.my-pinyin-image-container.pinyin-cao span:before { content: "АрагОрн, целовать"; }
+.my-pinyin-image-container.pinyin-can img:nth-child(2) { content: url(mnemonic-places-google/can.png); }
+.my-pinyin-image-container.pinyin-can span:before { content: "Алексей Навайльный, целовать"; }
+.my-pinyin-image-container.pinyin-cang img:nth-child(2) { content: url(mnemonic-places-google/cang.png); }
+.my-pinyin-image-container.pinyin-cang span:before { content: "АНГел, целовать"; }
+.my-pinyin-image-container.pinyin-ce img:nth-child(2) { content: url(mnemonic-places-google/ce.png); }
+.my-pinyin-image-container.pinyin-ce span:before { content: "Euronimus, целовать"; }
+.my-pinyin-image-container.pinyin-cei img:nth-child(2) { content: url(mnemonic-places-google/cei.png); }
+.my-pinyin-image-container.pinyin-cei span:before { content: "Eminem, целовать"; }
+.my-pinyin-image-container.pinyin-cen img:nth-child(2) { content: url(mnemonic-places-google/cen.png); }
+.my-pinyin-image-container.pinyin-cen span:before { content: "Edward Norton, целовать"; }
+.my-pinyin-image-container.pinyin-ceng img:nth-child(2) { content: url(mnemonic-places-google/ceng.png); }
+.my-pinyin-image-container.pinyin-ceng span:before { content: "EGGhead, целовать"; }
+.my-pinyin-image-container.pinyin-cou img:nth-child(2) { content: url(mnemonic-places-google/cou.png); }
+.my-pinyin-image-container.pinyin-cou span:before { content: "ОУэн уилсон, целовать"; }
+.my-pinyin-image-container.pinyin-cong img:nth-child(2) { content: url(mnemonic-places-google/cong.png); }
+.my-pinyin-image-container.pinyin-cong span:before { content: "spONGebob, целовать"; }
+.my-pinyin-image-container.pinyin-ci img:nth-child(2) { content: url(mnemonic-places-google/ci.png); }
+.my-pinyin-image-container.pinyin-ci span:before { content: "YIосиф сталин, целовать"; }
+.my-pinyin-image-container.pinyin-cu img:nth-child(2) { content: url(mnemonic-places-google/cu.png); }
+.my-pinyin-image-container.pinyin-cu span:before { content: "Wu-Tang Clan, целовать"; }
+.my-pinyin-image-container.pinyin-cui img:nth-child(2) { content: url(mnemonic-places-google/cui.png); }
+.my-pinyin-image-container.pinyin-cui span:before { content: "YEIльям дефо, целовать"; }
+.my-pinyin-image-container.pinyin-cuo img:nth-child(2) { content: url(mnemonic-places-google/cuo.png); }
+.my-pinyin-image-container.pinyin-cuo span:before { content: "УОллис и громмит, целовать"; }
+.my-pinyin-image-container.pinyin-cuan img:nth-child(2) { content: url(mnemonic-places-google/cuan.png); }
+.my-pinyin-image-container.pinyin-cuan span:before { content: "ВАНда вижн, целовать"; }
+.my-pinyin-image-container.pinyin-cun img:nth-child(2) { content: url(mnemonic-places-google/cun.png); }
+.my-pinyin-image-container.pinyin-cun span:before { content: "uncle oWEN, целовать"; }
+.my-pinyin-image-container.pinyin-sa img:nth-child(2) { content: url(mnemonic-places-google/sa.png); }
+.my-pinyin-image-container.pinyin-sa span:before { content: "Адольф, сыпать"; }
+.my-pinyin-image-container.pinyin-sai img:nth-child(2) { content: url(mnemonic-places-google/sai.png); }
+.my-pinyin-image-container.pinyin-sai span:before { content: "АЙболит, сыпать"; }
+.my-pinyin-image-container.pinyin-sao img:nth-child(2) { content: url(mnemonic-places-google/sao.png); }
+.my-pinyin-image-container.pinyin-sao span:before { content: "АрагОрн, сыпать"; }
+.my-pinyin-image-container.pinyin-san img:nth-child(2) { content: url(mnemonic-places-google/san.png); }
+.my-pinyin-image-container.pinyin-san span:before { content: "Алексей Навайльный, сыпать"; }
+.my-pinyin-image-container.pinyin-sang img:nth-child(2) { content: url(mnemonic-places-google/sang.png); }
+.my-pinyin-image-container.pinyin-sang span:before { content: "АНГел, сыпать"; }
+.my-pinyin-image-container.pinyin-se img:nth-child(2) { content: url(mnemonic-places-google/se.png); }
+.my-pinyin-image-container.pinyin-se span:before { content: "Euronimus, сыпать"; }
+.my-pinyin-image-container.pinyin-sen img:nth-child(2) { content: url(mnemonic-places-google/sen.png); }
+.my-pinyin-image-container.pinyin-sen span:before { content: "Edward Norton, сыпать"; }
+.my-pinyin-image-container.pinyin-seng img:nth-child(2) { content: url(mnemonic-places-google/seng.png); }
+.my-pinyin-image-container.pinyin-seng span:before { content: "EGGhead, сыпать"; }
+.my-pinyin-image-container.pinyin-sou img:nth-child(2) { content: url(mnemonic-places-google/sou.png); }
+.my-pinyin-image-container.pinyin-sou span:before { content: "ОУэн уилсон, сыпать"; }
+.my-pinyin-image-container.pinyin-song img:nth-child(2) { content: url(mnemonic-places-google/song.png); }
+.my-pinyin-image-container.pinyin-song span:before { content: "spONGebob, сыпать"; }
+.my-pinyin-image-container.pinyin-si img:nth-child(2) { content: url(mnemonic-places-google/si.png); }
+.my-pinyin-image-container.pinyin-si span:before { content: "YIосиф сталин, сыпать"; }
+.my-pinyin-image-container.pinyin-su img:nth-child(2) { content: url(mnemonic-places-google/su.png); }
+.my-pinyin-image-container.pinyin-su span:before { content: "Wu-Tang Clan, сыпать"; }
+.my-pinyin-image-container.pinyin-sui img:nth-child(2) { content: url(mnemonic-places-google/sui.png); }
+.my-pinyin-image-container.pinyin-sui span:before { content: "YEIльям дефо, сыпать"; }
+.my-pinyin-image-container.pinyin-suo img:nth-child(2) { content: url(mnemonic-places-google/suo.png); }
+.my-pinyin-image-container.pinyin-suo span:before { content: "УОллис и громмит, сыпать"; }
+.my-pinyin-image-container.pinyin-suan img:nth-child(2) { content: url(mnemonic-places-google/suan.png); }
+.my-pinyin-image-container.pinyin-suan span:before { content: "ВАНда вижн, сыпать"; }
+.my-pinyin-image-container.pinyin-sun img:nth-child(2) { content: url(mnemonic-places-google/sun.png); }
+.my-pinyin-image-container.pinyin-sun span:before { content: "uncle oWEN, сыпать"; }
+.my-pinyin-image-container.pinyin-zha img:nth-child(2) { content: url(mnemonic-places-google/zha.png); }
+.my-pinyin-image-container.pinyin-zha span:before { content: "Адольф, жариться"; }
+.my-pinyin-image-container.pinyin-zhai img:nth-child(2) { content: url(mnemonic-places-google/zhai.png); }
+.my-pinyin-image-container.pinyin-zhai span:before { content: "АЙболит, жариться"; }
+.my-pinyin-image-container.pinyin-zhao img:nth-child(2) { content: url(mnemonic-places-google/zhao.png); }
+.my-pinyin-image-container.pinyin-zhao span:before { content: "АрагОрн, жариться"; }
+.my-pinyin-image-container.pinyin-zhan img:nth-child(2) { content: url(mnemonic-places-google/zhan.png); }
+.my-pinyin-image-container.pinyin-zhan span:before { content: "Алексей Навайльный, жариться"; }
+.my-pinyin-image-container.pinyin-zhang img:nth-child(2) { content: url(mnemonic-places-google/zhang.png); }
+.my-pinyin-image-container.pinyin-zhang span:before { content: "АНГел, жариться"; }
+.my-pinyin-image-container.pinyin-zhe img:nth-child(2) { content: url(mnemonic-places-google/zhe.png); }
+.my-pinyin-image-container.pinyin-zhe span:before { content: "Euronimus, жариться"; }
+.my-pinyin-image-container.pinyin-zhei img:nth-child(2) { content: url(mnemonic-places-google/zhei.png); }
+.my-pinyin-image-container.pinyin-zhei span:before { content: "Eminem, жариться"; }
+.my-pinyin-image-container.pinyin-zhen img:nth-child(2) { content: url(mnemonic-places-google/zhen.png); }
+.my-pinyin-image-container.pinyin-zhen span:before { content: "Edward Norton, жариться"; }
+.my-pinyin-image-container.pinyin-zheng img:nth-child(2) { content: url(mnemonic-places-google/zheng.png); }
+.my-pinyin-image-container.pinyin-zheng span:before { content: "EGGhead, жариться"; }
+.my-pinyin-image-container.pinyin-zhou img:nth-child(2) { content: url(mnemonic-places-google/zhou.png); }
+.my-pinyin-image-container.pinyin-zhou span:before { content: "ОУэн уилсон, жариться"; }
+.my-pinyin-image-container.pinyin-zhong img:nth-child(2) { content: url(mnemonic-places-google/zhong.png); }
+.my-pinyin-image-container.pinyin-zhong span:before { content: "spONGebob, жариться"; }
+.my-pinyin-image-container.pinyin-zhi img:nth-child(2) { content: url(mnemonic-places-google/zhi.png); }
+.my-pinyin-image-container.pinyin-zhi span:before { content: "YIосиф сталин, жариться"; }
+.my-pinyin-image-container.pinyin-zhu img:nth-child(2) { content: url(mnemonic-places-google/zhu.png); }
+.my-pinyin-image-container.pinyin-zhu span:before { content: "Wu-Tang Clan, жариться"; }
+.my-pinyin-image-container.pinyin-zhua img:nth-child(2) { content: url(mnemonic-places-google/zhua.png); }
+.my-pinyin-image-container.pinyin-zhua span:before { content: "Вашингтон, жариться"; }
+.my-pinyin-image-container.pinyin-zhuai img:nth-child(2) { content: url(mnemonic-places-google/zhuai.png); }
+.my-pinyin-image-container.pinyin-zhuai span:before { content: "bender robot AI, жариться"; }
+.my-pinyin-image-container.pinyin-zhui img:nth-child(2) { content: url(mnemonic-places-google/zhui.png); }
+.my-pinyin-image-container.pinyin-zhui span:before { content: "YEIльям дефо, жариться"; }
+.my-pinyin-image-container.pinyin-zhuo img:nth-child(2) { content: url(mnemonic-places-google/zhuo.png); }
+.my-pinyin-image-container.pinyin-zhuo span:before { content: "УОллис и громмит, жариться"; }
+.my-pinyin-image-container.pinyin-zhuan img:nth-child(2) { content: url(mnemonic-places-google/zhuan.png); }
+.my-pinyin-image-container.pinyin-zhuan span:before { content: "ВАНда вижн, жариться"; }
+.my-pinyin-image-container.pinyin-zhuang img:nth-child(2) { content: url(mnemonic-places-google/zhuang.png); }
+.my-pinyin-image-container.pinyin-zhuang span:before { content: "ВАНГа, жариться"; }
+.my-pinyin-image-container.pinyin-zhun img:nth-child(2) { content: url(mnemonic-places-google/zhun.png); }
+.my-pinyin-image-container.pinyin-zhun span:before { content: "uncle oWEN, жариться"; }
+.my-pinyin-image-container.pinyin-cha img:nth-child(2) { content: url(mnemonic-places-google/cha.png); }
+.my-pinyin-image-container.pinyin-cha span:before { content: "Адольф, чихать"; }
+.my-pinyin-image-container.pinyin-chai img:nth-child(2) { content: url(mnemonic-places-google/chai.png); }
+.my-pinyin-image-container.pinyin-chai span:before { content: "АЙболит, чихать"; }
+.my-pinyin-image-container.pinyin-chao img:nth-child(2) { content: url(mnemonic-places-google/chao.png); }
+.my-pinyin-image-container.pinyin-chao span:before { content: "АрагОрн, чихать"; }
+.my-pinyin-image-container.pinyin-chan img:nth-child(2) { content: url(mnemonic-places-google/chan.png); }
+.my-pinyin-image-container.pinyin-chan span:before { content: "Алексей Навайльный, чихать"; }
+.my-pinyin-image-container.pinyin-chang img:nth-child(2) { content: url(mnemonic-places-google/chang.png); }
+.my-pinyin-image-container.pinyin-chang span:before { content: "АНГел, чихать"; }
+.my-pinyin-image-container.pinyin-che img:nth-child(2) { content: url(mnemonic-places-google/che.png); }
+.my-pinyin-image-container.pinyin-che span:before { content: "Euronimus, чихать"; }
+.my-pinyin-image-container.pinyin-chen img:nth-child(2) { content: url(mnemonic-places-google/chen.png); }
+.my-pinyin-image-container.pinyin-chen span:before { content: "Edward Norton, чихать"; }
+.my-pinyin-image-container.pinyin-cheng img:nth-child(2) { content: url(mnemonic-places-google/cheng.png); }
+.my-pinyin-image-container.pinyin-cheng span:before { content: "EGGhead, чихать"; }
+.my-pinyin-image-container.pinyin-chou img:nth-child(2) { content: url(mnemonic-places-google/chou.png); }
+.my-pinyin-image-container.pinyin-chou span:before { content: "ОУэн уилсон, чихать"; }
+.my-pinyin-image-container.pinyin-chong img:nth-child(2) { content: url(mnemonic-places-google/chong.png); }
+.my-pinyin-image-container.pinyin-chong span:before { content: "spONGebob, чихать"; }
+.my-pinyin-image-container.pinyin-chi img:nth-child(2) { content: url(mnemonic-places-google/chi.png); }
+.my-pinyin-image-container.pinyin-chi span:before { content: "YIосиф сталин, чихать"; }
+.my-pinyin-image-container.pinyin-chu img:nth-child(2) { content: url(mnemonic-places-google/chu.png); }
+.my-pinyin-image-container.pinyin-chu span:before { content: "Wu-Tang Clan, чихать"; }
+.my-pinyin-image-container.pinyin-chua img:nth-child(2) { content: url(mnemonic-places-google/chua.png); }
+.my-pinyin-image-container.pinyin-chua span:before { content: "Вашингтон, чихать"; }
+.my-pinyin-image-container.pinyin-chuai img:nth-child(2) { content: url(mnemonic-places-google/chuai.png); }
+.my-pinyin-image-container.pinyin-chuai span:before { content: "bender robot AI, чихать"; }
+.my-pinyin-image-container.pinyin-chui img:nth-child(2) { content: url(mnemonic-places-google/chui.png); }
+.my-pinyin-image-container.pinyin-chui span:before { content: "YEIльям дефо, чихать"; }
+.my-pinyin-image-container.pinyin-chuo img:nth-child(2) { content: url(mnemonic-places-google/chuo.png); }
+.my-pinyin-image-container.pinyin-chuo span:before { content: "УОллис и громмит, чихать"; }
+.my-pinyin-image-container.pinyin-chuan img:nth-child(2) { content: url(mnemonic-places-google/chuan.png); }
+.my-pinyin-image-container.pinyin-chuan span:before { content: "ВАНда вижн, чихать"; }
+.my-pinyin-image-container.pinyin-chuang img:nth-child(2) { content: url(mnemonic-places-google/chuang.png); }
+.my-pinyin-image-container.pinyin-chuang span:before { content: "ВАНГа, чихать"; }
+.my-pinyin-image-container.pinyin-chun img:nth-child(2) { content: url(mnemonic-places-google/chun.png); }
+.my-pinyin-image-container.pinyin-chun span:before { content: "uncle oWEN, чихать"; }
+.my-pinyin-image-container.pinyin-sha img:nth-child(2) { content: url(mnemonic-places-google/sha.png); }
+.my-pinyin-image-container.pinyin-sha span:before { content: "Адольф, шить"; }
+.my-pinyin-image-container.pinyin-shai img:nth-child(2) { content: url(mnemonic-places-google/shai.png); }
+.my-pinyin-image-container.pinyin-shai span:before { content: "АЙболит, шить"; }
+.my-pinyin-image-container.pinyin-shao img:nth-child(2) { content: url(mnemonic-places-google/shao.png); }
+.my-pinyin-image-container.pinyin-shao span:before { content: "АрагОрн, шить"; }
+.my-pinyin-image-container.pinyin-shan img:nth-child(2) { content: url(mnemonic-places-google/shan.png); }
+.my-pinyin-image-container.pinyin-shan span:before { content: "Алексей Навайльный, шить"; }
+.my-pinyin-image-container.pinyin-shang img:nth-child(2) { content: url(mnemonic-places-google/shang.png); }
+.my-pinyin-image-container.pinyin-shang span:before { content: "АНГел, шить"; }
+.my-pinyin-image-container.pinyin-she img:nth-child(2) { content: url(mnemonic-places-google/she.png); }
+.my-pinyin-image-container.pinyin-she span:before { content: "Euronimus, шить"; }
+.my-pinyin-image-container.pinyin-shei img:nth-child(2) { content: url(mnemonic-places-google/shei.png); }
+.my-pinyin-image-container.pinyin-shei span:before { content: "Eminem, шить"; }
+.my-pinyin-image-container.pinyin-shen img:nth-child(2) { content: url(mnemonic-places-google/shen.png); }
+.my-pinyin-image-container.pinyin-shen span:before { content: "Edward Norton, шить"; }
+.my-pinyin-image-container.pinyin-sheng img:nth-child(2) { content: url(mnemonic-places-google/sheng.png); }
+.my-pinyin-image-container.pinyin-sheng span:before { content: "EGGhead, шить"; }
+.my-pinyin-image-container.pinyin-shou img:nth-child(2) { content: url(mnemonic-places-google/shou.png); }
+.my-pinyin-image-container.pinyin-shou span:before { content: "ОУэн уилсон, шить"; }
+.my-pinyin-image-container.pinyin-shi img:nth-child(2) { content: url(mnemonic-places-google/shi.png); }
+.my-pinyin-image-container.pinyin-shi span:before { content: "YIосиф сталин, шить"; }
+.my-pinyin-image-container.pinyin-shu img:nth-child(2) { content: url(mnemonic-places-google/shu.png); }
+.my-pinyin-image-container.pinyin-shu span:before { content: "Wu-Tang Clan, шить"; }
+.my-pinyin-image-container.pinyin-shua img:nth-child(2) { content: url(mnemonic-places-google/shua.png); }
+.my-pinyin-image-container.pinyin-shua span:before { content: "Вашингтон, шить"; }
+.my-pinyin-image-container.pinyin-shuai img:nth-child(2) { content: url(mnemonic-places-google/shuai.png); }
+.my-pinyin-image-container.pinyin-shuai span:before { content: "bender robot AI, шить"; }
+.my-pinyin-image-container.pinyin-shui img:nth-child(2) { content: url(mnemonic-places-google/shui.png); }
+.my-pinyin-image-container.pinyin-shui span:before { content: "YEIльям дефо, шить"; }
+.my-pinyin-image-container.pinyin-shuo img:nth-child(2) { content: url(mnemonic-places-google/shuo.png); }
+.my-pinyin-image-container.pinyin-shuo span:before { content: "УОллис и громмит, шить"; }
+.my-pinyin-image-container.pinyin-shuan img:nth-child(2) { content: url(mnemonic-places-google/shuan.png); }
+.my-pinyin-image-container.pinyin-shuan span:before { content: "ВАНда вижн, шить"; }
+.my-pinyin-image-container.pinyin-shuang img:nth-child(2) { content: url(mnemonic-places-google/shuang.png); }
+.my-pinyin-image-container.pinyin-shuang span:before { content: "ВАНГа, шить"; }
+.my-pinyin-image-container.pinyin-shun img:nth-child(2) { content: url(mnemonic-places-google/shun.png); }
+.my-pinyin-image-container.pinyin-shun span:before { content: "uncle oWEN, шить"; }
+.my-pinyin-image-container.pinyin-rao img:nth-child(2) { content: url(mnemonic-places-google/rao.png); }
+.my-pinyin-image-container.pinyin-rao span:before { content: "АрагОрн, женить"; }
+.my-pinyin-image-container.pinyin-ran img:nth-child(2) { content: url(mnemonic-places-google/ran.png); }
+.my-pinyin-image-container.pinyin-ran span:before { content: "Алексей Навайльный, женить"; }
+.my-pinyin-image-container.pinyin-rang img:nth-child(2) { content: url(mnemonic-places-google/rang.png); }
+.my-pinyin-image-container.pinyin-rang span:before { content: "АНГел, женить"; }
+.my-pinyin-image-container.pinyin-re img:nth-child(2) { content: url(mnemonic-places-google/re.png); }
+.my-pinyin-image-container.pinyin-re span:before { content: "Euronimus, женить"; }
+.my-pinyin-image-container.pinyin-ren img:nth-child(2) { content: url(mnemonic-places-google/ren.png); }
+.my-pinyin-image-container.pinyin-ren span:before { content: "Edward Norton, женить"; }
+.my-pinyin-image-container.pinyin-reng img:nth-child(2) { content: url(mnemonic-places-google/reng.png); }
+.my-pinyin-image-container.pinyin-reng span:before { content: "EGGhead, женить"; }
+.my-pinyin-image-container.pinyin-rou img:nth-child(2) { content: url(mnemonic-places-google/rou.png); }
+.my-pinyin-image-container.pinyin-rou span:before { content: "ОУэн уилсон, женить"; }
+.my-pinyin-image-container.pinyin-rong img:nth-child(2) { content: url(mnemonic-places-google/rong.png); }
+.my-pinyin-image-container.pinyin-rong span:before { content: "spONGebob, женить"; }
+.my-pinyin-image-container.pinyin-ri img:nth-child(2) { content: url(mnemonic-places-google/ri.png); }
+.my-pinyin-image-container.pinyin-ri span:before { content: "YIосиф сталин, женить"; }
+.my-pinyin-image-container.pinyin-ru img:nth-child(2) { content: url(mnemonic-places-google/ru.png); }
+.my-pinyin-image-container.pinyin-ru span:before { content: "Wu-Tang Clan, женить"; }
+.my-pinyin-image-container.pinyin-rua img:nth-child(2) { content: url(mnemonic-places-google/rua.png); }
+.my-pinyin-image-container.pinyin-rua span:before { content: "Вашингтон, женить"; }
+.my-pinyin-image-container.pinyin-rui img:nth-child(2) { content: url(mnemonic-places-google/rui.png); }
+.my-pinyin-image-container.pinyin-rui span:before { content: "YEIльям дефо, женить"; }
+.my-pinyin-image-container.pinyin-ruo img:nth-child(2) { content: url(mnemonic-places-google/ruo.png); }
+.my-pinyin-image-container.pinyin-ruo span:before { content: "УОллис и громмит, женить"; }
+.my-pinyin-image-container.pinyin-ruan img:nth-child(2) { content: url(mnemonic-places-google/ruan.png); }
+.my-pinyin-image-container.pinyin-ruan span:before { content: "ВАНда вижн, женить"; }
+.my-pinyin-image-container.pinyin-run img:nth-child(2) { content: url(mnemonic-places-google/run.png); }
+.my-pinyin-image-container.pinyin-run span:before { content: "uncle oWEN, женить"; }
+.my-pinyin-image-container.pinyin-ji img:nth-child(2) { content: url(mnemonic-places-google/ji.png); }
+.my-pinyin-image-container.pinyin-ji span:before { content: "YIосиф сталин, зимовать"; }
+.my-pinyin-image-container.pinyin-jia img:nth-child(2) { content: url(mnemonic-places-google/jia.png); }
+.my-pinyin-image-container.pinyin-jia span:before { content: "YAцик?, зимовать"; }
+.my-pinyin-image-container.pinyin-jiao img:nth-child(2) { content: url(mnemonic-places-google/jiao.png); }
+.my-pinyin-image-container.pinyin-jiao span:before { content: "YAO ming, зимовать"; }
+.my-pinyin-image-container.pinyin-jie img:nth-child(2) { content: url(mnemonic-places-google/jie.png); }
+.my-pinyin-image-container.pinyin-jie span:before { content: "YEвгений петросян, зимовать"; }
+.my-pinyin-image-container.pinyin-jiu img:nth-child(2) { content: url(mnemonic-places-google/jiu.png); }
+.my-pinyin-image-container.pinyin-jiu span:before { content: "YO(U)da, зимовать"; }
+.my-pinyin-image-container.pinyin-jian img:nth-child(2) { content: url(mnemonic-places-google/jian.png); }
+.my-pinyin-image-container.pinyin-jian span:before { content: "weird al YANkovic, зимовать"; }
+.my-pinyin-image-container.pinyin-jiang img:nth-child(2) { content: url(mnemonic-places-google/jiang.png); }
+.my-pinyin-image-container.pinyin-jiang span:before { content: "YuANG lean, зимовать"; }
+.my-pinyin-image-container.pinyin-jin img:nth-child(2) { content: url(mnemonic-places-google/jin.png); }
+.my-pinyin-image-container.pinyin-jin span:before { content: "INdiana Jones, зимовать"; }
+.my-pinyin-image-container.pinyin-jing img:nth-child(2) { content: url(mnemonic-places-google/jing.png); }
+.my-pinyin-image-container.pinyin-jing span:before { content: "channING tatum, зимовать"; }
+.my-pinyin-image-container.pinyin-jiong img:nth-child(2) { content: url(mnemonic-places-google/jiong.png); }
+.my-pinyin-image-container.pinyin-jiong span:before { content: "NeIl ArmstrONG, зимовать"; }
+.my-pinyin-image-container.pinyin-ju img:nth-child(2) { content: url(mnemonic-places-google/ju.png); }
+.my-pinyin-image-container.pinyin-ju span:before { content: "YUriy gagarin, зимовать"; }
+.my-pinyin-image-container.pinyin-jue img:nth-child(2) { content: url(mnemonic-places-google/jue.png); }
+.my-pinyin-image-container.pinyin-jue span:before { content: "YUдковский Eлиэзер, зимовать"; }
+.my-pinyin-image-container.pinyin-juan img:nth-child(2) { content: url(mnemonic-places-google/juan.png); }
+.my-pinyin-image-container.pinyin-juan span:before { content: "jekie chan?, зимовать"; }
+.my-pinyin-image-container.pinyin-jun img:nth-child(2) { content: url(mnemonic-places-google/jun.png); }
+.my-pinyin-image-container.pinyin-jun span:before { content: "karl YUNg, зимовать"; }
+.my-pinyin-image-container.pinyin-qi img:nth-child(2) { content: url(mnemonic-places-google/qi.png); }
+.my-pinyin-image-container.pinyin-qi span:before { content: "YIосиф сталин, цитировать"; }
+.my-pinyin-image-container.pinyin-qia img:nth-child(2) { content: url(mnemonic-places-google/qia.png); }
+.my-pinyin-image-container.pinyin-qia span:before { content: "YAцик?, цитировать"; }
+.my-pinyin-image-container.pinyin-qiao img:nth-child(2) { content: url(mnemonic-places-google/qiao.png); }
+.my-pinyin-image-container.pinyin-qiao span:before { content: "YAO ming, цитировать"; }
+.my-pinyin-image-container.pinyin-qie img:nth-child(2) { content: url(mnemonic-places-google/qie.png); }
+.my-pinyin-image-container.pinyin-qie span:before { content: "YEвгений петросян, цитировать"; }
+.my-pinyin-image-container.pinyin-qiu img:nth-child(2) { content: url(mnemonic-places-google/qiu.png); }
+.my-pinyin-image-container.pinyin-qiu span:before { content: "YO(U)da, цитировать"; }
+.my-pinyin-image-container.pinyin-qian img:nth-child(2) { content: url(mnemonic-places-google/qian.png); }
+.my-pinyin-image-container.pinyin-qian span:before { content: "weird al YANkovic, цитировать"; }
+.my-pinyin-image-container.pinyin-qiang img:nth-child(2) { content: url(mnemonic-places-google/qiang.png); }
+.my-pinyin-image-container.pinyin-qiang span:before { content: "YuANG lean, цитировать"; }
+.my-pinyin-image-container.pinyin-qin img:nth-child(2) { content: url(mnemonic-places-google/qin.png); }
+.my-pinyin-image-container.pinyin-qin span:before { content: "INdiana Jones, цитировать"; }
+.my-pinyin-image-container.pinyin-qing img:nth-child(2) { content: url(mnemonic-places-google/qing.png); }
+.my-pinyin-image-container.pinyin-qing span:before { content: "channING tatum, цитировать"; }
+.my-pinyin-image-container.pinyin-qiong img:nth-child(2) { content: url(mnemonic-places-google/qiong.png); }
+.my-pinyin-image-container.pinyin-qiong span:before { content: "NeIl ArmstrONG, цитировать"; }
+.my-pinyin-image-container.pinyin-qu img:nth-child(2) { content: url(mnemonic-places-google/qu.png); }
+.my-pinyin-image-container.pinyin-qu span:before { content: "YUriy gagarin, цитировать"; }
+.my-pinyin-image-container.pinyin-que img:nth-child(2) { content: url(mnemonic-places-google/que.png); }
+.my-pinyin-image-container.pinyin-que span:before { content: "YUдковский Eлиэзер, цитировать"; }
+.my-pinyin-image-container.pinyin-quan img:nth-child(2) { content: url(mnemonic-places-google/quan.png); }
+.my-pinyin-image-container.pinyin-quan span:before { content: "jekie chan?, цитировать"; }
+.my-pinyin-image-container.pinyin-qun img:nth-child(2) { content: url(mnemonic-places-google/qun.png); }
+.my-pinyin-image-container.pinyin-qun span:before { content: "karl YUNg, цитировать"; }
+.my-pinyin-image-container.pinyin-xi img:nth-child(2) { content: url(mnemonic-places-google/xi.png); }
+.my-pinyin-image-container.pinyin-xi span:before { content: "YIосиф сталин, сиять"; }
+.my-pinyin-image-container.pinyin-xia img:nth-child(2) { content: url(mnemonic-places-google/xia.png); }
+.my-pinyin-image-container.pinyin-xia span:before { content: "YAцик?, сиять"; }
+.my-pinyin-image-container.pinyin-xiao img:nth-child(2) { content: url(mnemonic-places-google/xiao.png); }
+.my-pinyin-image-container.pinyin-xiao span:before { content: "YAO ming, сиять"; }
+.my-pinyin-image-container.pinyin-xie img:nth-child(2) { content: url(mnemonic-places-google/xie.png); }
+.my-pinyin-image-container.pinyin-xie span:before { content: "YEвгений петросян, сиять"; }
+.my-pinyin-image-container.pinyin-xiu img:nth-child(2) { content: url(mnemonic-places-google/xiu.png); }
+.my-pinyin-image-container.pinyin-xiu span:before { content: "YO(U)da, сиять"; }
+.my-pinyin-image-container.pinyin-xian img:nth-child(2) { content: url(mnemonic-places-google/xian.png); }
+.my-pinyin-image-container.pinyin-xian span:before { content: "weird al YANkovic, сиять"; }
+.my-pinyin-image-container.pinyin-xiang img:nth-child(2) { content: url(mnemonic-places-google/xiang.png); }
+.my-pinyin-image-container.pinyin-xiang span:before { content: "YuANG lean, сиять"; }
+.my-pinyin-image-container.pinyin-xin img:nth-child(2) { content: url(mnemonic-places-google/xin.png); }
+.my-pinyin-image-container.pinyin-xin span:before { content: "INdiana Jones, сиять"; }
+.my-pinyin-image-container.pinyin-xing img:nth-child(2) { content: url(mnemonic-places-google/xing.png); }
+.my-pinyin-image-container.pinyin-xing span:before { content: "channING tatum, сиять"; }
+.my-pinyin-image-container.pinyin-xiong img:nth-child(2) { content: url(mnemonic-places-google/xiong.png); }
+.my-pinyin-image-container.pinyin-xiong span:before { content: "NeIl ArmstrONG, сиять"; }
+.my-pinyin-image-container.pinyin-xu img:nth-child(2) { content: url(mnemonic-places-google/xu.png); }
+.my-pinyin-image-container.pinyin-xu span:before { content: "YUriy gagarin, сиять"; }
+.my-pinyin-image-container.pinyin-xue img:nth-child(2) { content: url(mnemonic-places-google/xue.png); }
+.my-pinyin-image-container.pinyin-xue span:before { content: "YUдковский Eлиэзер, сиять"; }
+.my-pinyin-image-container.pinyin-xuan img:nth-child(2) { content: url(mnemonic-places-google/xuan.png); }
+.my-pinyin-image-container.pinyin-xuan span:before { content: "jekie chan?, сиять"; }
+.my-pinyin-image-container.pinyin-xun img:nth-child(2) { content: url(mnemonic-places-google/xun.png); }
+.my-pinyin-image-container.pinyin-xun span:before { content: "karl YUNg, сиять"; }
+.my-pinyin-image-container.pinyin-ga img:nth-child(2) { content: url(mnemonic-places-google/ga.png); }
+.my-pinyin-image-container.pinyin-ga span:before { content: "Адольф, гавкать"; }
+.my-pinyin-image-container.pinyin-gai img:nth-child(2) { content: url(mnemonic-places-google/gai.png); }
+.my-pinyin-image-container.pinyin-gai span:before { content: "АЙболит, гавкать"; }
+.my-pinyin-image-container.pinyin-gao img:nth-child(2) { content: url(mnemonic-places-google/gao.png); }
+.my-pinyin-image-container.pinyin-gao span:before { content: "АрагОрн, гавкать"; }
+.my-pinyin-image-container.pinyin-gan img:nth-child(2) { content: url(mnemonic-places-google/gan.png); }
+.my-pinyin-image-container.pinyin-gan span:before { content: "Алексей Навайльный, гавкать"; }
+.my-pinyin-image-container.pinyin-gang img:nth-child(2) { content: url(mnemonic-places-google/gang.png); }
+.my-pinyin-image-container.pinyin-gang span:before { content: "АНГел, гавкать"; }
+.my-pinyin-image-container.pinyin-ge img:nth-child(2) { content: url(mnemonic-places-google/ge.png); }
+.my-pinyin-image-container.pinyin-ge span:before { content: "Euronimus, гавкать"; }
+.my-pinyin-image-container.pinyin-gei img:nth-child(2) { content: url(mnemonic-places-google/gei.png); }
+.my-pinyin-image-container.pinyin-gei span:before { content: "Eminem, гавкать"; }
+.my-pinyin-image-container.pinyin-gen img:nth-child(2) { content: url(mnemonic-places-google/gen.png); }
+.my-pinyin-image-container.pinyin-gen span:before { content: "Edward Norton, гавкать"; }
+.my-pinyin-image-container.pinyin-geng img:nth-child(2) { content: url(mnemonic-places-google/geng.png); }
+.my-pinyin-image-container.pinyin-geng span:before { content: "EGGhead, гавкать"; }
+.my-pinyin-image-container.pinyin-gou img:nth-child(2) { content: url(mnemonic-places-google/gou.png); }
+.my-pinyin-image-container.pinyin-gou span:before { content: "ОУэн уилсон, гавкать"; }
+.my-pinyin-image-container.pinyin-gong img:nth-child(2) { content: url(mnemonic-places-google/gong.png); }
+.my-pinyin-image-container.pinyin-gong span:before { content: "spONGebob, гавкать"; }
+.my-pinyin-image-container.pinyin-gu img:nth-child(2) { content: url(mnemonic-places-google/gu.png); }
+.my-pinyin-image-container.pinyin-gu span:before { content: "Wu-Tang Clan, гавкать"; }
+.my-pinyin-image-container.pinyin-gua img:nth-child(2) { content: url(mnemonic-places-google/gua.png); }
+.my-pinyin-image-container.pinyin-gua span:before { content: "Вашингтон, гавкать"; }
+.my-pinyin-image-container.pinyin-guai img:nth-child(2) { content: url(mnemonic-places-google/guai.png); }
+.my-pinyin-image-container.pinyin-guai span:before { content: "bender robot AI, гавкать"; }
+.my-pinyin-image-container.pinyin-gui img:nth-child(2) { content: url(mnemonic-places-google/gui.png); }
+.my-pinyin-image-container.pinyin-gui span:before { content: "YEIльям дефо, гавкать"; }
+.my-pinyin-image-container.pinyin-guo img:nth-child(2) { content: url(mnemonic-places-google/guo.png); }
+.my-pinyin-image-container.pinyin-guo span:before { content: "УОллис и громмит, гавкать"; }
+.my-pinyin-image-container.pinyin-guan img:nth-child(2) { content: url(mnemonic-places-google/guan.png); }
+.my-pinyin-image-container.pinyin-guan span:before { content: "ВАНда вижн, гавкать"; }
+.my-pinyin-image-container.pinyin-guang img:nth-child(2) { content: url(mnemonic-places-google/guang.png); }
+.my-pinyin-image-container.pinyin-guang span:before { content: "ВАНГа, гавкать"; }
+.my-pinyin-image-container.pinyin-gun img:nth-child(2) { content: url(mnemonic-places-google/gun.png); }
+.my-pinyin-image-container.pinyin-gun span:before { content: "uncle oWEN, гавкать"; }
+.my-pinyin-image-container.pinyin-ka img:nth-child(2) { content: url(mnemonic-places-google/ka.png); }
+.my-pinyin-image-container.pinyin-ka span:before { content: "Адольф, квакать"; }
+.my-pinyin-image-container.pinyin-kai img:nth-child(2) { content: url(mnemonic-places-google/kai.png); }
+.my-pinyin-image-container.pinyin-kai span:before { content: "АЙболит, квакать"; }
+.my-pinyin-image-container.pinyin-kao img:nth-child(2) { content: url(mnemonic-places-google/kao.png); }
+.my-pinyin-image-container.pinyin-kao span:before { content: "АрагОрн, квакать"; }
+.my-pinyin-image-container.pinyin-kan img:nth-child(2) { content: url(mnemonic-places-google/kan.png); }
+.my-pinyin-image-container.pinyin-kan span:before { content: "Алексей Навайльный, квакать"; }
+.my-pinyin-image-container.pinyin-kang img:nth-child(2) { content: url(mnemonic-places-google/kang.png); }
+.my-pinyin-image-container.pinyin-kang span:before { content: "АНГел, квакать"; }
+.my-pinyin-image-container.pinyin-ke img:nth-child(2) { content: url(mnemonic-places-google/ke.png); }
+.my-pinyin-image-container.pinyin-ke span:before { content: "Euronimus, квакать"; }
+.my-pinyin-image-container.pinyin-kei img:nth-child(2) { content: url(mnemonic-places-google/kei.png); }
+.my-pinyin-image-container.pinyin-kei span:before { content: "Eminem, квакать"; }
+.my-pinyin-image-container.pinyin-ken img:nth-child(2) { content: url(mnemonic-places-google/ken.png); }
+.my-pinyin-image-container.pinyin-ken span:before { content: "Edward Norton, квакать"; }
+.my-pinyin-image-container.pinyin-keng img:nth-child(2) { content: url(mnemonic-places-google/keng.png); }
+.my-pinyin-image-container.pinyin-keng span:before { content: "EGGhead, квакать"; }
+.my-pinyin-image-container.pinyin-kou img:nth-child(2) { content: url(mnemonic-places-google/kou.png); }
+.my-pinyin-image-container.pinyin-kou span:before { content: "ОУэн уилсон, квакать"; }
+.my-pinyin-image-container.pinyin-kong img:nth-child(2) { content: url(mnemonic-places-google/kong.png); }
+.my-pinyin-image-container.pinyin-kong span:before { content: "spONGebob, квакать"; }
+.my-pinyin-image-container.pinyin-ku img:nth-child(2) { content: url(mnemonic-places-google/ku.png); }
+.my-pinyin-image-container.pinyin-ku span:before { content: "Wu-Tang Clan, квакать"; }
+.my-pinyin-image-container.pinyin-kua img:nth-child(2) { content: url(mnemonic-places-google/kua.png); }
+.my-pinyin-image-container.pinyin-kua span:before { content: "Вашингтон, квакать"; }
+.my-pinyin-image-container.pinyin-kuai img:nth-child(2) { content: url(mnemonic-places-google/kuai.png); }
+.my-pinyin-image-container.pinyin-kuai span:before { content: "bender robot AI, квакать"; }
+.my-pinyin-image-container.pinyin-kui img:nth-child(2) { content: url(mnemonic-places-google/kui.png); }
+.my-pinyin-image-container.pinyin-kui span:before { content: "YEIльям дефо, квакать"; }
+.my-pinyin-image-container.pinyin-kuo img:nth-child(2) { content: url(mnemonic-places-google/kuo.png); }
+.my-pinyin-image-container.pinyin-kuo span:before { content: "УОллис и громмит, квакать"; }
+.my-pinyin-image-container.pinyin-kuan img:nth-child(2) { content: url(mnemonic-places-google/kuan.png); }
+.my-pinyin-image-container.pinyin-kuan span:before { content: "ВАНда вижн, квакать"; }
+.my-pinyin-image-container.pinyin-kuang img:nth-child(2) { content: url(mnemonic-places-google/kuang.png); }
+.my-pinyin-image-container.pinyin-kuang span:before { content: "ВАНГа, квакать"; }
+.my-pinyin-image-container.pinyin-kun img:nth-child(2) { content: url(mnemonic-places-google/kun.png); }
+.my-pinyin-image-container.pinyin-kun span:before { content: "uncle oWEN, квакать"; }
+.my-pinyin-image-container.pinyin-ha img:nth-child(2) { content: url(mnemonic-places-google/ha.png); }
+.my-pinyin-image-container.pinyin-ha span:before { content: "Адольф, хлестать"; }
+.my-pinyin-image-container.pinyin-hai img:nth-child(2) { content: url(mnemonic-places-google/hai.png); }
+.my-pinyin-image-container.pinyin-hai span:before { content: "АЙболит, хлестать"; }
+.my-pinyin-image-container.pinyin-hao img:nth-child(2) { content: url(mnemonic-places-google/hao.png); }
+.my-pinyin-image-container.pinyin-hao span:before { content: "АрагОрн, хлестать"; }
+.my-pinyin-image-container.pinyin-han img:nth-child(2) { content: url(mnemonic-places-google/han.png); }
+.my-pinyin-image-container.pinyin-han span:before { content: "Алексей Навайльный, хлестать"; }
+.my-pinyin-image-container.pinyin-hang img:nth-child(2) { content: url(mnemonic-places-google/hang.png); }
+.my-pinyin-image-container.pinyin-hang span:before { content: "АНГел, хлестать"; }
+.my-pinyin-image-container.pinyin-he img:nth-child(2) { content: url(mnemonic-places-google/he.png); }
+.my-pinyin-image-container.pinyin-he span:before { content: "Euronimus, хлестать"; }
+.my-pinyin-image-container.pinyin-hei img:nth-child(2) { content: url(mnemonic-places-google/hei.png); }
+.my-pinyin-image-container.pinyin-hei span:before { content: "Eminem, хлестать"; }
+.my-pinyin-image-container.pinyin-hen img:nth-child(2) { content: url(mnemonic-places-google/hen.png); }
+.my-pinyin-image-container.pinyin-hen span:before { content: "Edward Norton, хлестать"; }
+.my-pinyin-image-container.pinyin-heng img:nth-child(2) { content: url(mnemonic-places-google/heng.png); }
+.my-pinyin-image-container.pinyin-heng span:before { content: "EGGhead, хлестать"; }
+.my-pinyin-image-container.pinyin-hou img:nth-child(2) { content: url(mnemonic-places-google/hou.png); }
+.my-pinyin-image-container.pinyin-hou span:before { content: "ОУэн уилсон, хлестать"; }
+.my-pinyin-image-container.pinyin-hong img:nth-child(2) { content: url(mnemonic-places-google/hong.png); }
+.my-pinyin-image-container.pinyin-hong span:before { content: "spONGebob, хлестать"; }
+.my-pinyin-image-container.pinyin-hu img:nth-child(2) { content: url(mnemonic-places-google/hu.png); }
+.my-pinyin-image-container.pinyin-hu span:before { content: "Wu-Tang Clan, хлестать"; }
+.my-pinyin-image-container.pinyin-hua img:nth-child(2) { content: url(mnemonic-places-google/hua.png); }
+.my-pinyin-image-container.pinyin-hua span:before { content: "Вашингтон, хлестать"; }
+.my-pinyin-image-container.pinyin-huai img:nth-child(2) { content: url(mnemonic-places-google/huai.png); }
+.my-pinyin-image-container.pinyin-huai span:before { content: "bender robot AI, хлестать"; }
+.my-pinyin-image-container.pinyin-hui img:nth-child(2) { content: url(mnemonic-places-google/hui.png); }
+.my-pinyin-image-container.pinyin-hui span:before { content: "YEIльям дефо, хлестать"; }
+.my-pinyin-image-container.pinyin-huo img:nth-child(2) { content: url(mnemonic-places-google/huo.png); }
+.my-pinyin-image-container.pinyin-huo span:before { content: "УОллис и громмит, хлестать"; }
+.my-pinyin-image-container.pinyin-huan img:nth-child(2) { content: url(mnemonic-places-google/huan.png); }
+.my-pinyin-image-container.pinyin-huan span:before { content: "ВАНда вижн, хлестать"; }
+.my-pinyin-image-container.pinyin-huang img:nth-child(2) { content: url(mnemonic-places-google/huang.png); }
+.my-pinyin-image-container.pinyin-huang span:before { content: "ВАНГа, хлестать"; }
+.my-pinyin-image-container.pinyin-hun img:nth-child(2) { content: url(mnemonic-places-google/hun.png); }
+.my-pinyin-image-container.pinyin-hun span:before { content: "uncle oWEN, хлестать"; }
+*/
