@@ -35,7 +35,7 @@ input = inputOrig.map(x => ({
   bkrs_pinyin: x._94.split(', '),
   bkrs_transl: x._95,
 }))
-toFreqAndGoogle = R.fromPairs(input.map(x => [x.kanji, x]))
+toFreqAndGoogle = R.fromPairs(input.map(x => [x.kanji, x])); null;
 
 // input_ = input.filter(x => !x.en).map(x => x.kanji)
 // fs.writeFileSync('/home/srghma/Downloads/Chinese Grammar Wiki2.txt', input_.join('\n'))
@@ -154,11 +154,11 @@ promises = output_.map((x, index) => async jobIndex => {
 
   if (!translationInput) { return }
 
-  translationInput = removeHTML(dom, translationInput)
+  // translationInput = removeHTML(dom, translationInput)
 
-  translation = await require('./scripts/lib/google_translate_with_cache').google_translate_with_cache(translationInput, { from: 'zh', to: 'ru' })
-  translation = translation.split('\n')
-  translation = translation.map(x => x.trim().replace('++++++++', ''))
+  // translation = await require('./scripts/lib/google_translate_with_cache').google_translate_with_cache(translationInput, { from: 'zh-cn', to: 'ru' })
+  // translation = translation.split('\n')
+  // translation = translation.map(x => x.trim().replace('++++++++', ''))
 
   if (translation.length !== x.pinyinWithHtml.length) {
     console.log({
@@ -171,7 +171,7 @@ promises = output_.map((x, index) => async jobIndex => {
     throw new Error(`${translation.length} != ${x.pinyinWithHtml.length}`)
   }
   const pinyinWithHtml = R.zipWith((pinyinWithHtmlEl, ru) => ({ ...pinyinWithHtmlEl, ru }), x.pinyinWithHtml, translation)
-  // console.log({ m: 'finished', index, from: output_.length })
+  console.log({ m: 'finished', index, from: output_.length })
   output__.push({
     ...x,
     pinyinWithHtml,
@@ -241,7 +241,7 @@ t_ = t.split('\n').map(R.trim()).filter(R.identity).map(R.split('\t')).flat().fl
     'lü': 'lv',
     'lüe': 'lve',
     'nüe': 'nve',
-  }[x] || x
+  }[x] || x.replace('ü', 'u')
   const r = allKanjiForTable[x_]
   if (!r) {
     if(x === 'cei') { return null }
