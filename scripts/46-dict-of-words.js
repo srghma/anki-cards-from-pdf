@@ -196,53 +196,27 @@ function fixTransl(t) {
 colorize = ch => `<span onclick="window.showKanjiIframe('${ch}')">${ch}</span>`
 colorizes = s => s.split('').map(ch => isHanzi(ch) ? colorize(ch) : ch).join('')
 
-link = (ch, t) => `<a target="_blank" href="plecoapi://x-callback-url/s?q=${encodeURIComponent(ch)}">${t}</a>`
+link = (ch, t) => `<a target="_blank" href="plecoapi://x-callback-url/s?q=${ch}">${t}</a>`
 
-groupByAndToArray = (byFn, key, val, input) => R.toPairs(R.groupBy(byFn, input)).map(x => ({ [key]: x[0], [val]: x[1] }))
-
-tOrig = fs.readFileSync('./table-with-tabs.txt').toString()
-tOrigLines = tOrig.split('\n')
-splitLine = line => R.split('\t', line).flat().flat()
-sections_ = tOrigLines.filter(R.identity).map(line => ({ sectionLetter: line.trim()[0], pinyins: splitLine(line) }))
-toSectionId = x => x.replace(/ü/g, 'v')
-
-html = output_.filter(x => x.hsk > 0 || (x.ru && (x.english || '').length > 0 && x.gRank_Word < 20000))
-html = R.sortBy(x => x.pinyinNumbers.toLowerCase(), html)
-html = html.map(x => {
+html = output_.filter(x => x.hsk > 0 || (x.ru && (x.english || '').length > 0 && x.gRank_Word < 7000)).map(x => {
   ms = R.zip(x.pinyinMarks.split(' '), x.toneMarks).map(([x, t]) => String.raw`<span class="tone${t}">${x}</span>`).join(' ')
+
   ms = [
     ms,
     link(x.Simplified, 'simp'),
     x.Traditional == x.Simplified ? null : link(x.Traditional, 'trad'),
   ].filter(R.identity).join('<br>')
 
-  const hsk = x.hsk > 0 ? x.hsk : ''
-  // const sim = colorizes(x.Simplified)
-  const sim = x.Simplified
-  const trad = x.Traditional == x.Simplified ? '' : x.Traditional
-  const marks = ms
-  const en = x.english.join(`<br>`)
-  const ru = x.ru.replace(/\[m\d\]/g, '').split('[/m]').map(R.trim).filter(R.identity).filter(x => !x.startsWith('[ex]') && !x.startsWith('[*]')).map(fixTransl).join('<br>')
-
-  const front = `
-<div class="hsk">${hsk}</div>
-<div class="my-pinyin-hanzi">
-<div class="sim">${sim}</div>
-<div class="trad">${trad}</div>
-<div class="marks">${marks}</div>
-</div>
-<div class="en">${en}</div>
-<div class="ru">${ru}</div>
-`
-  const marked = x.pinyinMarks.split(' ')[0].toLowerCase()
-  const sectionLetter = x.pinyinNumbers.split(' ')[0].toLowerCase().replace(/\d/, '')
-  return { front, marked, sectionLetter, hsk: x.hsk > 0 ? x.hsk : null, gRank_Word: x.gRank_Word }
+  return [
+    [`hsk`, x.hsk > 0 ? x.hsk : ''],
+    [`sim`, colorizes(x.Simplified)],
+    // [`sim ${x.hsk > 0 ? `hsk-${x.hsk}` : ""}`, x.Simplified],
+    ["trad", x.Traditional == x.Simplified ? '' : colorizes(x.Traditional)],
+    ["marks", ms],
+    ["en", colorizes(x.english.join(`<br>`))],
+    ["ru", colorizes(x.ru.replace(/\[m\d\]/g, '').split('[/m]').map(R.trim).filter(R.identity).filter(x => !x.startsWith('[ex]') || !x.startsWith('[*]')).map(fixTransl).join('<br>'))],
+  ].map(([kl, x]) => String.raw`<td class="${kl}">${x}</td>`)
 })
-
-trace = x => { console.log(x); return x }
-html = groupByAndToArray(R.prop('sectionLetter'), "sectionLetter", "pinyins", html).map(x => ({ sectionLetter: x.sectionLetter, pinyins: groupByAndToArray(R.prop('marked'), "marked", "front", x.pinyins).map(x => ({ marked: x.marked, front: R.sortBy(x => x.hsk || 9999, x.front).map(x => x.front).join('<hr>') })) }))
-
-// html[0].pinyins
 
 html_ = `
 <!DOCTYPE HTML>
@@ -252,55 +226,26 @@ html_ = `
   <title>Hua ma</title>
   <link rel="stylesheet" href="main.css">
   <style>
-.hsk-1, .hsk-2, .hsk-3, .hsk-4, .hsk-5, .hsk-6 { background-color: red; }
-.mytable tr > *:nth-child(1) { width: 1%; white-space: nowrap; }
-.mytable tr > *:nth-child(2) { width: 1%; white-space: nowrap; }
-.mytable tr > *:nth-child(3) { width: 1%; white-space: nowrap; }
-.mytable tr > *:nth-child(4) { width: 1%; white-space: nowrap; }
-.tone1 { color: #a3a3ff; }
-.tone2 { color: lightgreen; }
-.tone3 { color: #ff00ff; }
-.tone4 { color: #ff7b7b; }
-
-.pinyin__containers { display: flex; }
-.pinyin__root_container { display: none; }
-.pinyin__root_container--show { display: block; }
-.pinyin__container { flex-grow: 1; flex-basis: 0; }
+  .hsk-1, .hsk-2, .hsk-3, .hsk-4, .hsk-5, .hsk-6 { background-color: red; }
+  .mytable tr > *:nth-child(1) { width: 1%; white-space: nowrap; }
+  .mytable tr > *:nth-child(2) { width: 1%; white-space: nowrap; }
+  .mytable tr > *:nth-child(3) { width: 1%; white-space: nowrap; }
+  .mytable tr > *:nth-child(4) { width: 1%; white-space: nowrap; }
+  .tone1 { color: #a3a3ff; }
+  .tone2 { color: lightgreen; }
+  .tone3 { color: #ff00ff; }
+  .tone4 { color: #ff7b7b; }
   </style>
   <script src="dict-myscripts.js"></script>
  </head>
- <body id="ruby" class="nightMode my-pinyin-hanzi_container--front trainchinese-container--hide-hanzi purpleculture_pinyin--front">
-  <div class="table-container">
-    <table border="1">
-    ${sections_.map(x => String.raw`<tr>` + x.pinyins.map(x => x ? String.raw`<a onclick="window.showRootContainer('${x}')" href="#${x}">${x}</a>` : '').map(x => String.raw`<td>${x}</td>`).join('') + String.raw`</tr>`).join('\n')}
-    </table>
-  </div>
-
-${
-html.map(({ sectionLetter, pinyins }) => {
-  return String.raw`
-<div id="pinyin__root_container__${sectionLetter}" class="pinyin__root_container">
-<h1><a id="${sectionLetter}"></a>${sectionLetter}</h1>
-<div class="pinyin__containers">
-${
-pinyins.map(pinyin => {
-return String.raw`
-<div class="pinyin__container">
-<div class="pinyin__header">${pinyin.marked}</div>
-<div class="pinyin__item">${pinyin.front}</div>
-</div>`
-}).join('\n')
-}
+ <body class="nightMode">
+  <table border="1" class="mytable">
+   ${html.map(x => String.raw`<tr>${x.join('')}</tr>`).join('\n')}
+  </table>
 </div>
 </div>
-`
-}).join('\n')
-}
-
-</div>
-</div>
-<script src="myscripts.js"></script>
  </body>
-</html>`
+</html>
+`
 
-fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/html/dict-show-transl.html', html_)
+fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/html/dict.html', html_)
