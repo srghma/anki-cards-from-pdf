@@ -45,12 +45,20 @@ readdirFullPath = async dirPath => {
     return x
   })
 }
-subEn = await readdirFullPath("/home/srghma/Downloads/Subtitlist.com-the-longest-day-in-changan-chang-an-shi-er-shi-chen_english_2061623/")
-subCh = await readdirFullPath("/home/srghma/Downloads/a4k.net_1591754997/")
+
+// subEn = await readdirFullPath("/home/srghma/Downloads/Subtitlist.com-the-longest-day-in-changan-chang-an-shi-er-shi-chen_english_2061623/")
+// subCh = await readdirFullPath("/home/srghma/Downloads/a4k.net_1591754997/")
+
+subEn = await readdirFullPath("/home/srghma/Downloads/just-one-smile-is-very-alluring_english-2069916")
+subCh = await readdirFullPath("/home/srghma/Downloads/just-one-smile-is-very-alluring_chinese-bg-code-2075925")
 
 colorize = ch => `<span onclick="window.showKanjiIframe('${ch}')">${ch}</span>`
 colorizes = s => s.split('').map(ch => isHanzi(ch) ? colorize(ch) : ch).join('')
 link = (ch, t) => `<a target="_blank" href="plecoapi://x-callback-url/s?q=${ch}">${t}</a>`
+
+fulldir = "/home/srghma/projects/anki-cards-from-pdf/html/loveo2o"
+const mkdirp = require('mkdirp')
+await mkdirp(fulldir)
 
 subCh.forEach((epSentences, epIndex) => {
   epIndex = epIndex + 1
@@ -89,7 +97,7 @@ subCh.forEach((epSentences, epIndex) => {
   </body>
 </html>`
 
-  fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/longestday/ch-${epIndex}.html`, html_)
+  fs.writeFileSync(`${fulldir}/ch-${epIndex}.html`, html_)
 })
 
 subEn.forEach((epSentences, epIndex) => {
@@ -125,6 +133,6 @@ subEn.forEach((epSentences, epIndex) => {
   </body>
 </html>`
 
-  fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/longestday/en-${epIndex}.html`, html_)
+  fs.writeFileSync(`${fulldir}/en-${epIndex}.html`, html_)
 })
 
