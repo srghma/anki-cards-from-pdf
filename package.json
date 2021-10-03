@@ -50,6 +50,7 @@
     "stream": "^0.0.2",
     "string-strip-html": "^8.3.0",
     "string.prototype.replaceall": "^1.0.5",
+    "subtitles-parser-vtt": "^0.1.0",
     "svg2img": "^0.9.3",
     "xhr2": "^0.2.1",
     "xlsx": "^0.17.0"
