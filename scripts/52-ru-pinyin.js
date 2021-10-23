@@ -36,7 +36,7 @@ readdirFullPath = async dirPath => {
       return true
     })
 
-    x = x.join('\n\n-----\n\n')
+    x = x.join('\n\n-----\n\n') + '\n'
 
     require('fs').writeFileSync(file, x)
 
