@@ -17,6 +17,7 @@ const {Translate} = require('@google-cloud/translate').v2;
 const translate = new Translate({projectId: "annular-form-299211"});
 const nodeWith = require('./scripts/lib/nodeWith').nodeWith
 const escapeRegExp = require('./scripts/lib/escapeRegExp').escapeRegExp
+const TongWen = require('./scripts/lib/TongWen').TongWen
 
 readdirFullPath = async dirPath => {
   const files = await require('fs/promises').readdir(dirPath)
@@ -28,7 +29,7 @@ readdirFullPath = async dirPath => {
     x = x.split(/―{4,}|-{4,}/).map(R.trim)
 
     x = x.filter(content => {
-      if (content.length === 1) {
+      if (content.length > 1) {
         if (isHanzi(content[0])) {
           return false
         }
@@ -45,3 +46,61 @@ readdirFullPath = async dirPath => {
 }
 
 subCh = await readdirFullPath("/home/srghma/projects/anki-cards-from-pdf/ru-pinyin")
+
+//////////////////
+
+readdirFullPath = async dirPath => {
+  const files = await require('fs/promises').readdir(dirPath)
+  const filesAbsPath = files.map(x => require('path').join(dirPath, x))
+  return filesAbsPath.map(file => {
+    let x = require('fs').readFileSync(file).toString() // .replace(/\r/g, '').split('\n\n').map(x => R.tail(x.split('\n'))).filter(x => x.length > 0)
+    x = x.split(/―{4,}|-{4,}/).map(R.trim)
+    return x.map(x => ({ file, x }))
+  })
+}
+x = await readdirFullPath("/home/srghma/projects/anki-cards-from-pdf/ru-pinyin")
+x = x.flat()
+x = x.map(({ file, x }) => {
+  hanzi = x.split('').filter(isHanzi).map(x => {
+    const t = TongWen.s_2_t[x]
+    const s = TongWen.t_2_s[x]
+    return [x, t, s].filter(Boolean)
+  }).flat()
+  hanzi = R.uniq(hanzi)
+  return { file, x, hanzi }
+})
+x = x.filter(x => x.hanzi.length !== 0)
+x = x.map(({ file, x, hanzi }) => hanzi.map(hanziElem => ({ file, x, hanziElem }))).flat()
+x = R.groupBy(R.prop('hanziElem'), x)
+x = R.filter(x => x.length > 1, x)
+x = R.mapObjIndexed(R.map(R.omit(['hanziElem'])), x)
+x = R.toPairs(x)
+x = R.sortBy(x => x[0].file, x)
+x = R.fromPairs(x)
+console.log(R.keys(x).join('\n'))
+
+//////////////////
+
+readdirFullPath = async dirPath => {
+  const files = await require('fs/promises').readdir(dirPath)
+  const filesAbsPath = files.map(x => require('path').join(dirPath, x))
+  return filesAbsPath.map(file => {
+    let x = require('fs').readFileSync(file).toString() // .replace(/\r/g, '').split('\n\n').map(x => R.tail(x.split('\n'))).filter(x => x.length > 0)
+    x = x.split(/―{4,}|-{4,}/).map(R.trim)
+    return x.map(x => ({ file, x }))
+  })
+}
+x = await readdirFullPath("/home/srghma/projects/anki-cards-from-pdf/ru-pinyin")
+x = x.flat()
+x = x.map(({ file, x }) => {
+  hanzi = x.split('').filter(isHanzi).map(x => {
+    const t = TongWen.s_2_t[x]
+    const s = TongWen.t_2_s[x]
+    return [x, t, s].filter(Boolean)
+  }).flat()
+  hanzi = R.uniq(hanzi)
+  return { file, x, hanzi }
+})
+x = x.filter(x => x.hanzi.length !== 0)
+
+fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/ru-pinyin.json`, JSON.stringify(x))
