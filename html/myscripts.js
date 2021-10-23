@@ -1,5 +1,33 @@
 const containerId = 'kanjiIframeContainer'
 
+window.copyToClipboard = (
+  value,
+  successfully = () => null,
+  failure = () => null
+) => {
+  const clipboard = navigator.clipboard;
+  if (clipboard !== undefined && clipboard !== "undefined") {
+    navigator.clipboard.writeText(value).then(successfully, failure);
+  } else {
+    if (document.execCommand) {
+      const el = document.createElement("input");
+      el.value = value;
+      document.body.append(el);
+
+      el.select();
+      el.setSelectionRange(0, value.length);
+
+      if (document.execCommand("copy")) {
+        successfully();
+      }
+
+      el.remove();
+    } else {
+      failure();
+    }
+  }
+};
+
 function isHanzi(ch) {
   const REGEX_JAPANESE = /[\u3000-\u303f]|[\u3040-\u309f]|[\u30a0-\u30ff]|[\uff00-\uff9f]|[\u4e00-\u9faf]|[\u3400-\u4dbf]/
   const REGEX_CHINESE = /[\u4e00-\u9fff]|[\u3400-\u4dbf]|[\u{20000}-\u{2a6df}]|[\u{2a700}-\u{2b73f}]|[\u{2b740}-\u{2b81f}]|[\u{2b820}-\u{2ceaf}]|[\uf900-\ufaff]|[\u3300-\u33ff]|[\ufe30-\ufe4f]|[\uf900-\ufaff]|[\u{2f800}-\u{2fa1f}]/u;
@@ -60,6 +88,7 @@ function isHanzi(ch) {
     function enhanceWithLinkToH(containerElement) {
       // const colorizer = (ch, colorIndex) => `<a target="_blank" href="plecoapi://x-callback-url/s?q=${ch}">${ch}</a>`
       const colorizer = (ch, colorIndex) => `<a target="_blank" href="h.html#${ch}">${ch}</a>`
+      // const colorizer = (ch, colorIndex) => `<div onclick="window.copyToClipboard('${ch}')">${ch}</a>`
       const ruby_chars = containerElement.innerHTML.split('')
       containerElement.innerHTML = ruby_chars.map(ch => isHanzi(ch) ? colorizer(ch) : ch).join('')
     }
