@@ -25,7 +25,7 @@ readdirFullPath = async dirPath => {
   return filesAbsPath.map(file => {
     let x = require('fs').readFileSync(file).toString() // .replace(/\r/g, '').split('\n\n').map(x => R.tail(x.split('\n'))).filter(x => x.length > 0)
 
-    x = x.split(/―{2,}|-{2,}/).map(R.trim)
+    x = x.split(/―{4,}|-{4,}/).map(R.trim)
 
     x = x.filter(content => {
       if (content.length === 1) {
@@ -37,6 +37,8 @@ readdirFullPath = async dirPath => {
     })
 
     x = x.join('\n\n-----\n\n')
+
+    require('fs').writeFileSync(file, x)
 
     return { file, x }
   })
