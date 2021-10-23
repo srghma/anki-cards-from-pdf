@@ -200,17 +200,13 @@ function isHanzi(ch) {
 
 ;(function() {
   if (window.location.pathname !== "/h.html") {
-    const ruby_element = document.getElementById("ruby")
+    function enhanceWithLinkToH(containerElement) {
+      const colorizer = (ch, colorIndex) => `<span onclick="window.showKanjiIframe('${ch}')" onmouseover="window.copyToClipboard('${ch} ')">${ch}</span>`
+      const ruby_chars = containerElement.innerHTML.split('')
+      containerElement.innerHTML = ruby_chars.map(ch => isHanzi(ch) ? colorizer(ch) : ch).join('')
+    }
 
-    if(!ruby_element) { throw new Error("no ruby") }
-
-    // onmouseover="window.copyToClipboard('${ch} ')"
-    const colorizer = (ch, colorIndex) => `<span onclick="window.showKanjiIframe('${ch}')">${ch}</span>`
-    const ruby_chars = ruby_element.innerHTML.split('')
-    ruby_element.innerHTML = ruby_chars.map(ch => isHanzi(ch) ? colorizer(ch) : ch).join('')
-
-    //const ruby_chars__first_hanzi_char = ruby_chars.find(isHanzi)
-    //if (ruby_chars__first_hanzi_char) { window.showKanjiIframe(ruby_chars__first_hanzi_char) }
+    Array.from(document.querySelectorAll('.my-pinyin-hanzi')).forEach(enhanceWithLinkToH)
   }
 })();
 
