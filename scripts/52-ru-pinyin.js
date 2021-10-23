@@ -29,7 +29,7 @@ readdirFullPath = async dirPath => {
     x = x.split(/―{4,}|-{4,}/).map(R.trim)
 
     x = x.filter(content => {
-      if (content.length > 1) {
+      if (content.length === 1) {
         if (isHanzi(content[0])) {
           return false
         }
@@ -37,7 +37,7 @@ readdirFullPath = async dirPath => {
       return true
     })
 
-    x = x.join('\n\n-----\n\n') + '\n'
+    x = x.filter(Boolean).join('\n\n-----\n\n') + '\n'
 
     require('fs').writeFileSync(file, x)
 
