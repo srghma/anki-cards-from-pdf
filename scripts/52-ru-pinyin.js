@@ -97,6 +97,19 @@ x = x.map(({ file, x }) => {
 x = x.filter(x => x.hanzi.length === 0 && x.x.length !== 0).map(x => x.file)
 console.log(R.uniq(x.map(x => x.replace('/home/srghma/projects/anki-cards-from-pdf/ru-pinyin/', ''))).sort())
 
+
+y = R.uniq(x.map(x => x.replace('/home/srghma/projects/anki-cards-from-pdf/ru-pinyin/', ''))).sort().filter(Boolean)
+y = y.map(x => ({ dig: x.replace(/\D/g, ''), pinyin: x.replace(/\d/g, '') }))
+y = R.groupBy(R.prop('pinyin'), y)
+delete y['']
+y = R.mapObjIndexed(R.map(R.prop('dig')), y)
+
+R.toPairs(y).slice(0, 10).forEach(([key, values]) => {
+  url = `http://localhost:34567/f.html?note=${values.join(',')}#${key}`
+  console.log(url)
+  require('child_process').execSync(`google-chrome-beta ${url}`, {encoding: 'utf8'})
+})
+
 //////////////////
 
 readdirFullPath = async dirPath => {

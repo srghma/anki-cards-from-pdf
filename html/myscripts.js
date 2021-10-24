@@ -216,12 +216,14 @@ function isHanzi(ch) {
 ;(function() {
 function hideByDefaultAndShowOnClick(elements, classToAddToShow) {
   Array.from(document.getElementsByClassName(elements)).forEach((element) => {
-    function eventListener(event) {
-      event.preventDefault();
-      element.classList.add(classToAddToShow);
-      // element.removeEventListener('click', eventListener);
-    }
-    element.addEventListener('click', eventListener);
+    element.classList.add(classToAddToShow);
+
+    // function eventListener(event) {
+    //   event.preventDefault();
+    //   element.classList.add(classToAddToShow);
+    //   // element.removeEventListener('click', eventListener);
+    // }
+    // element.addEventListener('click', eventListener);
   });
 }
 hideByDefaultAndShowOnClick("my-pinyin-translation-container", "my-pinyin-translation-container--force-show")
@@ -241,7 +243,10 @@ hideByDefaultAndShowOnClick("my-pinyin-hanzi", "my-pinyin-hanzi--force-show")
     show(parentElement, "my-pinyin-hanzi", "my-pinyin-hanzi--force-show")
   }
   Array.from(document.querySelectorAll("h1")).forEach((clickTarget) => {
-    clickTarget.addEventListener('click', eventListener)
+    show(parentElement, "my-pinyin-translation-container", "my-pinyin-translation-container--force-show")
+    show(parentElement, "my-pinyin-hanzi", "my-pinyin-hanzi--force-show")
+
+    // clickTarget.addEventListener('click', eventListener)
   })
 })();
 
