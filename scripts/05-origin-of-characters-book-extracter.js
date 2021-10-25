@@ -7,7 +7,7 @@ content = fs.readFileSync('/home/srghma/Downloads/The-Origin-of-Chinese-Characte
 
 content_ = content.split('\n\n\n').map(x => x.trim()).filter(x => x != '')
 
-hanzi = R.uniq(content.split('').filter(isHanzi))
+hanzi = R.uniq([...content].filter(isHanzi))
 
 h = hanzi.map(h => {
   sentences = content_.filter(s => s.includes(h))

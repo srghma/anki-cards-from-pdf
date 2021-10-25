@@ -89,7 +89,7 @@ function isHanzi(ch) {
       // const colorizer = (ch, colorIndex) => `<a target="_blank" href="plecoapi://x-callback-url/s?q=${ch}">${ch}</a>`
       const colorizer = (ch, colorIndex) => `<a target="_blank" href="h.html#${ch}">${ch}</a>`
       // const colorizer = (ch, colorIndex) => `<div onclick="window.copyToClipboard('${ch}')">${ch}</div>`
-      const ruby_chars = containerElement.innerHTML.split('')
+      const ruby_chars = [...containerElement.innerHTML]
       containerElement.innerHTML = ruby_chars.map(ch => isHanzi(ch) ? colorizer(ch) : ch).join('')
     }
 
@@ -203,7 +203,7 @@ function isHanzi(ch) {
     function enhanceWithLinkToH(containerElement) {
       // onmouseover="window.copyToClipboard('${ch} ')"
       const colorizer = (ch, colorIndex) => `<span onclick="window.showKanjiIframe('${ch}')">${ch}</span>`
-      const ruby_chars = containerElement.innerHTML.split('')
+      const ruby_chars = [...containerElement.innerHTML]
       containerElement.innerHTML = ruby_chars.map(ch => isHanzi(ch) ? colorizer(ch) : ch).join('')
     }
 

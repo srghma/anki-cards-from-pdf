@@ -67,7 +67,7 @@ let results_ = results.filter((x) => x["kanji"].includes("・"))
 
 changed = []
 results_.forEach(x => {
-  x["kanji"].split('').forEach(k => {
+  [...x["kanji"]].forEach(k => {
     if (k == "・") { return }
 
     console.log(k)

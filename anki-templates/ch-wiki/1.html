@@ -66,7 +66,7 @@
   if(!ruby_element) { throw new Error("no ruby") }
 
   const colorizer = (ch, colorIndex) => `<span onclick="window.showKanjiIframe('${ch}')">${ch}</span>`
-  ruby_element.innerHTML = ruby_element.innerHTML.split('').map(ch => isHanzi(ch) ? colorizer(ch) : ch).join('')
+  ruby_element.innerHTML = [...ruby_element.innerHTML].map(ch => isHanzi(ch) ? colorizer(ch) : ch).join('')
 })();
 
 </script>

@@ -22,7 +22,7 @@ inputOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/Ch
 input = inputOrig
 
 colorize = ch => `<span onclick="window.showKanjiIframe('${ch}')">${ch}</span>`
-colorizes = s => s.split('').map(ch => isHanzi(ch) ? colorize(ch) : ch).join('')
+colorizes = s => [...s].map(ch => isHanzi(ch) ? colorize(ch) : ch).join('')
 
 link = (ch, t) => `<a target="_blank" href="plecoapi://x-callback-url/s?q=${ch}">${t}</a>`
 

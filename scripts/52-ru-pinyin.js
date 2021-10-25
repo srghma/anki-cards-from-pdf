@@ -86,7 +86,7 @@ readdirFullPath = async dirPath => {
 x = await readdirFullPath("/home/srghma/projects/anki-cards-from-pdf/ru-pinyin")
 x = x.flat()
 x = x.map(({ file, x }) => {
-  hanzi = x.split('').filter(isHanzi).map(x => {
+  hanzi = [...x].filter(isHanzi).map(x => {
     const t = TongWen.s_2_t[x]
     const s = TongWen.t_2_s[x]
     return [x, t, s].filter(Boolean)
@@ -97,6 +97,7 @@ x = x.map(({ file, x }) => {
 })
 x = x.filter(x => x.hanzi.length === 0 && x.x.length !== 0 && x.file)
 
+console.log()
 console.log(R.mapObjIndexed(R.map(R.prop('x')), R.groupBy(R.prop('file'), x)))
 
 y = R.uniq(x.map(x => x.file)).sort().filter(Boolean)
