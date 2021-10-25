@@ -94,7 +94,7 @@ x = x.map(({ file, x }) => {
   hanzi = R.uniq(hanzi)
   return { file, x, hanzi }
 })
-x = x.filter(x => x.hanzi.length === 0 && x.x.length !== 0).map(x => x.file)
+x = x.filter(x => x.hanzi.length === 0 && x.x.length !== 0).map(x => x.file).filter(Boolean)
 console.log(R.uniq(x.map(x => x.replace('/home/srghma/projects/anki-cards-from-pdf/ru-pinyin/', ''))).sort())
 
 y = R.uniq(x.map(x => x.replace('/home/srghma/projects/anki-cards-from-pdf/ru-pinyin/', ''))).sort().filter(Boolean)

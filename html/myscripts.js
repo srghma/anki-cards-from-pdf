@@ -201,7 +201,8 @@ function isHanzi(ch) {
 ;(function() {
   if (window.location.pathname !== "/h.html") {
     function enhanceWithLinkToH(containerElement) {
-      const colorizer = (ch, colorIndex) => `<span onclick="window.showKanjiIframe('${ch}')" onmouseover="window.copyToClipboard('${ch} ')">${ch}</span>`
+      // onmouseover="window.copyToClipboard('${ch} ')"
+      const colorizer = (ch, colorIndex) => `<span onclick="window.showKanjiIframe('${ch}')">${ch}</span>`
       const ruby_chars = containerElement.innerHTML.split('')
       containerElement.innerHTML = ruby_chars.map(ch => isHanzi(ch) ? colorizer(ch) : ch).join('')
     }
