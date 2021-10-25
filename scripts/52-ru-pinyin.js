@@ -92,12 +92,14 @@ x = x.map(({ file, x }) => {
     return [x, t, s].filter(Boolean)
   }).flat()
   hanzi = R.uniq(hanzi)
+  file = file.replace('/home/srghma/projects/anki-cards-from-pdf/ru-pinyin/', '')
   return { file, x, hanzi }
 })
-x = x.filter(x => x.hanzi.length === 0 && x.x.length !== 0).map(x => x.file).filter(Boolean)
-console.log(R.uniq(x.map(x => x.replace('/home/srghma/projects/anki-cards-from-pdf/ru-pinyin/', ''))).sort())
+x = x.filter(x => x.hanzi.length === 0 && x.x.length !== 0 && x.file)
 
-y = R.uniq(x.map(x => x.replace('/home/srghma/projects/anki-cards-from-pdf/ru-pinyin/', ''))).sort().filter(Boolean)
+console.log(R.mapObjIndexed(R.map(R.prop('x')), R.groupBy(R.prop('file'), x)))
+
+y = R.uniq(x.map(x => x.file)).sort().filter(Boolean)
 y = y.map(x => ({ dig: x.replace(/\D/g, ''), pinyin: x.replace(/\d/g, '') }))
 y = R.groupBy(R.prop('pinyin'), y)
 delete y['']
