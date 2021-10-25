@@ -85,6 +85,7 @@ readdirFullPath = async dirPath => {
 }
 x = await readdirFullPath("/home/srghma/projects/anki-cards-from-pdf/ru-pinyin")
 x = x.flat()
+// .filter(x => x.x.includes('𠂤'))
 x = x.map(({ file, x }) => {
   hanzi = [...x].filter(isHanzi).map(x => {
     const t = TongWen.s_2_t[x]
@@ -93,6 +94,7 @@ x = x.map(({ file, x }) => {
   }).flat()
   hanzi = R.uniq(hanzi)
   file = file.replace('/home/srghma/projects/anki-cards-from-pdf/ru-pinyin/', '')
+  x = R.trim(x)
   return { file, x, hanzi }
 })
 x = x.filter(x => x.hanzi.length === 0 && x.x.length !== 0 && x.file)
@@ -103,7 +105,6 @@ console.log(R.mapObjIndexed(R.map(R.prop('x')), R.groupBy(R.prop('file'), x)))
 y = R.uniq(x.map(x => x.file)).sort().filter(Boolean)
 y = y.map(x => ({ dig: x.replace(/\D/g, ''), pinyin: x.replace(/\d/g, '') }))
 y = R.groupBy(R.prop('pinyin'), y)
-delete y['']
 y = R.mapObjIndexed(R.map(R.prop('dig')), y)
 
 R.toPairs(y).slice(0, 25).forEach(([key, values]) => {
