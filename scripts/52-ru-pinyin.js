@@ -107,7 +107,7 @@ y = y.map(x => ({ dig: x.replace(/\D/g, ''), pinyin: x.replace(/\d/g, '') }))
 y = R.groupBy(R.prop('pinyin'), y)
 y = R.mapObjIndexed(R.map(R.prop('dig')), y)
 
-R.toPairs(y).slice(0, 25).forEach(([key, values]) => {
+R.toPairs(y).slice(0, 50).forEach(([key, values]) => {
   url = `http://localhost:34567/f.html?note=${values.join(',')}#${key}`
   console.log(url)
   require('child_process').execSync(`google-chrome-beta ${url}`, {encoding: 'utf8'})
