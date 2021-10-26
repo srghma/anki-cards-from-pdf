@@ -70,7 +70,7 @@ x = R.mapObjIndexed(R.map(R.omit(['hanziElem'])), x)
 x = R.toPairs(x)
 x = R.sortBy(x => x[0].file, x)
 x = R.fromPairs(x)
-console.log(R.keys(x).join('\n'))
+console.log(R.keys(x).join('|'))
 
 //////////////////
 
