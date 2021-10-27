@@ -148,32 +148,16 @@ readdirFullPath = async dirPath => {
     let x = require('fs').readFileSync(file).toString() // .replace(/\r/g, '').split('\n\n').map(x => R.tail(x.split('\n'))).filter(x => x.length > 0)
 
     x = require('subtitles-parser-vtt').fromVtt(x, 's')
-
-    // console.log(x)
-
-    // x = x.map(x => {
-    //   // if (x.length !== 2) { throw new Error(x) }
-
-    //   let [time, ...sentense] = x
-    //   // console.log(x)
-
-    //   // time = time.split('-->')[0].trim().replace(',', '.')
-
-    //   // console.log(time)
-
-    //   // const date = new Date("1970-01-01 " + time)
-
-    //   return [time, sentense.join('<br>')]
-    // })
+    x = x.map(R.prop('text')).join()
+    x = R.uniq([...x].filter(isHanzi))
 
     return { file: file.replace('/home/srghma/Desktop/peppa-ch/', '').replace('.vtt', ''), x }
   })
 }
 
 peppaSubCh = await readdirFullPath("/home/srghma/Desktop/peppa-ch")
-peppaSubCh = peppaSubCh.filter(x => x.file === 'Chinese Peppa Pig -  🐠 𝐓𝐡𝐞 𝐀𝐪𝐮𝐚𝐫𝐢𝐮𝐦 - 𝟖 𝐂𝐂 𝐒𝐔𝐁𝐒-yJSgRIDOdzY.zh-CN')[0].x
-peppaSubCh = peppaSubCh.map(R.prop('text')).join()
-peppaSubCh = R.uniq([...peppaSubCh].filter(isHanzi))
+// peppaSubCh = peppaSubCh.filter(x => x.file === 'Chinese Peppa Pig -  🐠 𝐓𝐡𝐞 𝐀𝐪𝐮𝐚𝐫𝐢𝐮𝐦 - 𝟖 𝐂𝐂 𝐒𝐔𝐁𝐒-yJSgRIDOdzY.zh-CN')[0].x
+peppaSubCh = peppaSubCh.filter(x => x.file.endsWith('.zh-CN'))[0].x
 
 readdirFullPath = async dirPath => {
   const files = await require('fs/promises').readdir(dirPath)
@@ -198,8 +182,8 @@ knownH = knownH.map(({ file, x }) => {
   return { file, x, hanzi }
 })
 knownH = R.uniq(knownH.map(x => x.hanzi).join())
-
 diff = R.difference(peppaSubCh, knownH)
+
 diff = diff.map(x => `http://localhost:34567/h.html#${x}`)
 diff.slice(0, 25).forEach((url) => {
   console.log(url)
