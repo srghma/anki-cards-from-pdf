@@ -136,7 +136,7 @@ x = x.map(({ file, x }) => {
   return { file, x, hanzi }
 })
 x = x.filter(x => x.hanzi.length !== 0)
-fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/ru-pinyin.json`, JSON.stringify(x))
+fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/ru-pinyin.json`, JSON.stringify(x))
 
 /////////////////
 
