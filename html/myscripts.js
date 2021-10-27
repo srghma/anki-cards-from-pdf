@@ -45,7 +45,7 @@ function isHanzi(ch) {
     const removeClassFromAllElements = kl => {
       // console.log(kl)
       Array.from(document.querySelectorAll('.' + kl)).forEach(el => {
-        console.log(el)
+        // console.log(el)
         el.classList.remove(kl)
       })
     }
@@ -137,7 +137,7 @@ function isHanzi(ch) {
 
     elementsToAddTranslLinks.filter(x => x).forEach(element => {
       const text = element.innerText.replace(/\n\n+/g, '\n\n').trim()
-      console.log(element, text)
+      // console.log(element, text)
       if (!text) { return }
       const encoded = encodeURIComponent(text)
       const baidu_url = `https://fanyi.baidu.com/#zh/en/` + encoded
@@ -211,6 +211,35 @@ function isHanzi(ch) {
   }
 })();
 
+;(async function() {
+  if (window.location.pathname === "/h.html" && window.location.hash) {
+    let kanjiEncoded = window.location.hash.slice(1)
+    window.showKanjiIframe(kanjiEncoded)
+
+    try {
+      const kanji = decodeURIComponent(kanjiEncoded)
+
+      if (!kanji) { return }
+
+      const respose = await fetch('ru-pinyin.json')
+      const json = await respose.json()
+
+      const info = json.find(x => x.hanzi.includes(kanji))
+
+      console.log(kanji, info)
+
+      if (!info) { return }
+
+      const elemDiv = document.createElement('pre');
+      elemDiv.style.cssText = 'width:100%;height:10%;background:rgb(192,192,192); text-align: start;';
+      elemDiv.innerHTML = info.x
+      window.document.body.insertBefore(elemDiv, window.document.body.firstChild);
+      // document.body.appendChild(elemDiv); // appends last of that element
+    } catch (e) {
+      console.error(e)
+    }
+  }
+})();
 
 ////////////
 

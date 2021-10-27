@@ -133,7 +133,7 @@ x = x.map(({ file, x }) => {
     return [x, t, s].filter(Boolean)
   }).flat()
   hanzi = R.uniq(hanzi)
-  return { file, x, hanzi }
+  return { x, hanzi }
 })
 x = x.filter(x => x.hanzi.length !== 0)
 fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/ru-pinyin.json`, JSON.stringify(x))
