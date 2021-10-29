@@ -22,6 +22,7 @@
     "csv-writer": "^1.6.0",
     "docx": "^6.0.3",
     "entities": "^2.2.0",
+    "epub": "^1.2.1",
     "export-to-csv": "^0.2.1",
     "express": "^4.17.1",
     "fast-xml-parser": "^3.19.0",
