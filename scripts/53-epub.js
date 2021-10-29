@@ -92,5 +92,11 @@ await (require('mkdirp'))(output)
 
 R.toPairs(epub.manifest).forEach(([id, data]) => {
   if (data['media-type'] !== 'image/jpeg') { return }
-
 })
+
+// file = fs.readFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/elon-musk.html`).toString()
+
+// colorize = ch => `<a target="_blank" href="plecoapi://x-callback-url/s?q=${ch}">${ch}</a>`
+// colorizes = s => [...s].map(ch => isHanzi(ch) ? colorize(ch) : ch).join('')
+
+// fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/elon-musk.html`, colorizes(file))
