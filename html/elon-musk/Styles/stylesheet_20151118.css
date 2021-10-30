@@ -1,0 +1,1089 @@
+/* CITIC电子书中心20150303 */
+
+/* 字体位置 */
+@font-face { font-family: "fzlth"; src: url(../../../Fonts/fzlth.ttf); }
+@font-face { font-family: "songti"; src: url(../../../Fonts/fzss.ttf); }
+@font-face { font-family: "kaiti"; src: url(../../../Fonts/kaiti.ttf); }
+
+@font-face { font-family:"fzlth"; src: 
+local("微软雅黑"),local("黑体"),
+local("hei"),local("MYing Hei S"),/* local("MYing Hei T"),local("TBGothic"), */
+url(../../../Fonts/fzlth.ttf),
+local("Heiti"),local("Heiti SC"),local("Heiti TC"),local("STHeiti"),
+local("DK-HEITI"),
+local("Sans-serif"); }
+
+@font-face { font-family:"heiti"; src: 
+local("微软雅黑"),local("黑体"),
+local("hei"),local("MYing Hei S"),/* local("MYing Hei T"),local("TBGothic"), */
+local("Helvetica"),local("Heiti"),local("Heiti SC"),local("Heiti TC"),local("STHeiti"),
+local("DroidSansFallback"),
+local("DK-HEITI"),
+local("Sans-serif"),local("Monospace"); }
+
+@font-face { font-family:"songti"; src: 
+local("华文中宋"),local("宋体"),local("STSong"),
+local("song"),local("STSong"),local("Song S"),/* local("STBShusong"),local("Song T"),local("TBMincho"),local("HYMyeongJo"), */
+local("Songti"),local("Songti SC"),local("Songti TC"),local("Times New Roman"),
+url(../../../Fonts/fzss.ttf),
+local("DK-SONGTI"),
+local("Serif");}
+
+@font-face { font-family:"kaiti"; src: 
+local("楷体"),local("楷体_GB2312"),
+local("kai"),local("MKai PRC"),local("STKai"),local("STKaiTi"),
+local("Kaiti"),local("Kaiti SC"),local("Kaiti TC"),
+local("Georgia"),
+url(../../../Fonts/kaiti.ttf),
+local("DK-KAITI");}
+
+@font-face { font-family:"yuanti"; src: 
+local("幼圆"),local("仿宋"),local("仿宋_GB2312"),
+local("yuan"),local("STYuan"),
+local("Yuanti"),local("Yuanti SC"),local("Yuanti TC"),
+local("DK-XIHEITI"),local("DK-FANGSONG");}
+
+body{padding:0px 0px;margin:0px 0px;}
+/* 如果使用全屏需要留出三字符的边框 */
+body.banxin{padding:10%;}
+
+
+
+/*=========================段落格式=========================*/
+
+/* 标题一 篇*/
+h1{
+	font-size:1.7em;
+	font-family:;
+	margin-top:2em;
+	margin-bottom:1em;
+	margin-left:;
+	text-align:center;
+	color:#000000; 
+	line-height:;
+	font-weight:normal;
+	text-indent:0em;
+}
+
+/* 标题二 章*/
+h2{
+	font-size:1.6em;
+	font-family:;
+	margin-top:2em;
+	margin-bottom:1.3em;
+	margin-right:;
+	text-align:center;
+	color:#0033CC; 
+	line-height:;
+	text-indent:0em;
+	font-weight:800;
+}
+
+/* 标题三 节*/
+h3{
+	font-size:1.5em;
+	font-family:;
+	margin-top:2em;
+	margin-bottom:1.3em;
+	text-align:left;
+	text-indent:0em;
+	text-justify:;
+	color:#000000; 
+	font-weight:normal;
+}
+
+/* 标题四 小标题*/
+h4{
+    font-size: 1.3em;
+    font-family:;
+    margin-top: 1.0em;
+    margin-bottom: 0.5em;
+	text-align:left;
+	text-indent:2em;
+    font-weight:800;
+	color:; 
+}
+
+/* 标题五 图表标题*/
+h5{
+	font-family:heiti!important;
+	font-size:1em;
+	font-weight:bold;
+	text-align:center;
+	text-indent:2em;
+	margin:0em;
+} 
+/* 标题 与图间隔*/
+.chatu + h5{margin-top:0.5em;}
+h5 + table{margin-top:0.5em;}
+h5 + table.narrow{margin-top:0.5em;}
+table + h5{margin-top:1.5em;}
+.tushuo + h5{margin-top:0.5em;}
+/* 标题 与正文间隔*/
+h5 + p{margin-top:1.5em;}
+p + h5{margin-top:1.5em;}
+h5 + blockquote{margin-top:1.5em;}
+blockquote + h5{margin-top:1.5em;}
+
+
+/* 标题六 */
+h6{
+	font-size:1.0em;
+	margin:0.5em 0em 0em 0em;
+	text-align:left;
+	font-family: kaiti!important;
+	text-indent:0;
+	line-height:1.2em;
+	font-weight:normal;
+}
+h6 + table{margin-top:0em;}
+table + h6{margin-top:0em;}
+h5 + h6{margin-top:0.5em;}
+h6 + p{margin-top:1.5em;}
+p + h6{margin-top:1.5em;}
+h6 + h6{margin-top:0em;}
+/* 图表说-楷体 */
+.tushuo{
+font-size:1.0em;
+margin:0.5em 0em 0em 0em;
+text-align:left;
+font-family: kaiti!important;
+text-indent:0;
+line-height:1.2em;
+}
+.tushuo + table{margin-top:0em;}
+table + .tushuo{margin-top:0em;}
+h5 + .tushuo{margin-top:0.5em;}
+.tushuo + p{margin-top:1.5em;}
+p + .tushuo{margin-top:1.5em;}
+table + p{margin-top:1.5em;}
+.tushuo + .tushuo{margin-top:0em;}
+
+/* 正文 */
+p{
+	font-size:1.15em;
+	text-align:justify;
+	text-indent:2em;
+	font-family:;
+	margin-top:1em;
+	margin-bottom:0em;
+	text-justify: inter-ideograph;
+	line-height:1.5em;
+	letter-spacing:0px;
+}
+
+/* 引文 */
+blockquote{
+margin-top:1em;
+margin-bottom:0;
+margin-left:1em;
+margin-right:1em;
+}
+blockquote p{
+	font-family:kaiti!important;
+	font-size:1.15em;
+	padding-left:;
+	margin-top:0.5em;
+	margin-bottom:0em;
+	text-indent:2em;
+	text-align:justify;
+	font-weight:normal;
+	line-height:1.4em;
+	text-justify: inter-ideograph;
+}
+/* 引文 与正文间隔*/
+p + blockquote{margin-top:2em;}
+blockquote + p{margin-top:2em;}
+div blockquote{margin:0.5em 0;}
+div p + blockquote{margin-top:1.5em;}
+div blockquote + p{margin-top:1.5em;}
+div p{margin:0.5em 0;}
+blockquote + blockquote{margin-top:0em;}
+/* 段中引文 */
+i{
+font-family:kaiti!important;
+font-weight:normal;
+font-style:normal;
+font-size:1.1em;
+}
+
+/* 表格 黑色边框 */
+table{
+border-collapse:collapse;
+border:2px solid black;
+margin:1.5em auto 0em auto;
+width:100%;
+}
+td,th {
+border:1px solid black;
+padding:0.4em;
+font-family:heiti!important;
+font-size:1em;
+word-break:break-all;
+text-indent:0!important;
+} 
+td p{
+margin:0;
+font-family:heiti!important;
+font-size:1em;
+text-indent:0!important;
+text-align:left;
+text-justify:auto;
+word-break:break-all;
+} 
+td p b{font-size:1em;} 
+table + p{margin-top:1.5em;}
+/* 无竖线表格 */
+table.halfline{border-left:0px;border-right:0px;}
+table.halfline td{border-left:0px;border-right:0px;}
+table.halfline th{border-left:0px;border-right:0px;}
+/* 仅边框表格 */
+table.borderline td{
+border-left:0px;
+border-right:0px;
+border-top:0px;
+border-bottom:0px;
+}
+table.borderline td{
+border-left:0px;
+border-right:0px;
+border-top:0px;
+}
+/* 无线表格 */
+table.noline{border:0px;}
+table.noline td{border:0px;}
+table.noline th{border:0px;}
+/* 平均分布各列 */
+.average{table-layout:fixed;}
+/* 表格不撑满宽度 */
+.narrow{
+margin:1.5em 0 0em 10%;
+width:auto;
+max-width:100%;
+}
+
+/* 脚注 */
+.fnote{
+		font-size:0.9em;
+		text-align:justify;
+		text-indent:2em;
+		line-height:1.5em;
+		margin-top:0px;
+		margin-bottom:0px;
+}
+p + .fnote{margin-top:1em;padding-top:0.5em;border-top:solid 1px gray;}
+div + .fnote{margin-top:1em;padding-top:0.5em;border-top:solid 1px gray;}
+h6 + .fnote{margin-top:1em;padding-top:0.5em;border-top:solid 1px gray;}
+blockquote + .fnote{margin-top:1em;padding-top:0.5em;border-top:solid 1px gray;}
+.fnote p{
+font-size:1em;
+text-align:justify;
+text-indent:2em;
+line-height:1.5em;
+margin-top:0px;
+margin-bottom:0px;
+}
+.fnote + .fnote{margin-top:0.5em;padding-top:0em;border-top:0em;}
+/* 无需链接的脚注 */
+.footnote{
+		font-size:0.9em;
+		text-align:justify;
+		text-indent:2em;
+		line-height:1.5em;
+		margin-top:0px;
+		margin-bottom:0px;
+}
+p + .footnote{margin-top:1em;padding-top:0.5em;border-top:solid 1px gray;}
+div + .footnote{margin-top:1em;}
+h6 + .footnote{margin-top:1em;}
+blockquote + .footnote{margin-top:1em;}
+.footnote p{
+font-size:1em;
+text-align:justify;
+text-indent:2em;
+line-height:1.5em;
+margin-top:0px;
+margin-bottom:0px;
+}
+.footnote + .footnote{margin-top:0.5em;}
+.fnote + .footnote{margin-top:0.5em;}
+
+ol.footnote-content{
+		font-size:0.9em;
+		text-align:justify;
+		text-indent:2em;
+		line-height:1.5em;
+		margin-top:0px;
+		margin-bottom:0px;
+        		font-family: none;
+}
+p + .footnote-content{margin-top:1em;padding-top:0.5em;border-top:solid 1px gray;}
+div + .footnote-content{margin-top:1em;}
+h6 + .footnote-content{margin-top:1em;}
+blockquote + .footnote-content{margin-top:1em;}
+.footnote-content p{font-size:1em;text-align:justify;text-indent:2em;line-height:1.5em;margin-top:0px;margin-bottom:0px;}
+.footnote-item + .footnote-item{margin-top:0.5em;}
+
+/* 避免标题重影 */
+h1,h3{font-weight:normal;}
+
+/* 列表项 */
+ul,ol{
+	margin-top:1em;
+	margin-bottom:0;
+	font-size:1.15em;
+	font-family: songti;
+	text-align:justify;
+	font-weight:normal;
+	line-height:1.4em;
+	text-justify: inter-ideograph;
+}
+li{
+	margin-top:0.6em;
+	margin-bottom:0em;
+}
+p + ul{margin-top:1.5em;}
+ul + p{margin-top:1.5em;}
+div ul{margin-top:0.5em;}
+div p + ul{margin-top:1.5em;}
+div ul + p{margin-top:1.5em;}
+ul + ul{margin-top:1.5em;}
+ul ul{font-size:0.9em;}
+/* 列表样式 */
+ul.circle {list-style-type:circle;}
+ul.square {list-style-type:square;}
+
+.fubiao{margin-bottom:0.5em;}
+p.fubiao{
+margin-top:0.5em;
+font-family:kaiti;
+font-size:1.4em;
+text-indent:0;
+}
+span.fubiao{font-size:0.8em}
+
+
+
+/*=========================字体调整=========================*/
+
+/* 局部文字变化 */
+/* 粗体 */
+b{
+font-family:heiti!important;
+font-weight:800;
+font-size:1.05em;
+}
+td b{font-size:1em;}
+/* 标红 颜色可改 */
+strike{color:#CC0000; text-decoration:none;}
+/* 橙色高亮  颜色可改 */
+.highlight{background:#fcc444;}
+/* 目录链接改成黑色 */
+a{color:black} 
+/* 斜体 */
+.italic{font-style:italic;}
+/* 下划虚线 */
+u.dash{text-decoration:none;border-bottom:dashed 2px;}
+/* 下划点线 */
+u.dot{text-decoration:none;border-bottom:dotted 3px;}
+/* 删除线 */
+u.del{text-decoration:line-through;}
+/* 段落首字放大*/
+span.dropcap {
+float: left; 
+font-size: 1.8em; 
+margin-right: 0.3em; 
+margin-bottom: 0em;
+margin-top:0em;
+line-height:1.6em; 
+}
+/* 注释以外的上标 */
+span.sbiao{
+margin:0em;
+font-size:0.7em;
+vertical-align:super;
+}
+/* 小号字 */
+.xiao{
+font-size:0.95em;
+margin-top:1em;
+text-indent:0;
+line-height:1.2em;
+}
+.xiao + .xiao{margin-top:0.4em;}
+.xiao + p{margin-top:1em;}
+span.xiao{font-size:0.85em;}
+
+/* 字体类型 */
+/* 使用宋体 */
+.songti{font-family:songti!important;}
+/* 使用黑体 */
+.heiti{font-family:heiti!important;}
+/* 使用楷体 */
+.kaiti{font-family:kaiti!important;}
+/* 使用圆体 */
+.yuanti{font-family:yuanti!important;}
+
+/* 字体颜色 */
+/* 黑色 */
+.black1{color:#000000; }
+/* 蓝黑色 */
+.blue{color:#000080; } 
+/* 深蓝色 */
+.blue1{color:#0033CC; }
+/* 蓝色 */
+.blue0{color:#00a0e9; }
+/* 绿色 */
+.green{color:#2E8B57; }
+/* 深青绿色 */
+.greenbt{color:#00736d; }
+/* 白色 */
+.white{color:white; }
+/* 综色 */
+.brown{color:#6c483e; }
+.brown1{color:#A0522D; }
+/* 红色 */
+.red{color:#CC0000; }
+/* 暗红 */
+.red1{color:#B22222; }
+/* 橙色 */
+.orange1{color:#eb6100} 
+/* 粉色 */
+.pink{color:#FF0088; }
+/* 紫色 */
+.violet{color:#660099; }
+/* 灰色 */
+.gray{color:#aaaaaa; }
+
+/* 文字特效 */
+/* 灰色阴影 */
+.shadowt{text-shadow: 2px 2px 3px silver;}
+/* 蓝色光晕 */
+.glow{text-shadow: 0 0 7px #3399cc;}
+/* 灰色浮雕，仅适用有色背景 */
+.relief{color: #a9a9a9; text-shadow: -1px -1px 0 #fff,1px 1px 0 #333,1px 1px 0 #444;}
+/* 文字模糊 */
+.blur{color: transparent; text-shadow: 0 0 5px #f96;}
+/* 红色描边 */
+.bordert{text-shadow: 1px 1px 0 red,-1px -1px 0 red;}
+
+/* 文字位置 */
+/* 居中 */
+.center{text-align:center;text-indent:0px;}
+*[style~="text-align: center;"]{text-indent:0px;}
+*[style="text-align: center;"]{text-indent:0px;}
+/* 居左 */
+.left{text-align:left;}
+/* 居右 */
+.right{text-align:right;}
+/* 段前空两字 */
+.indent{text-indent:2em;}
+/* 段前不空两字 */
+.noindent{text-indent:0em;}
+
+/* 标题边框，可用于标题、正文、div和span，颜色可改 */
+/* 背景色 */
+.biaoti1{
+padding:0.4em 0.5em;
+background-color:#ADD8E6; 
+}
+/* 圆角背景 */ 	
+.biaoti2{
+padding:0.4em 0.5em;
+-webkit-border-radius: 1em;
+border-radius: 1em;
+background-color:#B0C4DE; 
+text-indent:0em;
+}
+/* 左下半框 */
+.biaoti3{
+border-left:solid 0.66em #B22222; 
+border-bottom:solid 2px #B22222; 
+padding:0.5em 0.3em;
+text-align:left;
+text-indent:0em;
+}
+/* 下方虚线 */
+.biaoti4{
+padding:0.5em 0;
+border-bottom:3px dashed #99cc99; 
+text-indent:0em;
+}
+/* 下方实线 */
+.biaoti5{
+padding:0.5em 0;
+border-bottom:2px solid #8B4513; 
+text-indent:0em;
+}
+/* 虚线全框 */
+.biaoti6{
+padding:0.4em 0.5em;
+border:3px dashed #ff9933; 
+text-indent:0em;
+}
+/* 双线全框 */
+.biaoti7{
+padding:0.5em;
+border:3px double #191970; 
+text-indent:0em;
+}
+/* 右侧方块 */
+.biaoti8{
+padding:0em 0.6em;
+border-right:solid 1.2em #4682B4; 
+text-indent:0em;
+text-align:right;
+}
+/* 带白框灰色框 */
+.biaoti9{
+padding:1em 0.5em 1em 0.5em;
+border:13px double #ffffff; 
+background-color:#bebebe; 
+}
+/* 上下双线 */
+.biaoti10{
+border-top:double 3px #000000; 
+border-bottom:double 3px #000000; 
+padding:0.8em 1em;
+}
+/* 左上弧线 */
+.biaoti11{
+border-left:solid 15px;
+border-top:solid 2px;
+-moz-border-radius-topleft: 75px;
+-webkit-border-top-left-radius:75px;
+border-top-left-radius:75px;
+border-color:#666666; 
+background-color:#cccccc; 
+padding:0.5em 0.3em 0.4em 0.6em;
+text-align:left;
+text-indent:0em;
+}
+/* 左右粗上下细 */
+.biaoti12{
+border-width:2px 14px 2px 14px;
+border-color:red;
+border-style:solid;
+text-indent:0;
+padding:0.5em 0.5em;
+}
+/* 书籍样边框 */
+.biaoti13{
+border-top:double 4px #A0522D; 
+border-bottom:solid 2px #A0522D; 
+border-left:solid 15px #A0522D; 
+border-right:double 4px #A0522D; 
+padding:0.3em;
+text-indent:0;
+}
+h3.biaoti1,h2.biaoti1,h3.biaoti2,h2.biaoti2,h3.biaoti3,h2.biaoti3,h3.biaoti4,h2.biaoti4,h3.biaoti5,h2.biaoti5,h3.biaoti6,h2.biaoti6,h3.biaoti7,h2.biaoti7,h3.biaoti9,h2.biaoti9,h3.biaoti10,h2.biaoti10,h3.biaoti11,h2.biaoti11,h3.biaoti12,h2.biaoti12,h2.biaoti13{margin-bottom:0.5em;}
+h3.biaoti1,h3.biaoti2,h3.biaoti3,h3.biaoti4,h3.biaoti5,h3.biaoti6,h3.biaoti7,h3.biaoti9,h3.biaoti10,h3.biaoti11,h3.biaoti12,h3.biaoti13{margin-top:1em;}
+/* 非满宽度框，与以上各项或div同时使用 */
+.narrowdiv{display:inline-block;margin-left:auto;margin-right:auto;}
+/* 作为div使用时与正文的边距 */
+p + div[class*="biaoti"]{margin-top:1em;}
+/* 边的颜色 */
+/* 边的颜色 */
+/* 黑色 */
+.bblack{border-color:#000000!important; }
+/* 深蓝色 */
+.bblue1{border-color:#0033CC!important; }
+/* 蓝色 */
+.bblue{border-color:#00a0e9!important; }
+/* 浅绿色 */
+.bgreenl{border-color:#99cc99!important; }
+/* 绿色 */
+.bgreen{border-color:#2E8B57!important; }
+/* 棕色 */
+.bbrown1{border-color:#A0522D!important; }
+/* 红色 */
+.bred{border-color:#CC0000!important; }
+/* 橙色 */
+.borange{border-color:#eb6100!important; }
+/* 深黄色*/
+.byellow{border-color:#ffcc00!important; }
+/* 粉色 */
+.bpink{border-color:#FF0088!important; }
+/* 紫色 */
+.bviolet{border-color:#660099!important; }
+/* 灰色 */
+.bgray{border-color:#aaaaaa!important; }
+
+
+
+/*=========================文字框=========================*/
+
+/*背景色，body可用*/
+/* 透明背景*/
+.trans{background-color: transparent!important; }
+/* 灰白背景*/
+.wgray{background-color: #F5F5F5; }
+/* 浅灰背景*/
+.grey{background-color: #DCDCDC; }
+/* 暗蓝灰背景*/
+.bgrey{background-color: #445156; }
+/* 棕黑背景*/
+.bbrown{background-color: #362e2b; }
+/* 中灰背景*/
+.graybg{background-color: #bebebe; }
+/* 淡蓝灰背景*/
+.bluebg{background-color: #ADD8E6; }
+/* 灰蓝背景*/
+.blueg{background-color: #B0C4DE; }
+/* 浅蓝背景*/
+.bluel{background-color: #73c5ff; }
+/* 天蓝背景*/
+.bluesky{background-color:#3399cc; }
+/* 深青绿背景*/
+.greenb{background-color:#669999; }
+/* 深绿背景*/
+.greenbg{background-color:#2E8B57; }
+/* 浅青绿背景*/
+.greeng{background-color:#99cc99; }
+/* 浅草绿背景*/
+.greenl{background-color:#add957; }
+/* 绿白背景*/
+.greenw{background-color:#ceeec7; }
+/* 黄白色背景*/
+.yellowl{background-color:#FFFACD; }
+/* 黄色背景*/
+.yellow{background-color:#ffe60a; }
+/* 深黄色背景*/
+.yellowd{background-color:#ffcc00; }
+/* 浅橙色背景*/
+.orangel{background-color:#ffcc66; }
+/* 橙色背景*/
+.orange{background-color:#ff9933; }
+/* 土金色背景*/
+.golden{background-color:#cc9933; }
+/* 浅棕黄色背景*/
+.brownl{background-color:#DEB887; }
+/* 浅棕色背景*/
+.brownll{background-color:#c4aa87; }
+/* 藕荷色背景*/
+.purple{background-color:#cc9999; }
+/* 浅蓝紫色背景*/
+.purplel{background-color:#ccccff; }
+/* 红色背景*/
+.redbg{background-color:#cc3333; }
+/* 浅红色背景*/
+.redl{background-color:#ffcccc; }
+/* 浅粉红背景*/
+.pinkbg {background-color: #ffdde9; }
+/* 浅桃色背景*/
+.peachbg {background-color: #FFDAB9; }
+/* 黑色背景 */
+.black{background-color:#000000; }
+/* 白色背景*/
+.whitebg {background-color: #ffffff; }
+/* 乳白色背景*/
+.milk {background-color: #fffff0; }
+/* 灰色圆角背景*/
+.greybg{
+background-color: #dcdcdc; 
+margin:0.8em 0.5em;
+padding:0.8em 0.5em;
+-moz-border-radius: 19px;
+-webkit-border-radius: 19px;
+border-radius: 19px;
+ }
+
+/* 无边框，结合底色使用 */
+.noborder {
+border:none;
+margin:1em 0.5em;
+padding:0.8em 0.5em; 
+}
+/* 单线边框 */
+.solid {
+border:solid 1px;
+margin:1em 0.5em;
+padding:0.8em 0.5em; 
+}
+/* 虚线边框 */
+.dashed {
+border:dashed 3px #3399cc; 
+margin:1em 0.5em;
+padding:0.8em 0.5em; 
+}
+/* 点边框 */
+.dotted {
+border:dotted 3px #dedede; 
+margin:1em 0.5em;
+padding:0.8em 0.5em; 
+}
+/* 上下双线 */
+.dualline {
+border-top:double 3px #000000; 
+border-bottom:double 3px #000000; 
+margin:1em 0.5em;
+padding:0.8em 0.5em;
+}
+/* 左右单线 */
+.doubleline {
+border-left:solid 2px #CC0000; 
+border-right:solid 2px #CC0000; 
+margin:1em 0.5em;
+padding:0.8em 0.5em;
+}
+/* 棕色圆角左右框*/
+.lrkuang {
+border-left:2px dashed #A0522D; 
+border-right:2px dashed #A0522D; 
+padding:0.8em 0.5em;
+border-radius:0.6em;
+margin:1em 0.5em;
+}
+/* 左侧粗竖线 */
+.single{
+border-left:#bebebe 0.35em solid; 
+padding-left:0.5em;
+}
+blockquote.single{
+margin-top:1em;
+margin-bottom:0;
+margin-left:0.5em;
+margin-right:0.5em;
+}
+/* 边框带阴影 */
+.shadow{
+padding:0.8em;
+border:1px solid silver;
+margin:1em 0.5em 1em 0.5em;
+-moz-box-shadow: 2px 2px 2px silver;
+-webkit-box-shadow: 2px 2px 2px silver;
+box-shadow: 2px 2px 2px silver;
+}
+p .shadow{margin-top:0em;margin-bottom:0em;}
+div .shadow{margin-top:0em;margin-bottom:0em;}
+/* 圆角 */
+.round{
+margin:1em 0.5em;
+padding:0.8em 0.5em;
+-moz-border-radius: 19px;
+-webkit-border-radius: 19px;
+border-radius: 19px;
+}
+/* 向右倾斜 */
+.lean{
+-webkit-transform: rotate(4deg) scale(0.861) skew(1deg) translate(0px);
+-moz-transform: rotate(4deg) scale(0.861) skew(1deg) translate(0px);
+-o-transform: rotate(4deg) scale(0.861) skew(1deg) translate(0px);
+}
+
+/* 表格和框水平居中 */
+.centerd{margin-left:auto;margin-right:auto;}
+
+/* 框内标题边距 */
+div[class~="solid"] h1{margin-top:1em;margin-bottom:1em;}
+div[class~="shadow"] h1{margin-top:1em;margin-bottom:1em;}
+div[class~="dualline"] h1{margin-top:1em;margin-bottom:1em;}
+div[class~="doubleline"] h1{margin-top:1em;margin-bottom:1em;}
+div[class~="dotted"] h1{margin-top:1em;margin-bottom:1em;}
+div[class~="dashed"] h1{margin-top:1em;margin-bottom:1em;}
+div[class~="noborder"] h1{margin-top:1em;margin-bottom:1em;}
+div[class~="solid"] h2{margin-top:0.5em;margin-bottom:0.5em;}
+div[class~="shadow"] h2{margin-top:0.5em;margin-bottom:0.5em;}
+div[class~="dualline"] h2{margin-top:0.5em;margin-bottom:0.5em;}
+div[class~="doubleline"] h2{margin-top:0.5em;margin-bottom:0.5em;}
+div[class~="dotted"] h2{margin-top:0.5em;margin-bottom:0.5em;}
+div[class~="dashed"] h2{margin-top:0.5em;margin-bottom:0.5em;}
+div[class~="noborder"] h2{margin-top:0.5em;margin-bottom:0.5em;}
+div[class~="solid"] h3{margin-top:0em;}
+div[class~="shadow"] h3{margin-top:0em;}
+div[class~="dualline"] h3{margin-top:0em;}
+div[class~="doubleline"] h3{margin-top:0em;}
+div[class~="dotted"] h3{margin-top:0em;}
+div[class~="dashed"] h3{margin-top:0em;}
+div[class~="noborder"] h3{margin-top:0em;}
+div[class~="solid"] h4{margin-top:0em;}
+div[class~="shadow"] h4{margin-top:0em;}
+div[class~="dualline"] h4{margin-top:0em;}
+div[class~="doubleline"] h4{margin-top:0em;}
+div[class~="dotted"] h4{margin-top:0em;}
+div[class~="dashed"] h4{margin-top:0em;}
+div[class~="noborder"] h4{margin-top:0em;}
+
+
+
+/*=========================图片=========================*/
+
+/* 一般横线 */
+hr{width:100%;color:"#000000"; size:"1px"}
+
+/* 虚线横线 颜色可改 */
+div.line
+{border:1.5px dashed gray;margin:0.5em 0;width:100%;}
+
+/* 图片 */
+img{
+max-width:100%;
+max-height:100%;
+padding:0px 0px;
+margin:0px 0px;
+}
+
+/* 封面图片 宽度撑满*/
+.full{padding:0px 0px;margin:0px 0px;width:100%;}
+.full img { 
+        width:100%;  
+    } 
+
+/* 表格内图片*/
+td img{width:100%;}
+
+/* 插图 居中*/
+div.chatu{
+margin-left:auto;
+margin-right:auto;
+text-align:center;
+font-family:songti;
+}
+
+/* 框中图片*/
+.noborder .chatu img{width:80%;}
+.solid .chatu img{width:80%;}
+.dashed .chatu img{width:80%;}
+.dotted .chatu img{width:80%;}
+.dualline .chatu img{width:80%;}
+.doubleline .chatu img{width:80%;}
+.lrkuang .chatu img{width:80%;}
+.shadow .chatu img{width:80%;}
+.round .chatu img{width:80%;}
+
+/* 插图与正文间隔*/
+.chatu + p{margin-top:1.5em;}
+h1 + .chatu{margin-top:1.5em;}
+h2 + .chatu{margin-top:1.5em;}
+h3 + .chatu{margin-top:1.5em;}
+h4 + .chatu{margin-top:1.5em;}
+h5 + .chatu{margin-top:1.5em;}
+h6 + .chatu{margin-top:1.5em;}
+div +.chatu{margin-top:1em;}
+.tushuo + .chatu{margin-top:1.5em;}
+p + .chatu{margin-top:1.5em;}
+blockquote + .chatu{margin-top:1.5em;}
+.chatu + .chatu{margin-top:1.5em;}
+.chatu + .tushuo{margin-top:0.5em;}
+.chatu + h6{margin-top:0.5em;}
+.chatu+ div{margin-top:1em;}
+/* 上边距为0.5em*/
+.shang0{margin-top:0.5em!important;}
+/* 下边距为0.5em*/
+.xia0{margin-bottom:0.5em!important;}
+
+
+/*=========================杂项=========================*/
+div.sgc-toc-level-1{
+font-family:heiti!important;
+font-weight:bold;
+margin:1em 0em;
+font-size:1.3em;
+}
+div.sgc-toc-level-2{
+font-family:fzlth!important;
+font-weight:normal;
+margin:0.5em 1em;
+font-size:0.9em;
+}
+div.sgc-toc-level-3{
+font-weight:normal;
+margin:0.2em 0em;
+font-size:0.85em;
+}
+div.clear{clear:both;}
+.juzhong p{
+font-size:1.0em;
+margin:0.5em 0em;
+text-align:left;
+font-family:;
+text-indent:0;
+line-height:1.2em;
+}
+div.sgc-toc-level-1 a{color:black!important; }
+div.sgc-toc-level-2 a{color:black!important; }
+div.sgc-toc-level-3 a{color:black!important; }
+
+#storylogo{
+margin-top:20%;
+width:16em;
+max-width:75%;
+}
+#storylogo img{
+width:16em;
+max-width:100%;
+padding:0px 0px;
+margin:0px 0px;
+box-shadow:none;
+border:none;
+}
+#storysl{
+text-align: center;
+font-size:1.4em;
+text-indent:0em;
+font-famliy:fzlth;
+margin-top:5%;
+}
+#storyqr{
+margin-top:10%;
+width:10em;
+max-width:50%;
+}
+#storyqr img{
+width:10em;
+max-width:100%;
+padding:0px 0px;
+margin:0px 0px;
+box-shadow:none;
+border:none;
+}
+#storysl2{
+text-align: center;
+margin-top:0em;
+font-size:1em;
+text-indent:0;}
+
+
+/*=========================特殊定位=========================*/
+
+/* 单行垂直居中 */
+.juzhong1{
+margin-top:55%;
+text-align:center;
+width:100%;
+padding-right:10%;
+text-indent:0;
+}
+.juzhong1 p{text-align:center;text-indent:0;margin-top:0.5em;}
+.juzhong1 h2{margin-top:1.3em;}
+.juzhong1 h1{margin-top:1.3em;}
+
+/* 单行垂直居中2 */
+div.juzhong2{
+position:absolute;
+top:40%;
+text-align:center;
+width:100%;
+padding-right:;
+}
+.juzhong2 p{text-align:center;text-indent:0;margin-top:0.5em;}
+.juzhong2 h2{margin-top:1em;}
+.juzhong2 h1{margin-top:0.5em;}
+
+/* 书名 */
+div.shuming{
+padding-top:30%;
+font-family:songti!important;
+text-align:center;
+text-indent:0em;
+}
+
+/* 出版社 */
+div.chubanshe{
+position: absolute;
+bottom:12%;
+font-family:fzlth!important;
+font-size:1em;
+text-align:center;
+width:100%;
+left:0%;
+margin-left:0%;
+margin-top:2em;
+}
+
+/* 左浮动 */
+div.fleft{
+float:left;
+max-width:50%;
+width:48%;
+margin:10px 2% 10px 0px;
+text-align: center;
+}
+/* 右浮动 */
+div.fright{
+float:right;
+max-width:50%;
+width:48%;
+margin:10px 0px 10px 2%;
+text-align: center;
+}
+.fleft + .fleft{margin:10px 0px 10px 2%;}
+.fleft img{width:95%;}
+.fright img{width:95%;}
+
+/* 以下样式在小尺寸屏幕上显示效果不佳，文字较多需慎用 */
+/* 多行垂直居中 */
+div.juzhong{
+width:19em;
+max-width:100%;
+position:absolute;
+height:8em;
+top:45%;
+left:50%;
+margin-left:-9.5em;
+margin-top:-4em;
+text-align:center;
+}
+.juzhong p{text-indent:0;margin-top:0.5em;font-size:1em;}
+.juzhong h2{margin-top:1.3em;}
+.juzhong h1{margin-top:1.3em;}
+
+/* 靠左垂直居中 */
+.kaozuo{
+position: absolute;
+  width:14em;
+  height:10em;
+margin-left:10%;
+  left:0%;
+  top:44%;
+  margin-top:-5em;
+color:; 
+}
+.kaozuo p{text-align:center;text-indent:0;margin-top:0.5em;}
+.kaozuo h2{margin-top:0.5em;}
+.kaozuo h1{margin-top:0.5em;}
+
+/* 靠右垂直居中 */
+.kaoyou{
+position: absolute;
+  height:10em;
+width:14em;
+margin-right:10%;
+  right:0%;
+  top:44%;
+  margin-top:-5em;
+}
+.kaoyou p{text-align:center;text-indent:0;margin-top:0.5em;}
+.kaoyou h2{margin-top:0.5em;}
+.kaoyou h1{margin-top:0.5em;}
+
+/* 在页面最底部 */
+.dibu{
+position: absolute;
+bottom:0px;
+}
+.banxin .dibu{margin-right:10%;}
+
+/* 距顶部30% */
+.dingbian{
+padding-top:30%;
+}
+
+/* 带背景标题 */
+div.zhang{
+background-size:18em;
+background-image:url(../Images/session.png);
+background-repeat:no-repeat;
+background-position:center center;
+width:19em;
+padding:0.5em 1em;
+margin:0.5em auto;
+text-align:center;
+}
+
+/* 
+样式表排版要求：
+1、不要修改本样式表，一切修改另附样式表实现。
+2、只有h1~h4的font-family属性可在另附样式表中重新定义，其他任何元素，在样式表中和网页中都禁止定义font-family。
+3、只有p可以用kaiti、songti、heiti的class修改字体，h1~h6、blockquote、td禁止用此方法修改字体，只能用在其中加<span>的方式修改。
+*/

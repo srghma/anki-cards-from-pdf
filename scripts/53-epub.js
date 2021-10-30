@@ -155,10 +155,10 @@ css.forEach(async data => {
   await require('fs/promises').writeFile(outputPath, data.css)
 })
 
-toc = await getFile(epub, 'ncx')
-toc = toc.toString()
-dom.window.document.body.innerHTML = toc
-dom.window.document.body.querySelector('navmap').outerHTML
+// toc = await getFile(epub, 'ncx')
+// toc = toc.toString()
+// dom.window.document.body.innerHTML = toc
+// dom.window.document.body.querySelector('navmap').outerHTML
 
 html_ = `
 <!DOCTYPE HTML>
@@ -168,7 +168,6 @@ html_ = `
   <title>${epub.metadata.title}</title>
   ${css.map(x => `<link rel="stylesheet" href="${x.href.replace('OEBPS/', '')}">`).join('\n')}
   <style>
-    chapter { position: relative; }
     div.juzhong2 { position: initial; }
   </style>
  </head>
