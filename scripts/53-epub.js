@@ -11,6 +11,7 @@ const fs = require('fs')
 const R = require('ramda')
 const RA = require('ramda-adjunct')
 const jsdom = require("jsdom");
+const TongWen = require('./scripts/lib/TongWen').TongWen
 const { JSDOM } = jsdom;
 const dom = new JSDOM(``);
 
@@ -151,12 +152,12 @@ css = R.values(epub.manifest).map(async (data) => {
 })
 css = await Promise.all(css)
 css = css.filter(Boolean)
-css.forEach(async data => {
-  const outputPath = `${output}/${data.href.replace('OEBPS/', '')}`
-  await (require('mkdirp'))(require('path').dirname(outputPath))
-  console.log(outputPath, data.css)
-  await require('fs/promises').writeFile(outputPath, data.css)
-})
+// css.forEach(async data => {
+//   const outputPath = `${output}/${data.href.replace('OEBPS/', '')}`
+//   await (require('mkdirp'))(require('path').dirname(outputPath))
+//   console.log(outputPath, data.css)
+//   await require('fs/promises').writeFile(outputPath, data.css)
+// })
 
 // toc = await getFile(epub, 'ncx')
 // toc = toc.toString()
@@ -220,6 +221,12 @@ function addSentences(html) {
         sentences = sentences.map(x => {
           sentenceElement = document.createElement('sentence')
           sentenceElement.innerHTML = x
+
+          const simplified = [...x].map(x => TongWen.t_2_s[x] || x).join('')
+          const traditional = [...x].map(x => TongWen.s_2_t[x] || x).join('')
+
+          sentenceElement.setAttribute("data-traditional", traditional)
+          sentenceElement.setAttribute("data-simplified", simplified)
           return sentenceElement
         })
 
@@ -248,25 +255,44 @@ html_ = `
  <head>
   <meta charset="utf-8">
   <title>${epub.metadata.title}</title>
+  <meta name="referrer" content="no-referrer">
   ${css.map(x => `<link rel="stylesheet" href="${x.href.replace('OEBPS/', '')}">`).join('\n')}
   <link rel="stylesheet" href="style.css">
+  <script defer src="bundle.js"></script>
  </head>
- <body class="nightMode Site">
-  <div class="content Site-content">
-    <div>${toc}</div>
-    ${htmlContent}
+ <body>
+  <div id="container">
+    <div id="body">
+      <div>${toc}</div>
+      ${htmlContent}
+    </div>
+    <footer>
+      <div class="canvas-container">
+        <div class="canvas-controllers">
+          <input type="color" id="canvas-color-picker" value="#ffffff">
+          <input type="range" id="canvas-line-range" min="1" max="72" value="1">
+          <label id="canvas-range-value">1</label>Px
+          <button id="canvas-clear">Clear</Button>
+        </div>
+        <canvas id="canvas-canvas" width="600" height="300"></canvas>
+      </div>
+      <div id="currentSentence"></div>
+      <div id="currentSentenceTraditional"></div>
+      <div class="controllers">
+        <div class="buttons">
+          <button id="pleco">Pleco</button>
+        </div>
+        <audio controls id="tts-audio"/>
+      </div>
+    </footer>
   </div>
-  <div class="player">
-    <button class="prev">Prev</button>
-    <button class="replay">Replay</button>
-    <button class="next">Next</button>
-  </div>
-</div>
-</div>
  </body>
 </html>
 `
 fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/elon-musk/index.html`, html_)
+
+// --debug
+require("child_process").execSync('./node_modules/.bin/browserify html/elon-musk/main.js -o html/elon-musk/bundle.js')
 
 // file = fs.readFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/elon-musk.html`).toString()
 // mydom = new JSDOM(file)

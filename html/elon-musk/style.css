@@ -2,44 +2,42 @@ div.juzhong2 { position: initial; }
 div.chubanshe { position: initial; }
 sentence:hover { background-color: lightblue; }
 
-
-body {
-  --space: 10px;
-  --space-lg: 20px;
+#body { font-size: 26px; }
+#currentSentence { font-size: 46px; }
+#currentSentenceTraditional {
+  font-size: 46px;
+  border-top: 1px solid white;
+  padding-top: 10px;
 }
 
-.Site {
-  display: flex;
-  flex-direction: column;
-  height: 100%; /* 1, 3 */
+#pleco { font-size: 44px; }
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: max-content;
 }
-.Site-header,
-.Site-footer {
-  flex: none; /* 2 */
+
+footer {
+  background: black;
+  padding: 10px;
+  text-align: center;
+  color: white;
 }
-.Site-content {
-  flex: 1 0 auto; /* 2 */
-  padding: var(--space) var(--space) 0;
-  width: 100%;
+
+footer a {
+  color: white;
+  text-decoration: none;
 }
-.Site-content::after {
-  content: '\00a0'; /* &nbsp; */
+
+.canvas-canvas {
+  border: 1px black solid;
   display: block;
-  margin-top: var(--space);
-  height: 0px;
-  visibility: hidden;
+  margin: 1rem;
 }
-@media (--break-lg) {
-  .Site-content {
-    padding-top: var(--space-lg);
-  }
-  .Site-content::after {
-    margin-top: var(--space-lg);
-  }
-}
-.Site-content--full {
-  padding: 0;
-}
-.Site-content--full::after {
-  content: none;
+
+.canvas-color-picker {
+  margin: 1rem 1rem 0 1rem;
 }

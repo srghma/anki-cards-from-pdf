@@ -231,7 +231,7 @@ function isHanzi(ch) {
       if (!info) { return }
 
       const elemDiv = document.createElement('pre');
-      elemDiv.style.cssText = 'width:100%;height:10%;background:rgb(192,192,192); text-align: start;';
+      elemDiv.style.cssText = 'width:100%;height:10%;background:rgb(192,192,192); text-align: start; color: black;';
       elemDiv.innerHTML = info.x
       window.document.body.insertBefore(elemDiv, window.document.body.firstChild);
       // document.body.appendChild(elemDiv); // appends last of that element
