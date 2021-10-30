@@ -166,65 +166,81 @@ css.forEach(async data => {
 toc = html.map(x => x.title).filter(Boolean).map(x => '<li>' + x + '</li>').join('\n')
 toc = '<ul>' + toc + '</ul>'
 
-html_ = html.map(x => '<chapter>' + x.html + '</chapter>').join('\n').replace(/src="\.\.\/Images/g, 'src="Images').replace(/\.\.\/Text\/chapter\d\d\.xhtml#/g, '#')
+function addSentences(html) {
+  dom.window.document.body.innerHTML = html;
 
-dom.window.document.body.innerHTML = html[2].html
-elementNodeId = 1
-textNodeId = 3
+  const elementNodeId = 1
+  const textNodeId = 3
 
-(function prettify(parent) {
-  parent.childNodes.forEach(child => {
-    if (child.nodeType === textNodeId && !/^\S$/.test(child.nodeValue)) {
-      child.nodeValue = child.nodeValue.trim()
-    }
-    else if(child.nodeType === elementNodeId) {
-      prettify(child);
-    }
-  })
-})(dom.window.document.body)
+  // console.log(dom.window.document.body.innerHTML)
 
-function wrapNode(tag, value) { return `<${tag}>${value}</${tag}>` }
+  // (function prettify(parent) {
+  //   parent.childNodes.forEach(child => {
+  //     if (child.nodeType === textNodeId) {
+  //       child.nodeValue = child.nodeValue.trim()
+  //     }
+  //     else if(child.nodeType === elementNodeId) {
+  //       prettify(child);
+  //     }
+  //   })
+  // })(dom.window.document.body)
 
-function splitOnSentences(text) {
-  let sentences = []
-  let currentSentence = []
-  text.forEach(({ allHanzi, word }, index) => {
-    const word_ = allHanzi ? wrapNode('word', word) : word
-    currentSentence.push(word_)
-    if (word === '。' || index === text.length - 1) {
-      sentences.push(currentSentence.join(''))
-      currentSentence = []
-    }
-  })
+  function wrapNode(tag, value) { return `<${tag}>${value}</${tag}>` }
 
-  return sentences
+  function splitOnSentences(text) {
+    let sentences = []
+    let currentSentence = []
+    text.forEach(({ allHanzi, word }, index) => {
+      // const word_ = allHanzi ? wrapNode('word', word) : word
+      currentSentence.push(word)
+      if ('。？！'.includes(word) || index === text.length - 1) {
+        // console.log(currentSentence)
+        sentences.push(currentSentence.join(''))
+        currentSentence = []
+      }
+    })
+    return sentences
+  }
+
+  (function splitOnSentencesAndWords(document, parent) {
+    Array.from(parent.childNodes).forEach(child => {
+      if (child.nodeType === textNodeId) {
+        let text = child.nodeValue.trim()
+        // text = require("nodejieba").cut(text)
+        // text = require("hanzi").segment(text)
+        text = [...text]
+        text = text.map(word => {
+          const allHanzi = R.all(isHanzi, [...word])
+          return { allHanzi, word }
+        })
+
+        let sentences = splitOnSentences(text)
+        // console.log(sentences)
+
+        sentences = sentences.map(x => {
+          sentenceElement = document.createElement('sentence')
+          sentenceElement.innerHTML = x
+          return sentenceElement
+        })
+
+        child.replaceWith(...sentences)
+        // parent.replaceChild(sentencesElement, child)
+      }
+      else if(child.nodeType === elementNodeId) {
+        splitOnSentencesAndWords(document, child);
+      }
+    })
+  })(dom.window.document, dom.window.document.body)
+
+  // console.log(dom.window.document.body.innerHTML)
+
+  return dom.window.document.body.innerHTML
 }
 
-(function splitOnSentencesAndWords(document, parent) {
-  const allText = parent.childNodes.forEach(child => {
-    if (child.nodeType === textNodeId) {
-      let text = child.nodeValue
-      text = require("nodejieba").cut(text)
-      text = text.map(word => {
-        const allHanzi = R.all(isHanzi, [...word])
-        return { allHanzi, word }
-      })
+// addSentences(html[8].html)
+// addSentences("<div> 在经济大衰退袭来的20世纪30年代，约书亚陷入了金融危机。他无法偿还用来购买设备的银行贷款，导致5 000亩土地被查封。“从那时起，父亲不再相信银行，并且不再存钱。”斯科特·霍尔德曼说。他后来获得了和父亲同一所按摩学校的按摩师学位，并成为世界顶尖的脊柱病治疗专家。1934年，失去农场的约书亚开始四处漂泊，而几十年后自己的孙子也重复着这种生活。斯科特身高6英尺3英寸(约1.9米)，在成为一名按摩师之前，做过诸如建筑工人和牛仔竞技表演者等各种工作。</div>")
 
-      console.log(text)
-      const sentences = splitOnSentences(text)
-
-      sentencesElement = document.createElement('sentences')
-      sentencesElement.innerHTML = sentences.join('')
-
-      parent.replaceChild(sentencesElement, child)
-    }
-    else if(child.nodeType === elementNodeId) {
-      splitOnSentencesAndWords(document, child);
-    }
-  })
-})(dom.window.document, dom.window.document.body)
-
-console.log(dom.window.document.body.innerHTML)
+htmlContent = html.map(x => '<chapter>' + addSentences(x.html) + '</chapter>').join('\n').replace(/src="\.\.\/Images/g, 'src="Images').replace(/\.\.\/Text\/chapter\d\d\.xhtml#/g, '#')
 
 html_ = `
 <!DOCTYPE HTML>
@@ -233,20 +249,23 @@ html_ = `
   <meta charset="utf-8">
   <title>${epub.metadata.title}</title>
   ${css.map(x => `<link rel="stylesheet" href="${x.href.replace('OEBPS/', '')}">`).join('\n')}
-  <style>
-    div.juzhong2 { position: initial; }
-    div.chubanshe { position: initial; }
-  </style>
+  <link rel="stylesheet" href="style.css">
  </head>
- <body class="nightMode">
-  <div>${toc}</div>
-  ${html}
+ <body class="nightMode Site">
+  <div class="content Site-content">
+    <div>${toc}</div>
+    ${htmlContent}
+  </div>
+  <div class="player">
+    <button class="prev">Prev</button>
+    <button class="replay">Replay</button>
+    <button class="next">Next</button>
+  </div>
 </div>
 </div>
  </body>
 </html>
 `
-
 fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/elon-musk/index.html`, html_)
 
 // file = fs.readFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/elon-musk.html`).toString()
