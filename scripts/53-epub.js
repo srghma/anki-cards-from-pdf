@@ -192,7 +192,7 @@ function splitOnSentences(text) {
     const word_ = allHanzi ? wrapNode('word', word) : word
     currentSentence.push(word_)
     if (word === '。' || index === text.length - 1) {
-      sentences.push(currentSentence)
+      sentences.push(currentSentence.join(''))
       currentSentence = []
     }
   })
@@ -200,39 +200,29 @@ function splitOnSentences(text) {
   return sentences
 }
 
-(function splitOnSentencesAndWords(parent) {
-  const allText = Array.from(parent.childNodes).map(child => {
-    if (child.nodeType === textNodeId) { return true }
+(function splitOnSentencesAndWords(document, parent) {
+  const allText = parent.childNodes.forEach(child => {
+    if (child.nodeType === textNodeId) {
+      let text = child.nodeValue
+      text = require("nodejieba").cut(text)
+      text = text.map(word => {
+        const allHanzi = R.all(isHanzi, [...word])
+        return { allHanzi, word }
+      })
 
-    if (child.nodeType === elementNodeId
-      && ['B', 'I'].includes(child.tagName)
-      && R.all(Array.from(child.childNodes), x => x.nodeType === textNodeId)
-    ) {
-      return true
+      console.log(text)
+      const sentences = splitOnSentences(text)
+
+      sentencesElement = document.createElement('sentences')
+      sentencesElement.innerHTML = sentences.join('')
+
+      parent.replaceChild(sentencesElement, child)
     }
-
-    return false
+    else if(child.nodeType === elementNodeId) {
+      splitOnSentencesAndWords(document, child);
+    }
   })
-
-  console.log(allText)
-
-  if (allText) {
-    // let text = parent.innerHTML
-    // text = require("nodejieba").cut(text)
-    // text = text.map(word => {
-    //   const allHanzi = R.all(isHanzi, [...word])
-    //   return { allHanzi, word }
-    // })
-    // const sentences = splitOnSentences(text)
-    // parent.innerHTML = wrapNode('sentences', sentences.join(''))
-  } else {
-    parent.childNodes.forEach(child => {
-      if(child.nodeType === elementNodeId) {
-        splitOnSentencesAndWords(child);
-      }
-    })
-  }
-})(dom.window.document.body)
+})(dom.window.document, dom.window.document.body)
 
 console.log(dom.window.document.body.innerHTML)
 
