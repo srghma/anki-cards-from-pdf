@@ -270,8 +270,6 @@ html_ = `
       <div class="canvas-container">
         <div class="canvas-controllers">
           <input type="color" id="canvas-color-picker" value="#ffffff">
-          <input type="range" id="canvas-line-range" min="1" max="72" value="1">
-          <label id="canvas-range-value">1</label>Px
           <button id="canvas-clear">Clear</Button>
         </div>
         <canvas id="canvas-canvas" width="600" height="300"></canvas>

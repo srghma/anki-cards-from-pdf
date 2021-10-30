@@ -37,6 +37,8 @@ footer a {
   display: block;
   margin: 1rem;
   touch-action: none; /* stylus */
+  border-radius: 5px;
+  cursor: crosshair;
 }
 
 .canvas-color-picker {
