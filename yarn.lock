@@ -4401,6 +4401,11 @@ hanzi-tokenizer@^1.7.0:
   dependencies:
     mdbg "^1.31.0"
 
+hanzi@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/hanzi/-/hanzi-2.1.5.tgz#410a4c4b7bbfc8e0a9b44b7c3e1350844c376bab"
+  integrity sha512-kXLmMV39QStRX0L1VH7j+5sz8VvTWD2Igx4htQwicCopPZGCWXAqavbb+jG0kFVllGcE89K7pv2UvD+pURzwYQ==
+
 har-schema@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/har-schema/-/har-schema-2.0.0.tgz#a94c2224ebcac04782a0d9035521f24735b7ec92"

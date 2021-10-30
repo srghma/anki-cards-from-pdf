@@ -14,6 +14,8 @@ const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const dom = new JSDOM(``);
 
+require('hanzi').start()
+
 function parse(epub) {
   return new Promise((resolve, reject) => {
     epub.on("error", function(error) {
@@ -160,6 +162,43 @@ css.forEach(async data => {
 // dom.window.document.body.innerHTML = toc
 // dom.window.document.body.querySelector('navmap').outerHTML
 
+toc = html.map(x => x.title).filter(Boolean).map(x => '<li>' + x + '</li>').join('\n')
+toc = '<ul>' + toc + '</ul>'
+
+html_ = html.map(x => '<chapter>' + x.html + '</chapter>').join('\n').replace(/src="\.\.\/Images/g, 'src="Images').replace(/\.\.\/Text\/chapter\d\d\.xhtml#/g, '#')
+
+dom.window.document.body.innerHTML = html[2].html
+function splitOnSentencesAndWords(parent)
+{
+  const elementNodeId = 1
+  const textNodeId = 3
+  parent.childNodes.map(child => {
+    if (child.nodeType === textNodeId && !/^\S$/.test(child.nodeValue)) {
+      let text = child.nodeValue.trim()
+      text =
+      console.log(text)
+
+      let sentences = []
+      let currentSentence = ''
+      require('hanzi').segment(text).forEach(x => {
+        currentSentence = currentSentence + x
+        if (x === '。') {
+          sentences.push(currentSentence)
+          currentSentence = ''
+        }
+      })
+      console.log(sentences)
+
+      child.nodeValue = sentences.map(x => '<sentence>' + x + '</sentence>').join('')
+    }
+    else if(child.nodeType === elementNodeId) {
+      splitOnSentencesAndWords(child);
+    }
+  })
+}
+splitOnSentencesAndWords(dom.window.document.body)
+console.log(dom.window.document.body.innerHTML)
+
 html_ = `
 <!DOCTYPE HTML>
 <html>
@@ -169,10 +208,12 @@ html_ = `
   ${css.map(x => `<link rel="stylesheet" href="${x.href.replace('OEBPS/', '')}">`).join('\n')}
   <style>
     div.juzhong2 { position: initial; }
+    div.chubanshe { position: initial; }
   </style>
  </head>
  <body class="nightMode">
-  ${html.map(x => '<chapter>' + x.html + '</chapter>').join('\n').replace(/src="\.\.\/Images/g, 'src="Images').replace(/\.\.\/Text\/chapter\d\d\.xhtml#/g, '#')}
+  <div>${toc}</div>
+  ${html}
 </div>
 </div>
  </body>
