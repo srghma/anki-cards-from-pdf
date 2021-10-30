@@ -62,146 +62,78 @@ document.addEventListener("DOMContentLoaded", function(){
 
   //////////////
 
-  (function() {
-    const canvas = document.getElementById('canvas-canvas')
+  const paintCanvas = document.getElementById('canvas-canvas')
+  const context = paintCanvas.getContext('2d')
+  context.lineCap = 'round';
 
-    const colorPicker = document.getElementById('canvas-color-picker');
-    colorPicker.addEventListener('change', event => {
-      ctx.strokeStyle = event.target.value;
-    })
+  const colorPicker = document.getElementById('canvas-color-picker');
 
-    // Set up the canvas
-    const ctx = canvas.getContext("2d");
-    ctx.lineCap = 'round';
-    ctx.strokeStyle = colorPicker.value;
-    ctx.lineWith = 2;
-    canvas.width = window.innerWidth;
+  colorPicker.addEventListener('change', event => {
+    context.strokeStyle = event.target.value;
+  })
 
-    // Get a regular interval for drawing to the screen
-    window.requestAnimFrame = (function (callback) {
-      return window.requestAnimationFrame ||
-            window.webkitRequestAnimationFrame ||
-            window.mozRequestAnimationFrame ||
-            window.oRequestAnimationFrame ||
-            window.msRequestAnimaitonFrame ||
-            function (callback) {
-              window.setTimeout(callback, 1000/60);
-            };
-    })();
+  const lineWidthRange = document.getElementById('canvas-line-range')
+  const lineWidthLabel = document.getElementById('canvas-range-value')
 
-    // Set up the UI
-    const clearBtn = document.getElementById("canvas-clear");
-    clearBtn.addEventListener("click", function (e) {
-      clearCanvas();
-    }, false);
+  lineWidthRange.addEventListener('input', event => {
+      const width = event.target.value;
+      lineWidthLabel.innerHTML = width;
+      context.lineWidth = width;
+  })
 
-    // Set up mouse events for drawing
-    let drawing = false;
-    let mousePos = { x:0, y:0 };
-    let lastPos = mousePos;
-    canvas.addEventListener("mousedown", function (e) {
-      e.preventDefault()
-      drawing = true;
-      lastPos = getMousePos(canvas, e);
-    }, false);
-    canvas.addEventListener("mouseup", function (e) {
-      e.preventDefault()
-      drawing = false;
-    }, false);
-    canvas.addEventListener("mousemove", function (e) {
-      e.preventDefault()
-      mousePos = getMousePos(canvas, e);
-    }, false);
+  let x = 0, y = 0;
+  let isMouseDown = false;
 
-    // Set up touch events for mobile, etc
-    canvas.addEventListener("touchstart", function (e) {
-      e.preventDefault()
-      mousePos = getTouchPos(canvas, e);
-      const touch = e.touches[0];
-      const mouseEvent = new MouseEvent("mousedown", {
-        clientX: touch.clientX,
-        clientY: touch.clientY
-      });
-      canvas.dispatchEvent(mouseEvent);
-    }, false);
-    canvas.addEventListener("touchend", function (e) {
-      e.preventDefault()
-      const mouseEvent = new MouseEvent("mouseup", {});
-      canvas.dispatchEvent(mouseEvent);
-    }, false);
-    canvas.addEventListener("touchmove", function (e) {
-      e.preventDefault()
-      const touch = e.touches[0];
-      const mouseEvent = new MouseEvent("mousemove", {
-        clientX: touch.clientX,
-        clientY: touch.clientY
-      });
-      canvas.dispatchEvent(mouseEvent);
-    }, false);
-
-    // Prevent scrolling when touching the canvas
-    document.body.addEventListener("touchstart", function (e) {
-      if (e.target == canvas) {
-        e.preventDefault();
-      }
-    }, false);
-    document.body.addEventListener("touchend", function (e) {
-      if (e.target == canvas) {
-        e.preventDefault();
-      }
-    }, false);
-    document.body.addEventListener("touchmove", function (e) {
-      if (e.target == canvas) {
-        e.preventDefault();
-      }
-    }, false);
-
-    // Get the position of the mouse relative to the canvas
-    function getMousePos(canvasDom, mouseEvent) {
-      const rect = canvasDom.getBoundingClientRect();
-      return {
-        x: mouseEvent.clientX - rect.left,
-        y: mouseEvent.clientY - rect.top
-      };
+  const stopDrawing = () => { isMouseDown = false; }
+  const startDrawing = event => {
+    isMouseDown = true;
+    [x, y] = [event.offsetX, event.offsetY];
+  }
+  const drawLine = event => {
+    if (isMouseDown) {
+      const newX = event.offsetX;
+      const newY = event.offsetY;
+      context.beginPath();
+      context.moveTo(x, y)
+      context.lineTo(newX, newY)
+      context.stroke();
+      //[x, y] = [newX, newY];
+      x = newX;
+      y = newY;
     }
+  }
 
-    // Get the position of a touch relative to the canvas
-    function getTouchPos(canvasDom, touchEvent) {
-      const rect = canvasDom.getBoundingClientRect();
-      return {
-        x: touchEvent.touches[0].clientX - rect.left,
-        y: touchEvent.touches[0].clientY - rect.top
-      };
-    }
+  const resetCanvas = () => {
+    paintCanvas.width = window.innerWidth
+    // context.fillStyle = 'rgb(255,255,255)';
+    context.fillStyle = 'rgb(0,0,0)';
+    context.fillRect(0,0,paintCanvas.width,paintCanvas.height);
+    context.strokeStyle = colorPicker.value;
+    console.log(context.strokeStyle)
+  }
 
-    // Draw to the canvas
-    function renderCanvas() {
-      if (drawing) {
-        ctx.moveTo(lastPos.x, lastPos.y);
-        ctx.lineTo(mousePos.x, mousePos.y);
-        ctx.stroke();
-        lastPos = mousePos;
-      }
-    }
+  resetCanvas()
 
-    // Clear the canvas
-    function clearCanvas() {
-      canvas.width = window.innerWidth;
-      // paintCanvas.width = window.innerWidth
-      // // context.fillStyle = 'rgb(255,255,255)';
-      // context.fillStyle = 'rgb(0,0,0)';
-      // context.fillRect(0,0,paintCanvas.width,paintCanvas.height);
-      // context.strokeStyle = colorPicker.value;
-      // console.log(context.strokeStyle)
-    }
+  paintCanvas.addEventListener('mousedown', startDrawing, false)
+  paintCanvas.addEventListener('mousemove', drawLine, false)
+  paintCanvas.addEventListener('mouseup', stopDrawing, false)
+  paintCanvas.addEventListener('mouseout', stopDrawing, false)
 
-    // Allow for animation
-    (function drawLoop () {
-      requestAnimFrame(drawLoop);
-      renderCanvas();
-    })();
+  // Set up touch events for mobile, etc
+  canvas.addEventListener("touchstart", function (e) {
+    // e.preventDefault()
+    startDrawing(e.touches[0])
+  }, false);
+  canvas.addEventListener("touchend", stopDrawing, false);
+  canvas.addEventListener("touchmove", function (e) {
+    e.preventDefault()
+    drawLine(e.touches[0])
+  }, false);
 
-  })();
+  document.getElementById('canvas-clear').addEventListener('click', event => {
+    event.preventDefault()
+    resetCanvas()
+  })
 });
 
 },{"google-tts-api":35}],2:[function(require,module,exports){
