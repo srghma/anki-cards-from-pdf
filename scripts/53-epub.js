@@ -15,6 +15,7 @@ const { JSDOM } = jsdom;
 const dom = new JSDOM(``);
 
 require('hanzi').start()
+require("nodejieba").load()
 
 function parse(epub) {
   return new Promise((resolve, reject) => {
@@ -168,35 +169,71 @@ toc = '<ul>' + toc + '</ul>'
 html_ = html.map(x => '<chapter>' + x.html + '</chapter>').join('\n').replace(/src="\.\.\/Images/g, 'src="Images').replace(/\.\.\/Text\/chapter\d\d\.xhtml#/g, '#')
 
 dom.window.document.body.innerHTML = html[2].html
-function splitOnSentencesAndWords(parent)
-{
-  const elementNodeId = 1
-  const textNodeId = 3
-  parent.childNodes.map(child => {
+elementNodeId = 1
+textNodeId = 3
+
+(function prettify(parent) {
+  parent.childNodes.forEach(child => {
     if (child.nodeType === textNodeId && !/^\S$/.test(child.nodeValue)) {
-      let text = child.nodeValue.trim()
-      text =
-      console.log(text)
-
-      let sentences = []
-      let currentSentence = ''
-      require('hanzi').segment(text).forEach(x => {
-        currentSentence = currentSentence + x
-        if (x === '。') {
-          sentences.push(currentSentence)
-          currentSentence = ''
-        }
-      })
-      console.log(sentences)
-
-      child.nodeValue = sentences.map(x => '<sentence>' + x + '</sentence>').join('')
+      child.nodeValue = child.nodeValue.trim()
     }
     else if(child.nodeType === elementNodeId) {
-      splitOnSentencesAndWords(child);
+      prettify(child);
     }
   })
+})(dom.window.document.body)
+
+function wrapNode(tag, value) { return `<${tag}>${value}</${tag}>` }
+
+function splitOnSentences(text) {
+  let sentences = []
+  let currentSentence = []
+  text.forEach(({ allHanzi, word }, index) => {
+    const word_ = allHanzi ? wrapNode('word', word) : word
+    currentSentence.push(word_)
+    if (word === '。' || index === text.length - 1) {
+      sentences.push(currentSentence)
+      currentSentence = []
+    }
+  })
+
+  return sentences
 }
-splitOnSentencesAndWords(dom.window.document.body)
+
+(function splitOnSentencesAndWords(parent) {
+  const allText = Array.from(parent.childNodes).map(child => {
+    if (child.nodeType === textNodeId) { return true }
+
+    if (child.nodeType === elementNodeId
+      && ['B', 'I'].includes(child.tagName)
+      && R.all(Array.from(child.childNodes), x => x.nodeType === textNodeId)
+    ) {
+      return true
+    }
+
+    return false
+  })
+
+  console.log(allText)
+
+  if (allText) {
+    // let text = parent.innerHTML
+    // text = require("nodejieba").cut(text)
+    // text = text.map(word => {
+    //   const allHanzi = R.all(isHanzi, [...word])
+    //   return { allHanzi, word }
+    // })
+    // const sentences = splitOnSentences(text)
+    // parent.innerHTML = wrapNode('sentences', sentences.join(''))
+  } else {
+    parent.childNodes.forEach(child => {
+      if(child.nodeType === elementNodeId) {
+        splitOnSentencesAndWords(child);
+      }
+    })
+  }
+})(dom.window.document.body)
+
 console.log(dom.window.document.body.innerHTML)
 
 html_ = `

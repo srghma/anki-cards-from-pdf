@@ -40,6 +40,7 @@
     "jsdom": "^16.6.0",
     "kanji.js": "^1.3.0",
     "mkdirp": "^1.0.4",
+    "nodejieba": "^2.5.2",
     "pdfkit": "^0.12.1",
     "pinyin-convert": "^1.11.0",
     "pinyin-or-hanzi": "^1.143.0",
