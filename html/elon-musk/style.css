@@ -45,4 +45,14 @@ footer a {
   margin: 1rem 1rem 0 1rem;
 }
 
+.buttons {
+  padding-left: 20px;
+}
 
+.controllers {
+  display: flex;
+}
+
+#tts-audio {
+  flex-grow: 1;
+}

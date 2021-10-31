@@ -69,13 +69,8 @@ recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
   app.get('/hanzi-info', (req, res) => {
     // console.log(req.query)
     const text = ruPinyinObjectCache[req.query.hanzi]
-
-    if (text) {
-      // res.writeHead(200, {'Content-Type': 'text/plain'});
-      res.send(text)
-    } else {
-      throw new Error('no')
-    }
+    if (text === '') { throw new Error() }
+    res.send(text || '')
   })
 
   let hanziInfoWriteMutex = false

@@ -276,7 +276,7 @@ html_ = `
       <div id="currentSentence"></div>
       <div id="currentSentenceTraditional"></div>
       <div class="controllers">
-        <audio controls id="tts-audio" />
+        <audio controls id="tts-audio"></audio>
         <div class="buttons">
           <button id="pleco">Pleco</button>
         </div>

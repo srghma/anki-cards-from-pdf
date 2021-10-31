@@ -1,5 +1,17 @@
 const containerId = 'kanjiIframeContainer'
 
+function waitForElementToAppear(id) {
+  return new Promise(function (resolve, reject) {
+      (function doWait(){
+        const element = document.getElementById(id)
+        if (element) return resolve(element)
+        setTimeout(doWait, 0)
+      })();
+  });
+}
+
+const unique = x => [...new Set(x)]
+
 window.copyToClipboard = (
   value,
   successfully = () => null,
@@ -259,7 +271,31 @@ function isHanzi(ch) {
 
       const alertDiv = document.createElement('pre')
       alertDiv.style.cssText = 'width:100%; text-align: start;';
+      alertDiv.textContent = oldText === '' ? 'Nothing found' : ''
       elemDiv.before(alertDiv)
+
+      ;(async function() {
+        const element = await waitForElementToAppear('hanziyuan')
+        const hanziyuan = element.innerHTML
+
+        // ... -> Array String
+        function matchAllFirstMatch(input, regex) {
+          return Array.from(input.matchAll(regex)).map(x => x[1])
+        }
+
+        let older = [
+          matchAllFirstMatch(hanziyuan, /Older traditional characters[^:]+:<\/b><span class="text-lg">(.+?)<\/span>/g),
+          matchAllFirstMatch(hanziyuan, /Variant rule[^:]+:(.+?)<\/p>/g),
+        ].flat().join('')
+
+        const possibleHanzi = unique([hanzi, ...older].filter(isHanzi))
+
+        if (!elemDiv.value) { elemDiv.value = possibleHanzi.join('\n') + '\n\n'; autosize() }
+
+        // console.log(older)
+        // older = await fetch(`/trainchinese =${encodeURIComponent(str)}&tcLanguage=ru`, { "mode": "cors" })))
+        // console.log(older)
+      })();
 
       let mutex = false
       submitButton.addEventListener('click', function(event) {
