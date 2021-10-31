@@ -191,7 +191,7 @@ function addSentences(html) {
     text.forEach(({ allHanzi, word }, index) => {
       // const word_ = allHanzi ? wrapNode('word', word) : word
       currentSentence.push(word)
-      if ('。？！'.includes(word) || index === text.length - 1) {
+      if ('，。？！'.includes(word) || index === text.length - 1) {
         // console.log(currentSentence)
         sentences.push(currentSentence.join(''))
         currentSentence = []
@@ -272,7 +272,7 @@ html_ = `
       ${html_.htmlContent}
     </div>
     <footer>
-      <canvas id="canvas-canvas" width="600" height="300"></canvas>
+      <div id="app" style="position: relative; width: 100%; height: 300px"></div>
       <div id="currentSentence"></div>
       <div id="currentSentenceTraditional"></div>
       <div class="controllers">
