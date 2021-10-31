@@ -223,6 +223,8 @@ function isHanzi(ch) {
       let respose = await fetch(`/hanzi-info?hanzi=${kanjiEncoded}`)
       const text = await respose.text()
 
+      let oldText = text.trim()
+
       // function resizeIt( id, maxHeight, minHeight ) {
       //   var str = elemDiv.value;
       //   var cols = elemDiv.cols;
@@ -264,7 +266,6 @@ function isHanzi(ch) {
 
         alertDiv.textContent = ''
 
-        const oldText = text.trim()
         const newText = elemDiv.value.trim()
 
         if (oldText === newText) {
@@ -291,6 +292,8 @@ function isHanzi(ch) {
           const responseJson = await response.json()
           alertDiv.textContent = responseJson.message
           alertDiv.style.color = 'white'
+
+          oldText = newText
         })();
       }, false)
 
