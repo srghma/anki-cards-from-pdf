@@ -5,20 +5,36 @@ const express = require('express')
 const path = require('path')
 const serveStatic = require('serve-static')
 const R = require('ramda')
-let ruPinyinArray = require('./ru-pinyin.json')
+const isHanzi = require('../scripts/lib/isHanzi')
 
-let ruPinyinObject = {}
-
-ruPinyinArray.forEach(({ x, hanzi }) => {
-  hanzi.map(hanziElement => {
-    if (ruPinyinObject.hasOwnProperty(hanziElement)) { throw new Error(hanziElement) }
+var arrayOfValuesToObject = ({ arrayOfKeysField, valueField, array }) => {
+  const buffer = {}
+  array.forEach(arrayElement => {
+    arrayElement[arrayOfKeysField].forEach(key => {
+      if (buffer.hasOwnProperty(key)) { throw new Error(key) }
+      buffer[key] = arrayElement[key]
+    })
   })
+}
+
+var hanziToJson = async (object) => {
+  const json = object.values().forEach(text => {
+    const hanzi = R.uniq([...text].filter(isHanzi)).sort()
+  })
+
+}
+
+var ruPinyinObject = arrayOfValuesToObject({
+  arrayOfKeysField: "hanzi",
+  valueField: "text",
+  array: require('./ru-pinyin.json')
 })
+
 // const sqlite3 = require('sqlite3')
 // const sqlite = require('sqlite')
 
 // this is a top-level await
-(async () => {
+;(async () => {
   // // open the database
   // const db = await sqlite.open({
   //   filename: '/tmp/database.db',
@@ -41,7 +57,7 @@ ruPinyinArray.forEach(({ x, hanzi }) => {
   app.use(serveStatic(path.join(__dirname, '..', 'fonts')))
   app.use(serveStatic('/home/srghma/.local/share/Anki2/User 1/collection.media'))
   app.listen(34567)
-})()
+})();
 
 
 // html_ = `

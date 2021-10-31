@@ -185,7 +185,7 @@ x = x.map(({ file, x }) => {
     const s = TongWen.t_2_s[x]
     return [x, t, s].filter(Boolean)
   }).flat()
-  hanzi = R.uniq(hanzi)
+  hanzi = R.uniq(hanzi).sort()
   x = R.trim(x)
   return { text: x, hanzi }
 })
