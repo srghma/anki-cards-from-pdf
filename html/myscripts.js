@@ -256,7 +256,7 @@ function isHanzi(ch) {
       elemDiv.after(submitButton)
 
       const alertDiv = document.createElement('pre')
-      alertDiv.style.cssText = 'color: red; width:100%; text-align: start;';
+      alertDiv.style.cssText = 'width:100%; text-align: start;';
       elemDiv.before(alertDiv)
 
       submitButton.addEventListener('click', function(event) {
@@ -283,12 +283,14 @@ function isHanzi(ch) {
 
           if (response.status >= 500) {
             const error = await response.text()
-            console.log(error)
             alertDiv.textContent = error
+            alertDiv.style.color = 'red'
             return
           }
 
           const responseJson = await response.json()
+          alertDiv.textContent = responseJson.message
+          alertDiv.style.color = 'white'
         })();
       }, false)
 

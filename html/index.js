@@ -10,31 +10,35 @@ const isHanzi = require('../scripts/lib/isHanzi').isHanzi
 
 const dbPath = `/home/srghma/projects/anki-cards-from-pdf/html/ru-pinyin`
 
-let ruPinyinArray = fs.readFileSync(dbPath).split(/―{4,}|-{4,}/).map(R.trim)
+let ruPinyinArray = require('fs').readFileSync(dbPath).toString().split(/―{4,}|-{4,}/).map(R.trim)
 
 let ruPinyinObjectCache = null
 
 const arrayOfValuesToObject = ({ arrayOfKeysField, valueField, array }) => {
   const buffer = {}
+  const duplicateKeys = []
+
   array.forEach(arrayElement => {
-    const duplicateKeys = []
     arrayElement[arrayOfKeysField].forEach(key => {
       if (buffer.hasOwnProperty(key)) { duplicateKeys.push(key) }
       buffer[key] = arrayElement[valueField]
     })
-
-    if (duplicateKeys.length > 0) { throw new Error(`duplicateKeys: [ ${duplicateKeys.join(', ')} ]`) }
   })
+
+  if (duplicateKeys.length > 0) { throw new Error(`duplicateKeys: ${JSON.stringify(R.uniq(duplicateKeys))}`) }
+
   return buffer
 }
 
 function recomputeCache(ruPinyinArray_) {
+  const hanziThatAreNotKeys = ["𣥠","𣡦","𠤬","𠦍","𠤕","𥎨","𠤗","𠨮"]
+
   ruPinyinObjectCache = arrayOfValuesToObject({
     arrayOfKeysField: "hanzi",
     valueField: "text",
     array: ruPinyinArray_.map(text => ({
       text,
-      hanzi: R.uniq([...text].filter(isHanzi)),
+      hanzi: R.uniq([...text].filter(isHanzi).filter(key => !hanziThatAreNotKeys.includes(key))),
     }))
   })
 }
@@ -97,7 +101,7 @@ recomputeCache(ruPinyinArray)
     })
 
     if (addToEnd) {
-      ruPinyinArray_.push(text)
+      ruPinyinArray_.push(newText)
     }
 
     recomputeCache(ruPinyinArray_)
@@ -106,13 +110,15 @@ recomputeCache(ruPinyinArray)
 
     await require('fs/promises').writeFile(dbPath, ruPinyinArray.join('\n\n----\n\n'))
 
-    res.send('ok')
+    res.send({ message: "Saved" })
   })
 
   app.use(serveStatic(path.join(__dirname)))
   app.use(serveStatic(path.join(__dirname, '..', 'fonts')))
   app.use(serveStatic('/home/srghma/.local/share/Anki2/User 1/collection.media'))
   app.listen(34567)
+
+  console.log("Listening")
 })();
 
 
