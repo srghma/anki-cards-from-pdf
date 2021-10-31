@@ -272,7 +272,7 @@ html_ = `
       ${html_.htmlContent}
     </div>
     <footer>
-      <div id="app" style="position: relative; width: 100%; height: 600px"></div>
+      <canvas id="canvas-canvas" width="600" height="300"></canvas>
       <div id="currentSentence"></div>
       <div id="currentSentenceTraditional"></div>
       <div class="controllers">
