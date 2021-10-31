@@ -7,28 +7,27 @@ const serveStatic = require('serve-static')
 const R = require('ramda')
 const isHanzi = require('../scripts/lib/isHanzi')
 
-var arrayOfValuesToObject = ({ arrayOfKeysField, valueField, array }) => {
+const arrayOfValuesToObject = ({ arrayOfKeysField, valueField, array }) => {
   const buffer = {}
   array.forEach(arrayElement => {
+    const duplicateKeys = []
     arrayElement[arrayOfKeysField].forEach(key => {
-      if (buffer.hasOwnProperty(key)) { throw new Error(key) }
-      buffer[key] = arrayElement[key]
+      if (buffer.hasOwnProperty(key)) { duplicateKeys.push(key) }
+      buffer[key] = arrayElement[valueField]
     })
+
+    if (duplicateKeys.length > 0) { throw new Error(`duplicateKeys: [ ${key.join(', ')} ]`) }
   })
+  return buffer
 }
 
-var hanziToJson = async (object) => {
-  const json = object.values().forEach(text => {
-    const hanzi = R.uniq([...text].filter(isHanzi)).sort()
-  })
-
-}
-
-var ruPinyinObject = arrayOfValuesToObject({
+let ruPinyinObjectCache = arrayOfValuesToObject({
   arrayOfKeysField: "hanzi",
   valueField: "text",
   array: require('./ru-pinyin.json')
 })
+
+// console.log(ruPinyinObjectCache)
 
 // const sqlite3 = require('sqlite3')
 // const sqlite = require('sqlite')
@@ -47,10 +46,60 @@ var ruPinyinObject = arrayOfValuesToObject({
   // })
 
   const app = express()
+  app.use(express.json())
 
-  app.get('/h', (req, res) => {
-    console.log(req.query)
-    res.send('asdfadf')
+  app.get('/hanzi-info', (req, res) => {
+    // console.log(req.query)
+    const text = ruPinyinObjectCache[req.query.hanzi]
+
+    if (text) {
+      // res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.send(text)
+    } else {
+      throw new Error('no')
+    }
+  })
+
+  app.post('/hanzi-info', async (req, res) => {
+    console.log(req.body)
+
+    const oldText = R.trim(req.body.oldText)
+    const newText = R.trim(req.body.newText)
+
+    if (oldText === newText) {
+      throw new Error('nothing to do')
+    }
+
+    let addToEnd = true
+    let ruPinyinArray = ruPinyinObjectCache.values().forEach(text => {
+      text = R.trim(text)
+
+      if (text === oldText) {
+        text = newText
+        addToEnd = false
+      }
+
+      return text
+    })
+
+    if (addToEnd) {
+      ruPinyinArray.push({ text, hanzi })
+    }
+
+    ruPinyinArray = ruPinyinArray.map(text => ({
+      text,
+      hanzi: R.uniq([...text].filter(isHanzi)).sort(),
+    }))
+
+    ruPinyinObjectCache = arrayOfValuesToObject({
+      arrayOfKeysField: "hanzi",
+      valueField: "text",
+      array: ruPinyinArray,
+    })
+
+    await require('fs/promises').writeFile(`/home/srghma/projects/anki-cards-from-pdf/html/ru-pinyin.json`, JSON.stringify(x, undefined, 2))
+
+    res.send('ok')
   })
 
   app.use(serveStatic(path.join(__dirname)))

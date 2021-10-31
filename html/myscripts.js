@@ -217,23 +217,79 @@ function isHanzi(ch) {
     window.showKanjiIframe(kanjiEncoded)
 
     try {
-      const kanji = decodeURIComponent(kanjiEncoded)
+      const hanzi = decodeURIComponent(kanjiEncoded)
+      if (!hanzi) { return }
 
-      if (!kanji) { return }
+      let respose = await fetch(`/hanzi-info?hanzi=${kanjiEncoded}`)
+      const text = await respose.text()
 
-      const respose = await fetch('ru-pinyin.json')
-      const json = await respose.json()
+      // function resizeIt( id, maxHeight, minHeight ) {
+      //   var str = elemDiv.value;
+      //   var cols = elemDiv.cols;
+      //   var linecount = 0;
+      //   var arStr = str.split("\n");
+      //   arStr.forEach(function(s) {
+      //     linecount = linecount + 1 + Math.floor(arStr[s].length / cols); // take into account long lines
+      //   });
+      //   linecount++;
+      //   linecount = Math.max(minHeight, linecount);
+      //   linecount = Math.min(maxHeight, linecount);
+      //   elemDiv.rows = linecount;
+      // };
 
-      const info = json.find(x => x.hanzi.includes(kanji))
-
-      console.log(kanji, info)
-
-      if (!info) { return }
-
-      const elemDiv = document.createElement('pre');
-      elemDiv.style.cssText = 'width:100%;height:10%;background:rgb(192,192,192); text-align: start; color: black;';
-      elemDiv.innerHTML = info.x
+      const elemDiv = document.createElement('textarea');
+      elemDiv.style.cssText = 'width:100%;resize: none;overflow: hidden;background:rgb(192,192,192); text-align: start; color: black;';
+      elemDiv.value = text
+      function autosize() {
+        elemDiv.style.height = "5px";
+        elemDiv.style.height = (elemDiv.scrollHeight)+"px";
+      }
+      elemDiv.addEventListener('change', autosize, false)
+      elemDiv.addEventListener('keydown', autosize, false)
+      elemDiv.addEventListener('keyup', autosize, false)
       window.document.body.insertBefore(elemDiv, window.document.body.firstChild);
+      autosize()
+
+      const submitButton = document.createElement('button')
+      submitButton.innerHTML = 'Submit'
+      submitButton.style.cssText = 'width:30%;';
+      elemDiv.after(submitButton)
+
+      const alertDiv = document.createElement('pre')
+      alertDiv.style.cssText = 'color: red; width:100%; text-align: start;';
+      elemDiv.before(alertDiv)
+
+      submitButton.addEventListener('click', function(event) {
+        event.preventDefault()
+
+        const oldText = text.trim()
+        const newText = elemDiv.value.trim()
+
+        if (oldText === newText) {
+          alertDiv.textContent = 'Nothing to do'
+          return
+        }
+
+        ;(async function() {
+          const response = await fetch(`/hanzi-info`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ oldText, newText })
+          })
+
+          if (response.status >= 500) {
+            const error = await response.text()
+            console.log(error)
+            alertDiv.textContent = error
+            return
+          }
+
+          const responseJson = await response.json()
+        })();
+      }, false)
+
       // document.body.appendChild(elemDiv); // appends last of that element
     } catch (e) {
       console.error(e)
