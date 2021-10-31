@@ -1,16 +1,48 @@
 #!/usr/bin/env node
 'use strict';
 
-var express = require('express')
-var path = require('path')
-var serveStatic = require('serve-static')
+const express = require('express')
+const path = require('path')
+const serveStatic = require('serve-static')
+const R = require('ramda')
+let ruPinyinArray = require('./ru-pinyin.json')
 
-var app = express()
+let ruPinyinObject = {}
 
-app.use(serveStatic(path.join(__dirname)))
-app.use(serveStatic(path.join(__dirname, '..', 'fonts')))
-app.use(serveStatic('/home/srghma/.local/share/Anki2/User 1/collection.media'))
-app.listen(34567)
+ruPinyinArray.forEach(({ x, hanzi }) => {
+  hanzi.map(hanziElement => {
+    if (ruPinyinObject.hasOwnProperty(hanziElement)) { throw new Error(hanziElement) }
+  })
+})
+// const sqlite3 = require('sqlite3')
+// const sqlite = require('sqlite')
+
+// this is a top-level await
+(async () => {
+  // // open the database
+  // const db = await sqlite.open({
+  //   filename: '/tmp/database.db',
+  //   driver: sqlite3.Database
+  // })
+
+  // await db.migrate({
+  //   force: true,
+  //   migrationsPath: path.join(__dirname, '..', 'migrations')
+  // })
+
+  const app = express()
+
+  app.get('/h', (req, res) => {
+    console.log(req.query)
+    res.send('asdfadf')
+  })
+
+  app.use(serveStatic(path.join(__dirname)))
+  app.use(serveStatic(path.join(__dirname, '..', 'fonts')))
+  app.use(serveStatic('/home/srghma/.local/share/Anki2/User 1/collection.media'))
+  app.listen(34567)
+})()
+
 
 // html_ = `
 // <!DOCTYPE HTML>

@@ -22,20 +22,72 @@ const TongWen = require('./scripts/lib/TongWen').TongWen
 readdirFullPath = async dirPath => {
   const files = await require('fs/promises').readdir(dirPath)
   const filesAbsPath = files.map(x => require('path').join(dirPath, x))
-  return filesAbsPath.map(file => {
-    let x = require('fs').readFileSync(file).toString() // .replace(/\r/g, '').split('\n\n').map(x => R.tail(x.split('\n'))).filter(x => x.length > 0)
-    x = x.split(/―{4,}|-{4,}/).map(R.trim)
-    x = x.filter(content => {
-      if (content.length === 1) {
-        if (isHanzi(content[0])) {
-          return false
-        }
+
+  const allFilesAndTexts = filesAbsPath.map(file => {
+    const fileText = require('fs').readFileSync(file).toString()
+    return { file, fileText }
+  })
+
+  let allExistingHanzi = allFilesAndTexts.map(R.prop('fileText')).join('')
+  allExistingHanzi = R.uniq([...allExistingHanzi].filter(isHanzi))
+
+  return allFilesAndTexts.forEach(({ file, fileText }) => {
+    fileText = fileText.split(/―{4,}|-{4,}/).map(R.trim)
+    // fileText = fileText.filter(content => {
+    //   if (content.length === 1) {
+    //     if (isHanzi(content[0])) {
+    //       return false
+    //     }
+    //   }
+    //   return true
+    // })
+    fileText = fileText.filter(Boolean)
+
+    fileText = fileText.map(fileTextGroup => {
+      const chars = [...fileTextGroup]
+      const hanzis = chars.filter(isHanzi)
+      let hanziAndOpposite = hanzis.map(x => {
+        const t = TongWen.s_2_t[x]
+        const s = TongWen.t_2_s[x]
+
+        // if (t != null && s != null) {
+        //   console.log({ t, s, x, fileTextGroup })
+        //   throw new Error('many opposites')
+        // }
+
+        let opposite = R.uniq([t, s].filter(Boolean))
+
+        opposite = opposite.filter(oppositeElement => {
+          const isAlreadyInText = allExistingHanzi.includes(oppositeElement)
+          return !isAlreadyInText
+        })
+
+        return { hanziInText: x, opposite }
+      }).filter(x => x.opposite.length !== 0)
+
+      hanziAndOpposite = R.uniqBy(R.prop('hanziInText'), hanziAndOpposite)
+
+      if (hanziAndOpposite.length !== 0) {
+        console.log(fileTextGroup, hanziAndOpposite)
       }
-      return true
+
+      buffer = fileTextGroup
+      hanziAndOpposite.forEach(({ hanziInText, opposite }) => {
+        buffer = buffer.replace(hanziInText, hanziInText + opposite.join(''))
+      })
+
+      // if (hanziAndOpposite.length !== 0) {
+      //   console.log({buffer, fileTextGroup}, hanziAndOpposite)
+      // }
+
+      // return buffer.join('')
+      return buffer
     })
-    x = x.filter(Boolean).map(x => x.split('\n').map(x => x.replace(/^\s+|\s+$/g,'')).join('\n')).join('\n\n-----\n\n') + '\n'
-    require('fs').writeFileSync(file, x)
-    return { file, x }
+
+    fileText = fileText.map(x => x.split('\n').map(x => x.replace(/^\s+|\s+$/g,'')).join('\n')).join('\n\n-----\n\n') + '\n'
+
+    require('fs').writeFileSync(file, fileText)
+    return { file, fileText }
   })
 }
 subCh = await readdirFullPath("/home/srghma/projects/anki-cards-from-pdf/ru-pinyin")
@@ -133,10 +185,11 @@ x = x.map(({ file, x }) => {
     return [x, t, s].filter(Boolean)
   }).flat()
   hanzi = R.uniq(hanzi)
-  return { x, hanzi }
+  x = R.trim(x)
+  return { text: x, hanzi }
 })
 x = x.filter(x => x.hanzi.length !== 0)
-fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/ru-pinyin.json`, JSON.stringify(x))
+fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/ru-pinyin.json`, JSON.stringify(x, undefined, 2))
 
 /////////////////
 
