@@ -110,7 +110,7 @@ recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
       ruPinyinArray_.push(newText)
     }
 
-    ruPinyinArray_ = ruPinyinArray_.filter(Boolean)
+    ruPinyinArray_ = ruPinyinArray_.filter(Boolean).sort()
 
     recomputeCacheAndThrowIfDuplicate(ruPinyinArray_)
 
