@@ -30,7 +30,7 @@ const arrayOfValuesToObject = ({ arrayOfKeysField, valueField, array }) => {
   return buffer
 }
 
-function recomputeCache(ruPinyinArray_) {
+function recomputeCacheAndThrowIfDuplicate(ruPinyinArray_) {
   const hanziThatAreNotKeys = ["𣥠","𣡦","𠤬","𠦍","𠤕","𥎨","𠤗","𠨮"]
 
   ruPinyinObjectCache = arrayOfValuesToObject({
@@ -43,7 +43,7 @@ function recomputeCache(ruPinyinArray_) {
   })
 }
 
-recomputeCache(ruPinyinArray)
+recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
 
 // console.log(ruPinyinObjectCache)
 
@@ -78,6 +78,7 @@ recomputeCache(ruPinyinArray)
     }
   })
 
+  let hanziInfoWriteMutex = false
   app.post('/hanzi-info', async (req, res) => {
     console.log(req.body)
 
@@ -87,6 +88,11 @@ recomputeCache(ruPinyinArray)
     if (oldText === newText) {
       throw new Error('nothing to do')
     }
+
+    if (hanziInfoWriteMutex) {
+      throw new Error('mutex')
+    }
+    hanziInfoWriteMutex = true
 
     let addToEnd = true
     let ruPinyinArray_ = ruPinyinArray.map(text => {
@@ -104,11 +110,15 @@ recomputeCache(ruPinyinArray)
       ruPinyinArray_.push(newText)
     }
 
-    recomputeCache(ruPinyinArray_)
+    ruPinyinArray_ = ruPinyinArray_.filter(Boolean)
+
+    recomputeCacheAndThrowIfDuplicate(ruPinyinArray_)
 
     ruPinyinArray = ruPinyinArray_
 
-    await require('fs/promises').writeFile(dbPath, ruPinyinArray.join('\n\n----\n\n'))
+    await require('fs/promises').writeFile(dbPath, ruPinyinArray.join('\n\n----\n\n') + '\n')
+
+    hanziInfoWriteMutex = false
 
     res.send({ message: "Saved" })
   })

@@ -261,8 +261,11 @@ function isHanzi(ch) {
       alertDiv.style.cssText = 'width:100%; text-align: start;';
       elemDiv.before(alertDiv)
 
+      let mutex = false
       submitButton.addEventListener('click', function(event) {
         event.preventDefault()
+
+        if (mutex) { return }
 
         alertDiv.textContent = ''
 
@@ -274,6 +277,7 @@ function isHanzi(ch) {
         }
 
         ;(async function() {
+          mutex = true
           const response = await fetch(`/hanzi-info`, {
             method: 'POST',
             headers: {
@@ -294,6 +298,8 @@ function isHanzi(ch) {
           alertDiv.style.color = 'white'
 
           oldText = newText
+
+          mutex = false
         })();
       }, false)
 
