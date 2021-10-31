@@ -192,7 +192,7 @@ x = x.map(({ file, x }) => {
   return x
 })
 // x = x.filter(x => x.hanzi.length !== 0)
-await require('fs/promises').writeFile('/home/srghma/projects/anki-cards-from-pdf/html/ru-pinyin', x.filter(Boolean).join('\n\n----\n\n') + '\n')
+await require('fs/promises').writeFile('/home/srghma/projects/anki-cards-from-pdf/html/ru-pinyin', x.filter(Boolean).sort().join('\n\n----\n\n') + '\n')
 
 /////////////////
 
