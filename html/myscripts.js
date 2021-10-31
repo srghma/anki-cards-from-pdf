@@ -290,7 +290,7 @@ function isHanzi(ch) {
 
         const possibleHanzi = unique([hanzi, ...older].filter(isHanzi))
 
-        if (!elemDiv.value) { elemDiv.value = possibleHanzi.join('\n') + '\n\n'; autosize() }
+        if (!elemDiv.value) { elemDiv.value = possibleHanzi.map(x => x + ' ').join('\n') + '\n\n'; autosize() }
 
         // console.log(older)
         // older = await fetch(`/trainchinese =${encodeURIComponent(str)}&tcLanguage=ru`, { "mode": "cors" })))

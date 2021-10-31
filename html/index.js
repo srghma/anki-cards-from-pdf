@@ -105,7 +105,9 @@ recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
       ruPinyinArray_.push(newText)
     }
 
-    ruPinyinArray_ = ruPinyinArray_.filter(Boolean).sort()
+    const removeTrailingWhitespace = x => x.split('\n').map(x => x.trim()).join('\n').trim()
+
+    ruPinyinArray_ = ruPinyinArray_.filter(Boolean).sort().map(removeTrailingWhitespace)
 
     recomputeCacheAndThrowIfDuplicate(ruPinyinArray_)
 
