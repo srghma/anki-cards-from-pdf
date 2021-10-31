@@ -262,6 +262,8 @@ function isHanzi(ch) {
       submitButton.addEventListener('click', function(event) {
         event.preventDefault()
 
+        alertDiv.textContent = ''
+
         const oldText = text.trim()
         const newText = elemDiv.value.trim()
 

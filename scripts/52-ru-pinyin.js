@@ -19,6 +19,7 @@ const nodeWith = require('./scripts/lib/nodeWith').nodeWith
 const escapeRegExp = require('./scripts/lib/escapeRegExp').escapeRegExp
 const TongWen = require('./scripts/lib/TongWen').TongWen
 const groupConsecutive = require('./scripts/lib/groupConsecutive').groupConsecutive
+const YAML = require('yaml')
 
 readdirFullPath = async dirPath => {
   const files = await require('fs/promises').readdir(dirPath)
@@ -180,17 +181,18 @@ readdirFullPath = async dirPath => {
 x = await readdirFullPath("/home/srghma/projects/anki-cards-from-pdf/ru-pinyin")
 x = x.flat()
 x = x.map(({ file, x }) => {
-  hanzi = x.split('').filter(isHanzi).map(x => {
-    const t = TongWen.s_2_t[x]
-    const s = TongWen.t_2_s[x]
-    return [x, t, s].filter(Boolean)
-  }).flat()
-  hanzi = R.uniq(hanzi).sort()
+  // hanzi = x.split('').filter(isHanzi).map(x => {
+  //   const t = TongWen.s_2_t[x]
+  //   const s = TongWen.t_2_s[x]
+  //   return [x, t, s].filter(Boolean)
+  // }).flat()
+  // hanzi = R.uniq(hanzi).sort()
   x = R.trim(x)
-  return { text: x, hanzi }
+  // return { text: x, hanzi }
+  return x
 })
-x = x.filter(x => x.hanzi.length !== 0)
-fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/ru-pinyin.json`, JSON.stringify(x, undefined, 2))
+// x = x.filter(x => x.hanzi.length !== 0)
+fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/ru-pinyin`, x.join('\n\n----\n\n'))
 
 /////////////////
 
