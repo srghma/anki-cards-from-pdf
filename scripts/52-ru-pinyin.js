@@ -18,6 +18,7 @@ const translate = new Translate({projectId: "annular-form-299211"});
 const nodeWith = require('./scripts/lib/nodeWith').nodeWith
 const escapeRegExp = require('./scripts/lib/escapeRegExp').escapeRegExp
 const TongWen = require('./scripts/lib/TongWen').TongWen
+const groupConsecutive = require('./scripts/lib/groupConsecutive').groupConsecutive
 
 readdirFullPath = async dirPath => {
   const files = await require('fs/promises').readdir(dirPath)
@@ -71,17 +72,17 @@ readdirFullPath = async dirPath => {
         console.log(fileTextGroup, hanziAndOpposite)
       }
 
-      buffer = fileTextGroup
       hanziAndOpposite.forEach(({ hanziInText, opposite }) => {
-        buffer = buffer.replace(hanziInText, hanziInText + opposite.join(''))
+        fileTextGroup = fileTextGroup.replace(hanziInText, hanziInText + opposite.join(''))
       })
 
-      // if (hanziAndOpposite.length !== 0) {
-      //   console.log({buffer, fileTextGroup}, hanziAndOpposite)
-      // }
+      fileTextGroup = groupConsecutive(isHanzi, [...fileTextGroup]).map(x => {
+        return x.type ? R.uniq(x.values).join('') : x.values.join('')
+      }).join('')
 
-      // return buffer.join('')
-      return buffer
+      // console.log(require('util').inspect({ groupedChars, fileTextGroup }, {showHidden: false, depth: null, colors: true}))
+
+      return fileTextGroup
     })
 
     fileText = fileText.map(x => x.split('\n').map(x => x.replace(/^\s+|\s+$/g,'')).join('\n')).join('\n\n-----\n\n') + '\n'
