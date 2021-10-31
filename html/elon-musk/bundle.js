@@ -62,78 +62,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
   //////////////
 
-  const paintCanvas = document.getElementById('canvas-canvas')
-  const context = paintCanvas.getContext('2d')
-  context.lineCap = 'round';
-
-  const colorPicker = document.getElementById('canvas-color-picker');
-
-  colorPicker.addEventListener('change', event => {
-    context.strokeStyle = event.target.value;
-  })
-
-  const lineWidthRange = document.getElementById('canvas-line-range')
-  const lineWidthLabel = document.getElementById('canvas-range-value')
-
-  lineWidthRange.addEventListener('input', event => {
-      const width = event.target.value;
-      lineWidthLabel.innerHTML = width;
-      context.lineWidth = width;
-  })
-
-  let x = 0, y = 0;
-  let isMouseDown = false;
-
-  const stopDrawing = () => { isMouseDown = false; }
-  const startDrawing = event => {
-    isMouseDown = true;
-    [x, y] = [event.offsetX, event.offsetY];
-  }
-  const drawLine = event => {
-    if (isMouseDown) {
-      const newX = event.offsetX;
-      const newY = event.offsetY;
-      context.beginPath();
-      context.moveTo(x, y)
-      context.lineTo(newX, newY)
-      context.stroke();
-      //[x, y] = [newX, newY];
-      x = newX;
-      y = newY;
-    }
-  }
-
-  const resetCanvas = () => {
-    paintCanvas.width = window.innerWidth
-    // context.fillStyle = 'rgb(255,255,255)';
-    context.fillStyle = 'rgb(0,0,0)';
-    context.fillRect(0,0,paintCanvas.width,paintCanvas.height);
-    context.strokeStyle = colorPicker.value;
-    console.log(context.strokeStyle)
-  }
-
-  resetCanvas()
-
-  paintCanvas.addEventListener('mousedown', startDrawing, false)
-  paintCanvas.addEventListener('mousemove', drawLine, false)
-  paintCanvas.addEventListener('mouseup', stopDrawing, false)
-  paintCanvas.addEventListener('mouseout', stopDrawing, false)
-
-  // Set up touch events for mobile, etc
-  canvas.addEventListener("touchstart", function (e) {
-    // e.preventDefault()
-    startDrawing(e.touches[0])
-  }, false);
-  canvas.addEventListener("touchend", stopDrawing, false);
-  canvas.addEventListener("touchmove", function (e) {
-    e.preventDefault()
-    drawLine(e.touches[0])
-  }, false);
-
-  document.getElementById('canvas-clear').addEventListener('click', event => {
-    event.preventDefault()
-    resetCanvas()
-  })
+  
 });
 
 },{"google-tts-api":35}],2:[function(require,module,exports){

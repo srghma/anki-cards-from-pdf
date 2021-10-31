@@ -164,9 +164,6 @@ css = css.filter(Boolean)
 // dom.window.document.body.innerHTML = toc
 // dom.window.document.body.querySelector('navmap').outerHTML
 
-toc = html.map(x => x.title).filter(Boolean).map(x => '<li>' + x + '</li>').join('\n')
-toc = '<ul>' + toc + '</ul>'
-
 function addSentences(html) {
   dom.window.document.body.innerHTML = html;
 
@@ -222,11 +219,11 @@ function addSentences(html) {
           sentenceElement = document.createElement('sentence')
           sentenceElement.innerHTML = x
 
-          const simplified = [...x].map(x => TongWen.t_2_s[x] || x).join('')
-          const traditional = [...x].map(x => TongWen.s_2_t[x] || x).join('')
+          // const simplified = [...x].map(x => TongWen.t_2_s[x] || x).join('')
+          // const traditional = [...x].map(x => TongWen.s_2_t[x] || x).join('')
 
-          sentenceElement.setAttribute("data-traditional", traditional)
-          sentenceElement.setAttribute("data-simplified", simplified)
+          // sentenceElement.setAttribute("data-traditional", traditional)
+          // sentenceElement.setAttribute("data-simplified", simplified)
           return sentenceElement
         })
 
@@ -249,38 +246,40 @@ function addSentences(html) {
 
 htmlContent = html.map(x => '<chapter>' + addSentences(x.html) + '</chapter>').join('\n').replace(/src="\.\.\/Images/g, 'src="Images').replace(/\.\.\/Text\/chapter\d\d\.xhtml#/g, '#')
 
+html_ = {
+  title: epub.metadata.title,
+  css: css.map(x => x.href.replace('OEBPS/', '')),
+  toc: html.map(x => x.title).filter(Boolean),
+  htmlContent,
+}
 html_ = `
 <!DOCTYPE HTML>
 <html>
  <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${epub.metadata.title}</title>
   <meta name="referrer" content="no-referrer">
-  ${css.map(x => `<link rel="stylesheet" href="${x.href.replace('OEBPS/', '')}">`).join('\n')}
+  ${html_.css.map(x => `<link rel="stylesheet" href="${x}">`).join('\n')}
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-drawing-board@latest/dist/canvas-drawing-board.js"></script>
   <script defer src="bundle.js"></script>
  </head>
  <body>
   <div id="container">
     <div id="body">
-      <div>${toc}</div>
-      ${htmlContent}
+      <div><ul>${html_.toc.map(x => '<li>' + x + '</li>').join('\n')}</ul></div>
+      ${html_.htmlContent}
     </div>
     <footer>
-      <div class="canvas-container">
-        <div class="canvas-controllers">
-          <input type="color" id="canvas-color-picker" value="#ffffff">
-          <button id="canvas-clear">Clear</Button>
-        </div>
-        <canvas id="canvas-canvas" width="600" height="300"></canvas>
-      </div>
+      <div id="app" style="position: relative; width: 100%; height: 600px"></div>
       <div id="currentSentence"></div>
       <div id="currentSentenceTraditional"></div>
       <div class="controllers">
+        <audio controls id="tts-audio" />
         <div class="buttons">
           <button id="pleco">Pleco</button>
         </div>
-        <audio controls id="tts-audio"/>
       </div>
     </footer>
   </div>
