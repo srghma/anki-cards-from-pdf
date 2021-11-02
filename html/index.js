@@ -7,6 +7,7 @@ const serveStatic = require('serve-static')
 const R = require('ramda')
 const isHanzi = require('../scripts/lib/isHanzi').isHanzi
 const splitBySeparator = require('../scripts/lib/splitBySeparator').splitBySeparator
+const TongWen = require('../scripts/lib/TongWen').TongWen
 
 require("child_process").execSync('./node_modules/.bin/browserify html/list-of-sentences-common.js -o html/list-of-sentences-common-bundle.js')
 
@@ -131,19 +132,32 @@ recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
     let name = require('path').parse(basename).name // xxxx
 
     app.get(`/peppa/${name}.html`, (req, res) => {
+      const setOfKnownHanzi = new Set(Object.keys(ruPinyinObjectCache))
       let html = require(absolutePath)
       const body = `
       <div>${html.map(subtitle => {
         let separators = "？！，。。《》"
         separators = [...separators]
 
-        subtitle = [...subtitle]
-        console.log(subtitle)
+        subtitle = subtitle.split('\n').map(subtitle => {
+          subtitle = [...subtitle]
+          // console.log(subtitle)
+          subtitle = splitBySeparator(x => separators.includes(x), subtitle)
+          // console.log(subtitle)
 
-        subtitle = splitBySeparator(x => separators.includes(x), subtitle)
-        // console.log(subtitle)
+          subtitle = subtitle.map(text => {
+            const colorizer = ch => {
+              const isKnown = setOfKnownHanzi.has(ch)
+              return isKnown ? `<span class="known-hanzi">${ch}</span>` : ch
+            }
 
-        subtitle = subtitle.map(x => '<sentence>' + x.join('') + '</sentence>').join('')
+            text = [...text].map(ch => isHanzi(ch) ? colorizer(ch) : ch).join('')
+
+            return '<sentence>' + text + '</sentence>'
+          }).join('')
+          return subtitle
+        }).join('<br>')
+
         return '<div class="subtitle">' + subtitle + '</div>'
       }).join('\n')}</div>
       `

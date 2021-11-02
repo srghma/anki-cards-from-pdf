@@ -55,6 +55,14 @@ footer a {
   flex-grow: 1;
 }
 
-.known-hanzi {
+footer .known-hanzi {
   background-color: #5f7980;
+}
+
+#body .known-hanzi {
+  background-color: #c6ecf7;
+}
+
+#body {
+  padding-bottom: 510px; /* eq to footer */
 }
