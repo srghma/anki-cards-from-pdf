@@ -7,7 +7,9 @@ const getAudioUrl = (
     );
   }
 
-  return `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=zh&total=1&idx=0&textlen=${text.length}&client=tw-ob&prev=input&ttsspeed=0.24`
+  // return `https://tts.baidu.com/text2audio?cuid=baike&lan=ZH&ctp=1&pdt=301&vol=9&rate=32&per=4&tex=${encodeURIComponent(text)}`
+  return `https://fanyi.baidu.com/gettts?lan=zh&text=${encodeURIComponent(text)}&spd=2&source=web`
+  // return `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=zh&total=1&idx=0&textlen=${text.length}&client=tw-ob&prev=input&ttsspeed=0.24`
 };
 
 const TongWen = require('../scripts/lib/TongWen').TongWen
@@ -29,11 +31,13 @@ const getCurrentSentenceTextContent = () => document.getElementById('currentSent
 ////////////
 
 document.addEventListener("DOMContentLoaded", function(){
+  const baiduSpeechSynthesizer = new BDSSpeechSynthesizer()
+
   const board = new Board({id: "app", background: '#000'})
   board.setSize(2)
   board.setColor('#fff')
 
-  const currentlySelectedElement = null
+  let currentlySelectedElement = null
   const audioEl = document.getElementById('tts-audio')
 
   document.getElementById("body").addEventListener('click', function(event) {
@@ -56,7 +60,9 @@ document.addEventListener("DOMContentLoaded", function(){
       return
     }
 
-    const text = element.textContent
+    currentlySelectedElement = element
+
+    const text = currentlySelectedElement.textContent
     const simplifiedText = [...text].map(x => TongWen.t_2_s[x] || x).join('')
     const traditionalText = [...text].map(x => TongWen.s_2_t[x] || x).join('')
 
@@ -80,7 +86,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
     audioEl.src = getAudioUrl(text)
     audioEl.load()
+
     audioEl.play()
+    // baiduSpeechSynthesizer.speak(text).on('ended', () => audioEl.play())
   }, false);
 
   document.getElementById('pleco').addEventListener('click', function(event) {
@@ -91,5 +99,10 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById('clear-canvas').addEventListener('click', function(event) {
     event.preventDefault()
     board.clear()
+  }, false);
+
+  document.getElementById('baidu').addEventListener('click', function(event) {
+    event.preventDefault()
+    baiduSpeechSynthesizer.speak(currentlySelectedElement.textContent.trim())
   }, false);
 });

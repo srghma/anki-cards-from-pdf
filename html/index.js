@@ -9,9 +9,9 @@ const isHanzi = require('../scripts/lib/isHanzi').isHanzi
 const splitBySeparator = require('../scripts/lib/splitBySeparator').splitBySeparator
 const TongWen = require('../scripts/lib/TongWen').TongWen
 
-require("child_process").execSync('./node_modules/.bin/browserify html/list-of-sentences-common.js -o html/list-of-sentences-common-bundle.js')
+require("child_process").execSync(`${__dirname}/../node_modules/.bin/browserify ${__dirname}/list-of-sentences-common.js -o ${__dirname}/list-of-sentences-common-bundle.js`)
 
-const dbPath = `/home/srghma/projects/anki-cards-from-pdf/html/ru-pinyin`
+const dbPath = `${__dirname}/ru-pinyin`
 
 let ruPinyinArray = require('fs').readFileSync(dbPath).toString().split(/―{4,}|-{4,}/).map(R.trim)
 
@@ -81,6 +81,7 @@ recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
       <link rel="stylesheet" href="index.css">
       <link rel="stylesheet" href="../list-of-sentences-common.css">
       <script src="https://cdn.jsdelivr.net/npm/canvas-drawing-board@latest/dist/canvas-drawing-board.js"></script>
+      <script src="https://unpkg.com/baidu-speech-synthesizer@latest/dist/index.min.js"></script>
       <script defer src="../list-of-sentences-common-bundle.js"></script>
      </head>
      <body>
@@ -95,6 +96,7 @@ recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
           <div class="controllers">
             <audio controls id="tts-audio"></audio>
             <div class="buttons">
+              <button id="baidu">Baidu</button>
               <button id="clear-canvas">Clear</button>
               <button id="pleco">Pleco</button>
             </div>
