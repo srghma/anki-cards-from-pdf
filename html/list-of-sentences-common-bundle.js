@@ -1,16 +1,11 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-const getAudioUrl = (
-  text
-) => {
-  if (text.length > 200) {
-    throw new RangeError(
-      `text length (${text.length}) should be less than 200 characters. Try "getAllAudioUrls(text, [option])" for long text.`
-    );
-  }
+const getAudioGoogleUrl = text => {
+  return `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=zh&total=1&idx=0&textlen=${text.length}&client=tw-ob&prev=input&ttsspeed=0.24`
+};
 
+const getAudioBaiduUrl = text => {
   // return `https://tts.baidu.com/text2audio?cuid=baike&lan=ZH&ctp=1&pdt=301&vol=9&rate=32&per=4&tex=${encodeURIComponent(text)}`
   return `https://fanyi.baidu.com/gettts?lan=zh&text=${encodeURIComponent(text)}&spd=2&source=web`
-  // return `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=zh&total=1&idx=0&textlen=${text.length}&client=tw-ob&prev=input&ttsspeed=0.24`
 };
 
 const TongWen = require('../scripts/lib/TongWen').TongWen
@@ -32,14 +27,13 @@ const getCurrentSentenceTextContent = () => document.getElementById('currentSent
 ////////////
 
 document.addEventListener("DOMContentLoaded", function(){
-  const baiduSpeechSynthesizer = new BDSSpeechSynthesizer()
-
   const board = new Board({id: "app", background: '#000'})
   board.setSize(2)
   board.setColor('#fff')
 
   let currentlySelectedElement = null
-  const audioEl = document.getElementById('tts-audio')
+  const googleAudioEl = document.getElementById('google-tts-audio')
+  const baiduAudioEl = document.getElementById('baidu-tts-audio')
 
   document.getElementById("body").addEventListener('click', function(event) {
     event.preventDefault()
@@ -57,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     if (element === currentlySelectedElement) {
-      audioEl.play()
+      baiduAudioEl.play()
       return
     }
 
@@ -85,11 +79,16 @@ document.addEventListener("DOMContentLoaded", function(){
       document.getElementById('currentSentenceTraditional').innerHTML = addLinks(traditionalText)
     })();
 
-    audioEl.src = getAudioUrl(text)
-    audioEl.load()
+    googleAudioEl.src = getAudioGoogleUrl(text)
+    googleAudioEl.load()
 
-    audioEl.play()
-    // baiduSpeechSynthesizer.speak(text).on('ended', () => audioEl.play())
+    baiduAudioEl.src = getAudioBaiduUrl(text)
+    baiduAudioEl.load()
+    baiduAudioEl.play()
+
+    baiduAudioEl.addEventListener('ended', (event) => {
+      googleAudioEl.play()
+    }, { once: true })
   }, false);
 
   document.getElementById('pleco').addEventListener('click', function(event) {
@@ -100,11 +99,6 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById('clear-canvas').addEventListener('click', function(event) {
     event.preventDefault()
     board.clear()
-  }, false);
-
-  document.getElementById('baidu').addEventListener('click', function(event) {
-    event.preventDefault()
-    baiduSpeechSynthesizer.speak(currentlySelectedElement.textContent.trim())
   }, false);
 });
 
