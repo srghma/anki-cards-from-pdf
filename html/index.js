@@ -124,14 +124,39 @@ recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
     }))
   })
 
-  const files = await require('fs/promises').readdir(`${__dirname}/peppa`)
-  files.filter(x => x.endsWith('.json')).forEach(basename => { // xxxx.json
+  let files = await require('fs/promises').readdir(`${__dirname}/peppa`)
+  files = files.filter(x => x.endsWith('.json')).map(basename => { // xxxx.json
     // console.log(basename)
     // let basename = require('path').basename(filePath) // xxxx.json
     let absolutePath = `${__dirname}/peppa/${basename}`
     let name = require('path').parse(basename).name // xxxx
 
-    app.get(`/peppa/${name}.html`, (req, res) => {
+    const url = `/peppa/${name}.html`
+
+    return {
+      basename,
+      absolutePath,
+      name,
+      url,
+    }
+  })
+
+  app.get(`/peppa`, (req, res) => {
+    const links = files.map(x => `<li><a href="${x.url}">${x.name}</a></li>`).join('\n')
+    const html = `<!DOCTYPE HTML>
+    <html>
+     <body>
+     <ul>
+      ${links}
+      </ul>
+     </body>
+    </html>
+    `
+    res.header('Content-Type', 'text/html').send(html)
+  })
+
+  files.map(({ basename, absolutePath, name, url }) => {
+    app.get(url, (req, res) => {
       const setOfKnownHanzi = new Set(Object.keys(ruPinyinObjectCache))
       let html = require(absolutePath)
       const body = `

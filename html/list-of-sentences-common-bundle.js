@@ -41,11 +41,10 @@ document.addEventListener("DOMContentLoaded", function(){
     event.preventDefault()
 
     let element = event.target
-    console.log(element)
+    // console.log(element)
 
     if (element.tagName !== 'SENTENCE') {
       const parent = element.parentElement
-
       if (parent.tagName === 'SENTENCE') {
         element = parent
       } else {
@@ -2614,5 +2613,3 @@ TongWen.t_2_s = Object.fromEntries(Object.entries(TongWen.s_2_t).map(x => [x[1],
 exports.TongWen = TongWen
 
 },{}]},{},[1]);
-
-

@@ -39,9 +39,18 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById("body").addEventListener('click', function(event) {
     event.preventDefault()
 
-    const element = event.target
+    let element = event.target
+    // console.log(element)
 
-    if (element.tagName !== 'SENTENCE') { return }
+    if (element.tagName !== 'SENTENCE') {
+      const parent = element.parentElement
+      if (parent.tagName === 'SENTENCE') {
+        element = parent
+      } else {
+        return
+      }
+    }
+
     if (element === currentlySelectedElement) {
       audioEl.play()
       return
