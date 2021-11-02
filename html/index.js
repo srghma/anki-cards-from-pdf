@@ -124,8 +124,8 @@ recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
     }))
   })
 
-  let files = await require('fs/promises').readdir(`${__dirname}/peppa`)
-  files = files.filter(x => x.endsWith('.json')).map(basename => { // xxxx.json
+  let allPeppaFiles = await require('fs/promises').readdir(`${__dirname}/peppa`)
+  let files = allPeppaFiles.filter(x => x.endsWith('.json')).map(basename => { // xxxx.json
     // console.log(basename)
     // let basename = require('path').basename(filePath) // xxxx.json
     let absolutePath = `${__dirname}/peppa/${basename}`
@@ -133,7 +133,20 @@ recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
 
     const url = `/peppa/${name}.html`
 
+    const allHtmlFilesOfCurrent = allPeppaFiles.filter(x => x.endsWith('.html') && x.startsWith(name)).map(x => x.replace('.html', '').replace(`${name}.`, ''))
+    // console.log({ allHtmlFilesOfCurrent, name })
+
+    // let englishFilename = allHtmlFilesOfCurrent.find(x => x === 'en-GB' || x === 'en')
+    // let everythingFilename = allHtmlFilesOfCurrent.find(x => x === 'zh-CN' || x === 'zh-HK')
+
+    // console.log({
+    //   englishFilename,
+    //   everythingFilename,
+    //   name
+    // })
+
     return {
+      allHtmlFilesOfCurrent,
       basename,
       absolutePath,
       name,
@@ -142,7 +155,11 @@ recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
   })
 
   app.get(`/peppa`, (req, res) => {
-    const links = files.map(x => `<li><a href="${x.url}">${x.name}</a></li>`).join('\n')
+    const links = files.map(x => {
+      const allHtmlFilesOfCurrent = x.allHtmlFilesOfCurrent.map(enOrZh => `<a target="_blank" href="/peppa/${x.name}.${enOrZh}.html">${enOrZh}</a>`).join('&nbsp;&nbsp;&nbsp;')
+
+      return `<li><a target="_blank" href="${x.url}">${x.name}</a>&nbsp;&nbsp;&nbsp;(${allHtmlFilesOfCurrent})</li>`
+    }).join('\n')
     const html = `<!DOCTYPE HTML>
     <html>
      <body>
