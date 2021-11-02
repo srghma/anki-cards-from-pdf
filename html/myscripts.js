@@ -1,9 +1,9 @@
 const containerId = 'kanjiIframeContainer'
 
-function waitForElementToAppear(id) {
+function waitForElementToAppear(get) {
   return new Promise(function (resolve, reject) {
       (function doWait(){
-        const element = document.getElementById(id)
+        const element = get()
         if (element) return resolve(element)
         setTimeout(doWait, 0)
       })();
@@ -232,6 +232,32 @@ function isHanzi(ch) {
       const hanzi = decodeURIComponent(kanjiEncoded)
       if (!hanzi) { return }
 
+      // play audio
+      ;(async function() {
+        try {
+          await waitForElementToAppear(() => document.getElementById('hanziyuan'))
+
+          const firstAudio = Array.from(document.querySelectorAll('.my-pinyin-tone a')).map(x => x.href).filter(x => x.endsWith('.mp3'))[0]
+          const audioEl = document.createElement('audio');
+          audioEl.style.cssText = 'display: none;';
+          audioEl.src = firstAudio
+          audioEl.load()
+          audioEl.autoplay = true;
+
+          document.body.addEventListener('click', () => {
+            audioEl.play().catch(e => {
+              document.body.innerHTML = e.toString()
+            })
+          }, { once: true });
+
+          // await audioEl.play()
+          document.body.appendChild(audioEl)
+        } catch (e) {
+          document.body.innerHTML = e.toString()
+        }
+      })();
+      //////
+
       let respose = await fetch(`/hanzi-info?hanzi=${kanjiEncoded}`)
       const text = await respose.text()
 
@@ -275,7 +301,7 @@ function isHanzi(ch) {
       elemDiv.before(alertDiv)
 
       ;(async function() {
-        const element = await waitForElementToAppear('hanziyuan')
+        const element = await waitForElementToAppear(() => document.getElementById('hanziyuan'))
         const hanziyuan = element.innerHTML
 
         // ... -> Array String

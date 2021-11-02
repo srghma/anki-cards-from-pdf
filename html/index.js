@@ -6,7 +6,9 @@ const path = require('path')
 const serveStatic = require('serve-static')
 const R = require('ramda')
 const isHanzi = require('../scripts/lib/isHanzi').isHanzi
+const splitBySeparator = require('../scripts/lib/splitBySeparator').splitBySeparator
 
+require("child_process").execSync('./node_modules/.bin/browserify html/list-of-sentences-common.js -o html/list-of-sentences-common-bundle.js')
 
 const dbPath = `/home/srghma/projects/anki-cards-from-pdf/html/ru-pinyin`
 
@@ -66,6 +68,97 @@ recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
   const app = express()
   app.use(express.json())
 
+  function render(html) {
+    return `<!DOCTYPE HTML>
+    <html>
+     <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>${html.title}</title>
+      <meta name="referrer" content="no-referrer">
+      ${html.css.map(x => `<link rel="stylesheet" href="${x}">`).join('\n')}
+      <link rel="stylesheet" href="index.css">
+      <link rel="stylesheet" href="../list-of-sentences-common.css">
+      <script src="https://cdn.jsdelivr.net/npm/canvas-drawing-board@latest/dist/canvas-drawing-board.js"></script>
+      <script defer src="../list-of-sentences-common-bundle.js"></script>
+     </head>
+     <body>
+      <div id="container">
+        <div id="body">
+          ${html.body}
+        </div>
+        <footer>
+          <div id="app" style="position: relative; width: 100%; height: 300px"></div>
+          <div id="currentSentence"></div>
+          <div id="currentSentenceTraditional"></div>
+          <div class="controllers">
+            <audio controls id="tts-audio"></audio>
+            <div class="buttons">
+              <button id="clear-canvas">Clear</button>
+              <button id="pleco">Pleco</button>
+            </div>
+          </div>
+        </footer>
+      </div>
+     </body>
+    </html>
+    `
+  }
+
+  app.get('/elon-musk/index.html', (req, res) => {
+    const knownHanzi = Object.keys(ruPinyinObjectCache)
+    let html = require('./elon-musk/index.json')
+
+    let htmlContent = html.htmlContent
+
+    const body = `
+    <div><ul>${html.toc.map(x => '<li>' + x + '</li>').join('\n')}</ul></div>
+    ${htmlContent}
+    `
+
+    res.header('Content-Type', 'text/html').send(render({
+      title: html.title,
+      css: html.css,
+      body
+    }))
+  })
+
+  const files = await require('fs/promises').readdir(`${__dirname}/peppa`)
+  files.filter(x => x.endsWith('.json')).forEach(basename => { // xxxx.json
+    // console.log(basename)
+    // let basename = require('path').basename(filePath) // xxxx.json
+    let absolutePath = `${__dirname}/peppa/${basename}`
+    let name = require('path').parse(basename).name // xxxx
+
+    app.get(`/peppa/${name}.html`, (req, res) => {
+      let html = require(absolutePath)
+      const body = `
+      <div>${html.map(subtitle => {
+        let separators = "？！，。。《》"
+        separators = [...separators]
+
+        subtitle = [...subtitle]
+        console.log(subtitle)
+
+        subtitle = splitBySeparator(x => separators.includes(x), subtitle)
+        // console.log(subtitle)
+
+        subtitle = subtitle.map(x => '<sentence>' + x.join('') + '</sentence>').join('')
+        return '<div class="subtitle">' + subtitle + '</div>'
+      }).join('\n')}</div>
+      `
+      res.header('Content-Type', 'text/html').send(render({
+        title: name,
+        css: [],
+        body
+      }))
+    })
+  })
+
+  app.get('/list-of-known-hanzi', (req, res) => {
+    res.send(Object.keys(ruPinyinObjectCache))
+  })
+
   app.get('/hanzi-info', (req, res) => {
     // console.log(req.query)
     const text = ruPinyinObjectCache[req.query.hanzi]
@@ -75,7 +168,7 @@ recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
 
   let hanziInfoWriteMutex = false
   app.post('/hanzi-info', async (req, res) => {
-    console.log(req.body)
+    // console.log(req.body)
 
     const oldText = R.trim(req.body.oldText)
     const newText = R.trim(req.body.newText)
@@ -127,38 +220,3 @@ recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
 
   console.log("Listening")
 })();
-
-
-// html_ = `
-// <!DOCTYPE HTML>
-// <html>
-//  <head>
-//   <meta charset="utf-8">
-//   <title>${epub.metadata.title}</title>
-//   <meta name="referrer" content="no-referrer">
-//   ${css.map(x => `<link rel="stylesheet" href="${x}">`).join('\n')}
-//   <link rel="stylesheet" href="style.css">
-//   <script src="https://cdn.jsdelivr.net/npm/canvas-drawing-board@latest/dist/canvas-drawing-board.js"></script>
-//   <script defer src="bundle.js"></script>
-//  </head>
-//  <body>
-//   <div id="container">
-//     <div id="body">
-//       <div>${toc}</div>
-//       ${htmlContent}
-//     </div>
-//     <footer>
-//       <div id="app" style="position: relative; width: 100%; height: 600px"></div>
-//       <div id="currentSentence"></div>
-//       <div id="currentSentenceTraditional"></div>
-//       <div class="controllers">
-//         <audio controls id="tts-audio" />
-//         <div class="buttons">
-//           <button id="pleco">Pleco</button>
-//         </div>
-//       </div>
-//     </footer>
-//   </div>
-//  </body>
-// </html>
-// `

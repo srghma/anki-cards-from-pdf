@@ -252,41 +252,42 @@ html_ = {
   toc: html.map(x => x.title).filter(Boolean),
   htmlContent,
 }
-html_ = `
-<!DOCTYPE HTML>
-<html>
- <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${epub.metadata.title}</title>
-  <meta name="referrer" content="no-referrer">
-  ${html_.css.map(x => `<link rel="stylesheet" href="${x}">`).join('\n')}
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/canvas-drawing-board@latest/dist/canvas-drawing-board.js"></script>
-  <script defer src="bundle.js"></script>
- </head>
- <body>
-  <div id="container">
-    <div id="body">
-      <div><ul>${html_.toc.map(x => '<li>' + x + '</li>').join('\n')}</ul></div>
-      ${html_.htmlContent}
-    </div>
-    <footer>
-      <div id="app" style="position: relative; width: 100%; height: 300px"></div>
-      <div id="currentSentence"></div>
-      <div id="currentSentenceTraditional"></div>
-      <div class="controllers">
-        <audio controls id="tts-audio"></audio>
-        <div class="buttons">
-          <button id="pleco">Pleco</button>
-        </div>
-      </div>
-    </footer>
-  </div>
- </body>
-</html>
-`
-fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/elon-musk/index.html`, html_)
+// html_ = `
+// <!DOCTYPE HTML>
+// <html>
+//  <head>
+//   <meta charset="utf-8">
+//   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//   <title>${epub.metadata.title}</title>
+//   <meta name="referrer" content="no-referrer">
+//   ${html_.css.map(x => `<link rel="stylesheet" href="${x}">`).join('\n')}
+//   <link rel="stylesheet" href="style.css">
+//   <script src="https://cdn.jsdelivr.net/npm/canvas-drawing-board@latest/dist/canvas-drawing-board.js"></script>
+//   <script defer src="bundle.js"></script>
+//  </head>
+//  <body>
+//   <div id="container">
+//     <div id="body">
+//       <div><ul>${html_.toc.map(x => '<li>' + x + '</li>').join('\n')}</ul></div>
+//       ${html_.htmlContent}
+//     </div>
+//     <footer>
+//       <div id="app" style="position: relative; width: 100%; height: 300px"></div>
+//       <div id="currentSentence"></div>
+//       <div id="currentSentenceTraditional"></div>
+//       <div class="controllers">
+//         <audio controls id="tts-audio"></audio>
+//         <div class="buttons">
+//           <button id="clear-canvas">Clear</button>
+//           <button id="pleco">Pleco</button>
+//         </div>
+//       </div>
+//     </footer>
+//   </div>
+//  </body>
+// </html>
+// `
+fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/elon-musk/index.json`, JSON.stringify(html_))
 
 // --debug
 require("child_process").execSync('./node_modules/.bin/browserify html/elon-musk/main.js -o html/elon-musk/bundle.js')
