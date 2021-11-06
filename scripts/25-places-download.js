@@ -67,7 +67,7 @@ images = ps.map(x => {
 
 queue = new Queue(200, Infinity)
 
-fulldir = `/home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/${dir}`
+fulldir = `/home/srghma/.local/share/Anki2/user2/collection.media/mnemonic-places/${dir}`
 await mkdirp(fulldir)
 
 images.forEach(x => {

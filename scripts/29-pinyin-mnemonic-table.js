@@ -128,7 +128,7 @@ mkQueue(1).addAll(
     await page.goto(x.link, { waitUntil: 'networkidle2' });
     await delay(4000)
     const buffer = await page.screenshot({ type: 'png', fullPage: true });
-    fs.writeFileSync(`/home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places-google/${x.pinyin}.png`, buffer, 'binary')
+    fs.writeFileSync(`/home/srghma/.local/share/Anki2/user2/collection.media/mnemonic-places-google/${x.pinyin}.png`, buffer, 'binary')
     console.log(`wrote ${x.pinyin} ${i}`)
   })
 )
@@ -139,7 +139,7 @@ console.log('\n' + pinyinCss)
 
 
 // dir = '1-world'
-// parentDir = '/home/srghma/.local/share/Anki2/User 1/collection.media'
+// parentDir = '/home/srghma/.local/share/Anki2/user2/collection.media'
 // files = fs.readdirSync(`${parentDir}/mnemonic-places/${dir}`)
 // filesWithPinyin = R.zip(R.uniq(R.map(R.prop('withoutMark'), allKanji)).sort(), files)
 // pinyinCss = [
@@ -152,7 +152,7 @@ console.log('\n' + pinyinCss)
 // pinyinCss = pinyinCss + '\n' + filesWithPinyin.map(x => `.my-pinyin-image-container.pinyin-${x[0]} img:nth-child(2) { content: url(mnemonic-places/${dir}/${encodeURIComponent(x[1])}); }
 // .my-pinyin-image-container.pinyin-${x[0]} span:before { content: "${x[1].replace(/\.jpg/g, '')}"; }
 // `).join('\n')
-// fs.writeFileSync('/home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/pinyin-to-countries.css', pinyinCss)
+// fs.writeFileSync('/home/srghma/.local/share/Anki2/user2/collection.media/mnemonic-places/pinyin-to-countries.css', pinyinCss)
 allKanjiForTable = R.groupBy(R.prop('withoutMark'), R.sortBy(R.prop('withoutMark'), allKanji))
 
 t = `a	ai	ao	an	ang	e	ei	en	eng	er	o	ou		yi		ya	yao	ye	you	yan	yang	yin	ying	yong	wu	wa	wai	wei	wo	wan	wang	wen	weng	yu	yue	yuan	yun
@@ -385,7 +385,7 @@ pinyinToCountry = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-f
 //     ].map(printRow).filter(x => x != null)
 
 //     // let image = pinyinToImageForTable[k][v_[0].number]
-//     // image = [`<img src="file:///home/srghma/.local/share/Anki2/User 1/collection.media/mnemonic-places/${encodeURIComponent(image.dir)}/${encodeURIComponent(image.filename)}" alt="${image.filename.replace(/\.jpg/, '')}">`]
+//     // image = [`<img src="file:///home/srghma/.local/share/Anki2/user2/collection.media/mnemonic-places/${encodeURIComponent(image.dir)}/${encodeURIComponent(image.filename)}" alt="${image.filename.replace(/\.jpg/, '')}">`]
 
 //     let images = []
 //     // let images = pinyinToCountry[k][v_[0].number]

@@ -281,7 +281,7 @@ const db = (function () {
 
   app.use(serveStatic(path.join(__dirname)))
   app.use(serveStatic(path.join(__dirname, '..', 'fonts')))
-  app.use(serveStatic('/home/srghma/.local/share/Anki2/User 1/collection.media'))
+  app.use(serveStatic('/home/srghma/.local/share/Anki2/user2/collection.media'))
   app.listen(34567)
 
   console.log("Listening")

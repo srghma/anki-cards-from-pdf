@@ -59,7 +59,7 @@ async function checkFileExists(file) {
 exclude = []
 async function mapper({ filename, inputIndex, jobIndex }) {
   if (exclude.includes(filename)) { return }
-  const path = `/home/srghma/.local/share/Anki2/User 1/collection.media/allsetlearning-${filename.replace('ü', 'v')}.mp3`
+  const path = `/home/srghma/.local/share/Anki2/user2/collection.media/allsetlearning-${filename.replace('ü', 'v')}.mp3`
   const exists = await checkFileExists(path)
   if (exists) {
     // console.error({ m: 'exists', filename, inputIndex, jobIndex })

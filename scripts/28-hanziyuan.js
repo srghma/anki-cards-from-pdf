@@ -150,7 +150,7 @@ function svg2img_promised(svgString) {
 }
 
 // cd /home/srghma/Downloads/output-images/
-// for f in *; do "cp" --force "$f" "/home/srghma/.local/share/Anki2/User 1/collection.media/hanziyan-$f"; done
+// for f in *; do "cp" --force "$f" "/home/srghma/.local/share/Anki2/user2/collection.media/hanziyan-$f"; done
 
 output_dir_path = '/home/srghma/Downloads/output-images'
 await mkdirp(output_dir_path)

@@ -53,11 +53,11 @@ imagesAll = R.uniq(outputfixed.map(R.prop('images')).flat())
 imagesAll_ = imagesAll.filter(x => x.endsWith('.png'))
 imagesAll_ = imagesAll_.map(x => {
   const filename = x.replace(/https:\/\/images\.yw11\.com\/zixing\//g, 'yw11-zixing-')
-  const dest = `/home/srghma/.local/share/Anki2/User 1/collection.media/${filename}`
+  const dest = `/home/srghma/.local/share/Anki2/user2/collection.media/${filename}`
   return dest
 }).filter(dest => fs.existsSync(dest))
 
-files = fs.readdirSync('/home/srghma/.local/share/Anki2/User 1/collection.media/')
+files = fs.readdirSync('/home/srghma/.local/share/Anki2/user2/collection.media/')
 files = files.filter(x => x.includes('yw11-zixing-zi') && x.includes('.png'))
 
 const output_imagetexts__path = '/home/srghma/projects/anki-cards-from-pdf/image-texts.json'
@@ -72,7 +72,7 @@ try { output_imagetexts = JSON.parse(fs.readFileSync(output_imagetexts__path).to
 
 promises = files.map((file, inputIndex) => async jobIndex => {
   if (output_imagetexts.hasOwnProperty(file)) { return }
-  const dest = `/home/srghma/.local/share/Anki2/User 1/collection.media/${file}`
+  const dest = `/home/srghma/.local/share/Anki2/user2/collection.media/${file}`
   try {
     const results = await client.textDetection(dest)
     console.log(file)
@@ -120,7 +120,7 @@ require('./scripts/lib/google_translate_with_cache').google_translate_sync()
 
 // imagesAll_.forEach(x => {
 //   const filename = x.replace(/https:\/\/images\.yw11\.com\/zixing\//g, 'yw11-zixing-')
-//   const dest = `/home/srghma/.local/share/Anki2/User 1/collection.media/${filename}`
+//   const dest = `/home/srghma/.local/share/Anki2/user2/collection.media/${filename}`
 //   if (!fs.existsSync(dest)) {
 //     console.log(`doesnt ex ${dest}`)
 //     return
@@ -145,7 +145,7 @@ function existsAsync(path) {
 // await mkdirp(fulldir)
 promises = imagesAll.map(x => async jobIndex => {
   const filename = x.replace(/https:\/\/images\.yw11\.com\/zixing\//g, 'yw11-zixing-')
-  const dest = `/home/srghma/.local/share/Anki2/User 1/collection.media/${filename}`
+  const dest = `/home/srghma/.local/share/Anki2/user2/collection.media/${filename}`
   const exists = await existsAsync(dest)
   if (exists) { return }
   try {

@@ -19,7 +19,7 @@ const translate = new Translate({projectId: "annular-form-299211"});
 const output_imagetexts__path = '/home/srghma/projects/anki-cards-from-pdf/image-texts.json'
 output_imagetexts = JSON.parse(fs.readFileSync(output_imagetexts__path).toString()); null
 
-files = fs.readdirSync('/home/srghma/.local/share/Anki2/User 1/collection.media/')
+files = fs.readdirSync('/home/srghma/.local/share/Anki2/user2/collection.media/')
 files = files.filter(x => x.includes('yw11-zixing-zi') && x.includes('.png'))
 
 R.toPairs(output_imagetexts).filter(x => x[1].length <= 0).map(R.prop(0)).forEach(x => {
@@ -162,7 +162,7 @@ input.map(x => ({}))
 
 // imgWithDescr = R.map(R.over(R.lensProp('d'), x => x, imgWithDescr))
 
-// imgWithDescr = R.map(x => [`<img src="/home/srghma/.local/share/Anki2/User 1/collection.media/${x.k}">`, x.d.replace(/\n/g, '<br>')], output_imagetexts)
+// imgWithDescr = R.map(x => [`<img src="/home/srghma/.local/share/Anki2/user2/collection.media/${x.k}">`, x.d.replace(/\n/g, '<br>')], output_imagetexts)
 // imgWithDescr = R.map(R.map(x => String.raw`<td>${x}</td>`), imgWithDescr)
 
 // html_ = `
