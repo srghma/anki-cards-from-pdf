@@ -1,3 +1,6 @@
+// https://github.com/jackmoore/autosize/blob/master/dist/autosize.min.js
+!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&define.amd?define(t):(e||self).autosize=t()}(this,function(){var e,t,n="function"==typeof Map?new Map:(e=[],t=[],{has:function(t){return e.indexOf(t)>-1},get:function(n){return t[e.indexOf(n)]},set:function(n,o){-1===e.indexOf(n)&&(e.push(n),t.push(o))},delete:function(n){var o=e.indexOf(n);o>-1&&(e.splice(o,1),t.splice(o,1))}}),o=function(e){return new Event(e,{bubbles:!0})};try{new Event("test")}catch(e){o=function(e){var t=document.createEvent("Event");return t.initEvent(e,!0,!1),t}}function r(e){var t=n.get(e);t&&t.destroy()}function i(e){var t=n.get(e);t&&t.update()}var l=null;return"undefined"==typeof window||"function"!=typeof window.getComputedStyle?((l=function(e){return e}).destroy=function(e){return e},l.update=function(e){return e}):((l=function(e,t){return e&&Array.prototype.forEach.call(e.length?e:[e],function(e){return function(e){if(e&&e.nodeName&&"TEXTAREA"===e.nodeName&&!n.has(e)){var t,r=null,i=null,l=null,d=function(){e.clientWidth!==i&&c()},u=function(t){window.removeEventListener("resize",d,!1),e.removeEventListener("input",c,!1),e.removeEventListener("keyup",c,!1),e.removeEventListener("autosize:destroy",u,!1),e.removeEventListener("autosize:update",c,!1),Object.keys(t).forEach(function(n){e.style[n]=t[n]}),n.delete(e)}.bind(e,{height:e.style.height,resize:e.style.resize,overflowY:e.style.overflowY,overflowX:e.style.overflowX,wordWrap:e.style.wordWrap});e.addEventListener("autosize:destroy",u,!1),"onpropertychange"in e&&"oninput"in e&&e.addEventListener("keyup",c,!1),window.addEventListener("resize",d,!1),e.addEventListener("input",c,!1),e.addEventListener("autosize:update",c,!1),e.style.overflowX="hidden",e.style.wordWrap="break-word",n.set(e,{destroy:u,update:c}),"vertical"===(t=window.getComputedStyle(e,null)).resize?e.style.resize="none":"both"===t.resize&&(e.style.resize="horizontal"),r="content-box"===t.boxSizing?-(parseFloat(t.paddingTop)+parseFloat(t.paddingBottom)):parseFloat(t.borderTopWidth)+parseFloat(t.borderBottomWidth),isNaN(r)&&(r=0),c()}function a(t){var n=e.style.width;e.style.width="0px",e.style.width=n,e.style.overflowY=t}function s(){if(0!==e.scrollHeight){var t=function(e){for(var t=[];e&&e.parentNode&&e.parentNode instanceof Element;)e.parentNode.scrollTop&&t.push({node:e.parentNode,scrollTop:e.parentNode.scrollTop}),e=e.parentNode;return t}(e),n=document.documentElement&&document.documentElement.scrollTop;e.style.height="",e.style.height=e.scrollHeight+r+"px",i=e.clientWidth,t.forEach(function(e){e.node.scrollTop=e.scrollTop}),n&&(document.documentElement.scrollTop=n)}}function c(){s();var t=Math.round(parseFloat(e.style.height)),n=window.getComputedStyle(e,null),r="content-box"===n.boxSizing?Math.round(parseFloat(n.height)):e.offsetHeight;if(r<t?"hidden"===n.overflowY&&(a("scroll"),s(),r="content-box"===n.boxSizing?Math.round(parseFloat(window.getComputedStyle(e,null).height)):e.offsetHeight):"hidden"!==n.overflowY&&(a("hidden"),s(),r="content-box"===n.boxSizing?Math.round(parseFloat(window.getComputedStyle(e,null).height)):e.offsetHeight),l!==r){l=r;var i=o("autosize:resized");try{e.dispatchEvent(i)}catch(e){}}}}(e)}),e}).destroy=function(e){return e&&Array.prototype.forEach.call(e.length?e:[e],r),e},l.update=function(e){return e&&Array.prototype.forEach.call(e.length?e:[e],i),e}),l});
+
 const containerId = 'kanjiIframeContainer'
 
 function waitForElementToAppear(get) {
@@ -238,6 +241,9 @@ function isHanzi(ch) {
           await waitForElementToAppear(() => document.getElementById('hanziyuan'))
 
           const firstAudio = Array.from(document.querySelectorAll('.my-pinyin-tone a')).map(x => x.href).filter(x => x.endsWith('.mp3'))[0]
+
+          if (!firstAudio) { return }
+
           const audioEl = document.createElement('audio');
           audioEl.style.cssText = 'display: none;';
           audioEl.src = firstAudio
@@ -258,10 +264,9 @@ function isHanzi(ch) {
       })();
       //////
 
-      let respose = await fetch(`/hanzi-info?hanzi=${kanjiEncoded}`)
-      const text = await respose.text()
-
-      let oldText = text.trim()
+      const respose = await fetch(`/hanzi-info?hanzi=${kanjiEncoded}`)
+      let oldText = await respose.text()
+      oldText = oldText.trim()
 
       // function resizeIt( id, maxHeight, minHeight ) {
       //   var str = textareaElement.value;
@@ -279,16 +284,9 @@ function isHanzi(ch) {
 
       const textareaElement = document.createElement('textarea');
       textareaElement.style.cssText = 'width:100%;resize: none;overflow: hidden;background:rgb(192,192,192); text-align: start; color: black;';
-      textareaElement.value = text
-      function autosize() {
-        textareaElement.style.height = "5px";
-        textareaElement.style.height = (textareaElement.scrollHeight)+"px";
-      }
-      textareaElement.addEventListener('change', autosize, false)
-      textareaElement.addEventListener('keydown', autosize, false)
-      textareaElement.addEventListener('keyup', autosize, false)
+      textareaElement.value = oldText
       window.document.body.insertBefore(textareaElement, window.document.body.firstChild);
-      autosize()
+      autosize(textareaElement)
 
       const submitButton = document.createElement('button')
       submitButton.innerHTML = 'Submit'
@@ -310,6 +308,7 @@ function isHanzi(ch) {
         }
 
         let older = [
+          matchAllFirstMatch(hanziyuan, /Traditional in your browser[^:]+:<\/b><span class="text-lg">(.+?)<\/span>/g),
           matchAllFirstMatch(hanziyuan, /Older traditional characters[^:]+:<\/b><span class="text-lg">(.+?)<\/span>/g),
           matchAllFirstMatch(hanziyuan, /Variant rule[^:]+:(.+?)<\/p>/g),
         ].flat().join('')
@@ -326,9 +325,8 @@ function isHanzi(ch) {
       const submitFn = (function () {
         let textareaSubmitMutex = false
         return function() {
+          console.log({ textareaSubmitMutex })
           if (textareaSubmitMutex) { return }
-
-          alertDiv.textContent = ''
 
           const newText = textareaElement.value.trim()
 
@@ -339,28 +337,40 @@ function isHanzi(ch) {
 
           ;(async function() {
             textareaSubmitMutex = true
-            const response = await fetch(`/hanzi-info`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ oldText, newText })
-            })
 
-            if (response.status >= 500) {
-              const error = await response.text()
-              alertDiv.textContent = error
-              alertDiv.style.color = 'red'
-              return
+            alertDiv.textContent = 'Loading...'
+
+            try {
+              const response = await fetch(`/hanzi-info`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ oldText, newText })
+              })
+
+              if (response.status >= 500) {
+                const error = await response.text()
+                alertDiv.textContent = error
+                alertDiv.style.color = 'red'
+                return
+              }
+
+              const responseJson = await response.json()
+              if (responseJson.message) {
+                alertDiv.textContent = responseJson.message
+                alertDiv.style.color = 'white'
+              } else if (responseJson.error) {
+                alertDiv.textContent = responseJson.error
+                alertDiv.style.color = 'red'
+              }
+
+              oldText = newText
+            } catch(error) {
+              console.error(error)
+            } finally {
+              textareaSubmitMutex = false
             }
-
-            const responseJson = await response.json()
-            alertDiv.textContent = responseJson.message
-            alertDiv.style.color = 'white'
-
-            oldText = newText
-
-            textareaSubmitMutex = false
           })();
         }
       })();
@@ -369,6 +379,18 @@ function isHanzi(ch) {
         event.preventDefault()
         submitFn()
       }, false)
+
+      // let autosave = null
+      // textareaElement.addEventListener('keydown', function (event) {
+      //   if (event.keyCode == 13 && event.ctrlKey) {
+      //     event.preventDefault()
+      //     submitFn()
+      //   }
+
+      //   if (!autosave) {
+      //     autosave = setInterval(submitFn, 5000)
+      //   }
+      // })
 
       // document.body.appendChild(textareaElement); // appends last of that element
     } catch (e) {

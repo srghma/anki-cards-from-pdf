@@ -13,42 +13,79 @@ const TongWen = require('../scripts/lib/TongWen').TongWen
 
 require("child_process").execSync(`${__dirname}/../node_modules/.bin/browserify ${__dirname}/list-of-sentences-common.js -o ${__dirname}/list-of-sentences-common-bundle.js`)
 
-const dbPath = `${__dirname}/ru-pinyin`
-
-let ruPinyinArray = require('fs').readFileSync(dbPath).toString().split(/―{4,}|-{4,}/).map(R.trim)
-
-let ruPinyinObjectCache = null
-
-const arrayOfValuesToObject = ({ arrayOfKeysField, valueField, array }) => {
-  const buffer = {}
-  const duplicateKeys = []
-
-  array.forEach(arrayElement => {
-    arrayElement[arrayOfKeysField].forEach(key => {
-      if (buffer.hasOwnProperty(key)) { duplicateKeys.push(key) }
-      buffer[key] = arrayElement[valueField]
-    })
-  })
-
-  if (duplicateKeys.length > 0) { throw new Error(`duplicateKeys: ${JSON.stringify(R.uniq(duplicateKeys))}`) }
-
-  return buffer
-}
-
-function recomputeCacheAndThrowIfDuplicate(ruPinyinArray_) {
+function recomputeCacheAndThrowIfDuplicate(ruPinyinArray) {
   const hanziThatAreNotKeys = ["𣥠","𣡦","𠤬","𠦍","𠤕","𥎨","𠤗","𠨮"]
 
-  ruPinyinObjectCache = arrayOfValuesToObject({
+  const arrayOfValuesToObject = ({ arrayOfKeysField, valueField, array }) => {
+    const buffer = {}
+    const duplicateKeys = []
+
+    array.forEach(arrayElement => {
+      arrayElement[arrayOfKeysField].forEach(key => {
+        if (buffer.hasOwnProperty(key)) { duplicateKeys.push(key) }
+        buffer[key] = arrayElement[valueField]
+      })
+    })
+
+    if (duplicateKeys.length > 0) { throw new Error(`duplicateKeys: ${JSON.stringify(R.uniq(duplicateKeys))}`) }
+
+    return buffer
+  }
+
+  return arrayOfValuesToObject({
     arrayOfKeysField: "hanzi",
     valueField: "text",
-    array: ruPinyinArray_.map(text => ({
+    array: ruPinyinArray.map(text => ({
       text,
       hanzi: R.uniq([...text].filter(isHanzi).filter(key => !hanziThatAreNotKeys.includes(key))),
     }))
   })
 }
 
-recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
+const db = (function () {
+  const dbPath = `${__dirname}/ru-pinyin`
+
+  return {
+    getKeys: () => {
+      let ruPinyinArray = require('fs').readFileSync(dbPath).toString().split(/―{4,}|-{4,}/).map(R.trim)
+      let ruPinyinObjectCache = recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
+      return Object.keys(ruPinyinObjectCache)
+    },
+    getHanziInfo: (hanzi) => {
+      let ruPinyinArray = require('fs').readFileSync(dbPath).toString().split(/―{4,}|-{4,}/).map(R.trim)
+      let ruPinyinObjectCache = recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
+      const text = ruPinyinObjectCache[hanzi]
+      return text
+    },
+    setInstead: async ({ oldText, newText }) => {
+      let ruPinyinArray = require('fs').readFileSync(dbPath).toString().split(/―{4,}|-{4,}/).map(R.trim)
+
+      let addToEnd = true
+      ruPinyinArray = ruPinyinArray.map(text => {
+        text = R.trim(text)
+
+        if (text === oldText) {
+          text = newText
+          addToEnd = false
+        }
+
+        return text
+      })
+
+      if (addToEnd) {
+        ruPinyinArray.push(newText)
+      }
+
+      const removeTrailingWhitespace = x => x.split('\n').map(x => x.trim()).join('\n').trim()
+
+      ruPinyinArray = ruPinyinArray.filter(Boolean).sort().map(removeTrailingWhitespace)
+
+      recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
+
+      await require('fs/promises').writeFile(dbPath, ruPinyinArray.join('\n\n----\n\n') + '\n')
+    },
+  }
+})();
 
 ;(async () => {
   const app = express()
@@ -131,17 +168,12 @@ recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
     //   name
     // })
 
-    let hanzi = require('fs').readFileSync(absolutePath).toString()
-    hanzi = R.uniq([...hanzi].filter(isHanzi))
-    hanzi = R.difference(hanzi, Object.keys(ruPinyinObjectCache))
-
     return {
       allHtmlFilesOfCurrent,
+      name,
       basename,
       absolutePath,
-      name,
       url,
-      hanzi,
     }
   })
 
@@ -149,7 +181,11 @@ recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
     const links = files.map(x => {
       const allHtmlFilesOfCurrent = x.allHtmlFilesOfCurrent.map(enOrZh => `<a target="_blank" href="/peppa/${x.name}.${enOrZh}.html">${enOrZh}</a>`).join('&nbsp;&nbsp;&nbsp;')
 
-      return `<li><a target="_blank" href="${x.url}">${x.name}</a>&nbsp;&nbsp;&nbsp;(${allHtmlFilesOfCurrent})&nbsp;&nbsp;&nbsp;${x.hanzi.map(x => `<a target="_blank" href="/h.html#${x}">${x}</a>`)}</li>`
+      let hanzi = require('fs').readFileSync(x.absolutePath).toString()
+      hanzi = R.uniq([...hanzi].filter(isHanzi))
+      hanzi = R.difference(hanzi, db.getKeys())
+
+      return `<li><a target="_blank" href="${x.url}">${x.name}</a>&nbsp;&nbsp;&nbsp;(${allHtmlFilesOfCurrent})&nbsp;&nbsp;&nbsp;${hanzi.map(x => `<a target="_blank" href="/h.html#${x}">${x}</a>`)}</li>`
     }).join('\n')
     const html = `<!DOCTYPE HTML>
     <html>
@@ -165,7 +201,7 @@ recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
 
   files.map(({ basename, absolutePath, name, url }) => {
     app.get(url, (req, res) => {
-      const setOfKnownHanzi = new Set(Object.keys(ruPinyinObjectCache))
+      const setOfKnownHanzi = new Set(db.getKeys())
       let html = require(absolutePath)
       const body = `
       <div>${html.map(subtitle => {
@@ -203,12 +239,12 @@ recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
   })
 
   app.get('/list-of-known-hanzi', (req, res) => {
-    res.send(Object.keys(ruPinyinObjectCache))
+    res.send(db.getKeys())
   })
 
   app.get('/hanzi-info', (req, res) => {
     // console.log(req.query)
-    const text = ruPinyinObjectCache[req.query.hanzi]
+    const text = db.getHanziInfo(req.query.hanzi)
     if (text === '') { throw new Error() }
     res.send(text || '')
   })
@@ -221,43 +257,26 @@ recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
     const newText = R.trim(req.body.newText)
 
     if (oldText === newText) {
-      throw new Error('nothing to do')
+      res.send({ error: "(Server) Nothing to do" })
+      return
     }
 
     if (hanziInfoWriteMutex) {
-      throw new Error('mutex')
+      res.send({ error: "(Server) Mutex" })
+      return
     }
+
     hanziInfoWriteMutex = true
-
-    let addToEnd = true
-    let ruPinyinArray_ = ruPinyinArray.map(text => {
-      text = R.trim(text)
-
-      if (text === oldText) {
-        text = newText
-        addToEnd = false
-      }
-
-      return text
-    })
-
-    if (addToEnd) {
-      ruPinyinArray_.push(newText)
+    try {
+      await db.setInstead({ oldText, newText })
+    } catch (error) {
+      res.send({ error: `(Server) ${error.message}` })
+      return
+    } finally {
+      hanziInfoWriteMutex = false
     }
 
-    const removeTrailingWhitespace = x => x.split('\n').map(x => x.trim()).join('\n').trim()
-
-    ruPinyinArray_ = ruPinyinArray_.filter(Boolean).sort().map(removeTrailingWhitespace)
-
-    recomputeCacheAndThrowIfDuplicate(ruPinyinArray_)
-
-    ruPinyinArray = ruPinyinArray_
-
-    await require('fs/promises').writeFile(dbPath, ruPinyinArray.join('\n\n----\n\n') + '\n')
-
-    hanziInfoWriteMutex = false
-
-    res.send({ message: "Saved" })
+    res.send({ message: "(Server) Saved" })
   })
 
   app.use(serveStatic(path.join(__dirname)))

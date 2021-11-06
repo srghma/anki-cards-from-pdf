@@ -21,78 +21,69 @@ const TongWen = require('./scripts/lib/TongWen').TongWen
 const groupConsecutive = require('./scripts/lib/groupConsecutive').groupConsecutive
 const YAML = require('yaml')
 
-readdirFullPath = async dirPath => {
-  const files = await require('fs/promises').readdir(dirPath)
-  const filesAbsPath = files.map(x => require('path').join(dirPath, x))
+(async () => {
+  const file = '/home/srghma/projects/anki-cards-from-pdf/html/ru-pinyin'
 
-  const allFilesAndTexts = filesAbsPath.map(file => {
-    const fileText = require('fs').readFileSync(file).toString()
-    return { file, fileText }
-  })
+  const fileText = require('fs').readFileSync(file).toString()
 
-  let allExistingHanzi = allFilesAndTexts.map(R.prop('fileText')).join('')
-  allExistingHanzi = R.uniq([...allExistingHanzi].filter(isHanzi))
+  const allExistingHanzi = R.uniq([...fileText].filter(isHanzi))
 
-  return allFilesAndTexts.forEach(({ file, fileText }) => {
-    fileText = fileText.split(/―{4,}|-{4,}/).map(R.trim)
-    // fileText = fileText.filter(content => {
-    //   if (content.length === 1) {
-    //     if (isHanzi(content[0])) {
-    //       return false
-    //     }
-    //   }
-    //   return true
-    // })
-    fileText = fileText.filter(Boolean)
+  fileText = fileText.split(/―{4,}|-{4,}/).map(R.trim)
+  // fileText = fileText.filter(content => {
+  //   if (content.length === 1) {
+  //     if (isHanzi(content[0])) {
+  //       return false
+  //     }
+  //   }
+  //   return true
+  // })
+  fileText = fileText.filter(Boolean)
 
-    fileText = fileText.map(fileTextGroup => {
-      const chars = [...fileTextGroup]
-      const hanzis = chars.filter(isHanzi)
-      let hanziAndOpposite = hanzis.map(x => {
-        const t = TongWen.s_2_t[x]
-        const s = TongWen.t_2_s[x]
+  fileText = fileText.map(fileTextGroup => {
+    const chars = [...fileTextGroup]
+    const hanzis = chars.filter(isHanzi)
+    let hanziAndOpposite = hanzis.map(x => {
+      const t = TongWen.s_2_t[x]
+      const s = TongWen.t_2_s[x]
 
-        // if (t != null && s != null) {
-        //   console.log({ t, s, x, fileTextGroup })
-        //   throw new Error('many opposites')
-        // }
+      // if (t != null && s != null) {
+      //   console.log({ t, s, x, fileTextGroup })
+      //   throw new Error('many opposites')
+      // }
 
-        let opposite = R.uniq([t, s].filter(Boolean))
+      let opposite = R.uniq([t, s].filter(Boolean))
 
-        opposite = opposite.filter(oppositeElement => {
-          const isAlreadyInText = allExistingHanzi.includes(oppositeElement)
-          return !isAlreadyInText
-        })
-
-        return { hanziInText: x, opposite }
-      }).filter(x => x.opposite.length !== 0)
-
-      hanziAndOpposite = R.uniqBy(R.prop('hanziInText'), hanziAndOpposite)
-
-      if (hanziAndOpposite.length !== 0) {
-        console.log(fileTextGroup, hanziAndOpposite)
-      }
-
-      hanziAndOpposite.forEach(({ hanziInText, opposite }) => {
-        fileTextGroup = fileTextGroup.replace(hanziInText, hanziInText + opposite.join(''))
+      opposite = opposite.filter(oppositeElement => {
+        const isAlreadyInText = allExistingHanzi.includes(oppositeElement)
+        return !isAlreadyInText
       })
 
-      fileTextGroup = groupConsecutive(isHanzi, [...fileTextGroup]).map(x => {
-        return x.type ? R.uniq(x.values).join('') : x.values.join('')
-      }).join('')
+      return { hanziInText: x, opposite }
+    }).filter(x => x.opposite.length !== 0)
 
-      // console.log(require('util').inspect({ groupedChars, fileTextGroup }, {showHidden: false, depth: null, colors: true}))
+    hanziAndOpposite = R.uniqBy(R.prop('hanziInText'), hanziAndOpposite)
 
-      return fileTextGroup
+    if (hanziAndOpposite.length !== 0) {
+      console.log(fileTextGroup, hanziAndOpposite)
+    }
+
+    hanziAndOpposite.forEach(({ hanziInText, opposite }) => {
+      fileTextGroup = fileTextGroup.replace(hanziInText, hanziInText + opposite.join(''))
     })
 
-    fileText = fileText.map(x => x.split('\n').map(x => x.replace(/^\s+|\s+$/g,'')).join('\n')).join('\n\n-----\n\n') + '\n'
+    fileTextGroup = groupConsecutive(isHanzi, [...fileTextGroup]).map(x => {
+      return x.type ? R.uniq(x.values).join('') : x.values.join('')
+    }).join('')
 
-    require('fs').writeFileSync(file, fileText)
-    return { file, fileText }
+    // console.log(require('util').inspect({ groupedChars, fileTextGroup }, {showHidden: false, depth: null, colors: true}))
+
+    return fileTextGroup
   })
-}
-subCh = await readdirFullPath("/home/srghma/projects/anki-cards-from-pdf/ru-pinyin")
+
+  fileText = fileText.map(x => x.split('\n').map(x => x.replace(/^\s+|\s+$/g,'')).join('\n')).join('\n\n-----\n\n') + '\n'
+
+  require('fs').writeFileSync(file, fileText)
+})();
 
 //////////////////
 

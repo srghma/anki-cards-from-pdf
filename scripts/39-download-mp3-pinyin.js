@@ -47,7 +47,7 @@ ha	hai	hao	han	hang	he	hei	hen	heng			hou	hong												hu	hua	huai	hui	huo	hu
 
 t_ = t.split('\n').map(R.trim()).filter(R.identity).map(R.split('\t')).flat().flat().filter(R.identity)
 
-t_ = t_.map(x => [1,2,3,4,5].map(i => `${x}${i}`)).flat().flat()
+t_ = t_.map(x => [1,2,3,4/*,5*/].map(i => `${x}${i}`)).flat().flat()
 
 async function checkFileExists(file) {
   const fs = require('fs')
@@ -56,21 +56,26 @@ async function checkFileExists(file) {
            .catch(() => false)
 }
 
+exclude = []
 async function mapper({ filename, inputIndex, jobIndex }) {
-  const path = `/home/srghma/.local/share/Anki2/User 1/collection.media/allsetlearning-${filename}.mp3`
+  if (exclude.includes(filename)) { return }
+  const path = `/home/srghma/.local/share/Anki2/User 1/collection.media/allsetlearning-${filename.replace('ü', 'v')}.mp3`
   const exists = await checkFileExists(path)
   if (exists) {
     // console.error({ m: 'exists', filename, inputIndex, jobIndex })
     return
   }
   try {
-    await download(`https://resources.allsetlearning.com/pronwiki/resources/pinyin-audio/${filename}.mp3`, path)
+    await download(`https://resources.allsetlearning.com/pronwiki/resources/pinyin-audio/${filename.replace('ü', 'u%CC%88')}.mp3`, path)
     console.log({ filename, inputIndex, jobIndex })
   } catch (e) {
+    if (e.message.includes('404 Not Found')) {
+      exclude.push(filename)
+    }
     console.error({ e, filename, inputIndex, jobIndex })
     // return
   }
 }
 
-queueSize = 10
+queueSize = 1
 await mkQueue(queueSize).addAll(t_.map((filename, inputIndex) => async jobIndex => { mapper({ filename, inputIndex, jobIndex }) }))
