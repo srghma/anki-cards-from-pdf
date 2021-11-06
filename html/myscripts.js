@@ -264,8 +264,8 @@ function isHanzi(ch) {
       let oldText = text.trim()
 
       // function resizeIt( id, maxHeight, minHeight ) {
-      //   var str = elemDiv.value;
-      //   var cols = elemDiv.cols;
+      //   var str = textareaElement.value;
+      //   var cols = textareaElement.cols;
       //   var linecount = 0;
       //   var arStr = str.split("\n");
       //   arStr.forEach(function(s) {
@@ -274,31 +274,31 @@ function isHanzi(ch) {
       //   linecount++;
       //   linecount = Math.max(minHeight, linecount);
       //   linecount = Math.min(maxHeight, linecount);
-      //   elemDiv.rows = linecount;
+      //   textareaElement.rows = linecount;
       // };
 
-      const elemDiv = document.createElement('textarea');
-      elemDiv.style.cssText = 'width:100%;resize: none;overflow: hidden;background:rgb(192,192,192); text-align: start; color: black;';
-      elemDiv.value = text
+      const textareaElement = document.createElement('textarea');
+      textareaElement.style.cssText = 'width:100%;resize: none;overflow: hidden;background:rgb(192,192,192); text-align: start; color: black;';
+      textareaElement.value = text
       function autosize() {
-        elemDiv.style.height = "5px";
-        elemDiv.style.height = (elemDiv.scrollHeight)+"px";
+        textareaElement.style.height = "5px";
+        textareaElement.style.height = (textareaElement.scrollHeight)+"px";
       }
-      elemDiv.addEventListener('change', autosize, false)
-      elemDiv.addEventListener('keydown', autosize, false)
-      elemDiv.addEventListener('keyup', autosize, false)
-      window.document.body.insertBefore(elemDiv, window.document.body.firstChild);
+      textareaElement.addEventListener('change', autosize, false)
+      textareaElement.addEventListener('keydown', autosize, false)
+      textareaElement.addEventListener('keyup', autosize, false)
+      window.document.body.insertBefore(textareaElement, window.document.body.firstChild);
       autosize()
 
       const submitButton = document.createElement('button')
       submitButton.innerHTML = 'Submit'
       submitButton.style.cssText = 'width:30%;';
-      elemDiv.after(submitButton)
+      textareaElement.after(submitButton)
 
       const alertDiv = document.createElement('pre')
       alertDiv.style.cssText = 'width:100%; text-align: start;';
       alertDiv.textContent = oldText === '' ? 'Nothing found' : ''
-      elemDiv.before(alertDiv)
+      textareaElement.before(alertDiv)
 
       ;(async function() {
         const element = await waitForElementToAppear(() => document.getElementById('hanziyuan'))
@@ -316,56 +316,61 @@ function isHanzi(ch) {
 
         const possibleHanzi = unique([hanzi, ...older].filter(isHanzi))
 
-        if (!elemDiv.value) { elemDiv.value = possibleHanzi.map(x => x + ' ').join('\n') + '\n\n'; autosize() }
+        if (!textareaElement.value) { textareaElement.value = possibleHanzi.map(x => x + ' ').join('\n') + '\n\n'; autosize() }
 
         // console.log(older)
         // older = await fetch(`/trainchinese =${encodeURIComponent(str)}&tcLanguage=ru`, { "mode": "cors" })))
         // console.log(older)
       })();
 
-      let mutex = false
-      submitButton.addEventListener('click', function(event) {
-        event.preventDefault()
+      const submitFn = (function () {
+        let textareaSubmitMutex = false
+        return function() {
+          if (textareaSubmitMutex) { return }
 
-        if (mutex) { return }
+          alertDiv.textContent = ''
 
-        alertDiv.textContent = ''
+          const newText = textareaElement.value.trim()
 
-        const newText = elemDiv.value.trim()
-
-        if (oldText === newText) {
-          alertDiv.textContent = 'Nothing to do'
-          return
-        }
-
-        ;(async function() {
-          mutex = true
-          const response = await fetch(`/hanzi-info`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ oldText, newText })
-          })
-
-          if (response.status >= 500) {
-            const error = await response.text()
-            alertDiv.textContent = error
-            alertDiv.style.color = 'red'
+          if (oldText === newText) {
+            alertDiv.textContent = 'Nothing to do'
             return
           }
 
-          const responseJson = await response.json()
-          alertDiv.textContent = responseJson.message
-          alertDiv.style.color = 'white'
+          ;(async function() {
+            textareaSubmitMutex = true
+            const response = await fetch(`/hanzi-info`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ oldText, newText })
+            })
 
-          oldText = newText
+            if (response.status >= 500) {
+              const error = await response.text()
+              alertDiv.textContent = error
+              alertDiv.style.color = 'red'
+              return
+            }
 
-          mutex = false
-        })();
+            const responseJson = await response.json()
+            alertDiv.textContent = responseJson.message
+            alertDiv.style.color = 'white'
+
+            oldText = newText
+
+            textareaSubmitMutex = false
+          })();
+        }
+      })();
+
+      submitButton.addEventListener('click', function(event) {
+        event.preventDefault()
+        submitFn()
       }, false)
 
-      // document.body.appendChild(elemDiv); // appends last of that element
+      // document.body.appendChild(textareaElement); // appends last of that element
     } catch (e) {
       console.error(e)
     }
