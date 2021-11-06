@@ -24,7 +24,7 @@ const YAML = require('yaml')
 (async () => {
   const file = '/home/srghma/projects/anki-cards-from-pdf/html/ru-pinyin'
 
-  const fileText = require('fs').readFileSync(file).toString()
+  let fileText = require('fs').readFileSync(file).toString()
 
   const allExistingHanzi = R.uniq([...fileText].filter(isHanzi))
 
@@ -80,7 +80,7 @@ const YAML = require('yaml')
     return fileTextGroup
   })
 
-  fileText = fileText.map(x => x.split('\n').map(x => x.replace(/^\s+|\s+$/g,'')).join('\n')).join('\n\n-----\n\n') + '\n'
+  fileText = fileText.map(x => x.split('\n').map(x => x.replace(/^\s+|\s+$/g,'')).join('\n')).join('\n\n----\n\n') + '\n'
 
   require('fs').writeFileSync(file, fileText)
 })();
