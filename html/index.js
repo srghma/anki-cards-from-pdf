@@ -8,6 +8,8 @@ const R = require('ramda')
 const isHanzi = require('../scripts/lib/isHanzi').isHanzi
 const splitBySeparator = require('../scripts/lib/splitBySeparator').splitBySeparator
 const TongWen = require('../scripts/lib/TongWen').TongWen
+// const { JSDOM } = jsdom;
+// const dom = new JSDOM(``);
 
 require("child_process").execSync(`${__dirname}/../node_modules/.bin/browserify ${__dirname}/list-of-sentences-common.js -o ${__dirname}/list-of-sentences-common-bundle.js`)
 
@@ -48,24 +50,7 @@ function recomputeCacheAndThrowIfDuplicate(ruPinyinArray_) {
 
 recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
 
-// console.log(ruPinyinObjectCache)
-
-// const sqlite3 = require('sqlite3')
-// const sqlite = require('sqlite')
-
-// this is a top-level await
 ;(async () => {
-  // // open the database
-  // const db = await sqlite.open({
-  //   filename: '/tmp/database.db',
-  //   driver: sqlite3.Database
-  // })
-
-  // await db.migrate({
-  //   force: true,
-  //   migrationsPath: path.join(__dirname, '..', 'migrations')
-  // })
-
   const app = express()
   app.use(express.json())
 
@@ -146,12 +131,17 @@ recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
     //   name
     // })
 
+    let hanzi = require('fs').readFileSync(absolutePath).toString()
+    hanzi = R.uniq([...hanzi].filter(isHanzi))
+    hanzi = R.difference(hanzi, Object.keys(ruPinyinObjectCache))
+
     return {
       allHtmlFilesOfCurrent,
       basename,
       absolutePath,
       name,
       url,
+      hanzi,
     }
   })
 
@@ -159,7 +149,7 @@ recomputeCacheAndThrowIfDuplicate(ruPinyinArray)
     const links = files.map(x => {
       const allHtmlFilesOfCurrent = x.allHtmlFilesOfCurrent.map(enOrZh => `<a target="_blank" href="/peppa/${x.name}.${enOrZh}.html">${enOrZh}</a>`).join('&nbsp;&nbsp;&nbsp;')
 
-      return `<li><a target="_blank" href="${x.url}">${x.name}</a>&nbsp;&nbsp;&nbsp;(${allHtmlFilesOfCurrent})</li>`
+      return `<li><a target="_blank" href="${x.url}">${x.name}</a>&nbsp;&nbsp;&nbsp;(${allHtmlFilesOfCurrent})&nbsp;&nbsp;&nbsp;${x.hanzi.map(x => `<a target="_blank" href="/h.html#${x}">${x}</a>`)}</li>`
     }).join('\n')
     const html = `<!DOCTYPE HTML>
     <html>
