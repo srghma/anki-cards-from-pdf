@@ -60,20 +60,32 @@ const db = (function () {
     setInstead: async ({ oldText, newText }) => {
       let ruPinyinArray = require('fs').readFileSync(dbPath).toString().split(/―{4,}|-{4,}/).map(R.trim)
 
-      let addToEnd = true
-      ruPinyinArray = ruPinyinArray.map(text => {
-        text = R.trim(text)
+      const getHanziStr = text => {
+        return R.uniq([...text].filter(isHanzi)).sort().join('')
+      }
 
-        if (text === oldText) {
-          text = newText
-          addToEnd = false
-        }
+      const oldTextHanzi = getHanziStr(oldText)
 
-        return text
-      })
-
-      if (addToEnd) {
+      let success = false
+      if (oldText === '') {
         ruPinyinArray.push(newText)
+        success = true
+      } else {
+        ruPinyinArray = ruPinyinArray.map(text => {
+          text = R.trim(text)
+          const textHanzi = getHanziStr(text)
+
+          if (textHanzi === oldTextHanzi) {
+            text = newText
+            success = true
+          }
+
+          return text
+        })
+      }
+
+      if (!success) {
+        throw new Error(`oldText is not found. reload`)
       }
 
       const removeTrailingWhitespace = x => x.split('\n').map(x => x.trim()).join('\n').trim()

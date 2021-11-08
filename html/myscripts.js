@@ -252,7 +252,8 @@ function isHanzi(ch) {
 
           document.body.addEventListener('click', () => {
             audioEl.play().catch(e => {
-              document.body.innerHTML = e.toString()
+              console.log(e)
+              // document.body.innerHTML = e.toString()
             })
           }, { once: true });
 
@@ -391,6 +392,17 @@ function isHanzi(ch) {
       //     autosave = setInterval(submitFn, 5000)
       //   }
       // })
+
+      window.addEventListener("beforeunload", function (event) {
+        const newText = textareaElement.value.trim()
+
+        if (oldText === newText) {
+          event.preventDefault();
+          const confirmationMessage = "\o/";
+          return confirmationMessage;
+        }
+      })
+
 
       // document.body.appendChild(textareaElement); // appends last of that element
     } catch (e) {
