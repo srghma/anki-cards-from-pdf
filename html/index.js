@@ -142,7 +142,7 @@ const db = (function () {
   }
 
   app.get('/elon-musk/index.html', (req, res) => {
-    const knownHanzi = Object.keys(ruPinyinObjectCache)
+    // const knownHanzi = db.getKeys()
     let html = require('./elon-musk/index.json')
 
     let htmlContent = html.htmlContent
