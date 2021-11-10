@@ -100,6 +100,39 @@ const db = (function () {
 })();
 
 ;(async () => {
+  /////////////////////////////////////////
+  let allPeppaFiles = await require('fs/promises').readdir(`${__dirname}/peppa`)
+  allPeppaFiles = allPeppaFiles.filter(x => x.endsWith('.json')).map(basename => { // xxxx.json
+    // console.log(basename)
+    // let basename = require('path').basename(filePath) // xxxx.json
+    let absolutePath = `${__dirname}/peppa/${basename}`
+    let name = require('path').parse(basename).name // xxxx
+
+    const url = `/peppa/${name}.html`
+
+    const allHtmlFilesOfCurrent = allPeppaFiles.filter(x => x.endsWith('.html') && x.startsWith(name)).map(x => x.replace('.html', '').replace(`${name}.`, ''))
+    // console.log({ allHtmlFilesOfCurrent, name })
+
+    // let englishFilename = allHtmlFilesOfCurrent.find(x => x === 'en-GB' || x === 'en')
+    // let everythingFilename = allHtmlFilesOfCurrent.find(x => x === 'zh-CN' || x === 'zh-HK')
+
+    // console.log({
+    //   englishFilename,
+    //   everythingFilename,
+    //   name
+    // })
+
+    return {
+      allHtmlFilesOfCurrent,
+      name,
+      basename,
+      absolutePath,
+      url,
+    }
+  })
+
+  /////////////////////////////////////////
+
   const app = express()
   app.use(express.json())
 
@@ -141,6 +174,37 @@ const db = (function () {
     `
   }
 
+  app.get('/elon-musk/unknown-hanzi', (req, res) => {
+    const setOfKnownHanzi = db.getKeys()
+
+    let allPeppaHanzi = allPeppaFiles.map(x => {
+      let hanzi = require('fs').readFileSync(x.absolutePath).toString()
+      hanzi = R.uniq([...hanzi].filter(isHanzi))
+      return hanzi
+    }).flat()
+    allPeppaHanzi = R.uniq(allPeppaHanzi)
+
+    const allKnown = R.uniq([...setOfKnownHanzi, ...allPeppaHanzi])
+
+    let allElonHanzi = require('./elon-musk/index.json').htmlContent
+    allElonHanzi = R.uniq([...allElonHanzi].filter(isHanzi))
+
+    const hanzi = R.difference(allElonHanzi, allKnown)
+
+
+    const html = `<!DOCTYPE HTML>
+    <html>
+     <body>
+     <ul>
+      ${hanzi.length}
+      ${hanzi.map(x => `<a target="_blank" href="/h.html#${x}">${x}</a>`).join('<br>')}
+      </ul>
+     </body>
+    </html>
+    `
+    res.header('Content-Type', 'text/html').send(html)
+  })
+
   app.get('/elon-musk/index.html', (req, res) => {
     // const knownHanzi = db.getKeys()
     let html = require('./elon-musk/index.json')
@@ -159,50 +223,38 @@ const db = (function () {
     }))
   })
 
-  let allPeppaFiles = await require('fs/promises').readdir(`${__dirname}/peppa`)
-  let files = allPeppaFiles.filter(x => x.endsWith('.json')).map(basename => { // xxxx.json
-    // console.log(basename)
-    // let basename = require('path').basename(filePath) // xxxx.json
-    let absolutePath = `${__dirname}/peppa/${basename}`
-    let name = require('path').parse(basename).name // xxxx
-
-    const url = `/peppa/${name}.html`
-
-    const allHtmlFilesOfCurrent = allPeppaFiles.filter(x => x.endsWith('.html') && x.startsWith(name)).map(x => x.replace('.html', '').replace(`${name}.`, ''))
-    // console.log({ allHtmlFilesOfCurrent, name })
-
-    // let englishFilename = allHtmlFilesOfCurrent.find(x => x === 'en-GB' || x === 'en')
-    // let everythingFilename = allHtmlFilesOfCurrent.find(x => x === 'zh-CN' || x === 'zh-HK')
-
-    // console.log({
-    //   englishFilename,
-    //   everythingFilename,
-    //   name
-    // })
-
-    return {
-      allHtmlFilesOfCurrent,
-      name,
-      basename,
-      absolutePath,
-      url,
-    }
-  })
-
   app.get(`/peppa`, (req, res) => {
-    const links = files.map(x => {
-      const allHtmlFilesOfCurrent = x.allHtmlFilesOfCurrent.map(enOrZh => `<a target="_blank" href="/peppa/${x.name}.${enOrZh}.html">${enOrZh}</a>`).join('&nbsp;&nbsp;&nbsp;')
+    const allKnown = db.getKeys()
 
+    const allPeppaFiles_ = allPeppaFiles.map(x => {
       let hanzi = require('fs').readFileSync(x.absolutePath).toString()
       hanzi = R.uniq([...hanzi].filter(isHanzi))
-      hanzi = R.difference(hanzi, db.getKeys())
+
+      return {
+        ...x,
+        hanzi,
+      }
+    })
+
+    const links = allPeppaFiles_.map(x => {
+      const allHtmlFilesOfCurrent = x.allHtmlFilesOfCurrent.map(enOrZh => `<a target="_blank" href="/peppa/${x.name}.${enOrZh}.html">${enOrZh}</a>`).join('&nbsp;&nbsp;&nbsp;')
+
+      const hanzi = R.difference(x.hanzi, allKnown)
 
       return `<li><a target="_blank" href="${x.url}">${x.name}</a>&nbsp;&nbsp;&nbsp;(${allHtmlFilesOfCurrent})&nbsp;&nbsp;&nbsp;${hanzi.map(x => `<a target="_blank" href="/h.html#${x}">${x}</a>`)}</li>`
     }).join('\n')
+
+    let allPeppaHanzi = allPeppaFiles_.map(x => {
+      return x.hanzi
+    }).flat()
+    allPeppaHanzi = R.uniq(allPeppaHanzi)
+
     const html = `<!DOCTYPE HTML>
     <html>
      <body>
      <ul>
+      ${R.difference(allPeppaHanzi, allKnown).length}
+      <br>
       ${links}
       </ul>
      </body>
@@ -211,7 +263,7 @@ const db = (function () {
     res.header('Content-Type', 'text/html').send(html)
   })
 
-  files.map(({ basename, absolutePath, name, url }) => {
+  allPeppaFiles.map(({ basename, absolutePath, name, url }) => {
     app.get(url, (req, res) => {
       const setOfKnownHanzi = new Set(db.getKeys())
       let html = require(absolutePath)
