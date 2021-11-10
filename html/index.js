@@ -37,10 +37,12 @@ function recomputeCacheAndThrowIfDuplicate(ruPinyinArray) {
     valueField: "text",
     array: ruPinyinArray.map(text => ({
       text,
-      hanzi: R.uniq([...text].filter(isHanzi).filter(key => !hanziThatAreNotKeys.includes(key))),
+      hanzi: R.uniq([...(removeLinks(text))].filter(isHanzi).filter(key => !hanziThatAreNotKeys.includes(key))),
     }))
   })
 }
+
+const removeLinks = x => x.replace(/<link>[^<]*<\/link>/g, '')
 
 const db = (function () {
   const dbPath = `${__dirname}/ru-pinyin`
@@ -174,7 +176,7 @@ const db = (function () {
     `
   }
 
-  app.get('/elon-musk/unknown-hanzi', (req, res) => {
+  app.get('/elon-musk/unknown-hanzi', async (req, res) => {
     const setOfKnownHanzi = db.getKeys()
 
     let allPeppaHanzi = allPeppaFiles.map(x => {
@@ -223,16 +225,23 @@ const db = (function () {
     }))
   })
 
-  app.get(`/peppa`, (req, res) => {
+  app.get(`/peppa`, async (req, res) => {
     const allKnown = db.getKeys()
 
-    const allPeppaFiles_ = allPeppaFiles.map(x => {
-      let hanzi = require('fs').readFileSync(x.absolutePath).toString()
-      hanzi = R.uniq([...hanzi].filter(isHanzi))
-
+    let allPeppaFiles_ = Promise.all(allPeppaFiles.map(async x => {
+      const hanzi = await require('fs/promises').readFile(x.absolutePath)
       return {
         ...x,
         hanzi,
+      }
+    }))
+
+    allPeppaFiles_ = await allPeppaFiles_
+
+    allPeppaFiles_ = allPeppaFiles_.map(x => {
+      return {
+        ...x,
+        hanzi: R.uniq([...(x.hanzi.toString())].filter(isHanzi)),
       }
     })
 
