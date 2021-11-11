@@ -244,6 +244,16 @@ const db = (function () {
 
     const html = `<!DOCTYPE HTML>
     <html>
+     <script>
+      document.body.addEventListener('keyup', function (event) {
+        if (event.key === "n") {
+          const element = document.querySelector('a')
+          const hanzi = element.textContent
+          window.open(\`https://baike.baidu.com/item/\${encodeURIComponent(hanzi)}\`, '_blank')
+          window.open(\`http://localhost:34567/h.html#\${encodeURIComponent(hanzi)}\`)
+        }
+      })
+     </script>
      <body>
      <ul>
       ${allHanzi.length}
