@@ -358,14 +358,15 @@ function isHanzi(ch) {
               }
 
               const responseJson = await response.json()
-              if (responseJson.message) {
-                alertDiv.textContent = responseJson.message
-                alertDiv.style.color = 'white'
-              } else if (responseJson.error) {
+
+              if (responseJson.error) {
                 alertDiv.textContent = responseJson.error
                 alertDiv.style.color = 'red'
+                return
               }
 
+              alertDiv.textContent = responseJson.message
+              alertDiv.style.color = 'white'
               oldText = newText
             } catch(error) {
               console.error(error)
@@ -381,17 +382,68 @@ function isHanzi(ch) {
         submitFn()
       }, false)
 
-      // let autosave = null
-      // textareaElement.addEventListener('keydown', function (event) {
-      //   if (event.keyCode == 13 && event.ctrlKey) {
-      //     event.preventDefault()
-      //     submitFn()
-      //   }
+      function debounce(func, wait, immediate){
+        var timeout, args, context, timestamp, result;
+        if (null == wait) wait = 100;
 
-      //   if (!autosave) {
-      //     autosave = setInterval(submitFn, 5000)
-      //   }
-      // })
+        function later() {
+          var last = Date.now() - timestamp;
+
+          if (last < wait && last >= 0) {
+            timeout = setTimeout(later, wait - last);
+          } else {
+            timeout = null;
+            if (!immediate) {
+              result = func.apply(context, args);
+              context = args = null;
+            }
+          }
+        };
+
+        var debounced = function(){
+          context = this;
+          args = arguments;
+          timestamp = Date.now();
+          var callNow = immediate && !timeout;
+          if (!timeout) timeout = setTimeout(later, wait);
+          if (callNow) {
+            result = func.apply(context, args);
+            context = args = null;
+          }
+
+          return result;
+        };
+
+        debounced.clear = function() {
+          if (timeout) {
+            clearTimeout(timeout);
+            timeout = null;
+          }
+        };
+
+        debounced.flush = function() {
+          if (timeout) {
+            result = func.apply(context, args);
+            context = args = null;
+
+            clearTimeout(timeout);
+            timeout = null;
+          }
+        };
+
+        return debounced;
+      };
+
+      const debouncedSubmit = debounce(submitFn, 500)
+
+      textareaElement.addEventListener('keydown', function (event) {
+        // if (event.keyCode == 13 && event.ctrlKey) {
+        //   event.preventDefault()
+        //   submitFn()
+        //   return
+        // }
+        debouncedSubmit()
+      })
 
       window.addEventListener("beforeunload", function (event) {
         const newText = textareaElement.value.trim()

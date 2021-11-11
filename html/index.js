@@ -8,6 +8,10 @@ const R = require('ramda')
 const isHanzi = require('../scripts/lib/isHanzi').isHanzi
 const splitBySeparator = require('../scripts/lib/splitBySeparator').splitBySeparator
 const TongWen = require('../scripts/lib/TongWen').TongWen
+const hanzi = require("hanzi");
+//Initiate
+hanzi.start();
+
 // const { JSDOM } = jsdom;
 // const dom = new JSDOM(``);
 
@@ -176,30 +180,77 @@ const db = (function () {
     `
   }
 
+  let harariContent = await require('fs/promises').readFile('/home/srghma/Downloads/未来简史-by-哈拉瑞Yuval-Noah-Harari_-林俊宏-_z-lib.org_.txt')
+  harariContent = harariContent.toString()
+
+  let hskContent = await require('fs/promises').readFile('/home/srghma/Downloads/hsk')
+  hskContent = hskContent.toString()
+  // console.log(hskContent)
+
   app.get('/elon-musk/unknown-hanzi', async (req, res) => {
     const setOfKnownHanzi = db.getKeys()
 
-    let allPeppaHanzi = allPeppaFiles.map(x => {
-      let hanzi = require('fs').readFileSync(x.absolutePath).toString()
-      hanzi = R.uniq([...hanzi].filter(isHanzi))
-      return hanzi
-    }).flat()
-    allPeppaHanzi = R.uniq(allPeppaHanzi)
+    let allPeppaFiles_ = Promise.all(allPeppaFiles.map(async x => {
+      const hanzi = await require('fs/promises').readFile(x.absolutePath)
+      return {
+        ...x,
+        hanzi,
+      }
+    }))
 
-    const allKnown = R.uniq([...setOfKnownHanzi, ...allPeppaHanzi])
+    allPeppaFiles_ = await allPeppaFiles_
+
+    allPeppaFiles_ = allPeppaFiles_.map(x => {
+      return {
+        ...x,
+        hanzi: R.uniq([...(x.hanzi.toString())].filter(isHanzi)),
+      }
+    })
+
+    let allPeppaHanzi = allPeppaFiles_.map(x => x.hanzi).flat()
+    // allPeppaHanzi = R.uniq(allPeppaHanzi)
 
     let allElonHanzi = require('./elon-musk/index.json').htmlContent
-    allElonHanzi = R.uniq([...allElonHanzi].filter(isHanzi))
+    allElonHanzi = [...allElonHanzi].filter(isHanzi)
+    // allElonHanzi = R.uniq(allElonHanzi)
 
-    const hanzi = R.difference(allElonHanzi, allKnown)
+    let allHarariHanzi = [...harariContent].filter(isHanzi)
+    // allHarariHanzi = R.uniq(allHarariHanzi)
 
+    let allHskHanzi = [...hskContent].filter(isHanzi)
+    // allHskHanzi = R.uniq(allHskHanzi)
+    // console.log(allHarariHanzi)
+
+    // const hanzi = R.difference(allElonHanzi, R.uniq([...setOfKnownHanzi, ...allPeppaHanzi]))
+
+    let allHanzi = R.difference(R.uniq([
+      ...allHskHanzi,
+      ...allElonHanzi,
+      ...allPeppaHanzi,
+      ...allHarariHanzi
+    ]), setOfKnownHanzi)
+
+    let allHanziWithPinyin = allHanzi.map(x => {
+      return {
+        x,
+        p: ((hanzi.getPinyin(x) || [])[0] || '').toLowerCase()
+      }
+    })
+
+    // console.log(allHanziWithPinyin)
+    allHanziWithPinyin = R.groupBy(R.prop('p'), allHanziWithPinyin)
+    allHanziWithPinyin = R.toPairs(allHanziWithPinyin)
+    allHanziWithPinyin = R.sortBy(R.prop(0), allHanziWithPinyin)
 
     const html = `<!DOCTYPE HTML>
     <html>
      <body>
      <ul>
-      ${hanzi.length}
-      ${hanzi.map(x => `<a target="_blank" href="/h.html#${x}">${x}</a>`).join('<br>')}
+      ${allHanzi.length}
+      ${allHanziWithPinyin.map(([p, hanzis]) => {
+        hanzis = hanzis.map(({ x }) => `<a target="_blank" href="/h.html#${x}">${x}</a>`)
+        return `<p>${p}</p>${hanzis}`
+      }).join('<br>')}
       </ul>
      </body>
     </html>
