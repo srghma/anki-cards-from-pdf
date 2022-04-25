@@ -29,9 +29,41 @@ const req_options = {
   "mode": "cors"
 }
 
+const httpRequester = require('request')
+let crypt
+
+function get(url) {
+  return new Promise((resolve, reject) => {
+    httpRequester({
+      uri: url,
+      encoding: 'binary',
+      method: 'GET'
+    }, (err, response, body) => {
+      if (err) {
+        return reject(response);
+      }
+      let decoded = crypt.decode(body);
+      resolve(decoded);
+    });
+  });
+}
+
 exports.etimologias = async function etimologias(dom, str) {
-  let r = await fetch(`http://etimologias.dechile.net/?${encodeURIComponent(str)}`, req_options)
-  let t = await r.text()
+  if (!crypt) {
+    crypt = await (import('windows-1252'))
+  }
+  // TODO: {
+  //   references: {
+  //    { orig: 'sa.bana', without: 'sabana' },
+  //    { orig: 'sabana', without: 'sabana' }
+  //   },
+  //   dictionary: { 'sa.bana': { ... } }
+  // }
+
+  // let r = await fetch(`http://etimologias.dechile.net/?${encodeURIComponent(str)}`, req_options)
+  // let t = await r.text()
+
+  let t = await get(`http://etimologias.dechile.net/?${encodeURIComponent(str)}`)
 
   if (t.includes('Error 404')) { return null }
 
@@ -71,7 +103,7 @@ exports.etimologias_with_cache = async function etimologias_with_cache(dom, word
   etimologias_cache[word] = x
   eachNIndex++
   if (eachNIndex % 10 === 0) {
-    console.log('syncing etimologias')
+    console.log(`syncing etimologias ${eachNIndex}`)
     fs.writeFileSync(etimologias_with_cache_path, JSON.stringify(etimologias_cache))
   }
   return x

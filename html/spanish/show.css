@@ -1,0 +1,65 @@
+body > div {
+  width: 100%;
+}
+
+ol li {
+  font-size:   70%;
+}
+
+table.conjugation span.irrg {
+  color:       #731C1C;
+  display:     inline;
+}
+
+table.conjugation span.dfcv {
+  color:       #BFBFBF;
+display:     inline;
+}
+
+table.conjugation span.regn {
+  font-size:      60%;
+vertical-align: super;
+}
+
+table.conjugation span.dfcv span.irrg {
+  color:       #949494;
+display:     inline;
+}
+
+table.conjugation td {
+  font-size:  90%;
+text-align: center;
+}
+
+table.conjugation td.lt {
+  text-align: right;
+font-size:  70%;
+color:      #969696;
+}
+
+table.conjugation td.rt {
+  text-align: left;
+font-size:  70%;
+color:      #969696;
+}
+
+table.conjugation td.h1 {
+  font-size:  110%;
+line-height:2.5em;
+border-bottom-style: solid;
+border-bottom-width: 1px;
+}
+
+table.conjugation td.h2 {
+  font-size:  110%;
+line-height:1.5em;
+}
+
+table.conjugation td.h3 {
+  font-size:  80%;
+line-height:1.5em;
+border-bottom-style: solid;
+border-bottom-width: 1px;
+}
+
+
