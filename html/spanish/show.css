@@ -3,55 +3,54 @@ body > div {
 }
 
 ol li {
-  font-size:   70%;
+  font-size:   85%;
 }
 
 table.conjugation span.irrg {
-  color:       #ff8686;
+  color:       #99ff77;
   display:     inline;
 }
 
 table.conjugation span.dfcv {
   color:       #BFBFBF;
-display:     inline;
+  display:     inline;
 }
 
 table.conjugation span.regn {
-  font-size:      60%;
+  font-size:      70%;
 vertical-align: super;
 }
 
 table.conjugation span.dfcv span.irrg {
   color:       #949494;
-display:     inline;
+  display:     inline;
 }
 
 table.conjugation td {
-  font-size:  90%;
 text-align: center;
 }
 
 table.conjugation td.lt {
   text-align: right;
-font-size:  70%;
-color:      #969696;
+  font-size:  85%;
+  color:      #c9c6c6;
 }
 
 table.conjugation td.rt {
   text-align: left;
-font-size:  70%;
-color:      #969696;
+  font-size:  85%;
+  color:      #c9c6c6;
 }
 
 table.conjugation td.h1 {
-  font-size:  110%;
+  font-size:  120%;
 line-height:2.5em;
 border-bottom-style: solid;
 border-bottom-width: 1px;
 }
 
 table.conjugation td.h2 {
-  font-size:  110%;
+  font-size:  120%;
 line-height:1.5em;
 }
 
