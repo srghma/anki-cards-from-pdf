@@ -13,29 +13,16 @@ pre {
   white-space: -o-pre-wrap;    /* Opera 7 */
   word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
-td.googleRu:before {
-  content: attr(data-content);
-}
 td {
   vertical-align: baseline;
   border: 1px solid #ff0000;
 }
 table {
-  table-layout: fixed;
   width: 100%;
   border-collapse: collapse;
 }
 tr:hover {
   background: gray;
-}
-
-tr > td:nth-child(2), tr > td:nth-child(3) {
-  font-size: 130%;
-  width: 100%;
-}
-
-tr > td {
-  width: 40px;
 }
 
 .xdxf abr {
