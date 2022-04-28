@@ -1,3 +1,14 @@
+function removeSpans() {
+  event.preventDefault()
+  document.querySelector('.conjugations').innerHTML = document.querySelector('.conjugations').innerHTML.replace(/<span[^>]+>([^<]+)<\/span>/g, '$1')
+}
+
+function translateEtimologias(event) {
+  event.preventDefault()
+  const text = document.querySelector('.etimologias').textContent
+  window.open(`https://translate.google.com/?hl=ru&sl=es&tl=ru&text=${encodeURIComponent(text)}&op=translate`)
+}
+
 ;(async function(){
   // var info = JSON.parse(document.getElementById('info').textContent)
 
@@ -42,12 +53,6 @@
   document.querySelector('.conjugations').innerHTML = data.conjugations || ""
   document.querySelector('.etimologias').innerHTML = data.etimologyEs || ""
   document.querySelector('.etimologias-ru').innerHTML = data.etimologyRu.split('\n').join('<br>') || ""
-
-  document.querySelector('.etimologias-container h1').addEventListener("click", (event) => {
-    event.preventDefault()
-    const text = document.querySelector('.etimologias').textContent
-    window.open(`https://translate.google.com/?hl=ru&sl=es&tl=ru&text=${encodeURIComponent(text)}&op=translate`)
-  })
 })();
 
 

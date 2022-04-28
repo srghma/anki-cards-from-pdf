@@ -1,6 +1,6 @@
 body {
   color: white;
-  background-color: #2c2c2c;
+  background-color: black;
   display: flex;
 }
 a { text-decoration: none; }
@@ -22,7 +22,7 @@ table {
   border-collapse: collapse;
 }
 tr:hover {
-  background: gray;
+  background: #2c2c2c;
 }
 
 .xdxf abr {
@@ -75,11 +75,9 @@ display: block;
 }
 .xdxf gr_old {
 color: blue;
-/*orangered;
-*/
 }
 .xdxf ex {
-color: #808080;
+color: #cdcdcd;
 display: block;
 margin-left: 14px;
 }

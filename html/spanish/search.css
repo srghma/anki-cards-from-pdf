@@ -1,0 +1,38 @@
+table {
+  table-layout: fixed;
+}
+
+td.index {
+  width: 55px;
+}
+
+td.xdxf {
+  max-width: 100%;
+}
+
+td.word, td.googleRu {
+  font-size: 130%;
+  max-width: 60%;
+}
+
+td.etimologyEs, td.conjugations {
+  width: 20px;
+}
+
+td.freq {
+  width: 40px;
+}
+
+td.index a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+td.index a:visited {
+  color: #c9cbff;
+}
+
+td.googleRu:before {
+  content: attr(data-content);
+}

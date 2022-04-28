@@ -161,12 +161,12 @@ conjucationsMap = R.fromPairs(conjucations.map(x => [x._id, x.trns])); null
 etimologias_cacheMap = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/etimologias_with_ru_cache.json').toString())
 etimologias_cacheMap = R.fromPairs(etimologias_cacheMap.map(x => x.allKeys.map(key => [key, { etimologyEs: x.value, etimologyRu: x.ruText }])).flat());null
 
-mostused = await readStreamArray(fs.createReadStream("/home/srghma/Downloads/10000_formas.cvs", { encoding: "latin1" }).pipe(csv({ separator: "\t", headers: "freqIndex esWordWithAccent".split(' ') })))
+mostused = await readStreamArray(fs.createReadStream("/home/srghma/projects/anki-cards-from-pdf/spanish-data-input/10000_formas.cvs", { encoding: "latin1" }).pipe(csv({ separator: "\t", headers: "freqIndex esWordWithAccent".split(' ') })))
 mostused = mostused.map(x => ({ freqIndex: Number(x.freqIndex.trim()), esWordWithAccent: x.esWordWithAccent.trim()  }))
 mostused = mostused.map(x => ({ ...x, esWordWithoutAccent: removeAccent(x.esWordWithAccent) }))
 mostusedMap = R.fromPairs(mostused.map(x => [x.esWordWithoutAccent.toLowerCase(), { freqIndex: x.freqIndex, esWordWithAccent: x.esWordWithAccent }]))
 
-esAndGoogleTranslations = await readStreamArray(fs.createReadStream("/home/srghma/Downloads/Untitled spreadsheet - output.csv").pipe(csv({ separator: ",", headers: "es googleRu".split(' ') })))
+esAndGoogleTranslations = await readStreamArray(fs.createReadStream("/home/srghma/projects/anki-cards-from-pdf/spanish-data-input/es-to-ru.csv").pipe(csv({ separator: ",", headers: "es googleRu".split(' ') })))
 esAndGoogleTranslations = esAndGoogleTranslations.map(x => ({ ...x, conjugations: conjucationsMap[x.es], ru: esRuMap[x.es], ...etimologias_cacheMap[x.es] }))
 // esAndGoogleTranslations = esAndGoogleTranslations.filter(x => x.es.length > 1 && (/^[a-z]/.test(x.es.charAt(0)) || x.es.charAt(0) === '¡' || x.es.charAt(0) === '¿'))
 esAndGoogleTranslations = esAndGoogleTranslations.filter(x => x.es.length > 1 && /^[a-z]+$/.test(x.es))
@@ -215,35 +215,56 @@ fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/html/spanish/info-6.
 fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/html/spanish/info-other.json', JSONstringifyClean(onlyPick(isOther)(esAndGoogleTranslationsMap)))
 
 renderTable = (esAndGoogleTranslations, first10000) => {
+  const td         = (x) => String.raw`<td>${x}</td>`
+  const tdOptional = (x) => x ? String.raw`<td>${x}</td>` : ''
+  const tdData     = (kl, x) => String.raw`<td class="${kl}" data-content="${x}"></td>`
+
   if (first10000) {
     esAndGoogleTranslations = esAndGoogleTranslations.filter(x => x.freqIndex)
   }
 
   return esAndGoogleTranslations.map((x, index) => {
-    const td         = (x) => String.raw`<td>${x}</td>`
-    const tdOptional = (x) => x ? String.raw`<td>${x}</td>` : ''
-    const tdData     = (kl, x) => String.raw`<td class="${kl}" data-content="${x}"></td>`
+    let ruTranslation
+
+    if (x.ru) {
+      ruTranslation = Array.from(x.ru.matchAll(/<dtrn>(.*?)<\/dtrn>/g))
+      ruTranslation = ruTranslation.map(x => x[1])
+      ruTranslation = ruTranslation.map(x => x.replace(/<co>(.*?)<\/co>/g, ''))
+      // console.log(ruTranslation)
+      ruTranslation = ruTranslation.map(x => x.replace(/<abr>(.*?)<\/abr>/g, ''))
+      ruTranslation = ruTranslation.map(x => x.trim())
+      ruTranslation = ruTranslation.filter(x => x)
+      ruTranslation = ruTranslation.filter(x => !x.includes('<kref>'))
+      ruTranslation = ruTranslation[0]
+      if (ruTranslation) { ruTranslation = ruTranslation.split('<br>').map(x => x.trim().replace(/^,/, '').trim()).filter(x => x).join(', ') }
+      if (ruTranslation) { ruTranslation = ruTranslation.replace(/<\/?.*?>/g, '') }
+    }
+
+    const ruTranslationOrGoogle = ruTranslation ? ruTranslation : x.googleRu
+    const ruTranslationOrGoogleClass = ruTranslation ? 'ru-translation-from-dictionary' : null
 
     const tds = [
-      td(index + 1),
+      td(String.raw`<a href="show.html#${encodeURIComponent(x.es)}" target="_blank">${index + 1}</td>`),
       td(x.esWordWithAccent || x.es),
-      tdData(`googleRu`,       x.googleRu),
-      td(x.ru ? "R" : ""),
+      tdData(['ru-translation-get-from-content', ruTranslationOrGoogleClass].filter(x => x).join(' '), ruTranslationOrGoogle),
       td(x.conjugations ? "C" : ""),
       td(x.etimologyEs ? "E" : ""),
       tdOptional(first10000 ? (x.freqIndex || "") : null),
     ]
 
-    return String.raw`<tr data-id="${x.es}">${tds.join('')}</tr>`
+    return String.raw`<tr>${tds.join('')}</tr>`
   })
 }
+
+renderTable(esAndGoogleTranslations.filter(x => x.es === 'abordar'), false)
 
 renderHtml = (esAndGoogleTranslations, first10000) => `<!DOCTYPE HTML>
 <html>
  <head>
   <meta charset="utf-8">
   <title>Spanish dict</title>
-  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="common.css">
   <script src="index.js"></script>
  </head>
  <body class="nightMode">

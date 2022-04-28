@@ -20,5 +20,4 @@ yarn-error.log
 *cache*
 !ipacache.json
 !yw11_dictionary_cache.json
-*.html
 *.lock

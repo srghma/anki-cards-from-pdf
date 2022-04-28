@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <meta charset="utf-8">
+  <title>Spanish dict</title>
+  <link rel="stylesheet" href="common.css">
+  <link rel="stylesheet" href="show.css">
+  <script src="show.js"></script>
+ </head>
+ <body class="nightMode">
+  <div>
+    <h1>Es</h1>
+    <div class="es"></div>
+    <div class="googleRu"></div>
+    <hr/>
+    <div class="ru-container">
+      <h1>Ru</h1>
+      <div class="ru xdxf"></div>
+    </div>
+    <hr/>
+    <div class="conjugations-container">
+      <h1>Conjugations</h1>
+      <button onclick="window.removeSpans()">Remove spans</button>
+      <div class="conjugations"></div>
+    </div>
+    <hr/>
+    <div class="etimologias-container">
+      <h1 onclick="translateEtimologias(event)">Etimologias</h1>
+      <div class="etimologias"></div>
+      <hr/>
+      <div class="etimologias-ru"></div>
+    </div>
+  </div>
+ </body>
+</html>

@@ -3,7 +3,7 @@ body > div {
 }
 
 ol li {
-  font-size:   85%;
+  font-size: 85%;
 }
 
 table.conjugation span.irrg {
@@ -18,7 +18,7 @@ table.conjugation span.dfcv {
 
 table.conjugation span.regn {
   font-size:      70%;
-vertical-align: super;
+  vertical-align: super;
 }
 
 table.conjugation span.dfcv span.irrg {
@@ -44,21 +44,21 @@ table.conjugation td.rt {
 
 table.conjugation td.h1 {
   font-size:  120%;
-line-height:2.5em;
-border-bottom-style: solid;
-border-bottom-width: 1px;
+  line-height:2.5em;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
 }
 
 table.conjugation td.h2 {
   font-size:  120%;
-line-height:1.5em;
+  line-height:1.5em;
 }
 
 table.conjugation td.h3 {
   font-size:  80%;
-line-height:1.5em;
-border-bottom-style: solid;
-border-bottom-width: 1px;
+  line-height:1.5em;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
 }
 
 
