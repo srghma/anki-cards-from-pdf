@@ -12,17 +12,18 @@ function translateEtimologias(event) {
 ;(async function(){
   // var info = JSON.parse(document.getElementById('info').textContent)
 
-  const word = window.location.hash.slice(1)
+  const word = decodeURIComponent(window.location.hash.slice(1))
   document.title = word
 
   bucketIds = {
-    w1: 'biliar',
-    w2: 'crispatura',
-    w3: 'estantalar',
-    w4: 'ladero',
-    w5: 'pesada',
-    w6: 'sobresingular'
+    w1: 'bergantin',
+    w2: 'cortaforrajes',
+    w3: 'escuatina',
+    w4: 'jaretera',
+    w5: 'patraquear',
+    w6: 'sedente'
   }
+
 
   is1     = x => x <= bucketIds.w1
   is2     = x => x > bucketIds.w1 && x <= bucketIds.w2

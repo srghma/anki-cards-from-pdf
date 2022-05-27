@@ -19,7 +19,7 @@ function removeAccents(str) {
 
 function mkRegexThatSearchesAccentedAndNonAccentedLetters(str) {
   // diactrics/accents
-  const accentedLettersList = ["aàáâãäå", "eèéêë", "iìíîï", "oòóôõö", "uùúûü"].map(x => x.split(""))
+  const accentedLettersList = ["aàáâãäå", "eèéêë", "iìíîï", "oòóôõö", "uùúûü", "nñ"].map(x => x.split(""))
   accentedLettersList.forEach(accentedLetters => {
     const accentedLettersOr = `(${accentedLetters.join("|")})`
     str = str.replace(new RegExp(accentedLettersOr, "g"), accentedLettersOr)
@@ -32,9 +32,9 @@ function addLinksToXdxf(htmlStr) {
   return htmlStr
 }
 
-const renderTable = (esAndGoogleTranslations, searchedWord) => {
-  const searchedWordRegexString = mkRegexThatSearchesAccentedAndNonAccentedLetters(searchedWord);
-  console.log({ searchedWord, searchedWordRegexString })
+const renderTable = (esAndGoogleTranslations, lastIdSubstring) => {
+  const searchedWordRegexString = mkRegexThatSearchesAccentedAndNonAccentedLetters(lastIdSubstring);
+  console.log({ lastIdSubstring, searchedWordRegexString })
 
   return esAndGoogleTranslations.map((x, index) => {
     // console.log(x)
@@ -42,7 +42,7 @@ const renderTable = (esAndGoogleTranslations, searchedWord) => {
     const tdClassData = (kl, x) => String.raw`<td class="${kl}" data-content="${x}"></td>`
 
     let word = x.esWordWithAccent || x.es
-    word = word.replace(new RegExp(searchedWordRegexString, "g"), `<span style="color: #79ff79;">${searchedWord}</span>`)
+    word = word.replace(new RegExp(searchedWordRegexString, "g"), match => `<span style="color: #79ff79;">${match}</span>`)
 
     const ruOrGoogleTd = x.ru ? tdClass("xdxf", addLinksToXdxf(x.ru)) : tdClassData("googleRu", x.googleRu)
 
@@ -59,20 +59,19 @@ const renderTable = (esAndGoogleTranslations, searchedWord) => {
   })
 }
 
-function searchForUntil(wordNonAccented, allInfos) {
-  console.log({ wordNonAccented })
-  let infos = allInfos.filter(x => x.es.includes(wordNonAccented))
+function searchForUntil({ id, allInfos, predicate }) {
+  let infos = allInfos.filter(x => predicate(x, id))
 
   while (true) {
-    console.log(`while`, { wordNonAccented, infos: infos.length })
-    if (wordNonAccented.length === 0) { break }
+    console.log(`while`, { id, infos: infos.length })
+    if (id.length === 0) { break }
     if (infos.length > 1) { break }
-    wordNonAccented = wordNonAccented.slice(0, -1)
-    infos = allInfos.filter(x => x.es.includes(wordNonAccented))
-    console.log(`while end`, { wordNonAccented, infos: infos.length })
+    id = id.slice(0, -1)
+    infos = allInfos.filter(x => predicate(x, id))
+    console.log(`while end`, { id, infos: infos.length })
   }
 
-  return { infos, lastWordWithoutAccents: wordNonAccented }
+  return { infos, lastIdSubstring: id }
 }
 
 ;(async function(){
@@ -89,17 +88,25 @@ function searchForUntil(wordNonAccented, allInfos) {
   allInfos = allInfos.map(x => fetch(`./info-${x}.json`).then(x => x.json()))
   allInfos = await Promise.all(allInfos)
   allInfos = toList(allInfos)
+  // console.log(allInfos.filter(x => x.es.includes('ñ')).map(x => x.es).sort())
 
   const params = new Proxy(new URLSearchParams(window.location.search), {
     get: (searchParams, prop) => searchParams.get(prop),
   })
 
-  const word = params.q
+  const word = decodeURIComponent(params.q)
   document.title = `search ${word}`
 
-  const { infos, lastWordWithoutAccents } = searchForUntil(removeAccents(word), allInfos)
+  // console.log(id)
+  let { infos, lastIdSubstring } = searchForUntil({
+    id: removeAccents(word.toLowerCase()), // arañar -> aranar
+    allInfos: allInfos.map(x => [removeAccents(x.es), x]),
+    predicate: ([id, _], lastIdSubstring) => id.includes(lastIdSubstring)
+  })
+  infos = infos.map(([id, x]) => x)
+
   const table = document.querySelector('table')
 
-  table.innerHTML = renderTable(infos, lastWordWithoutAccents).join('')
+  table.innerHTML = renderTable(infos, lastIdSubstring).join('')
   table.style.display = "table"
 })();

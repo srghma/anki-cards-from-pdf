@@ -18,7 +18,6 @@ const dom = new JSDOM(``);
 queueSize = 10
 doms = Array.from({ length: queueSize }, (_, i) => { return new JSDOM(``) })
 removeAccent = str => str.normalize("NFD").replace(/\p{Diacritic}/gu, "")
-
 const { sd2json } = require("dict-sd2json")
 
 // let bpath = 'test.ifo'
@@ -169,7 +168,7 @@ mostusedMap = R.fromPairs(mostused.map(x => [x.esWordWithoutAccent.toLowerCase()
 esAndGoogleTranslations = await readStreamArray(fs.createReadStream("/home/srghma/projects/anki-cards-from-pdf/spanish-data-input/es-to-ru.csv").pipe(csv({ separator: ",", headers: "es googleRu".split(' ') })))
 esAndGoogleTranslations = esAndGoogleTranslations.map(x => ({ ...x, conjugations: conjucationsMap[x.es], ru: esRuMap[x.es], ...etimologias_cacheMap[x.es] }))
 // esAndGoogleTranslations = esAndGoogleTranslations.filter(x => x.es.length > 1 && (/^[a-z]/.test(x.es.charAt(0)) || x.es.charAt(0) === '¡' || x.es.charAt(0) === '¿'))
-esAndGoogleTranslations = esAndGoogleTranslations.filter(x => x.es.length > 1 && /^[a-z]+$/.test(x.es))
+esAndGoogleTranslations = esAndGoogleTranslations.filter(x => x.es.length > 1 && /^[a-zñ]+$/.test(x.es))
 mostUsedFreqIndexAndWithAccent = str => mostusedMap[removeAccent(str).toLowerCase()]
 esAndGoogleTranslations = esAndGoogleTranslations.map(x => ({ ...x, ...mostUsedFreqIndexAndWithAccent(x.es) }))
 esAndGoogleTranslations = R.sortBy(R.prop('es'), esAndGoogleTranslations)
