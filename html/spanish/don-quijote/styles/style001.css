@@ -1,0 +1,195 @@
+@namespace h "http://www.w3.org/1999/xhtml";
+  .BOOKTITLE { 
+  display: block;
+  font-family: "Classic";
+  font-size: 1.99999em;
+  letter-spacing: 1pt;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 1em;
+  text-align: center;
+  text-indent: 0;
+  text-shadow: auto;
+  font-weight: bolder;
+  font-variant: small-caps;
+
+  }
+  .AUTHOR {
+  display: block;
+  font-family: "Classic";
+  font-size: 1.33333em;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 1em;
+  text-align: center;
+  text-indent: 0;
+  font-weight: bolder;
+  font-variant: small-caps;
+
+  text-shadow: auto
+  }
+
+  .calibre {
+    background-color: #FEFEFE;
+    color: #000;
+    display: block;
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    font-size: 1em;
+    margin-bottom: 0;
+    margin-left: 5pt;
+    margin-right: 5pt;
+    margin-top: 0;
+    page-break-before: always;
+    text-align: justify
+    }
+  .calibre1 {
+    background-color: #E7E7E7;
+    border: 1px solid Black;
+    display: block;
+    font-size: 1.375em;
+    font-style: normal;
+    font-weight: bold;
+    margin-bottom: 0.67em;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0.67em;
+    page-break-before: always;
+    text-align: left
+    }
+  .calibre10 {
+    color: blue;
+    cursor: pointer;
+    text-decoration: underline
+    }
+  .calibre11 {
+    font-size: 0.66em;
+    line-height: normal;
+    vertical-align: super
+    }
+  .calibre12 {
+    font-style: italic
+    }
+  .calibre13 {
+    font-weight: bolder
+    }
+  .calibre14 {
+    font-size: 0.90909em;
+    line-height: normal;
+    vertical-align: super
+    }
+  .calibre15 {
+    border: 1px inset;
+    color: Black;
+    display: block;
+    height: 2px;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0.5em
+    }
+  .calibre16 {
+    background-color: #F4F4F4;
+    border: 1px solid Gray;
+    display: block;
+    font-size: 1em;
+    font-style: normal;
+    font-weight: bold;
+    margin-bottom: 1.33em;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 1.33em;
+    text-align: center
+    }
+  .calibre2 {
+    display: block
+    }
+  .calibre3 {
+    display: block;
+    font-family: "Times New Roman", Times, serif;
+    page-break-after: always;
+    text-align: justify
+    }
+  .calibre4 {
+    color: inherit;
+    cursor: default;
+    text-decoration: inherit
+    }
+  .calibre5 {
+    display: block;
+    font-family: "Times New Roman", Times, serif;
+    text-align: center
+    }
+  .calibre6 {
+    height: auto;
+    width: auto
+    }
+  .calibre7 {
+    background-color: #F4F4F4;
+    border: 1px solid Gray;
+    display: block;
+    font-size: 1em;
+    font-style: italic;
+    font-weight: bold;
+    margin-bottom: 1.67em;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 1.67em;
+    text-align: left
+    }
+  .calibre8 {
+    display: block;
+    font-family: "Times New Roman", Times, serif;
+    text-align: justify
+    }
+  .calibre9 {
+    display: block;
+    margin-bottom: 1em;
+    margin-left: 4em;
+    margin-right: 0.2em;
+    margin-top: 1em
+    }
+  a {
+    color: inherit;
+    text-decoration: inherit;
+    cursor: default
+    }
+  a[href] {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer
+    }
+
+  blockquote.sgc-4 {font-weight: bold}
+  sup.sgc-3 {font-weight: bold}
+  blockquote.sgc-2 {font-style: italic}
+  p.sgc-1 {margin:0pt; border:0pt; height:1em}
+
+  p.sgc-4 {font-weight: bold}
+  p.sgc-3 {font-style: italic}
+
+  div.sgc-5 {font-weight: bold; text-align: center; font-style: italic;}
+  div.sgc-4 {font-weight: bold; text-align: center;}
+  div.sgc-3 {text-align: center;}
+
+  span.sgc-7 {font-style: normal; font-weight: normal}
+  span.sgc-6 {font-style: normal;}
+  span.sgc-8 {font-weight: bold}
+
+
+
+
+  h5.sgc-9 {text-align: center;}
+
+
+
+
+  span.sgc-15 {font-size: medium;}
+  span.sgc-14 {font-style: normal; font-weight: normal; font-size: medium;}
+  a.sgc-13 {color: blue; text-decoration: underline; cursor: pointer;}
+  sup.sgc-12 {font-size: 0.66em; line-height: normal; vertical-align: super;}
+  span.sgc-11 {font-family: Arial;}
+  span.sgc-10 {font-family: 'Times New Roman', Times, serif;}
+
+  p.sgc-17 {text-align: center;}

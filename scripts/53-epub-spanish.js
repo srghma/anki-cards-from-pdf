@@ -11,12 +11,8 @@ const fs = require('fs')
 const R = require('ramda')
 const RA = require('ramda-adjunct')
 const jsdom = require("jsdom");
-const TongWen = require('./scripts/lib/TongWen').TongWen
 const { JSDOM } = jsdom;
 const dom = new JSDOM(``);
-
-require('hanzi').start()
-require("nodejieba").load()
 
 function parse(epub) {
   return new Promise((resolve, reject) => {
@@ -71,8 +67,7 @@ function getImage(epub, id) {
 }
 
 var EPub = require("epub")
-
-var epub = new EPub("elon-musk.epub", "/imagewebroot/", "/articlewebroot/")
+var epub = new EPub("Don Quijote de la Mancha.epub", "/imagewebroot/", "/articlewebroot/")
 
 const parseResult = await parse(epub)
 
@@ -86,20 +81,18 @@ console.log(epub.flow)
 console.log("\nTOC:\n")
 console.log(epub.toc)
 
-data = await getFile(epub, epub.spine.contents[2].id)
+// data = await getFile(epub, epub.spine.contents[2].id)
 
-image = await getImage(epub, 'x001.jpg')
+output = '/home/srghma/projects/anki-cards-from-pdf/html/spanish/don-quijote'
 
-output = '/home/srghma/projects/anki-cards-from-pdf/html/elon-musk'
-
-// R.toPairs(epub.manifest).forEach(async ([id, data]) => {
-//   if (data['media-type'] !== 'image/jpeg') { return }
-//   const image = await getImage(epub, id)
-//   const outputPath = `${output}/${data.href.replace('OEBPS/', '')}`
-//   await (require('mkdirp'))(require('path').dirname(outputPath))
-//   // console.log(path)
-//   await require('fs/promises').writeFile(outputPath, image.data)
-// })
+R.toPairs(epub.manifest).forEach(async ([id, data]) => {
+  if (data['media-type'] !== 'image/jpeg') { return }
+  const image = await getImage(epub, id)
+  const outputPath = `${output}/${data.href.replace('OEBPS/', '')}`
+  await (require('mkdirp'))(require('path').dirname(outputPath))
+  // console.log(path)
+  await require('fs/promises').writeFile(outputPath, image.data)
+})
 
 // https://www.sitepoint.com/removing-useless-nodes-from-the-dom/
 function clean(node)
@@ -152,17 +145,20 @@ css = R.values(epub.manifest).map(async (data) => {
 })
 css = await Promise.all(css)
 css = css.filter(Boolean)
-// css.forEach(async data => {
-//   const outputPath = `${output}/${data.href.replace('OEBPS/', '')}`
-//   await (require('mkdirp'))(require('path').dirname(outputPath))
-//   console.log(outputPath, data.css)
-//   await require('fs/promises').writeFile(outputPath, data.css)
-// })
+css.forEach(async data => {
+  const outputPath = `${output}/${data.href.replace('OEBPS/', '')}`
+  await (require('mkdirp'))(require('path').dirname(outputPath))
+  // console.log(data.css)
+  console.log(outputPath)
+  await require('fs/promises').writeFile(outputPath, data.css)
+})
 
 // toc = await getFile(epub, 'ncx')
 // toc = toc.toString()
 // dom.window.document.body.innerHTML = toc
 // dom.window.document.body.querySelector('navmap').outerHTML
+
+function wrapNode(tag, value) { return `<${tag}>${value}</${tag}>` }
 
 function addSentences(html) {
   dom.window.document.body.innerHTML = html;
@@ -183,47 +179,28 @@ function addSentences(html) {
   //   })
   // })(dom.window.document.body)
 
-  function wrapNode(tag, value) { return `<${tag}>${value}</${tag}>` }
-
-  function splitOnSentences(text) {
-    let sentences = []
-    let currentSentence = []
-    text.forEach(({ allHanzi, word }, index) => {
-      // const word_ = allHanzi ? wrapNode('word', word) : word
-      currentSentence.push(word)
-      if ('，。？！'.includes(word) || index === text.length - 1) {
-        // console.log(currentSentence)
-        sentences.push(currentSentence.join(''))
-        currentSentence = []
-      }
-    })
-    return sentences
+  function splitSentencesOnSentences(text) {
+    var splitRetain = require('split-retain')
+    return splitRetain(text, '.').map(x => x.trim())
   }
+  // splitSentencesOnSentences('w1 w2')        // [ 'w1 w2' ]
+  // splitSentencesOnSentences('w1 w2. w3 w4') // [ 'w1 w2.', 'w3 w4' ]
 
   (function splitOnSentencesAndWords(document, parent) {
     Array.from(parent.childNodes).forEach(child => {
       if (child.nodeType === textNodeId) {
         let text = child.nodeValue.trim()
+        // console.log(text)
         // text = require("nodejieba").cut(text)
         // text = require("hanzi").segment(text)
-        text = [...text]
-        text = text.map(word => {
-          const allHanzi = R.all(isHanzi, [...word])
-          return { allHanzi, word }
-        })
 
-        let sentences = splitOnSentences(text)
+        let sentences = splitSentencesOnSentences(text)
+        // let sentences = text
         // console.log(sentences)
 
         sentences = sentences.map(x => {
           sentenceElement = document.createElement('sentence')
           sentenceElement.innerHTML = x
-
-          // const simplified = [...x].map(x => TongWen.t_2_s[x] || x).join('')
-          // const traditional = [...x].map(x => TongWen.s_2_t[x] || x).join('')
-
-          // sentenceElement.setAttribute("data-traditional", traditional)
-          // sentenceElement.setAttribute("data-simplified", simplified)
           return sentenceElement
         })
 
@@ -244,15 +221,14 @@ function addSentences(html) {
 // addSentences(html[8].html)
 // addSentences("<div> 在经济大衰退袭来的20世纪30年代，约书亚陷入了金融危机。他无法偿还用来购买设备的银行贷款，导致5 000亩土地被查封。“从那时起，父亲不再相信银行，并且不再存钱。”斯科特·霍尔德曼说。他后来获得了和父亲同一所按摩学校的按摩师学位，并成为世界顶尖的脊柱病治疗专家。1934年，失去农场的约书亚开始四处漂泊，而几十年后自己的孙子也重复着这种生活。斯科特身高6英尺3英寸(约1.9米)，在成为一名按摩师之前，做过诸如建筑工人和牛仔竞技表演者等各种工作。</div>")
 
-htmlContent = html.map(x => '<chapter>' + addSentences(x.html) + '</chapter>').join('\n').replace(/src="\.\.\/Images/g, 'src="Images').replace(/\.\.\/Text\/chapter\d\d\.xhtml#/g, '#')
-
+htmlContent = html.map(x => '<chapter>' + addSentences(x.html) + '</chapter>').join('\n').replace(/src="\.\.\/Images/ig, 'src="IMAGES').replace(/\.\.\/Text\/chapter\d\d\.xhtml#/g, '#')
 html_ = {
   title: epub.metadata.title,
   css: css.map(x => x.href.replace('OEBPS/', '')),
   toc: html.map(x => x.title).filter(Boolean),
   htmlContent,
 }
-fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/elon-musk/index.json`, JSON.stringify(html_))
+fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/spanish/don-quijote.json`, JSON.stringify(html_))
 
 // html_ = `
 // <!DOCTYPE HTML>
@@ -260,40 +236,31 @@ fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/elon-musk/index
 //  <head>
 //   <meta charset="utf-8">
 //   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//   <title>${epub.metadata.title}</title>
+//   <title></title>
 //   <meta name="referrer" content="no-referrer">
-//   ${html_.css.map(x => `<link rel="stylesheet" href="${x}">`).join('\n')}
-//   <link rel="stylesheet" href="style.css">
-//   <script src="https://cdn.jsdelivr.net/npm/canvas-drawing-board@latest/dist/canvas-drawing-board.js"></script>
-//   <script defer src="bundle.js"></script>
+//   <link rel="stylesheet" href="list-of-sentences-common.css">
+//   <script defer src="list-of-sentences-common.js"></script>
 //  </head>
 //  <body>
 //   <div id="container">
 //     <div id="body">
-//       <div><ul>${html_.toc.map(x => '<li>' + x + '</li>').join('\n')}</ul></div>
-//       ${html_.htmlContent}
 //     </div>
 //     <footer>
-//       <div id="app" style="position: relative; width: 100%; height: 300px"></div>
 //       <div id="currentSentence"></div>
-//       <div id="currentSentenceTraditional"></div>
 //       <div class="controllers">
 //         <audio controls id="tts-audio"></audio>
-//         <div class="buttons">
-//           <button id="clear-canvas">Clear</button>
-//           <button id="pleco">Pleco</button>
-//         </div>
 //       </div>
 //     </footer>
 //   </div>
 //  </body>
 // </html>
 // `
+// fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/spanish-don-quijote/index.html`, html_)
 
 // --debug
-require("child_process").execSync('./node_modules/.bin/browserify html/elon-musk/main.js -o html/elon-musk/bundle.js')
+// require("child_process").execSync('./node_modules/.bin/browserify html/spanish-don-quijote/main.js -o html/spanish-don-quijote/bundle.js')
 
-// file = fs.readFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/elon-musk.html`).toString()
+// file = fs.readFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/spanish-don-quijote.html`).toString()
 // mydom = new JSDOM(file)
 // clean(mydom.window.document.body)
 
@@ -301,4 +268,4 @@ require("child_process").execSync('./node_modules/.bin/browserify html/elon-musk
 // colorize = ch => `<a target="_blank" href="/h.html#${ch}">${ch}</a>`
 // colorizes = s => [...s].map(ch => isHanzi(ch) ? colorize(ch) : ch).join('')
 
-// fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/elon-musk.html`, colorizes(mydom.serialize()))
+// fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/spanish-don-quijote.html`, colorizes(mydom.serialize()))

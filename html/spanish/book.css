@@ -1,0 +1,49 @@
+sentence:hover { background-color: lightblue; }
+
+#body { font-size: 26px; }
+#currentSentence { font-size: 46px; }
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: max-content;
+}
+
+footer {
+  background: black;
+  padding: 10px;
+  text-align: center;
+  color: white;
+}
+
+footer a {
+  color: white;
+  text-decoration: none;
+}
+
+.buttons {
+  padding-left: 15px;
+}
+
+.buttons button { font-size: 20px; }
+
+.controllers {
+  display: flex;
+}
+
+#tts-audio {
+  flex-grow: 1;
+}
+
+#body {
+  padding-bottom: 510px; /* eq to footer */
+}
+
+#word-dictionaries-container a {
+  color: white;
+  text-decoration: none;
+  inline-size: 50%;
+  overflow-wrap: break-word;
+}
