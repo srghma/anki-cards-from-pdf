@@ -1,7 +1,7 @@
 sentence:hover { background-color: lightblue; }
 
-#body { font-size: 26px; }
-#currentSentence { font-size: 46px; }
+#body { font-size: 20px; }
+#currentSentence { font-size: 26px; }
 
 footer {
     position: fixed;
@@ -46,4 +46,8 @@ footer a {
   text-decoration: none;
   inline-size: 50%;
   overflow-wrap: break-word;
+}
+
+#prev-button, #next-button {
+  padding: 20px;
 }

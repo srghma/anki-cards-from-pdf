@@ -76,6 +76,15 @@ function addLinks(text) {
   return htmlText
 }
 
+function findFirstNonSiblingSentenceElement(root) {
+  const nodeIterator = document.createNodeIterator(
+    document.body,
+    NodeFilter.SHOW_ELEMENT,
+    (node) => node.nodeName.toLowerCase() === 'sentence' ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT
+  )
+  return nodeIterator.nextNode()
+}
+
 document.addEventListener("DOMContentLoaded", async function(){
   const params = new Proxy(new URLSearchParams(window.location.search), { get: (searchParams, prop) => searchParams.get(prop) })
   const bookName = decodeURIComponent(params.name)
@@ -93,11 +102,7 @@ document.addEventListener("DOMContentLoaded", async function(){
   let currentlySelectedElement = null
   const googleAudioEl = document.getElementById('tts-audio')
 
-  getElementByIdRequired("body").addEventListener('click', function(event) {
-    event.preventDefault()
-
-    const element = goUpUntilFind(event.target, element => element.tagName === 'SENTENCE', 4)
-
+  function selectElement(element) {
     if (element === currentlySelectedElement) {
       googleAudioEl.play()
       return
@@ -112,5 +117,34 @@ document.addEventListener("DOMContentLoaded", async function(){
     googleAudioEl.src = getAudioGoogleUrl(text)
     googleAudioEl.load()
     googleAudioEl.play()
+  }
+
+  getElementByIdRequired("body").addEventListener('click', function(event) {
+    event.preventDefault()
+    const element = goUpUntilFind(event.target, element => element.tagName === 'SENTENCE', 4)
+    if (!element) { throw new Error('no element') }
+    selectElement(element)
   }, false)
+
+  const onNextPrevButtonClick = prevOrNext => event => {
+    event.preventDefault()
+
+    const elements = Array.from(document.querySelectorAll('sentence'))
+    let nextSentenceElement
+
+    if (!currentlySelectedElement) {
+      nextSentenceElement = elements[0]
+    } else {
+      const currentlySelectedElementIndex = elements.findIndex(x => x === currentlySelectedElement)
+      const requiredElementIndex = prevOrNext === "prev" ? currentlySelectedElementIndex - 1 : currentlySelectedElementIndex + 1
+      nextSentenceElement = elements[requiredElementIndex]
+    }
+
+    if (!nextSentenceElement) { return }
+
+    selectElement(nextSentenceElement)
+  }
+
+  getElementByIdRequired("prev-button").addEventListener('click', onNextPrevButtonClick("prev"), false)
+  getElementByIdRequired("next-button").addEventListener('click', onNextPrevButtonClick("next"), false)
 })

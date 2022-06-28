@@ -244,6 +244,7 @@ function addSentences(html) {
 // addSentences(html[8].html)
 // addSentences("<div> 在经济大衰退袭来的20世纪30年代，约书亚陷入了金融危机。他无法偿还用来购买设备的银行贷款，导致5 000亩土地被查封。“从那时起，父亲不再相信银行，并且不再存钱。”斯科特·霍尔德曼说。他后来获得了和父亲同一所按摩学校的按摩师学位，并成为世界顶尖的脊柱病治疗专家。1934年，失去农场的约书亚开始四处漂泊，而几十年后自己的孙子也重复着这种生活。斯科特身高6英尺3英寸(约1.9米)，在成为一名按摩师之前，做过诸如建筑工人和牛仔竞技表演者等各种工作。</div>")
 
+xlink:href="../images/img0005.jpeg"
 htmlContent = html.map(x => '<chapter>' + addSentences(x.html) + '</chapter>').join('\n').replace(/src="\.\.\/Images/g, 'src="Images').replace(/\.\.\/Text\/chapter\d\d\.xhtml#/g, '#')
 
 html_ = {
