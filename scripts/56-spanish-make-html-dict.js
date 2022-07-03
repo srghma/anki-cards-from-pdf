@@ -54,12 +54,12 @@ style = [
   '}</style>'
 ]
 
-conjucations = await sd2json("/home/srghma/Desktop/es-conjugation-goldendict/es-conjugation.ifo")
+conjucations = await sd2json("/home/srghma/Desktop/esstarsict/EsRu/esru-es-conjugation-goldendict/es-conjugation.ifo")
 conjucations = conjucations.docs
 conjucations = conjucations.map(R.over(R.lensProp('trns'), x => x.join('').replace(style.join(''), '')))
 conjucations = R.sortBy(R.prop('_id'), conjucations)
 
-esRu = await sd2json("/home/srghma/Desktop/Словари StarDict/Иностранные словари/Испанско-Русский словарь/stardictesru/UniversalEsRu.ifo")
+esRu = await sd2json("/home/srghma/Desktop/esstarsict/EsRu/esru-UniversalEsRu/UniversalEsRu.ifo")
 esRu = esRu.docs
 esRu = esRu.map(R.over(R.lensProp('trns'), xs => {
   xs = xs || []
@@ -157,7 +157,7 @@ conjucationsMap = R.fromPairs(conjucations.map(x => [x._id, x.trns])); null
 
 // string = new TextDecoder("windows-1252").decode(uint8array);
 
-etimologias_cacheMap = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/etimologias_with_ru_cache.json').toString())
+etimologias_cacheMap = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/html/spanish/etimologias_with_ru_cache.json').toString())
 etimologias_cacheMap = R.fromPairs(etimologias_cacheMap.map(x => x.allKeys.map(key => [key, { etimologyEs: x.value, etimologyRu: x.ruText }])).flat());null
 
 mostused = await readStreamArray(fs.createReadStream("/home/srghma/projects/anki-cards-from-pdf/spanish-data-input/10000_formas.cvs", { encoding: "latin1" }).pipe(csv({ separator: "\t", headers: "freqIndex esWordWithAccent".split(' ') })))
@@ -176,12 +176,12 @@ esAndGoogleTranslations = R.sortBy(R.prop('es'), esAndGoogleTranslations)
 esAndGoogleTranslationsMap = esAndGoogleTranslations.map(x => [x.es, R.omit(['es'], x)])
 esAndGoogleTranslationsMap = R.fromPairs(esAndGoogleTranslationsMap);null
 
-function JSONstringifyClean(jsonObject) {
+function cleanObject(jsonObject) {
   var clone = JSON.parse(JSON.stringify(jsonObject))
   for(var prop in clone)
       if(clone[prop] == null)
           delete clone[prop];
-  return JSON.stringify(clone);
+  return clone;
 }
 
 bucketIds = {
@@ -205,13 +205,13 @@ isOther = x => x > bucketIds.w6
 
 onlyPick = is => R.pickBy((_, key) => is(key))
 
-fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/html/spanish/info-1.json',     JSONstringifyClean(onlyPick(is1)(esAndGoogleTranslationsMap)))
-fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/html/spanish/info-2.json',     JSONstringifyClean(onlyPick(is2)(esAndGoogleTranslationsMap)))
-fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/html/spanish/info-3.json',     JSONstringifyClean(onlyPick(is3)(esAndGoogleTranslationsMap)))
-fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/html/spanish/info-4.json',     JSONstringifyClean(onlyPick(is4)(esAndGoogleTranslationsMap)))
-fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/html/spanish/info-5.json',     JSONstringifyClean(onlyPick(is5)(esAndGoogleTranslationsMap)))
-fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/html/spanish/info-6.json',     JSONstringifyClean(onlyPick(is6)(esAndGoogleTranslationsMap)))
-fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/html/spanish/info-other.json', JSONstringifyClean(onlyPick(isOther)(esAndGoogleTranslationsMap)))
+fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/html/spanish/info-1.json',     JSON.stringify(cleanObject(onlyPick(is1)(esAndGoogleTranslationsMap))))
+fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/html/spanish/info-2.json',     JSON.stringify(cleanObject(onlyPick(is2)(esAndGoogleTranslationsMap))))
+fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/html/spanish/info-3.json',     JSON.stringify(cleanObject(onlyPick(is3)(esAndGoogleTranslationsMap))))
+fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/html/spanish/info-4.json',     JSON.stringify(cleanObject(onlyPick(is4)(esAndGoogleTranslationsMap))))
+fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/html/spanish/info-5.json',     JSON.stringify(cleanObject(onlyPick(is5)(esAndGoogleTranslationsMap))))
+fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/html/spanish/info-6.json',     JSON.stringify(cleanObject(onlyPick(is6)(esAndGoogleTranslationsMap))))
+fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/html/spanish/info-other.json', JSON.stringify(cleanObject(onlyPick(isOther)(esAndGoogleTranslationsMap))))
 
 renderTable = (esAndGoogleTranslations, first10000) => {
   const td         = (x) => String.raw`<td>${x}</td>`
@@ -255,7 +255,7 @@ renderTable = (esAndGoogleTranslations, first10000) => {
   })
 }
 
-renderTable(esAndGoogleTranslations.filter(x => x.es === 'abordar'), false)
+// renderTable(esAndGoogleTranslations.filter(x => x.es === 'abordar'), false)
 
 renderHtml = (esAndGoogleTranslations, first10000) => `<!DOCTYPE HTML>
 <html>

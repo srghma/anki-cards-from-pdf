@@ -94,7 +94,10 @@ function searchForUntil({ id, allInfos, predicate }) {
     get: (searchParams, prop) => searchParams.get(prop),
   })
 
+  if (!params.q) { document.body.innerHTML = 'error'; return }
+
   const word = decodeURIComponent(params.q)
+
   document.title = `search ${word}`
 
   // console.log(id)
