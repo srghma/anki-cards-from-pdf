@@ -241,13 +241,12 @@ htmlContent = html.map(x => ({
   htmlWithSentences: `<chapter>${fixImagesSrc(addSentences(x.html))}</chapter>`,
 }))
 
-html_ = {
-  title: epub.metadata.title,
-  css: css.map(x => x.href.replace(/(OEBPS|OPS)\//g, '')),
-  toc: htmlContent.map(x => x.title).filter(Boolean),
-  htmlContent: htmlContent.map(x => x.htmlWithSentences).join('\n'),
-}
-fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/spanish/${dir}.json`, JSON.stringify(html_))
+cssHrefs = css.map(x => x.href.replace(/(OEBPS|OPS)\//g, ''))
+
+fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/spanish/${dir}.json`, JSON.stringify({ title: epub.metadata.title, css: cssHrefs, toc: htmlContent.map(x => x.title).filter(Boolean), htmlContent: htmlContent.map(x => x.htmlWithSentences).join('\n') }))
+htmlContent.forEach(({ title, htmlWithSentences }, index) => {
+  fs.writeFileSync(`/home/srghma/projects/anki-cards-from-pdf/html/spanish/${dir}--${index + 1}.json`, JSON.stringify({ title: `${index + 1} | ${title}`, toc: [], css: cssHrefs, htmlContent: htmlWithSentences }))
+})
 
 dom.window.document.body.innerHTML = htmlContent.map(x => x.htmlWithSentences).join('\n')
 elonMuskWords = R.uniq(Array.from(dom.window.document.body.querySelectorAll('sentence')).map(x => x.textContent).join(' ').toLowerCase().replace(/[?\.\-\—¿,;\:\d\)\(»«~_!@#$%^&*()\[\]\\\/,.?":;{}|<>=+\-`\'\”\“¡]/gi, ' ').split(' ').filter(x => x).sort()).filter(x => x.length > 2)

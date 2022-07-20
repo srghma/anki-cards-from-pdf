@@ -41,7 +41,7 @@ padding-left: -15px;
 }
 .xdxf def {
 display: block;
-border-color: #e3e3e3;
+border-color: #ffffff;
 border-width: 1px;
 border-style: dashed;
 margin: 1px;
@@ -98,7 +98,7 @@ font-style: italic;
 }
 .xdxf dtrn {
 font-weight: bold;
-color: #dd7800;
+color: #ffffff;
 }
 .xdxf tr:before {
 content: "[";

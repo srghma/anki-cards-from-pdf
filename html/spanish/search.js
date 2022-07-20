@@ -28,7 +28,7 @@ function mkRegexThatSearchesAccentedAndNonAccentedLetters(str) {
 }
 
 function addLinksToXdxf(htmlStr) {
-  htmlStr = htmlStr.replace(/<kref>(.*?)<\/kref>/g, (_match, g1) => `<a class="kref" target="_blank" href="search?q=${encodeURIComponent(g1)}">${g1}</a>`)
+  htmlStr = htmlStr.replace(/<kref>(.*?)<\/kref>/g, (_match, g1) => `<a class="kref" target="_blank" href="search.html?q=${encodeURIComponent(g1)}">${g1}</a>`)
   return htmlStr
 }
 

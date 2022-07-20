@@ -1,18 +1,63 @@
+const zip = (a, b) => a.map((k, i) => [k, b[i]]);
+const zipWith = (f, a, b) => a.map((k, i) => f(k, b[i]));
+const getElementByIdRequired = (id) => {
+  const element = document.getElementById(id)
+  if (!element) { throw new Error(`no #${id}`) }
+  return element
+}
+
+const userDictionaryFromLanguageReactor_urls = `
+https://www.babla.ru/%D1%81%D0%BF%D1%80%D1%8F%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/%D0%B8%D1%81%D0%BF%D0%B0%D0%BD%D1%81%D0%BA%D0%B8%D0%B9/WORD
+https://conjugator.reverso.net/conjugation-spanish-verb-WORD.html
+https://en.bab.la/dictionary/spanish-english/WORD
+https://dictionary.reverso.net/spanish-english/WORD
+https://www.lingvolive.com/ru-ru/translate/es-ru/WORD
+lingvo://article/?WORD
+/search?q=WORD
+/search.html?q=WORD
+https://en.m.wiktionary.org/wiki/WORD
+http://www.spanishdict.com/translate/WORD
+https://context.reverso.net/translation/english-russian/WORD
+https://etimologias.dechile.net/?WORD
+https://etimologias-dechile-net.translate.goog/?WORD&_x_tr_sch=http&_x_tr_sl=es&_x_tr_tl=ru&_x_tr_hl=en&_x_tr_pto=wapp
+`.trim().split('\n').map(x => x.trim())
+
+const userDictionaryFromLanguageReactor_names = `
+conjucations babla
+conjugations rev
+dict babla
+dict rev
+abbyy
+abbyy offline
+search
+search.html
+wiki
+spanishdict
+context
+ETIMOLOGY
+RU ETIMOLOGY
+`.trim().split('\n').map(x => x.trim())
+
+const userDictionaryFromLanguageReactor = zipWith((url, name) => ({ url, name }), userDictionaryFromLanguageReactor_urls, userDictionaryFromLanguageReactor_names)
+
+function renderHtmlOfLinks(spanishWord, etimology_link) {
+  const linksHtml = userDictionaryFromLanguageReactor.map(({ url, name }) => {
+    return `<a target="_blank" href="${url.replace('WORD', encodeURIComponent(spanishWord.toLowerCase()))}">${name}</a>`
+  })
+
+  const etimologiasLinkHtml = etimology_link
+    ? [`<a target="_blank" href="https://etimologias.dechile.net/?${encodeURIComponent(etimology_link)}">etimology ${etimology_link}</a>`,
+       `<a target="_blank" href="https://etimologias-dechile-net.translate.goog/?${encodeURIComponent(etimology_link)}&_x_tr_sch=http&_x_tr_sl=es&_x_tr_tl=ru&_x_tr_hl=en&_x_tr_pto=wapp">ru etimology ${etimology_link}</a>`]
+    : []
+    
+  return [...linksHtml, ...etimologiasLinkHtml].filter(x => x).join(', ')
+}
+
+
+
 function removeSpans() {
   event.preventDefault()
   document.querySelector('.conjugations').innerHTML = document.querySelector('.conjugations').innerHTML.replace(/<span[^>]+>([^<]+)<\/span>/g, '$1')
-}
-
-function translateEtimologias(event) {
-  event.preventDefault()
-  const text = document.querySelector('.etimologias').textContent
-  window.open(`https://translate.google.com/?hl=ru&sl=es&tl=ru&text=${encodeURIComponent(text)}&op=translate`)
-}
-
-function openEtimologias(event) {
-  event.preventDefault()
-  const text = document.querySelector('.es').textContent
-  window.open(`https://cse.google.com/cse?cx=partner-pub-5576230436650581%3A5670846563&ie=ISO-8859-1&q=${encodeURIComponent(text)}&sa=Buscar&siteurl=etimologias.dechile.net`)
 }
 
 ;(async function(){
@@ -59,4 +104,6 @@ function openEtimologias(event) {
   document.querySelector('.conjugations').innerHTML = data.conjugations || ""
   document.querySelector('.etimologias').innerHTML = data.etimologyEs || ""
   document.querySelector('.etimologias-ru').innerHTML = data.etimologyRu.split('\n').join('<br>') || ""
+  
+  getElementByIdRequired("buttons-container").innerHTML = renderHtmlOfLinks(word, null)
 })();

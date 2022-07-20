@@ -10,6 +10,10 @@ const loadStyle = function(src) {
   document.head.append(s);
 }
 
+
+
+
+
 const zip = (a, b) => a.map((k, i) => [k, b[i]]);
 const zipWith = (f, a, b) => a.map((k, i) => f(k, b[i]));
 const getElementByIdRequired = (id) => {
@@ -28,7 +32,8 @@ lingvo://article/?WORD
 /search?q=WORD
 /search.html?q=WORD
 https://en.m.wiktionary.org/wiki/WORD
-https://www.spanishdict.com/translate/WORD
+http://www.spanishdict.com/translate/WORD
+https://context.reverso.net/translation/english-russian/WORD
 `.trim().split('\n').map(x => x.trim())
 
 const userDictionaryFromLanguageReactor_names = `
@@ -42,13 +47,55 @@ search
 search.html
 wiki
 spanishdict
+context
 `.trim().split('\n').map(x => x.trim())
+
+const userDictionaryFromLanguageReactor = zipWith((url, name) => ({ url, name }), userDictionaryFromLanguageReactor_urls, userDictionaryFromLanguageReactor_names)
+
+function renderHtmlOfLinks(spanishWord, etimology_link) {
+  const linksHtml = userDictionaryFromLanguageReactor.map(({ url, name }) => {
+    return `<a target="_blank" href="${url.replace('WORD', encodeURIComponent(spanishWord.toLowerCase()))}">${name}</a>`
+  })
+  
+  const normalize = x => {
+    [
+      [ 'áàãâ', 'a.' ],
+      [ 'éèê',  'e.' ],
+      [ 'íìî',  'i.' ],
+      [ 'õóòô', 'o.' ],
+      [ 'úùû',  'u.' ],
+      [ 'ñ',    'n.' ],
+    ].forEach(([from, toChar]) => {
+      from.split('').forEach(fromChar => {
+        x.replace(new RegExp(fromChar, "gi"), toChar)
+      })
+    })
+    return x
+  }
+  
+  const spanishWordWithReplacedLetters = normalize(spanishWord.toLowerCase())
+  
+  const etimologiasLinkHtml1 = 
+    [`<a target="_blank" href="https://etimologias.dechile.net/?${encodeURIComponent(spanishWordWithReplacedLetters)}">ETIMOLOGY</a>`,
+    `<a target="_blank" href="https://etimologias-dechile-net.translate.goog/?${encodeURIComponent(spanishWordWithReplacedLetters)}&_x_tr_sch=http&_x_tr_sl=es&_x_tr_tl=ru&_x_tr_hl=en&_x_tr_pto=wapp">RU ETIMOLOGY</a>`]
+
+  const etimologiasLinkHtml = etimology_link
+    ? [`<a target="_blank" href="https://etimologias.dechile.net/?${encodeURIComponent(etimology_link)}">etimology ${etimology_link}</a>`,
+       `<a target="_blank" href="https://etimologias-dechile-net.translate.goog/?${encodeURIComponent(etimology_link)}&_x_tr_sch=http&_x_tr_sl=es&_x_tr_tl=ru&_x_tr_hl=en&_x_tr_pto=wapp">ru etimology ${etimology_link}</a>`]
+    : []
+    
+  return [...linksHtml, ...etimologiasLinkHtml1, ...etimologiasLinkHtml].filter(x => x).join(', ')
+}
+
+
+
+
+
+
 
 const getAudioGoogleUrl = text => `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=es&total=1&idx=0&client=tw-ob&prev=input&ttsspeed=0.75`
 
 const getCurrentSentenceTextContent = () => document.getElementById('currentSentence').textContent
-
-const userDictionaryFromLanguageReactor = zipWith((url, name) => ({ url, name }), userDictionaryFromLanguageReactor_urls, userDictionaryFromLanguageReactor_names)
 
 function goUpUntilFind(element, p, maxDepth) {
   if (maxDepth <= 0) { return null }
@@ -70,7 +117,7 @@ function findEtymology(etimologias_with_ru_cache, spanishWord, etimology_link) {
       [ 'úùû',  'u' ],
     ].forEach(([from, toChar]) => {
       from.split('').forEach(fromChar => {
-        x.replace(new RegExp(fromChar, "g"), toChar)
+        x.replace(new RegExp(fromChar, "gi"), toChar)
       })
     })
     return x
@@ -84,22 +131,16 @@ function findEtymology(etimologias_with_ru_cache, spanishWord, etimology_link) {
   return etimologias_with_ru_cacheElement
 }
 
+
 window.renderInContainer = function(spanishWord, etimology_link) {
+  console.log({ spanishWord, etimology_link })
   getElementByIdRequired("word-dictionaries-container--etimologias-es").innerHTML = ''
   getElementByIdRequired("word-dictionaries-container--etimologias-ru").innerHTML = ''
-
-  const linksHtml = userDictionaryFromLanguageReactor.map(({ url, name }) => {
-    return `<a target="_blank" href="${url.replace('WORD', encodeURIComponent(spanishWord))}">${name}</a>`
-  })
-
-  const etimologiasLinkHtml = etimology_link
-    ? `<a target="_blank" href="https://etimologias.dechile.net/?${encodeURIComponent(etimology_link)}">etimology ${etimology_link}</a>`
-    : `<a target="_blank" href="https://etimologias.dechile.net/?${encodeURIComponent(spanishWord)}">etimology</a>`
 
   // console.log(etimologias_with_ru_cache)
 
   getElementByIdRequired("word-dictionaries-container--current-word").textContent = spanishWord
-  getElementByIdRequired("word-dictionaries-container--link").innerHTML = [...linksHtml, etimologiasLinkHtml].join(', ')
+  getElementByIdRequired("word-dictionaries-container--link").innerHTML = renderHtmlOfLinks(spanishWord, etimology_link)
 
   if (etimologias_with_ru_cache) {
     const etimologias_with_ru_cacheElement = findEtymology(etimologias_with_ru_cache, spanishWord, etimology_link)
@@ -111,11 +152,10 @@ window.renderInContainer = function(spanishWord, etimology_link) {
 }
 
 function addLinks(text) {
-  getElementByIdRequired("word-dictionaries-container--etimologias-es").innerHTML = ''
-  getElementByIdRequired("word-dictionaries-container--etimologias-ru").innerHTML = ''
-
   const regex = /[áàãâéèêíìîõóòôúùûñ\w]+/gi
-  console.log(etimologias_cache__urls__without_nulls)
+
+  // console.log(etimologias_cache__urls__without_nulls)
+
   const htmlText = text.replace(regex, word => {
     const etimology_link = etimologias_cache__urls__without_nulls[word.toLowerCase()]
     return `<span ${etimology_link ? `class="has-etimology"` : ''} onclick="window.renderInContainer('${word}', ${etimology_link ? `'${etimology_link}'` : `null`})">${word}</span>`
@@ -123,9 +163,7 @@ function addLinks(text) {
 
   const firstWord = text.match(regex)[0]
 
-  if (firstWord) window.renderInContainer(firstWord)
-
-  return htmlText
+  return { htmlText, firstWord }
 }
 
 function findFirstNonSiblingSentenceElement(root) {
@@ -142,37 +180,51 @@ document.addEventListener("DOMContentLoaded", async function(){
   const bookName = decodeURIComponent(params.name)
   const bookData = await (fetch(`./${bookName}.json`).then(x => x.json()))
 
+  let googleAudioEl = document.getElementById('tts-audio')
+
   if (params.disableAudio) {
-    document.getElementById('tts-audio').remove()
+    googleAudioEl.remove()
+    googleAudioEl = null
     // document.getElementById('prev-button').remove()
     // document.getElementById('next-button').remove()
   }
 
   document.title = bookData.title
 
-  bookData.css.map(x => `${bookName}/${x}`).forEach(loadStyle)
+  bookData.css.map(x => `${bookName.replace(/--\d+/, '')}/${x}`).forEach(loadStyle)
 
   getElementByIdRequired('body').innerHTML = `<div><ul>${bookData.toc.map(x => wrapNode('sentence', x)).map(x => wrapNode('li', x)).join('\n')}</ul></div>
-  ${bookData.htmlContent.replace(/IMAGES/g, `${bookName}/images`)}`
+  ${bookData.htmlContent.replace(/IMAGES/g, `${bookName.replace(/--\d+/, '')}/images`)}`
 
   ///////////////////////////
 
   let currentlySelectedElement = null
 
   function selectElement(element) {
-    const googleAudioEl = params.disableAudio ? document.getElementById('tts-audio') : null
-
     if (element === currentlySelectedElement) {
       if (googleAudioEl) { googleAudioEl.play() }
       return
     }
 
+    currentlySelectedElement && currentlySelectedElement.classList.remove("current")
     currentlySelectedElement = element
+    currentlySelectedElement.classList.add("current")
+    // currentlySelectedElement.classList.add("visited")
 
     const text = currentlySelectedElement.textContent
 
-    document.getElementById('currentSentence').innerHTML = addLinks(text)
+    getElementByIdRequired("word-dictionaries-container--etimologias-es").innerHTML = ''
+    getElementByIdRequired("word-dictionaries-container--etimologias-ru").innerHTML = ''
+
+    const { htmlText, firstWord } = addLinks(text)
+    if (firstWord) window.renderInContainer(firstWord)
+    document.getElementById('currentSentence').innerHTML = htmlText
+    
     document.getElementById('currentSentence--google-link').href = `https://translate.google.com/?sl=es&tl=ru&text=${encodeURIComponent(text)}&op=translate`
+    document.getElementById('currentSentence--deepl-link').href = `https://www.deepl.com/translator#es/ru/${encodeURIComponent(text)}`
+    document.getElementById('currentSentence--spanishdict-link').href = `http://www.spanishdict.com/translate/${encodeURIComponent(text)}`
+    
+    //console.log(document.getElementById('currentSentence--deepl-link'))
 
     if (googleAudioEl) {
       googleAudioEl.src = getAudioGoogleUrl(text)
@@ -184,7 +236,7 @@ document.addEventListener("DOMContentLoaded", async function(){
   getElementByIdRequired("body").addEventListener('click', function(event) {
     event.preventDefault()
     const element = goUpUntilFind(event.target, element => {
-      console.log('goUpUntilFind: ', element.tagName)
+      // console.log('goUpUntilFind: ', element.tagName)
       return element.tagName === 'SENTENCE'
     }, 4)
     if (!element) { throw new Error('goUpUntilFind: no element') }
