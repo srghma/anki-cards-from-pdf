@@ -205,7 +205,7 @@ etimologias_cache_with_ru__old = JSON.parse(fs.readFileSync('/home/srghma/projec
 etimologias_cache_with_ru__new = [...etimologias_cache_with_ru, ...etimologias_cache_with_ru__old]
 fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/html/spanish/etimologias_with_ru_cache.json', JSON.stringify(etimologias_cache_with_ru__new))
 
-// // require('csv-writer').createObjectCsvWriter({ path: '/home/srghma/Downloads/output.txt', header: ["key", "value"].map(x => ({ id: x, title: x })) }).writeRecords(output_).then(() => { console.log('...Done') })
+// require('csv-writer').createObjectCsvWriter({ path: '/home/srghma/Downloads/output.txt', header: ["key", "value"].map(x => ({ id: x, title: x })) }).writeRecords(output_).then(() => { console.log('...Done') })
 // require('csv-writer').createObjectCsvWriter({ path: '/home/srghma/Downloads/output.txt', header: ["id", "etimology"] }).writeRecords(output_).then(() => { console.log('...Done') })
 
 // // =GOOGLETRANSL(text, "es", "ru")
