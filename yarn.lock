@@ -2965,6 +2965,11 @@
     "pako" "^1.0.10"
     "sanitize-html" "^1.20.1"
 
+"dictionary-es@^3.2.0":
+  "integrity" "sha512-xhS9FKiTit9CHFkoSo1QOvTxvVFer2cxo2YRishLlC0EVO8uqWxZTv+oVm6BTLM7Ua8F7p25hRASD5s2TRNh9Q=="
+  "resolved" "https://registry.npmjs.org/dictionary-es/-/dictionary-es-3.2.0.tgz"
+  "version" "3.2.0"
+
 "diffie-hellman@^5.0.0":
   "integrity" "sha512-kqag/Nl+f3GwyK25fhUMYj81BUOrZ9IuJsjIcDE5icNM9FJHAVm3VcUDxdLPoQtTuUylWm6ZIknYJwwaPxsUzg=="
   "resolved" "https://registry.npmjs.org/diffie-hellman/-/diffie-hellman-5.0.3.tgz"
@@ -3160,6 +3165,11 @@
   "integrity" "sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A=="
   "resolved" "https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz"
   "version" "8.0.0"
+
+"emoji-regex@^9.0.0":
+  "integrity" "sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg=="
+  "resolved" "https://registry.npmjs.org/emoji-regex/-/emoji-regex-9.2.2.tgz"
+  "version" "9.2.2"
 
 "enabled@2.0.x":
   "integrity" "sha512-AKrN98kuwOzMIdAizXGI86UFBoo26CL21UM763y1h/GMSJ4/OHU9k2YlsmBpyScFo/wbLzWQJBMCW4+IO3/+OQ=="
@@ -6255,6 +6265,11 @@
   dependencies:
     "jsesc" "~0.5.0"
 
+"remove-accents@^0.4.2":
+  "integrity" "sha512-7pXIJqJOq5tFgG1A2Zxti3Ht8jJF337m4sowbuHsW30ZnkQFnDzy9qBNhgzX8ZLW4+UBcXiiR7SwR6pokHsxiA=="
+  "resolved" "https://registry.npmjs.org/remove-accents/-/remove-accents-0.4.2.tgz"
+  "version" "0.4.2"
+
 "request@^2.88.2":
   "integrity" "sha512-MsvtOrfG9ZcrOwAW+Qi+F6HbD0CWXEh9ou77uOb7FM2WPhwT7smM833PzanhJLsgXjN89Ir6V2PczXNnMpwKhw=="
   "resolved" "https://registry.npmjs.org/request/-/request-2.88.2.tgz"
@@ -6343,6 +6358,18 @@
     "hash-base" "^3.0.0"
     "inherits" "^2.0.1"
 
+"rosaenlg-gender-es@3.2.4":
+  "integrity" "sha512-LkHoxVDug36G45el2aB0hYqeWf1XCj8g6uCClR61UDoU4BcjlDVZl8PgZFYmS/R3PphfmUgNPiFnm7QI2HsUqQ=="
+  "resolved" "https://registry.npmjs.org/rosaenlg-gender-es/-/rosaenlg-gender-es-3.2.4.tgz"
+  "version" "3.2.4"
+
+"rosaenlg-pluralize-es@3.2.4":
+  "integrity" "sha512-f8Me65QmT73gsnTuwYN+Ka35qBvIl7FV73LrBjKNNeEOPOn7CVS34h28RYk6laQbMZvf1Dfvb12dCT0ntO/xhg=="
+  "resolved" "https://registry.npmjs.org/rosaenlg-pluralize-es/-/rosaenlg-pluralize-es-3.2.4.tgz"
+  "version" "3.2.4"
+  dependencies:
+    "remove-accents" "^0.4.2"
+
 "safe-buffer@^5.0.1", "safe-buffer@^5.1.0", "safe-buffer@^5.1.1", "safe-buffer@^5.1.2", "safe-buffer@^5.2.0", "safe-buffer@~5.2.0", "safe-buffer@5.2.1":
   "integrity" "sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ=="
   "resolved" "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.2.1.tgz"
@@ -6397,6 +6424,11 @@
     "es6-symbol" "^3.1.1"
     "estree-is-function" "^1.0.0"
     "get-assigned-identifiers" "^1.1.0"
+
+"sdal@^0.0.1":
+  "integrity" "sha512-sDTBgWAfCmP3Z/XKHnyBT6tmXweDnEeOkPI6OZqQp8hSqDUCB4tgZEXgKFH/+6TlEC09LUnWVI5Dbhd3i5Fn+A=="
+  "resolved" "https://registry.npmjs.org/sdal/-/sdal-0.0.1.tgz"
+  "version" "0.0.1"
 
 "semver@^5.6.0":
   "integrity" "sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ=="
@@ -6627,6 +6659,19 @@
   "integrity" "sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA=="
   "resolved" "https://registry.npmjs.org/sourcemap-codec/-/sourcemap-codec-1.4.8.tgz"
   "version" "1.4.8"
+
+"spanish-words@^2.2.4":
+  "integrity" "sha512-0hZqHgWAqvcKWDG5s2qVgbaSL9ye2nNMfH3ljlidcTWrTXsrl1+br1ojT6WVHiEKy8VoXDBC1UaP1qmwE9o5fw=="
+  "resolved" "https://registry.npmjs.org/spanish-words/-/spanish-words-2.2.4.tgz"
+  "version" "2.2.4"
+  dependencies:
+    "rosaenlg-gender-es" "3.2.4"
+    "rosaenlg-pluralize-es" "3.2.4"
+
+"spanishdal@^0.1.1":
+  "integrity" "sha512-U15TCFgrJ3z5OVoMJ74V7w2kXKNh1CgY3MyRYtX2imLIN/bwEnbmlb5mx66JyTjCFLXi6ZCtT/IpLQR90dhY3w=="
+  "resolved" "https://registry.npmjs.org/spanishdal/-/spanishdal-0.1.1.tgz"
+  "version" "0.1.1"
 
 "split-retain@^1.0.1":
   "integrity" "sha1-xwKLW6/VTuU64sJn5gjaj2BesqY="
@@ -7451,6 +7496,13 @@
   "integrity" "sha512-PxP05UYnSeqhkkcHeT3xhpY/BsMOX6URw4ZW9ljOlhkQ6UZRRj/xvS3o5kG+fwefCztUtW36+DHBBNnWfXPIsw=="
   "resolved" "https://registry.npmjs.org/windows-1252/-/windows-1252-3.0.4.tgz"
   "version" "3.0.4"
+
+"wink-tokenizer@^5.3.0":
+  "integrity" "sha512-O/yAw0g3FmSgeeQuYAJJfP7fVPB4A6ay0018qASh79aWmIOyPYy4j4r9EQT8xBjicja6lCLvgRVAybmEBaATQA=="
+  "resolved" "https://registry.npmjs.org/wink-tokenizer/-/wink-tokenizer-5.3.0.tgz"
+  "version" "5.3.0"
+  dependencies:
+    "emoji-regex" "^9.0.0"
 
 "winston-transport@^4.4.0":
   "integrity" "sha512-Lc7/p3GtqtqPBYYtS6KCN3c77/2QCev51DvcJKbkFPQNoj1sinkGwLGFDxkXY9J6p9+EPnYs+D90uwbnaiURTw=="

@@ -60,7 +60,7 @@ try { tatoeba_cache = JSON.parse(fs.readFileSync(tatoeba_with_cache_path).toStri
 let eachNIndex = 0
 exports.tatoeba_with_cache = async function tatoeba_with_cache(dom, word) {
   const cached = tatoeba_cache[word]
-  if (cached) { return cached }
+  if (tatoeba_cache.hasOwnProperty(word)) { return cached }
 
   const x = await exports.tatoeba(dom, word)
   // const x = null

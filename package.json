@@ -21,6 +21,7 @@
     "csv-stringify": "^6.0.5",
     "csv-writer": "^1.6.0",
     "dict-sd2json": "^0.9.1",
+    "dictionary-es": "^3.2.0",
     "docx": "^7.3.0",
     "entities": "^4.3.0",
     "epub": "^1.2.1",
@@ -67,5 +68,11 @@
     "xlsx": "^0.18.5",
     "xmlhttprequest": "^1.8.0",
     "yaml": "^2.1.0"
+  },
+  "devDependencies": {
+    "sdal": "^0.0.1",
+    "spanish-words": "^2.2.4",
+    "spanishdal": "^0.1.1",
+    "wink-tokenizer": "^5.3.0"
   }
 }
