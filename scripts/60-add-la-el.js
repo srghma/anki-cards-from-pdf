@@ -27,15 +27,17 @@ spanish_words = require('spanish-words')
 
 // type of speach tokenizer
 spanishdal = spanishdal.map(word => ({ word, ...spanish_words.getWordInfo(word) }))
+
+spanishdal_ = spanishdal.filter(x => x.gender !== "M" && x.gender !== "F")
+
 spanishdal = spanishdal.map(({ word, gender, plural }) => [{ word, gender, plural: false }, { word: plural, gender, plural: true }]).flat()
 spanishdal = R.fromPairs(spanishdal.map(({ word, gender, plural }) => [word, { gender, plural }]))
 
-// spanishdal.filter(x => x.gender !== "M" && x.gender !== "F")
 
 input = inputOrig.map(({ id, es }) => ({ id, es: myTokenizer.tokenize(es) }))
 
 input = input.map(({ id, es }) => ({ id, es: es.map(({ value, tag }) => {
-  const v = spanishdal[spanishdal.toLowerCase()]
+  const v = spanishdal[value.toLowerCase()]
   if (v) {
     let x = null
 
@@ -66,9 +68,8 @@ input = input.map(({ id, es }) => ({ id, es: es.map(({ value, tag }) => {
   return { value, tag }
 }) }))
 
-input = input.map(({ id, es }) => ({
-  id,
-  es: es.reduce(
+input_ = input.map(({ id, es }) => {
+  es = es.reduce(
     (previousValue, { value, tag }) => {
       if (tag === 'punctuation') {
         return previousValue + value
@@ -78,12 +79,24 @@ input = input.map(({ id, es }) => ({
     },
     ''
   )
-}))
+  es = " " + es
+  es = es
+  .replace(/ su (el|la|las|los) /g, ' $1 su ')
+  .replace(/¿ /g, '¿')
+  .replace(/¡ /g, '¡')
+  .replace(/ (el|la|las|los) \1 /gi, ' $1 ')
+  .trim()
+  return {
+    id,
+    es,
+  }
+})
+fs.writeFileSync('./my spanish verbs 1000 (sentences).txt', input_.map(({ id, es }) => [id, es].join('\t')).join('\n'))
 
-;(function(input){
-  let header = R.uniq(R.map(R.keys, input).flat())
-  console.log({ header })
-  header = header.map(x => ({ id: x, title: x }))
-  const s = require('csv-writer').createObjectCsvStringifier({ header }).stringifyRecords(input)
-  fs.writeFileSync('./my spanish verbs 1000 (sentences).txt', s)
-})(input);
+// ;(function(input){
+//   let header = R.uniq(R.map(R.keys, input).flat())
+//   console.log({ header })
+//   header = header.map(x => ({ id: x, title: x }))
+//   const s = require('csv-writer').createObjectCsvStringifier({ header }).stringifyRecords(input)
+//   fs.writeFileSync('./my spanish verbs 1000 (sentences).txt', s)
+// })(input);
