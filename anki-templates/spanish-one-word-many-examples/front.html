@@ -1,0 +1,76 @@
+
+<div class="examples-es examples-es--front">{{examples-es}}</div>
+
+
+<div class="xdxf xdxf--hidden-examples">{{ru-goldedict}}</div>
+
+<p class="ru">{{russian}}</p>
+
+{{#Prompt}}
+{{#Image}}
+  <div class="prompt">{{Prompt}}</div>
+{{/Image}}
+{{/Prompt}}
+
+{{#Image}}
+<div>{{Image}}</div>
+{{#Spanish}}
+<div class="english text hint">{{English}}</div>
+{{/Spanish}}
+{{^Spanish}}
+<div class="english text hint no-translation">{{English}}</div>
+{{/Spanish}}
+<div class="english audio">{{Audio English}}</div>
+{{/Image}}
+
+{{^Image}}
+{{#Spanish}}
+<div class="english text">{{English}}</div>
+{{/Spanish}}
+{{^Spanish}}
+<div class="english text no-translation">{{English}}</div>
+{{/Spanish}}
+<div class="english audio">{{Audio English}}</div>
+{{/Image}}
+
+
+
+<script>
+
+;(function() {
+const play = (type, text) => {
+  if (text) {
+  console.log('playing', text)
+    AnkiDroidJS.ankiTtsSetLanguage(type)
+    AnkiDroidJS.ankiTtsSpeak(text, 1)
+  }
+}
+
+const optionalGetTextContent = x => x ? x.textContent : null
+
+Array.from(document.querySelectorAll('.example-sentence-translation-answer')).forEach(function (element) {
+  element.addEventListener("click", function(e) {
+  e.preventDefault()
+  const answerElement = e.currentTarget
+  //console.log('playing', answerElement)
+  AnkiDroidJS.ankiTtsStop()
+
+  play('ru', optionalGetTextContent(answerElement.querySelector('.example-sentence-translation-ru')))
+  play('en', optionalGetTextContent(answerElement.querySelector('.example-sentence-translation-en')))
+  })
+})
+
+Array.from(document.querySelectorAll('.example-sentence-translation-es')).forEach(function (element) {
+  element.addEventListener("click", function(e) {
+  e.preventDefault()
+  const el = e.currentTarget
+    el.classList.add('example-sentence-translation-es--show')
+AnkiDroidJS.ankiTtsStop()
+  play('es', optionalGetTextContent(el))
+  })
+})
+
+})();
+
+</script>
+

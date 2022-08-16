@@ -24,33 +24,33 @@ input = inputOrig.map(x => x.verb)
 async function mapper(output, x, inputIndex, dom) {
   word = x
   if(!word) { throw new Error('') }
-  let transl = null
+  let tatoeba = null
   try {
-    transl = await require('./scripts/lib/tatoeba').tatoeba_with_cache(dom, word)
-    // console.log({ word, transl })
+    tatoeba = await require('./scripts/lib/tatoeba').tatoeba_with_cache(dom, word)
+    // console.log({ word, tatoeba })
   } catch (e) {
     console.error({ word, e })
     return
   }
   output.push({
     x,
-    transl,
+    tatoeba,
   })
 }
 output = []
 mkQueue(queueSize).addAll(input.map((x, inputIndex) => async jobIndex => { await mapper(output, x, inputIndex, doms[jobIndex]) }))
 require('./scripts/lib/tatoeba').tatoeba_syncronize()
 
-bable_cache = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/bable-examples.json').toString())
+babla_cache = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/babla-examples.json').toString())
 spanishdict_cache = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/spanishdict.json').toString())
 
-output_ = R.fromPairs(output.map(x => [x.x, x.transl])); null
-input_ = input.map(word => ({ word, transl: output_[word], bable: bable_cache[word], spanishdict: spanishdict_cache[word] }))
+output_ = R.fromPairs(output.map(x => [x.x, x.tatoeba])); null
+input_ = input.map(word => ({ word, tatoeba: output_[word], babla: babla_cache[word], spanishdict: spanishdict_cache[word] }))
 input_ = input_.map(x => {
-  let transl = x.transl
-  if (transl) {
-    transl = transl.map(x => x[1])
-    transl = transl.map(x => {
+  let tatoeba = x.tatoeba
+  if (tatoeba) {
+    tatoeba = tatoeba.map(x => x[1])
+    tatoeba = tatoeba.map(x => {
       if (!x.text) { throw new Error(x) }
       if (x.translations.length === 0) { throw new Error(x) }
       // if (x.audios.length === 0) { throw new Error(x) }
@@ -61,13 +61,13 @@ input_ = input_.map(x => {
       }
     })
   }
-  return { ...x, transl }
+  return { ...x, tatoeba }
 })
-// input_[0].transl[0]
+// input_[0].tatoeba[0]
 input_ = input_.map(x => {
-  let transl = x.transl
-  if (transl) {
-    transl = transl.map(x => {
+  let tatoeba = x.tatoeba
+  if (tatoeba) {
+    tatoeba = tatoeba.map(x => {
       let ruArray = R.uniq(x.translations.flat().filter(x => x.lang_tag === 'ru').map(x => x.text))
       let enArray = R.uniq(x.translations.flat().filter(x => x.lang_tag === 'en').map(x => x.text))
       return {
@@ -78,42 +78,45 @@ input_ = input_.map(x => {
       }
     })
   }
-  // return transl
-  return { ...x, transl }
+  // return tatoeba
+  return { ...x, tatoeba }
 })
-input_ = input_.map(({ word, transl, bable, spanishdict }) => {
+input_ = input_.map(({ word, tatoeba, babla, spanishdict }) => {
   return {
     word,
-    transl: (transl || []).map(x => ({ ...x, es: x.es.trim() })),
-    bable: (bable || []).map(x => x.trim()),
+    tatoeba: (tatoeba || []).map(x => ({ ...x, es: x.es.trim() })),
+    babla: (babla || []).map(x => x.trim()),
     spanishdict: (spanishdict || []).map(x => ({ ...x, es: x.es.trim() })),
   }
 })
+// ;(function () {
+// })();
 
-// sentences = R.uniq(input_.map(x => [x.transl.map(x => x.es), [x.bable[0]], x.spanishdict.map(x => x.es)]).flat().flat())
+// sentences = R.uniq(input_.map(x => [x.tatoeba.map(x => x.es), [x.babla[0]], x.spanishdict.map(x => x.es)]).flat().flat())
 // sentences = firstThreeArray.map(x => x.firstThree).flat().map(x => x.es)
-sentences = [...noTranslSentences]
+// sentences = [...noTranslSentences]
 // // fs.writeFileSync('/home/srghma/Downloads/sdf.csv', sentences.map(JSON.stringify).join('\n'))
 // fs.writeFileSync('/home/srghma/Downloads/sdf.txt', [...noTranslSentences].join('\n'))
 sentences_transl_ru = await readStreamArray(fs.createReadStream(`/home/srghma/Downloads/sdf-_6_-_2_.csv`).pipe(csv({ separator: ",", headers: "w".split(' ') }))).then(sentencesTransl => sentencesTransl.map(x => x.w.trim()))
 sentences_transl_en = await readStreamArray(fs.createReadStream(`/home/srghma/Downloads/sdf-_6_-_1_.csv`).pipe(csv({ separator: ",", headers: "w".split(' ') }))).then(sentencesTransl => sentencesTransl.map(x => x.w.trim()))
-console.log(sentences.length, sentences_transl_ru.length, sentences_transl_en.length)
+console.log(sentences_transl_ru.length, sentences_transl_en.length)
+// console.log(sentences.length, sentences_transl_ru.length, sentences_transl_en.length)
 
 // // =GOOGLETRANSL(text, "es", "ru")
 // sentencesTransl =
 // console.log(sentences.length, sentencesTransl.length)
 
-// baidu_google_es_to_en = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/baidu_google_es_to_en.json').toString())
+// babla_google_es_to_en = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/babla_google_es_to_en.json').toString())
 // translations = R.fromPairs(R.zip(sentences, sentences_transl_en))
-// fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/baidu_google_es_to_en.json', JSON.stringify({ ...baidu_google_es_to_en, ...translations }, undefined, 2))
-baidu_google_es_to_en = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/baidu_google_es_to_en.json').toString())
+// fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/babla_google_es_to_en.json', JSON.stringify({ ...babla_google_es_to_en, ...translations }, undefined, 2))
+babla_google_es_to_en = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/babla_google_es_to_en.json').toString())
 
-// baidu_google_es_to_ru = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/baidu_google_es_to_ru.json').toString())
+// babla_google_es_to_ru = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/babla_google_es_to_ru.json').toString())
 // translations = R.fromPairs(R.zip(sentences, sentences_transl_ru))
-// fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/baidu_google_es_to_ru.json', JSON.stringify({ ...baidu_google_es_to_ru, ...translations }, undefined, 2))
-baidu_google_es_to_ru = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/baidu_google_es_to_ru.json').toString())
+// fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/babla_google_es_to_ru.json', JSON.stringify({ ...babla_google_es_to_ru, ...translations }, undefined, 2))
+babla_google_es_to_ru = JSON.parse(fs.readFileSync('/home/srghma/projects/anki-cards-from-pdf/babla_google_es_to_ru.json').toString())
 
-// input_.filter(x => (x.transl || []).length === 0 && (x.bable || []).length === 0)
+// input_.filter(x => (x.tatoeba || []).length === 0 && (x.babla || []).length === 0)
 // input_.filter(x => (x.spanishdict || []).length === 0)[0]
 
 mySpanishVerbs = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/my spanish verbs 1000.txt').pipe(csv({ separator: "\t", headers: "id en es prompt image audioen audiosp section topic chapter russian etimol etimolru rugoldendict conjugationstable".split(' ') })))
@@ -121,8 +124,8 @@ mySpanishVerbs = R.fromPairs(mySpanishVerbs.map(x => [x.id, x]));null
 
 alreadyIncludedSentences = new Set()
 noTranslSentences = new Set()
-firstThreeArray = input_.map(({ word, transl, bable, spanishdict }) => {
-  // console.log({ word, transl, bable, spanishdict })
+firstThreeArray = input_.map(({ word, tatoeba, babla, spanishdict }) => {
+  // console.log({ word, tatoeba, babla, spanishdict })
   let firstThree = []
   if (word === 'enflorar') {
     firstThree = [{ es: 'Enfloramos los bancos de la iglesia para la boda', ruArray: ['мы украсили скамьи церкви на свадьбу'], enArray: [] }]
@@ -136,8 +139,8 @@ firstThreeArray = input_.map(({ word, transl, bable, spanishdict }) => {
     const addSentences = list => {
       list.map(x => x.es).forEach(x => alreadyIncludedSentences.add(x))
     }
-    const firstThree1 = (spanishdict || []).map(({ es, en }) => ({ es: es.trim(), ruArray: [], enArray: [en] }))
-    const firstThree2 = (transl || []).map(x => {
+    const firstThree_spanishdict = (spanishdict || []).map(({ es, en }) => ({ es: es.trim(), ruArray: [], enArray: [en] }))
+    const firstThree_tatoeba = (tatoeba || []).map(x => {
       return {
         es: x.es.trim(),
         audios: x.audios,
@@ -145,19 +148,19 @@ firstThreeArray = input_.map(({ word, transl, bable, spanishdict }) => {
         enArray: x.enArray.map(x => x.trim()).sort().reverse(),
       }
     })
-    const firstThree1_included = sortAndFilter(firstThree1)
-    addSentences(firstThree1_included)
-    const firstThree2_included = sortAndFilter(firstThree2)
-    addSentences(firstThree2_included)
-    firstThree = [...firstThree1_included, ...firstThree2_included]
+    const firstThree_spanishdict_included = sortAndFilter(firstThree_spanishdict)
+    addSentences(firstThree_spanishdict_included)
+    const firstThree_tatoeba_included = sortAndFilter(firstThree_tatoeba)
+    addSentences(firstThree_tatoeba_included)
+    firstThree = [...firstThree_spanishdict_included, ...firstThree_tatoeba_included]
   }
   if (firstThree.length === 0) {
-    console.log({ word, transl, bable, spanishdict })
+    console.log({ word, tatoeba, babla, spanishdict })
     throw new Error('word')
   }
   firstThree = firstThree.map(({ es, audios, ruArray, enArray }) => {
-    const auto_ru = baidu_google_es_to_ru[es]
-    const auto_en = baidu_google_es_to_en[es]
+    const auto_ru = babla_google_es_to_ru[es]
+    const auto_en = babla_google_es_to_en[es]
     if (!auto_ru || !auto_en) {
       console.log(es)
       throw new Error('auto_ru')
@@ -218,6 +221,16 @@ csv_output = R.sortBy(R.prop('word'), firstThreeArray).map(({ word, firstThree, 
 // es_dic.aff.toString()
 // es_dic.dic.toString()
 
+sentences = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/my spanish verbs 1000 (sentences).txt').pipe(csv({ separator: "\t", headers: "id es_orig".split(' ') })))
+sentences = sentences.map(R.pick("id es_orig".split(' ')))
+
+csv_output.length
+sentences.length
+
+csv_output = csv_output.map((x, index) => ({ ...x, ...(sentences[index]) }))
+csv_output = csv_output.map(R.pick("id es_orig sentence_es sentence_audio".split(' ')))
+// csv_output = csv_output.filter(x => x.sentence_audio)
+
 ;(function(input){
   let header = R.uniq(R.map(R.keys, input).flat())
   console.log({ header })
@@ -263,12 +276,12 @@ csv_output = R.sortBy(R.prop('word'), firstThreeArray).map(({ word, firstThree, 
 // sentencesTransl = sentencesTransl.map(x => x.w.trim())
 // console.log(sentences.length, sentencesTransl.length)
 // translations = R.fromPairs(R.zip(sentences, sentencesTransl))
-// fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/baidu_google_es_to_ru.json', JSON.stringify(translations, undefined, 2))
+// fs.writeFileSync('/home/srghma/projects/anki-cards-from-pdf/babla_google_es_to_ru.json', JSON.stringify(translations, undefined, 2))
 
 // firstThreeArrayHTML = firstThreeArray.map(x => {
 //   const div = (type, text) => text ? `<div class="example-sentence-translation-${type}">${text}</div>` : ''
 //   const p = (text) => text ? `<p>${text}</p>` : ''
-//   const transl = x.firstThree.map(({ es, ruArray, enArray }) => {
+//   const tatoeba = x.firstThree.map(({ es, ruArray, enArray }) => {
 //     const answer = [
 //       div('ru', ruArray.map(p).join('')),
 //       div('en', enArray.map(p).join('')),
@@ -278,13 +291,13 @@ csv_output = R.sortBy(R.prop('word'), firstThreeArray).map(({ word, firstThree, 
 //       div('answer', answer)
 //     ].join('')
 //   }).map(x => `<div class="example-sentence-translation">${x}</div>`).join('')
-//   return { word: x.word, transl }
+//   return { word: x.word, tatoeba }
 // })
 
 
 // tatoeba_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/tatoeba_cache.json'
 // tatoeba_cache = JSON.parse(fs.readFileSync(tatoeba_with_cache_path).toString())
-// output.filter(x => x.transl.length === 0).map(x => x.x).forEach(x => {
+// output.filter(x => x.tatoeba.length === 0).map(x => x.x).forEach(x => {
 //   delete tatoeba_cache[x]
 // })
 // fs.writeFileSync(tatoeba_with_cache_path, JSON.stringify(tatoeba_cache))

@@ -1,0 +1,298 @@
+.example-sentence-translation {
+font-size: 16px;
+border-bottom-color: antiquewhite;
+border-bottom-style: dotted;
+}
+
+.example-sentence-translation-es { font-size: 130%; background-color: red; color: red; }
+.example-sentence-translation-es--show { color: white; }
+.examples-es--back .example-sentence-translation-es { color: white; }
+
+.word-dictionaries-container--container a {
+color: white;
+text-decoration: underline;
+}
+
+
+.word-dictionaries-container--container {
+height: 500px;
+font-size: 16px;
+}
+#word-dictionaries-container--etimologias-es, #word-dictionaries-container--etimologias-ru {
+display: inline-block;
+width: 49%;
+height: 100%;
+overflow-y: auto;
+}
+
+
+.conjugations {
+font-size: 11px;
+}
+
+.xdxf { font-size: 11px; }
+
+#word-dictionaries-container {
+font-size: 80%;
+margin-bottom: 20px;
+}
+#word-dictionaries-container a {
+font-size: 80%;
+font-family: sans-serif;
+}
+
+.mobile .nightMode #word-dictionaries-container a {
+color: white;
+text-decoration: none;
+}
+
+.card {
+font-family: arial;
+font-size: 20px;
+text-align: center;
+color: black;
+background-color: white;
+}
+
+.text {
+display: inline-block;
+text-align: left;
+max-width: 900px;
+}
+
+.english.no-translation {
+font-size: 18px;
+}
+
+.english {
+font-size: 20px;
+}
+
+.translation {
+font-size: 20px;
+}
+
+.transcription {
+margin-top: 5px;
+color: #12559c;
+}
+
+.translation i {
+color: #a7a7a7;
+}
+
+.hint {
+margin-top: 5px;
+color: gray;
+}
+
+.info {
+color: gray;
+font-size: 16px;
+padding: 0 20px;
+margin-bottom: 18px;
+padding-bottom: 5px;
+border-bottom: 1px solid #DCDCDC;
+display: inline-block;
+}
+
+.prompt {
+margin-bottom: 0.25em;
+}
+
+.audio {
+margin-top: 3px;
+}
+
+img {
+max-width: 100%;
+max-height: 500px;
+margin: 10px 0;
+}
+
+hr#answer {
+margin: 13px 0;
+}
+
+.english .replay-button svg, .english .replaybutton svg {
+height: 26px;
+width: 26px;
+}
+
+.replay-button, .replaybutton {
+padding: 4px;
+height: 20px;
+content: url("data:image/svg+xml,%3Csvg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='volume-up' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512' class='svg-inline--fa fa-volume-up fa-w-18 fa-3x'%3E%3Cpath fill='%23A6122D' d='M215.03 71.05L126.06 160H24c-13.26 0-24 10.74-24 24v144c0 13.25 10.74 24 24 24h102.06l88.97 88.95c15.03 15.03 40.97 4.47 40.97-16.97V88.02c0-21.46-25.96-31.98-40.97-16.97zm233.32-51.08c-11.17-7.33-26.18-4.24-33.51 6.95-7.34 11.17-4.22 26.18 6.95 33.51 66.27 43.49 105.82 116.6 105.82 195.58 0 78.98-39.55 152.09-105.82 195.58-11.17 7.32-14.29 22.34-6.95 33.5 7.04 10.71 21.93 14.56 33.51 6.95C528.27 439.58 576 351.33 576 256S528.27 72.43 448.35 19.97zM480 256c0-63.53-32.06-121.94-85.77-156.24-11.19-7.14-26.03-3.82-33.12 7.46s-3.78 26.21 7.41 33.36C408.27 165.97 432 209.11 432 256s-23.73 90.03-63.48 115.42c-11.19 7.14-14.5 22.07-7.41 33.36 6.51 10.36 21.12 15.14 33.12 7.46C447.94 377.94 480 319.54 480 256zm-141.77-76.87c-11.58-6.33-26.19-2.16-32.61 9.45-6.39 11.61-2.16 26.2 9.45 32.61C327.98 228.28 336 241.63 336 256c0 14.38-8.02 27.72-20.92 34.81-11.61 6.41-15.84 21-9.45 32.61 6.43 11.66 21.05 15.8 32.61 9.45 28.23-15.55 45.77-45 45.77-76.88s-17.54-61.32-45.78-76.86z' class=''%3E%3C/path%3E%3C/svg%3E");
+}
+
+.english .replay-button, .english .replaybutton {
+content: url("data:image/svg+xml,%3Csvg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='volume-up' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512' class='svg-inline--fa fa-volume-up fa-w-18 fa-3x'%3E%3Cpath fill='%237f7f7f' d='M215.03 71.05L126.06 160H24c-13.26 0-24 10.74-24 24v144c0 13.25 10.74 24 24 24h102.06l88.97 88.95c15.03 15.03 40.97 4.47 40.97-16.97V88.02c0-21.46-25.96-31.98-40.97-16.97zm233.32-51.08c-11.17-7.33-26.18-4.24-33.51 6.95-7.34 11.17-4.22 26.18 6.95 33.51 66.27 43.49 105.82 116.6 105.82 195.58 0 78.98-39.55 152.09-105.82 195.58-11.17 7.32-14.29 22.34-6.95 33.5 7.04 10.71 21.93 14.56 33.51 6.95C528.27 439.58 576 351.33 576 256S528.27 72.43 448.35 19.97zM480 256c0-63.53-32.06-121.94-85.77-156.24-11.19-7.14-26.03-3.82-33.12 7.46s-3.78 26.21 7.41 33.36C408.27 165.97 432 209.11 432 256s-23.73 90.03-63.48 115.42c-11.19 7.14-14.5 22.07-7.41 33.36 6.51 10.36 21.12 15.14 33.12 7.46C447.94 377.94 480 319.54 480 256zm-141.77-76.87c-11.58-6.33-26.19-2.16-32.61 9.45-6.39 11.61-2.16 26.2 9.45 32.61C327.98 228.28 336 241.63 336 256c0 14.38-8.02 27.72-20.92 34.81-11.61 6.41-15.84 21-9.45 32.61 6.43 11.66 21.05 15.8 32.61 9.45 28.23-15.55 45.77-45 45.77-76.88s-17.54-61.32-45.78-76.86z' class=''%3E%3C/path%3E%3C/svg%3E");
+}
+
+
+/*********************************************/
+
+
+table.conjugation span.irrg {
+color:       #99ff77;
+display:     inline;
+}
+
+table.conjugation span.dfcv {
+color:       #BFBFBF;
+display:     inline;
+}
+
+table.conjugation span.regn {
+font-size:      70%;
+vertical-align: super;
+}
+
+table.conjugation span.dfcv span.irrg {
+color:       #949494;
+display:     inline;
+}
+
+table.conjugation td {
+text-align: center;
+}
+
+table.conjugation td.lt {
+text-align: right;
+font-size:  85%;
+color:      #c9c6c6;
+}
+
+table.conjugation td.rt {
+text-align: left;
+font-size:  85%;
+color:      #c9c6c6;
+}
+
+table.conjugation td.h1 {
+font-size:  120%;
+line-height:2.5em;
+border-bottom-style: solid;
+border-bottom-width: 1px;
+}
+
+table.conjugation td.h2 {
+font-size:  120%;
+line-height:1.5em;
+}
+
+table.conjugation td.h3 {
+font-size:  80%;
+line-height:1.5em;
+border-bottom-style: solid;
+border-bottom-width: 1px;
+}
+
+/*******************************************/
+
+
+.xdxf abr {
+color: #c3c3cb;
+}
+.xdxf k {
+display: none;
+}
+.xdxf k + br {
+display: none;
+}
+.xdxf num {
+color: red;
+font-weight: bold;
+padding-left: -15px;
+}
+.xdxf def {
+display: block;
+border-color: #e3e3e3;
+border-width: 1px;
+border-style: dashed;
+margin: 1px;
+margin-left: 15px;
+}
+.xdxf def:target {
+/* this pseudoclass is used to marked out the referenced <def> that was just clicked */
+border-color: red;
+border-width: 1px;
+border-style: double;
+}
+.xdxf abbr {
+font-style: italic;
+color: seagreen;
+cursor: default;
+border-bottom: 1px seagreen dotted;
+}
+.xdxf co, .xdxf co_old {
+color: #b7abff;
+font-style: italic;
+}
+/*
+.xdxf co:before {
+content: "(";
+}
+.xdxf co:after {
+content: ")";
+}
+*/
+.xdxf gr {
+color: orangered;
+display: block;
+}
+.xdxf gr_old {
+color: blue;
+}
+.xdxf ex {
+color: #cdcdcd;
+display: block;
+margin-left: 14px;
+}
+.xdxf ex_old {
+color: #808080;
+}
+.xdxf ex_source:before {
+content: "[";
+}
+.xdxf ex_source:after {
+content: "]";
+}
+.xdxf ex_tran:before {
+content: "— ";
+}
+.xdxf ex_tran {
+font-style: italic;
+}
+.xdxf dtrn {
+font-weight: bold;
+color: #dd7800;
+}
+.xdxf tr:before {
+content: "[";
+}
+.xdxf tr:after {
+content: "]";
+}
+.xdxf tr, .xdxf tr_old {
+font-weight: bold;
+}
+.xdxf rref {
+display: none;
+}
+.xdxf headwords {
+font-size: 116%;
+font-weight: bold;
+margin-top: 10px;
+margin-bottom: 10px;
+}
+
+.xdxf ex ex_markd, .xdxf ex_old ex_markd {
+color: black;
+background-color: lightgray;
+}
+.xdxf opt {
+color: #808080;
+}
+
+.xdxf--hidden-examples ex, .xdxf--hidden-examples i, .xdxf--hidden-examples kref { display: none; }
