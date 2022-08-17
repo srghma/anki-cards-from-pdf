@@ -137,7 +137,11 @@ mostused = await readStreamArray(fs.createReadStream("/home/srghma/projects/anki
 mostused = mostused.map(x => ({ freqIndex: Number(x.freqIndex.trim()), esWordWithAccent: x.esWordWithAccent.trim()  }))
 mostused = mostused.map(x => ({ ...x, esWordWithoutAccent: removeAccent(x.esWordWithAccent) }))
 mostusedMap = R.fromPairs(mostused.map(x => [x.esWordWithoutAccent.toLowerCase(), { freqIndex: x.freqIndex, esWordWithAccent: x.esWordWithAccent }]))
-mostUsedFreqIndexAndWithAccent = str => mostusedMap[removeAccent(str).toLowerCase()]
+mostUsedFreqIndexAndWithAccent = str => {
+  const x = mostusedMap[removeAccent(str).toLowerCase()]
+  if (!x) { return undefined }
+  return x.freqIndex
+}
 
 esAndGoogleTranslations = esencialEsEs.map(x => ({ es: x._id, esencialEsEs: x.trns }))
 esAndGoogleTranslations = esAndGoogleTranslations.map(x => ({ ...x, ...conjucationsMap[x.es], universalEsRu: UniversalEsRuMap[x.es], ruPopup: esRuPopupdictMap[x.es], ruModernUsage: esRuModernUsageMap[x.es], ...etimologias_cacheMap[x.es], larousse: LAROUSSE_EsEsMap[x.es], modernslang: modernslangEsRuMap[x.es], mostUsed: mostUsedFreqIndexAndWithAccent(x.es) }))
@@ -187,39 +191,63 @@ esAndGoogleTranslations = esAndGoogleTranslations.map(x => {
 
   esencialEsEs__type = R.uniq(esencialEsEs__type.flat().sort()).join(' ')
 
+  // const normalize = str => str.normalize("NFD").replace(/\p{Diacritic}/gu, "")
+  const normalize = str => {
+    Object.entries({
+      'á': 'a',
+      'é': 'e',
+      'í': 'i',
+      'ó': 'o',
+      'ú': 'u',
+      'ü': 'u',
+      'ñ': 'n',
+    }).forEach(([wth, wthout]) => {
+      str = str.replace(new RegExp(wth, "g"), wthout)
+    })
+    return str
+  }
+
   return {
     ...x,
     esencialEsEs,
-    universalEsRu:      clearFunc(x.universalEsRu),
-    ruPopup:            clearFunc(x.ruPopup),
-    ruModernUsage:      clearFunc(x.ruModernUsage),
-    larousse:           clearFunc(x.larousse),
-    modernslang:        clearFunc(x.modernslang),
-    mostUsed:           clearFunc(x.mostUsed),
+    universalEsRu:             clearFunc(x.universalEsRu),
+    ruPopup:                   clearFunc(x.ruPopup),
+    ruModernUsage:             clearFunc(x.ruModernUsage),
+    larousse:                  clearFunc(x.larousse),
+    modernslang:               clearFunc(x.modernslang),
+    mostUsed:                  clearFunc(x.mostUsed),
     esencialEsEs__type,
+    'es + esencialEsEs__type': [esencialEsEs__type, x.es].filter(x => x).join(' '),
+    'es__without':             normalize(x.es),
   }
 })
+
+esAndGoogleTranslations = R.sortBy(R.prop('es__without'), esAndGoogleTranslations)
+esAndGoogleTranslations = esAndGoogleTranslations.map((x, orderN) => ({ ...x, orderN: orderN + 1 }))
+// esAndGoogleTranslations.reverse().slice(0, 1)
 
 // console.log(R.uniq(esAndGoogleTranslations.map(x => x.esencialEsEs__type).flat()).sort().join('\n'))
 // esAndGoogleTranslations.filter(x => (x.esencialEsEs__type || '').includes('común'))
 // esAndGoogleTranslations.filter(x => (x.esencialEsEs__type || '').includes('sustantivo femenino, plural'))
 // esAndGoogleTranslations.filter(x => (x.esencialEsEs__type || '').includes('locución'))
 
-fs.writeFileSync('/home/srghma/Downloads/sdf.csv', esAndGoogleTranslations.map(x => x.es).join('\n'))
+// fs.writeFileSync('/home/srghma/Downloads/sdf.csv', esAndGoogleTranslations.map(x => x.es).join('\n'))
 
 esAndGoogleTranslations = R.project([
   'es',
-  'esencialEsEs',
-  'universalEsRu',
-  'ruPopup',
-  'ruModernUsage',
-  'larousse',
-  'modernslang',
+  // 'esencialEsEs',
+  // 'universalEsRu',
+  // 'ruPopup',
+  // 'ruModernUsage',
+  // 'larousse',
+  // 'modernslang',
   'mostUsed',
-  'etimologyEs',
-  'etimologyRu',
-  'conjucations_table',
-  'esencialEsEs__type',
+  // 'etimologyEs',
+  // 'etimologyRu',
+  // 'conjucations_table',
+  // 'esencialEsEs__type',
+  'es + esencialEsEs__type',
+  'orderN'
 ], esAndGoogleTranslations)
 
 ;(function(input){
