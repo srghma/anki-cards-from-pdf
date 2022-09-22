@@ -1,43 +1,251 @@
 <script>
+;(function () {
 
-;(function() {
-  const zip = (a, b) => a.map((k, i) => [k, b[i]]);
-  const zipWith = (f, a, b) => a.map((k, i) => f(k, b[i]));
-  const getElementByIdRequired = (id) => {
-    const element = document.getElementById(id)
-    if (!element) { throw new Error(`no #${id}`) }
-    return element
+function encodeHTML(rawStr) {
+  return rawStr.replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
+    return '&#' + i.charCodeAt(0) + ';'
+  })
+}
+
+const log = x => {
+  console.log(x)
+  const logger = document.getElementById('log')
+  const xlog = function (message) { logger.innerHTML += encodeHTML(message) + '<hr />'; }
+  xlog(x)
+}
+
+function removeChildren(parentNode, cssSelector){
+  var elements = Array.from(parentNode.querySelectorAll(cssSelector))
+  elements.forEach(x => x.remove())
+}
+
+const play = (type, text) => {
+  const isMobile = /Android/i.test(navigator.userAgent);
+  if (!isMobile) { return }
+  if (!text) { return }
+  // console.log('playing', text)
+  AnkiDroidJS.ankiTtsSetLanguage(type)
+  //AnkiDroidJS.ankiTtsSpeak(text, 1)
+}
+
+function xdxfTextCleanAndReturnText(html) {
+  html = html.replace(/<abr>[^<]+<\/abr>/g, '')
+  html = html.replace(/<b>[^<]+<\/b>/g, '')
+  html = html.replace(/<\/?br\s*>/g, '\n')
+  html = html.replace(/<\/?[^>]+>/g, '')
+  html = html.replace(/\d+\)/g, '')
+  html = html.replace(/•/g, '')
+  html = html.trim()
+  if (!/[а-яА-ЯёЁ]/.test(html)) { return '' }
+  return html
+}
+
+function universalEsRu__html_clean(universalEsRu__html) {
+  universalEsRu__html = universalEsRu__html.replace(/<c c="dodgerblue4">[a-zñáéíóúü\s]+<\/c>/ig, '')
+  universalEsRu__html = universalEsRu__html.replace(/<kref>[a-zñáéíóúü\s]+<\/kref>/ig, '')
+  universalEsRu__html = universalEsRu__html.replace(/<i>[a-zñáéíóúü\s]+<\/i>/ig, '')
+  return universalEsRu__html
+}
+
+const universalEsRu__dom = document.getElementById('universalEsRu')
+const esencialEsEs__ru__dom = document.getElementById('esencialEsEs__ru')
+const esencialEsEs__ru__text = xdxfTextCleanAndReturnText(esencialEsEs__ru__dom.innerHTML.split('<br>')[0])
+
+if (universalEsRu__dom) {
+  removeChildren(universalEsRu__dom, 'ex')
+  removeChildren(universalEsRu__dom, 'rref')
+  universalEsRu__dom.innerHTML = universalEsRu__html_clean(universalEsRu__dom.innerHTML)
+}
+
+if (universalEsRu__dom) { log(universalEsRu__dom.innerHTML) }
+
+const universalEsRu__text = universalEsRu__dom ? xdxfTextCleanAndReturnText(universalEsRu__dom.innerHTML) : ''
+
+log(universalEsRu__text)
+play('ru', universalEsRu__text)
+if (!universalEsRu__text) { play('ru', esencialEsEs__ru__text) }
+
+})();
+
+
+////////////////////////////////////////////////
+
+;(function () {
+
+function contains(a, obj) {
+  var i = a.length;
+  while (i--) {
+    if (a[i] === obj) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function genderForNoun(str) {
+
+  //info can be found here http://www.spanishdict.com/topics/show/1
+
+  //If it ends in -o, -e, an accented vowel (á, é, í, ó, ú), -ma, or a consonant other than -d, -z, or ión, it's masculine.
+
+
+  var last_letter = str[str.length - 1], // Last letter of str
+    last_2_letters = str.slice(-2), // Last 3 letters of str
+    last_3_letters = str.slice(-3);
+
+  var isMasculine = false;
+
+  if (last_2_letters === 'ma') return '-ma, m';
+
+  if (last_3_letters === 'ión' || last_3_letters === 'zón') {
+    var exeptions = ['corazón', 'sentención', 'notición', 'roción', 'ansión'];
+    if (exeptions.indexOf(str) > -1) {
+      return 'ión, zón, pero m ex';
+    }
+    else {
+      return 'ión, zón f';
+    }
   }
 
-  const userDictionaryFromLanguageReactor_urls = `
-  https://www.babla.ru/%D1%81%D0%BF%D1%80%D1%8F%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/%D0%B8%D1%81%D0%BF%D0%B0%D0%BD%D1%81%D0%BA%D0%B8%D0%B9/WORD
-  http://localhost:5000/search?q=WORD
-  https://etimologias.dechile.net/?WORD
-  `.trim().split('\n')
-
-  const userDictionaryFromLanguageReactor_names = `
-  conjucations
-  search
-  etimology
-  `.trim().split('\n')
-
-  const userDictionaryFromLanguageReactor = zipWith((url, name) => ({ url, name }), userDictionaryFromLanguageReactor_urls, userDictionaryFromLanguageReactor_names)
-
-  const inputId = "translation"
-  const containerId = "word-dictionaries-container"
-
-  window.renderInContainer = function(spanishWord) {
-    const html = userDictionaryFromLanguageReactor.map(({ url, name }) => {
-      return `<a target="_blank" href="${url.replace('WORD', encodeURIComponent(spanishWord))}">${name}</a>`
-    }).join(', ')
-    getElementByIdRequired(containerId).innerHTML = `${spanishWord}: ${html}`
+  switch (last_letter) {
+    case 'o':
+    case 'e':
+    case 'á':
+    case 'é':
+    case 'í':
+    case 'ó':
+    case 'ú':
+      {
+        var exeptions = ['foto', 'llave', 'fe', 'mano', 'calle', 'moto', 'fiebre', 'libido', 'carne', 'radio', 'frase', 'polio', 'gente', 'virago', 'nieve', 'noche', 'nube', 'sangre', 'suerte', 'tarde', 'muerte', 'madre', 'base', 'clase', 'clave', 'corriente', 'fuente', 'llave', 'sede', 'serpiente', 'torre'];
+        if (exeptions.indexOf(str) > -1) {
+          return '-o, -e, any accented is m, pero ex - f';
+        }
+        else {
+          return '-o, -e, any accented is m';
+        }
+      }
   }
 
-  const inputComponent = getElementByIdRequired(inputId)
+  switch (last_letter) { //a,d,z are feminin
+    case 'a':
+      {
+        var exeptions = ['panda', 'buda', 'día', 'planeta', 'mapa', 'estratega'];
+        if (exeptions.indexOf(str) > -1) {
+          return 'a,d,z are feminin, pero m ex';
+        }
+        else {
+          return 'a,d,z are feminin';
+        }
+      }
+    case 'd':
+      {
+        var exeptions = ['huésped', 'ataúd', 'abad', 'alud', 'áspid', 'laúd', 'récord', 'milord', 'césped'];
+        if (exeptions.indexOf(str) > -1) {
+          return 'a,d,z are feminin, pero m ex';
+        }
+        else {
+          return 'a,d,z are feminin';
+        }
+      }
+    case 'z':
+      {
+        var exeptions = ['aprendiz', 'cáliz', 'arroz', 'pez', 'lápiz', 'ajedrez', 'antifaz', 'maíz', 'albornoz', 'avestruz', 'altavoz', 'altramuz', 'arroz', 'barniz', 'cariz', 'disfraz', 'haz', 'matiz'];
+        if (exeptions.indexOf(str) > -1) {
+          return 'a,d,z are feminin, pero m ex';
+        }
+        else {
+          return 'a,d,z are feminin';
+        }
+      }
 
-  let text = inputComponent.textContent
-  text = text.replace(/[áàãâéèêíìîõóòôúùûñ\w]+/gi, match => `<span onclick="window.renderInContainer('${match}')">${match}</span>`)
-  inputComponent.innerHTML = text
+  }
+
+  //the rest are masculine except
+
+  var exeptions = ['miel', 'sal', 'hiel', 'piel', 'coliflor', 'sor', 'labor', 'flor'];
+  if (exeptions.indexOf(str) > -1) {
+    return 'rest, pero f ex';
+  }
+  else {
+    return 'rest, m';
+  }
+
+};
+
+///////////////////////////////////
+
+const zip = (a, b) => a.map((k, i) => [k, b[i]]);
+const zipWith = (f, a, b) => a.map((k, i) => f(k, b[i]));
+const getElementByIdRequired = (id) => {
+  const element = document.getElementById(id)
+  if (!element) { throw new Error(`no #${id}`) }
+  return element
+}
+
+const userDictionaryFromLanguageReactor_urls = `
+https://www.babla.ru/%D1%81%D0%BF%D1%80%D1%8F%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/%D0%B8%D1%81%D0%BF%D0%B0%D0%BD%D1%81%D0%BA%D0%B8%D0%B9/WORD
+https://conjugator.reverso.net/conjugation-spanish-verb-WORD.html
+https://en.bab.la/dictionary/spanish-english/WORD
+https://dictionary.reverso.net/spanish-english/WORD
+https://www.lingvolive.com/ru-ru/translate/es-ru/WORD
+abbyy.lingvo://show_word/WORD
+http://localhost:34567/search.html?q=WORD
+https://etimologias.dechile.net/?ETIMW
+https://en.m.wiktionary.org/wiki/WORD
+http://www.spanishdict.com/translate/WORD
+https://tatoeba.org/es/sentences/search?from=spa&query=WORD&to=rus
+`.trim().split('\n').map(x => x.trim()).filter(x => x)
+
+const userDictionaryFromLanguageReactor_names = `
+conjucations babla
+conjugations rev
+dict babla
+dict rev
+abbyy
+abbyy offline
+search
+etimology
+wiki
+spanishdict
+tatoeba
+`.trim().split('\n').map(x => x.trim()).filter(x => x)
+
+const userDictionaryFromLanguageReactor = zipWith((url, name) => ({ url, name }), userDictionaryFromLanguageReactor_urls, userDictionaryFromLanguageReactor_names)
+
+const containerId = "word-dictionaries-container"
+
+window.renderInContainer = function(spanishWord) {
+  const spW = spanishWord.toLowerCase()
+  const spWSing = spW.replace(/iones$/, 'ión').replace(/e?s$/, '')
+  const spWEtim = spW.replace(/ó/g, 'o.').replace(/á/g, 'a.').replace(/é/g, 'e.').replace(/í/g, 'i.').replace(/ú/g, 'u.').replace(/ñ/g, 'n.')
+  const html = userDictionaryFromLanguageReactor.map(({ url, name }) => {
+  const url_ = url.replace('WORD', encodeURIComponent(spW)).replace('ETIMW', encodeURIComponent(spWEtim))
+    return `<a target="_blank" href="${url_}">${name}</a>`
+  }).join(', ')
+  getElementByIdRequired(containerId).innerHTML = `${spWSing} ${genderForNoun(spWSing)}: ${html}`
+}
+
+function addClicks(parent) {
+  function replaceTextContent(text) {
+    return text.replace(/[áàãâéèêíìîõóòôúùûñ\w]+/gi, match => `<span data-enhanced-with-render onclick="window.renderInContainer('${match}')">${match}</span>`)
+  }
+  const elementNodeId = 1
+  const textNodeId = 3
+  parent.childNodes.forEach(child => {
+    if (child.nodeType === textNodeId) {
+        const newChild = document.createElement("span")
+      newChild.innerHTML = replaceTextContent(child.nodeValue.trim())
+        parent.replaceChild(newChild, child)
+    }
+    else if(child.nodeType === elementNodeId) {
+      addClicks(child);
+    }
+  })
+}
+
+[getElementByIdRequired("esencialEsEs")].forEach(addClicks)
+
+window.renderInContainer(getElementByIdRequired("esencialEsEs").querySelector('[data-enhanced-with-render]').textContent)
 })();
 
 </script>

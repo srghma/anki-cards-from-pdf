@@ -170,6 +170,8 @@ function addSentences(html) {
   // console.log(dom.window.document.body.innerHTML)
 
   // (function prettify(parent) {
+  //   const elementNodeId = 1
+  //   const textNodeId = 3
   //   parent.childNodes.forEach(child => {
   //     if (child.nodeType === textNodeId) {
   //       child.nodeValue = child.nodeValue.trim()
