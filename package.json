@@ -70,6 +70,7 @@
     "yaml": "^2.1.0"
   },
   "devDependencies": {
+    "date-fns": "^2.29.3",
     "fast-csv": "^4.3.6",
     "sdal": "^0.0.1",
     "spanish-words": "^2.2.4",

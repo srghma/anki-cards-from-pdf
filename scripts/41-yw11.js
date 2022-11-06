@@ -16,14 +16,15 @@ const dom = new JSDOM(``);
 const {Translate} = require('@google-cloud/translate').v2;
 const translate = new Translate({projectId: "annular-form-299211"});
 
-inputOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
-input = inputOrig
+// inputOrig = await readStreamArray(fs.createReadStream('/home/srghma/Downloads/All Kanji.txt').pipe(csv({ separator: "\t", headers: [ "kanji" ] })))
+inputOrig = require('/home/srghma/projects/srghma-chinese/files/anki.json')
+input = Object.keys(inputOrig)
 
 const queueSize = 15
 doms = Array.from({ length: queueSize }, (_, i) => { return new JSDOM(``) })
 output = []
-promises = input.map((x, inputIndex) => async jobIndex => {
-  const kanji = x['kanji']
+promises = input.map((kanji, inputIndex) => async jobIndex => {
+  // const kanji = x['kanji']
   console.log({ m: "doing", jobIndex, inputIndex, kanji })
   const dom = doms[jobIndex]
   if (!RA.isNonEmptyString(kanji)) { throw new Error('kanji') }
@@ -46,7 +47,46 @@ input.length
 output.length
 
 outputfixed = output.filter(x => x.translation).map(x => ({ ...x, translation: x.translation.replace(/http:\/\/www.chazidian.comhttps/g, 'https') }))
-outputfixed = outputfixed.map(x => { return { ...x, images: (Array.from(x.translation.matchAll(/<img src="(.*?)"/g)) || []).map(x => x[1]) } })
+outputfixed = outputfixed.map(x => { return { ...x, images: R.uniq((Array.from(x.translation.matchAll(/<img src="(.*?)"/g)) || []).map(x => x[1])) } })
+
+outputfixed = outputfixed.map(x => { return { ...x, images: x.images.filter(x => x.endsWith('.png')) } })
+outputfixed = outputfixed.map(x => { return { kanji: x.kanji, translation: x.translation, image: x.images[0] } })
+outputfixed = outputfixed.filter(x => x.image)
+
+R.uniq(outputfixed.map(x => x.kanji)).length
+
+// inputOrig['梵'].rendered
+inputOrig__changed = []
+inputOrig_ = R.mapObjIndexed((value, key) => {
+  let rendered = value.rendered
+
+  rendered = rendered.replace(/<a href="https:\/\/images.yw11.com\/zixing\/([^\.]+).png" target="_blank"><img src="yw11-zixing-([^\.]+).png"><\/a>/g, '<a href="https://images.yw11.com/zixing/$1.png" target="_blank"><object data="https://images.yw11.com/zixing/$1.png" type="image/png"><img src="yw11-zixing-$2.png"></object></a>')
+
+  rendered = rendered.replace(/<a href="https:\/\/images.yw11.com\/zixing\/([^\.]+).png" target="_blank"><img src="yw11-zixing-([^\.]+).png" alt="([^"]+)"><\/a>/g, '<a href="https://images.yw11.com/zixing/$1.png" target="_blank"><object data="https://images.yw11.com/zixing/$1.png" type="image/png"><img src="yw11-zixing-$2.png"></object></a>')
+
+  // if (rendered !== value.rendered) { console.log(rendered); throw new Error('') }
+  if (rendered !== value.rendered) { inputOrig__changed.push(value.kanji) }
+  return { ...value, rendered }
+}, inputOrig)
+
+// R.difference(R.uniq(outputfixed.map(x => x.kanji)), inputOrig__changed)
+// R.difference(inputOrig__changed, R.uniq(outputfixed.map(x => x.kanji)))
+
+// '做'
+// '傲'
+// '冲'
+// '渚'
+// '瀣'
+// '田'
+// '痨'
+// '褚'
+// '角'
+// console.log(inputOrig_['赋'].rendered)
+// outputfixed.filter(x => !inputOrig__changed.includes(x.kanji))
+
+fs.writeFileSync('/home/srghma/projects/srghma-chinese/files/anki.json', JSON.stringify(inputOrig_, undefined, 4))
+
+// R.values(inputOrig_).filter(x => x.rendered)
 
 imagesAll = R.uniq(outputfixed.map(R.prop('images')).flat())
 

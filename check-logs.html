@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Title of the document</title>
+</head>
+
+<style>
+#container {
+    height: 400px;
+    min-width: 310px;
+}
+</style>
+
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<script src="https://code.highcharts.com/stock/modules/data.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/stock/modules/accessibility.js"></script>
+
+<div id="container"></div>
+
+<script>
+Highcharts.getJSON('./check-logs-data.json', function (data) {
+  Highcharts.chart('container', {
+    chart: {
+        zoomType: 'x'
+    },
+    xAxis: {
+        type: 'datetime'
+    },
+    series: [{
+      name: 'AAPL',
+      type: 'area',
+      data: data,
+    }]
+  });
+});
+</script>
+</body>
+
+</html>

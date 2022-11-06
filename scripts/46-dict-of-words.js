@@ -44,7 +44,7 @@ function splitDictOnEntries(dict) {
 }
 withoutComments = x => x.filter(x => !x.startsWith('#'))
 comments = x => x.filter(x => x.startsWith('#'))
-dabkrs_210426__orig = fs.readFileSync('/home/srghma/Downloads/dabkrs_210627').toString().split('\n')
+dabkrs_210426__orig = fs.readFileSync('/home/srghma/Downloads/bruks_v89/大БКРС_v89.dsl').toString().split('\n')
 dabkrs_210426_split = splitDictOnEntries(withoutComments(dabkrs_210426__orig.map(R.trim))).filter(R.identity)
 toRecord = xs => {
   const buffer = {}
