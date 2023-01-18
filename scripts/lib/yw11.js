@@ -47,7 +47,7 @@ const yw11_dictionary_with_cache_path = '/home/srghma/projects/anki-cards-from-p
 // remove = input.slice(-200).map(x => x.kanji)
 // remove.forEach(x => { delete yw11_dictionary_cache[x] })
 let yw11_dictionary_cache = {}
-try { yw11_dictionary_cache = JSON.parse(fs.readFileSync(yw11_dictionary_with_cache_path).toString()) } catch (e) {  }
+if (fs.existsSync(yw11_dictionary_with_cache_path)) { yw11_dictionary_cache = JSON.parse(fs.readFileSync(yw11_dictionary_with_cache_path).toString()) }
 
 async function yw11_dictionary_with_cache(dom, sentence) {
   if (yw11_dictionary_cache.hasOwnProperty(sentence)) { return yw11_dictionary_cache[sentence] }

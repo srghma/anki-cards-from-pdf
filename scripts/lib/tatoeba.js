@@ -55,7 +55,7 @@ exports.tatoeba = async function tatoeba(dom, str) {
 /////////////////
 const tatoeba_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/tatoeba_cache.json'
 let tatoeba_cache = {}
-try { tatoeba_cache = JSON.parse(fs.readFileSync(tatoeba_with_cache_path).toString()) } catch (e) {  }
+if (fs.existsSync(tatoeba_with_cache_path)) { tatoeba_cache = JSON.parse(fs.readFileSync(tatoeba_with_cache_path).toString()) }
 
 let eachNIndex = 0
 exports.tatoeba_with_cache = async function tatoeba_with_cache(dom, word) {

@@ -80,34 +80,52 @@ stop_ = false
 // // to find function d
 // req = d
 
-input.forEach(async currentInput => {
-  for (let i = 0; i < currentInput.length; i++) {
-    const kanji = currentInput[i].trim()
-
-    if (stop_) {
-      console.log({ m: "stopping", kanji, i })
-      break
-    }
-
-    if (output.hasOwnProperty(kanji)) {
-      console.log({ m: "already processed", kanji, i, ret: output[kanji] })
-      continue
-    }
-
-    let res = null
-    try {
-      res = await req(kanji)
-    } catch (e) {
-      console.error({ kanji, i, e })
-      output[kanji] = null
-      continue
-    }
-
-    console.log({ kanji, res, i, l: currentInput.length })
-
-    output[kanji] = res
+function req(x) {
+  return fetch(`https://zi.tools/api/zi/${encodeURIComponent(x)}`, {
+    "headers": {
+      "accept": "application/json, text/plain, */*",
+      "accept-language": "ru,en-US;q=0.9,en;q=0.8",
+      "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"102\", \"Google Chrome\";v=\"102\"",
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": "\"Linux\"",
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-origin"
+    },
+    "referrer": "https://zi.tools/zi/%E9%9F%B3",
+    "referrerPolicy": "strict-origin-when-cross-origin",
+    "body": null,
+    "method": "GET",
+    "mode": "cors",
+    "credentials": "include"
+  })
+}
+// input.forEach(async currentInput => {
+for (let i = 0; i < input.length; i++) {
+  const kanji = input[i].trim()
+  if (stop_) {
+    console.log({ m: "stopping", kanji, i })
+    break
   }
-})
+  // window.localStorage.getItem(kanji, JSON.stringify(person));
+  if (localStorage.hasOwnProperty(kanji)) {
+    console.log({ m: "already processed", kanji, i })
+    continue
+  }
+  let res = null
+  try {
+    res = await req(kanji)
+  } catch (e) {
+    console.error({ kanji, i, e })
+    window.localStorage.setItem(kanji, '')
+    // output[kanji] = null
+    continue
+  }
+  console.log({ kanji, res, i, l: input.length })
+  window.localStorage.setItem(kanji, JSON.stringify(res))
+  // output[kanji] = res
+}
+// })
 
 /////////////////////
 

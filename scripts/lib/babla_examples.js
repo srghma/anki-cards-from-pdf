@@ -25,7 +25,7 @@ exports.babla_examples = async function babla_examples(dom, str) {
 /////////////////
 const babla_examples_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/babla_examples_cache.json'
 let babla_examples_cache = {}
-try { babla_examples_cache = JSON.parse(fs.readFileSync(babla_examples_with_cache_path).toString()) } catch (e) {  }
+if (fs.existsSync(babla_examples_with_cache_path)) { babla_examples_cache = JSON.parse(fs.readFileSync(babla_examples_with_cache_path).toString()) }
 
 let eachNIndex = 0
 exports.babla_examples_with_cache = async function babla_examples_with_cache(dom, word) {

@@ -98,7 +98,7 @@ const purpleculture_dictionary_with_cache_path = '/home/srghma/projects/anki-car
 // remove = input.slice(-200).map(x => x.kanji)
 // remove.forEach(x => { delete purpleculture_dictionary_cache[x] })
 let purpleculture_dictionary_cache = {}
-try { purpleculture_dictionary_cache = JSON.parse(fs.readFileSync(purpleculture_dictionary_with_cache_path).toString()) } catch (e) {  }
+if (fs.existsSync(purpleculture_dictionary_with_cache_path)) { purpleculture_dictionary_cache = JSON.parse(fs.readFileSync(purpleculture_dictionary_with_cache_path).toString()) }
 
 async function purpleculture_dictionary_with_cache(dom, sentence) {
   if (purpleculture_dictionary_cache.hasOwnProperty(sentence)) { return purpleculture_dictionary_cache[sentence] }

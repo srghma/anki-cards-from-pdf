@@ -185,7 +185,7 @@ t = fs.readFileSync('./table-with-tabs.txt').toString()
 
 const trainchinese_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/trainchinese_cache.json'
 let trainchinese_cache = {}
-try { trainchinese_cache = JSON.parse(fs.readFileSync(trainchinese_with_cache_path).toString()) } catch (e) {  }
+if (fs.existsSync(trainchinese_with_cache_path)) { trainchinese_cache = JSON.parse(fs.readFileSync(trainchinese_with_cache_path).toString()) }
 trainchinese_cache_ = R.toPairs(trainchinese_cache).map(([kanji, transl]) => ({ kanji, transl }))
 trainchinese_cache_ = trainchinese_cache_.filter(R.prop('transl'))
 trainchinese_cache_ = trainchinese_cache_.map(({ kanji, transl }) => ({ kanji, transl: transl.filter(x => x.ch == kanji).filter(R.prop('transl')) })).filter(x => x.transl.length > 0)

@@ -8,7 +8,7 @@ const wiktionary = require('wiktionary')
 /////////////////
 const wiktionary_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/wiktionary_cache.json'
 let wiktionary_cache = {}
-try { wiktionary_cache = JSON.parse(fs.readFileSync(wiktionary_with_cache_path).toString()) } catch (e) {  }
+if (fs.existsSync(wiktionary_with_cache_path)) { wiktionary_cache = JSON.parse(fs.readFileSync(wiktionary_with_cache_path).toString()) }
 
 let eachNIndex = 0
 exports.wiktionary_with_cache = async function wiktionary_with_cache(word, language) {

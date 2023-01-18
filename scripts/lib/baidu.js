@@ -58,7 +58,7 @@ exports.baidu = async function baidu(dom, str) {
 /////////////////
 const baidu_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/baidu_cache.json'
 let baidu_cache = {}
-try { baidu_cache = JSON.parse(fs.readFileSync(baidu_with_cache_path).toString()) } catch (e) {  }
+if (fs.existsSync(baidu_with_cache_path)) { baidu_cache = JSON.parse(fs.readFileSync(baidu_with_cache_path).toString()) }
 
 // baidu_cache_ = R.toPairs(baidu_cache).map(([kanji, val]) => {
 //   dom.window.document.body.innerHTML = val

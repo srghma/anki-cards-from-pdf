@@ -104,7 +104,7 @@ const output_imagetexts__path = '/home/srghma/projects/anki-cards-from-pdf/image
 const vision = require('@google-cloud/vision');
 const client = new vision.ImageAnnotatorClient();
 let output_imagetexts = {}
-try { output_imagetexts = JSON.parse(fs.readFileSync(output_imagetexts__path).toString()) } catch (e) {  }
+if (fs.existsSync(output_imagetexts__path)) { output_imagetexts = JSON.parse(fs.readFileSync(output_imagetexts__path).toString()) }
 
 // Object.keys(output_imagetexts).length
 // R.values(output_imagetexts)[100][0].description

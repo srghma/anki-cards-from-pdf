@@ -33,7 +33,7 @@ exports.rtega_get = rtega_get
 
 const cache_path = '/home/srghma/projects/anki-cards-from-pdf/rtega_cache.json'
 let rtega_get_cache = {}
-try { rtega_get_cache = JSON.parse(fs.readFileSync(cache_path).toString()) } catch (e) {  }
+if (fs.existsSync(cache_path)) { rtega_get_cache = JSON.parse(fs.readFileSync(cache_path).toString()) }
 
 async function rtega_get_with_cache(dom, sentence) {
   const cached = rtega_get_cache[sentence]

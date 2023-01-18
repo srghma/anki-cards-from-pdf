@@ -85,7 +85,7 @@ exports.etimologias = async function etimologias(dom, str) {
 /////////////////
 const etimologias_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/etimologias_cache.json'
 let etimologias_cache = {}
-try { etimologias_cache = JSON.parse(fs.readFileSync(etimologias_with_cache_path).toString()) } catch (e) {  }
+if (fs.existsSync(etimologias_with_cache_path)) { etimologias_cache = JSON.parse(fs.readFileSync(etimologias_with_cache_path).toString()) }
 
 // etimologias_cache_ = R.toPairs(etimologias_cache).map(([kanji, val]) => {
 //   dom.window.document.body.innerHTML = val

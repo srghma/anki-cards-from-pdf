@@ -37,7 +37,7 @@ exports.forvo_es = async function forvo_es(dom, str) {
 /////////////////
 const forvo_es_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/forvo_es_cache.json'
 let forvo_es_cache = {}
-try { forvo_es_cache = JSON.parse(fs.readFileSync(forvo_es_with_cache_path).toString()) } catch (e) {  }
+if (fs.existsSync(forvo_es_with_cache_path)) { forvo_es_cache = JSON.parse(fs.readFileSync(forvo_es_with_cache_path).toString()) }
 
 let eachNIndex = 0
 exports.forvo_es_with_cache = async function forvo_es_with_cache(dom, word) {

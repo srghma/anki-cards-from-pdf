@@ -75,7 +75,7 @@ exports.trainchinese = async function trainchinese(dom, str) {
 const trainchinese_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/trainchinese_cache.json'
 
 let trainchinese_cache = {}
-try { trainchinese_cache = JSON.parse(fs.readFileSync(trainchinese_with_cache_path).toString()) } catch (e) {  }
+if (fs.existsSync(trainchinese_with_cache_path)) { trainchinese_cache = JSON.parse(fs.readFileSync(trainchinese_with_cache_path).toString()) }
 
 // trainchinese_cache_ = Object.values(trainchinese_cache).flat().filter(R.identity)
 // trainchinese_cache_ = trainchinese_cache_.filter(x => x.ch.length == 1)

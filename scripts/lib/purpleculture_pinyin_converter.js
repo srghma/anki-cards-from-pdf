@@ -46,7 +46,7 @@ exports.purpleculture_pinyin_converter = async function purpleculture_pinyin_con
 const purpleculture_pinyin_converter_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/purpleculture_pinyin_converter_cache.json'
 
 let purpleculture_pinyin_converter_cache = {}
-try { purpleculture_pinyin_converter_cache = JSON.parse(fs.readFileSync(purpleculture_pinyin_converter_with_cache_path).toString()) } catch (e) {  }
+if (fs.existsSync(purpleculture_pinyin_converter_with_cache_path)) { purpleculture_pinyin_converter_cache = JSON.parse(fs.readFileSync(purpleculture_pinyin_converter_with_cache_path).toString()) }
 
 async function purpleculture_pinyin_converter_with_cache(dom, sentence) {
   const cached = purpleculture_pinyin_converter_cache[sentence]
