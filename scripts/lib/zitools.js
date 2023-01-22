@@ -3,7 +3,6 @@ const RA = require('ramda-adjunct')
 const fetch = require('node-fetch')
 const mapWithForEachToArray = require('./mapWithForEachToArray').mapWithForEachToArray
 const HttpsProxyAgent = require('https-proxy-agent');
-const { parseJSONPerLineFormat } = require('./json-lines')
 
 // var ProxyLists = require('proxy-lists');
 
@@ -53,32 +52,11 @@ exports.zitools = async function zitools(str) {
   return t
 }
 
-/////////////////
-const zitools_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/zitools_cache.json'
-let zitools_cache = await parseJSONPerLineFormat(zitools_with_cache_path)
-zitools_cache = R.fromPairs(zitools_cache.map(({ key, value }) => [key, value])); null
-
-const stringifier = createJsonLFileWriteStream(zitools_with_cache_path)
-// zitools_cache = R.fromPairs(zitools_cache.map(({ key, value }) => [key, null]))
-
-// Object.keys(zitools_cache).length
-// R.toPairs(zitools_cache).filter(([k, v]) => v).length
-// R.toPairs(R.map(R.prop('meaning'), zitools_cache)).filter(([k, v]) => v)
-//
-// require('utils')
-
-// R.toPairs(R.map(R.prop('meaning'), zitools_cache)).filter(([k, v]) => v).map(([k, v]) => [k, v.Nom]).filter(([k, v]) => v)
-
-exports.zitools_with_cache = async function zitools_with_cache(sentence) {
-  if (zitools_cache.hasOwnProperty(sentence)) { return { from_cache: true, value: zitools_cache[sentence] } }
-
-  // return null
-  const x = await exports.zitools(sentence)
-  zitools_cache[sentence] = x
-  stringifier.write({ key: sentence, value: x })
-  return { from_cache: false, value: x }
-}
-
-exports.zitools_translate_sync = function zitools_translate_sync() {
-  fs.writeFileSync(zitools_with_cache_path, JSON.stringify(zitools_cache))
+exports.zitools_with_cache = async function zitools_with_cache(db, sentence) {
+  if (db.has(sentence)) {
+    return { from_cache: true, value: db.get(sentence) }
+  }
+  const value = await exports.zitools(sentence)
+  db.set(sentence, value);
+  return { from_cache: false, value }
 }
