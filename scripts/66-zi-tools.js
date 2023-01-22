@@ -13,6 +13,10 @@ const timeoutPromise = require('./scripts/lib/timeoutPromise').timeoutPromise
 
 x = JSON.parse(require('fs').readFileSync('/home/srghma/projects/srghma-chinese/files/anki.json').toString()); null
 
+// x['发']
+
+x = R.filter(x => x.purpleculture_hsk, x); null
+
 input_ = Object.keys(x)
 // input_.map(R.prop('kanji')).join('').includes('鏕')
 
