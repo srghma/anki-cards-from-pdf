@@ -1,0 +1,118 @@
+Getting proxies...
+Writing output to /home/srghma/projects/anki-cards-from-pdf/proxies.txt
+Error while scraping blackhatworld: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+Error while scraping coolproxy: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+Error while scraping free-proxy-cz: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+Error while scraping freeproxylist: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+Error while scraping freeproxylists-net: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+Error while scraping freeproxylists: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+Error while scraping hidemyname: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+Error while scraping new-net-time: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+Error while scraping openproxy-space: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+Error while scraping premproxy: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+Error while scraping proxies24: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+Error while scraping proxy-daily: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+Error while scraping proxy-list-org: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+Error while scraping proxy50-50-blogspot-com: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+Error while scraping proxydb: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+Error while scraping proxyhttp-net: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+Error while scraping proxynova: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+Error while scraping sockslist: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+Error while scraping spys-one: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+Finished scraping from coolproxy
+Finished scraping from free-proxy-cz
+Finished scraping from freeproxylists-net
+Finished scraping from hidemyname
+Finished scraping from new-net-time
+Finished scraping from openproxy-space
+Finished scraping from premproxy
+Finished scraping from proxies24
+Finished scraping from proxy-daily
+Finished scraping from proxy-list-org
+Finished scraping from proxy50-50-blogspot-com
+Finished scraping from proxydb
+Finished scraping from proxyhttp-net
+Finished scraping from proxynova
+Finished scraping from sockslist
+Error while scraping foxtools: Error: connect ECONNREFUSED 127.0.0.1:80
+Finished scraping from foxtools
+Finished scraping from proxyscrape-com
+Finished scraping from hidester
+Finished scraping from xroxy
+Finished scraping from checkerproxy

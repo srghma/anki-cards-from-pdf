@@ -57,6 +57,7 @@
     "pinyin-convert": "^1.11.0",
     "pinyin-or-hanzi": "^1.144.0",
     "promise-queue": "^2.2.5",
+    "proxy-lists": "^1.23.3",
     "ramda": "^0.28.0",
     "ramda-adjunct": "^3.1.0",
     "react": "^18.1.0",

@@ -4,29 +4,6 @@ const fetch = require('node-fetch')
 const mapWithForEachToArray = require('./mapWithForEachToArray').mapWithForEachToArray
 const HttpsProxyAgent = require('https-proxy-agent');
 
-// var ProxyLists = require('proxy-lists');
-
-// function fetchProxies() {
-//     return new Promise(function(resolve) {
-//         // `gettingProxies` is an event emitter object.
-//         var gettingProxies = ProxyLists.getProxies();
-//         var proxies = [];
-
-//         gettingProxies.on('data', function(p) {
-//             proxies = proxies.concat(p);
-//         });
-
-//         gettingProxies.on('error', function(error) {
-//             console.error('proxiesFetcher error:', error);
-//         });
-
-//         gettingProxies.once('end', function() {
-//             console.log('fetched', proxies.length, 'proxies');
-//             resolve(proxies);
-//         });
-//     });
-// }
-
 const req_options = {
   "headers": {
     "accept": "application/json, text/plain, */*",
@@ -37,26 +14,38 @@ const req_options = {
     "sec-fetch-dest": "empty",
     "sec-fetch-mode": "cors",
     "sec-fetch-site": "same-origin",
-    "cookie": "_ga=GA1.2.1817712906.1668587759; _gid=GA1.2.1409874272.1672162462; _gat=1",
     "Referrer-Policy": "strict-origin-when-cross-origin"
   },
   "body": null,
   "method": "GET",
-  // "agent": new HttpsProxyAgent('34.84.72.91:3128'),
 }
 
-exports.zitools = async function zitools(str) {
-  let r = await fetch(`https://zi.tools/api/zi/${encodeURIComponent(str)}`, req_options)
-  if (r.status === 404) { return false }
-  let t = await r.json()
-  return t
+fetchWithProxy = (str, options, proxy) => fetch(str, { ...options, agent: new HttpsProxyAgent(`http://${proxy}`) })
+
+exports.zitools = async function zitools(str, proxy) {
+  const url = `https://zi.tools/api/zi/${encodeURIComponent(str)}`
+  const response = proxy ? await fetchWithProxy(url, req_options, proxy) : await fetch(url, req_options)
+  const { status } = response
+  let jsonOrStatus = status
+  // 400 bad request - try again
+  if (status === 200) { jsonOrStatus = await response.json() }
+  if (status !== 200) {
+    try {
+      const text = await response.text()
+      console.log(str, proxy, status, text)
+    } catch (e) {
+      console.log(str, proxy, status, e)
+    }
+  }
+  return jsonOrStatus
 }
 
-exports.zitools_with_cache = async function zitools_with_cache(db, sentence) {
+exports.zitools_with_cache = async function zitools_with_cache(db, sentence, proxy) {
   if (db.has(sentence)) {
     return { from_cache: true, value: db.get(sentence) }
   }
-  const value = await exports.zitools(sentence)
-  db.set(sentence, value);
-  return { from_cache: false, value }
+  const jsonOrStatus = await exports.zitools(sentence, proxy)
+  const isObjectOr404 = jsonOrStatus === 404 || typeof jsonOrStatus === "object"
+  if (isObjectOr404) { db.set(sentence, jsonOrStatus) }
+  return { from_cache: false, jsonOrStatus }
 }
