@@ -17,7 +17,15 @@ const db = new JsonlDB(zitools_with_cache_path, {
   reviver: (key, serializedValue) => {
     // if (key === "膽") { console.log(serializedValue) }
     // if (key === "若") { console.log(serializedValue) }
-    if (typeof serializedValue === "object") { return serializedValue.explaination }
+    if (typeof serializedValue === "object") {
+      let { explaination, readings } = serializedValue
+      readings = readings || {}
+      const { cn } = readings
+      return {
+        explaination,
+        cn,
+      }
+    }
     if (serializedValue === 404) { return serializedValue }
     throw new Error(`unknown ${serializedValue}`)
   },
@@ -30,33 +38,46 @@ await db.open()
 ruPinyinArray = require('fs').readFileSync(`/home/srghma/projects/srghma-chinese/ru-pinyin.txt`).toString()
 ruPinyinArray_text__hanzies = R.uniq([...ruPinyinArray].filter(isHanzi))
 
-// // "发 asdf asdf 123 ()" => "asdfasdf"
-// removeAllCharactersExceptAZ = text => text.toLowerCase().replace(/[^a-z]/g, '')
-// removeLinks = x => x.replace(/<link>[^<]*<\/link>/g, '')
-// function ruPinyinTextToArray(text) {
-//   text = text.replace(/\t/g, '').split(/―{4,}|-{4,}/)
-//   text = text.map(x => x.split('\n').map(x => x.trim()).join('\n'))
-//   text = text.map(x => x.split(/_{3,}/).map(x => x.trim()).filter(x => x))
-//   text = text.filter(x => x)
-//   return text
-// }
+// "发 asdf asdf 123 ()" => "asdfasdf"
+removeAllCharactersExceptAZ = text => {
+  try {
+    return text.toLowerCase().replace(/[^a-z]/g, '')
+  } catch (e) {
+    console.log(e, text)
+  }
+}
+removeLinks = x => x.replace(/<link>[^<]*<\/link>/g, '')
+function ruPinyinTextToArray(text) {
+  text = text.replace(/\t/g, '').split(/―{4,}|-{4,}/)
+  text = text.map(x => x.split('\n').map(x => x.trim()).join('\n'))
+  text = text.map(x => x.split(/_{3,}/).map(x => x.trim()).filter(x => x))
+  text = text.filter(x => x.length > 0)
+  return text
+}
 
-// explainations_ = []; db.forEach((value, key) => { explainations_.push({ key, value }) })
-// explainations_ = explainations_.filter(({ key, value }) => value)
-// explainations_ = explainations_.filter(({ key, value }) => value !== 'Unknown origin.')
-// ruPinyinArray__without_html = removeAllCharactersExceptAZ(ruPinyinArray.replace(/<\/?link>/g, ''))
-// explainations_ = explainations_.filter(({ key, value }) => !ruPinyinArray__without_html.includes(removeAllCharactersExceptAZ(value))) // not yet in the text explanations
-// explainations_ = R.fromPairs(explainations_.map(({ key, value }) => [key, value]))
+explainations_ = []; db.forEach((value, key) => { explainations_.push({ key, ...value }) })
+explainations_ = explainations_.filter(({ key, explaination }) => explaination)
+explainations_ = explainations_.filter(({ key, explaination }) => explaination !== 404)
+explainations_ = explainations_.filter(({ key, explaination }) => explaination !== 'Unknown origin.')
+ruPinyinArray__without_html = removeAllCharactersExceptAZ(ruPinyinArray.replace(/<\/?link>/g, ''))
+explainations_ = explainations_.filter(({ key, explaination }) => !ruPinyinArray__without_html.includes(removeAllCharactersExceptAZ(explaination))) // not yet in the text explanations
+explainations_ = R.fromPairs(explainations_.map(({ key, explaination, cn }) => [key, { explaination, cn }]))
 
-// function enhanceWithLinkToH(t) { return [...t].map(ch => isHanzi(ch) ? `<link>${ch}</link>` : ch).join('') }
+function enhanceWithLinkToH(t) { return [...t].map(ch => isHanzi(ch) ? `<link>${ch}</link>` : ch).join('').replace(/<\/link><link>/g, '') }
 
-// ruPinyinArray_updated = ruPinyinTextToArray(ruPinyinArray).map(sencondLevel => sencondLevel.map(ruPinyinArray_text => {
-//   const ruPinyinArray_text__onlyLetters = removeLinks(ruPinyinArray_text).remove(/\W/g, '')
-//   let ruPinyinArray_text__hanzies = R.uniq([...without].filter(isHanzi))
-//   ruPinyinArray_text__hanzies = ruPinyinArray_text__hanzies.map(h => explainations_.hasOwnProperty(h) ? `${h} | ${enhanceWithLinkToH(explainations_[h])}` : null).filter(ruPinyinArray_text => ruPinyinArray_text)
-//   return [ruPinyinArray_text, ...ruPinyinArray_text__hanzies].join('\n')
-// }))
-// require('fs').writeFileSync(`/home/srghma/projects/srghma-chinese/ru-pinyin.txt`, ruPinyinArray_updated.map(x => x.join(`\n\n______________\n\n`)).join(`\n\n------------\n\n`))
+ruPinyinArray_updated = ruPinyinTextToArray(ruPinyinArray).map(sencondLevel => sencondLevel.map(ruPinyinArray_text => {
+  const ruPinyinArray_text__onlyLetters = removeLinks(ruPinyinArray_text).replace(/\W/g, '')
+  let ruPinyinArray_text__hanzies = R.uniq([...ruPinyinArray_text__onlyLetters].filter(isHanzi))
+  ruPinyinArray_text__hanzies = ruPinyinArray_text__hanzies.map(h => {
+    if (explainations_.hasOwnProperty(h)) {
+      delete explainations_[h]
+      return `${h} | ${enhanceWithLinkToH(explainations_[h])}`
+    }
+  }).filter(x => x)
+  return [ruPinyinArray_text, ...ruPinyinArray_text__hanzies].join('\n')
+}))
+require('fs').writeFileSync(`/home/srghma/projects/srghma-chinese/ru-pinyin.txt`, ruPinyinArray_updated.map(x => x.join(`\n\n______________\n\n`)).join(`\n\n------------\n\n`))
+console.log(R.toPairs(explainations_).map(([key, { explaination, cn }]) => `${key} | ${(cn || []).join(', ')} | ${enhanceWithLinkToH(explaination)}`).join('\n'))
 
 //////////////////////////////
 
@@ -85,7 +106,7 @@ input = R.difference(input, Array.from(db.keys()))
 
 // input.map(R.prop('kanji')).join('').includes('鏕')
 
-proxies_ = fs.readFileSync("/home/srghma/projects/anki-cards-from-pdf/proxies.txt").toString().split('\n').map(x => x.trim()).filter(x => x)
+proxies_ = fs.readFileSync("/home/srghma/projects/anki-cards-from-pdf/good-proxies.txt").toString().split('\n').map(x => x.trim()).filter(x => x)
 
 // getProxy = () => {
 //   const [first, ...all] = currentProxies
@@ -147,7 +168,8 @@ output = []
     return parts
   }
   // const numberOfChunks = 20
-  const currentProxies = [null, ...proxies_] //.slice(0, numberOfChunks)
+  const currentProxies = proxies_.slice(-20)
+  // const currentProxies = [null, ...proxies_] //.slice(0, numberOfChunks)
   // const currentProxies = ['203.170.73.228:8080'] //.slice(0, numberOfChunks)
   const currentInputs = split_array(input, currentProxies.length)
   if (currentProxies.length !== currentInputs.length) { throw new Error(`${currentProxies.length} !== ${currentInputs.length}`) }

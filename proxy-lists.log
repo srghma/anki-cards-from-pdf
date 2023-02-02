@@ -70,6 +70,16 @@ Error while scraping proxy50-50-blogspot-com: Error: Failed to launch the browse
 
 TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
 
+Error while scraping sockslist: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+Error while scraping spys-one: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
 Error while scraping proxydb: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
 
 
@@ -85,16 +95,6 @@ Error while scraping proxynova: Error: Failed to launch the browser process! spa
 
 TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
 
-Error while scraping sockslist: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
-
-
-TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
-
-Error while scraping spys-one: Error: Failed to launch the browser process! spawn /home/srghma/projects/anki-cards-from-pdf/node_modules/data-sourcer/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome ENOENT
-
-
-TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
-
 Finished scraping from coolproxy
 Finished scraping from free-proxy-cz
 Finished scraping from freeproxylists-net
@@ -106,13 +106,13 @@ Finished scraping from proxies24
 Finished scraping from proxy-daily
 Finished scraping from proxy-list-org
 Finished scraping from proxy50-50-blogspot-com
+Finished scraping from sockslist
 Finished scraping from proxydb
 Finished scraping from proxyhttp-net
 Finished scraping from proxynova
-Finished scraping from sockslist
 Error while scraping foxtools: Error: connect ECONNREFUSED 127.0.0.1:80
 Finished scraping from foxtools
 Finished scraping from proxyscrape-com
-Finished scraping from hidester
 Finished scraping from xroxy
+Finished scraping from hidester
 Finished scraping from checkerproxy

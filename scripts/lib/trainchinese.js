@@ -41,6 +41,7 @@ exports.trainchinese = async function trainchinese(dom, str) {
   const buff = []
 
   node.querySelectorAll('div.chinese').forEach(chNode => {
+    // const ch = chNode.textContent.trim().split('').filter(require('./isHanzi').isHanziOrSpecial).join('')
     const ch = chNode.textContent.trim().split('').filter(require('./isHanzi').isHanziOrSpecial).join('')
 
     const pinyin = chNode.nextSibling.nextSibling.textContent.trim()
@@ -72,14 +73,20 @@ exports.trainchinese = async function trainchinese(dom, str) {
 }
 
 /////////////////
-const trainchinese_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/trainchinese_cache.json'
+// const trainchinese_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/trainchinese_cache.json'
 
-let trainchinese_cache = {}
-if (fs.existsSync(trainchinese_with_cache_path)) { trainchinese_cache = JSON.parse(fs.readFileSync(trainchinese_with_cache_path).toString()) }
+// let trainchinese_cache = {}
+// if (fs.existsSync(trainchinese_with_cache_path)) { trainchinese_cache = JSON.parse(fs.readFileSync(trainchinese_with_cache_path).toString()) }
+
+// R.uniq(Object.keys(trainchinese_cache).filter(x => x.length === 1))
 
 // trainchinese_cache_ = Object.values(trainchinese_cache).flat().filter(R.identity)
+// trainchinese_cache_ = R.uniqBy(x => [x.ch, x.pinyin, x.transl, x.type].join(''), trainchinese_cache_)
+
+// R.uniq(Object.keys(trainchinese_cache).filter(x => x.length === 1))
+// R.uniq(trainchinese_cache_.map(x => x.ch).filter(x => x.length === 1)).length
+
 // trainchinese_cache_ = trainchinese_cache_.filter(x => x.ch.length == 1)
-// trainchinese_cache_ = R.uniq(trainchinese_cache_)
 // trainchinese_cache_ = R.groupBy(R.prop('ch'), trainchinese_cache_)
 // Object.keys(trainchinese_cache_).length
 

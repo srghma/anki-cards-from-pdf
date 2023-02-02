@@ -13,16 +13,16 @@ const removeHTML = require('./scripts/lib/removeHTML').removeHTML
 
 process.on('unhandledRejection', error => { console.log('unhandledRejection', error) })
 
-let files = await require('fs/promises').readdir(`/home/srghma/projects/srghma-chinese/anki-addon-glossary`)
-files = files.filter(x => x.endsWith('.json')).map(basename => { // xxxx.json
-  let absolutePath = `/home/srghma/projects/srghma-chinese/anki-addon-glossary/${basename}`
-  return absolutePath
-})
-files = await Promise.all(files.map(async absolutePath => {
-  const hanzi = await require('fs/promises').readFile(absolutePath)
-  return hanzi
-}))
-files = files.map(x => JSON.parse(x.toString()))
+// let files = await require('fs/promises').readdir(`/home/srghma/projects/srghma-chinese/anki-addon-glossary`)
+// files = files.filter(x => x.endsWith('.json')).map(basename => { // xxxx.json
+//   let absolutePath = `/home/srghma/projects/srghma-chinese/anki-addon-glossary/${basename}`
+//   return absolutePath
+// })
+// files = await Promise.all(files.map(async absolutePath => {
+//   const hanzi = await require('fs/promises').readFile(absolutePath)
+//   return hanzi
+// }))
+// files = files.map(x => JSON.parse(x.toString()))
 
 function wait(milliseconds) {
   return new Promise(resolve => setTimeout(resolve, milliseconds));
@@ -51,6 +51,7 @@ async function mapper(output, inputElement, inputElementIndex, dom) {
 output = []
 const queueSize = 1
 doms = Array.from({ length: queueSize }, (_, i) => { return new JSDOM(``) })
+// mkQueue(queueSize).addAll(files.filter(x => !x.Ru_trainchinese).map((inputElement, inputElementIndex) => async jobIndex => { mapper(output, inputElement, inputElementIndex, doms[jobIndex]) }))
 mkQueue(queueSize).addAll(files.filter(x => !x.Ru_trainchinese).map((inputElement, inputElementIndex) => async jobIndex => { mapper(output, inputElement, inputElementIndex, doms[jobIndex]) }))
 
 // errors_ = []

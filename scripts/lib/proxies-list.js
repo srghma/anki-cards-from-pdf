@@ -3,6 +3,7 @@ const RA = require('ramda-adjunct')
 const fetch = require('node-fetch')
 const HttpsProxyAgent = require('https-proxy-agent');
 const fs = require('fs');
+const fsPromises = require('fs/promises');
 const { mkQueue } = require('./mkQueue');
 
 // var ProxyLists = require('proxy-lists');
@@ -27,7 +28,8 @@ const { mkQueue } = require('./mkQueue');
 
 // proxy-lists getProxies --protocols="http,https" --output-file="proxies.txt"
 
-proxies = fs.readFileSync("/home/srghma/projects/anki-cards-from-pdf/proxies.txt").toString().split('\n').map(x => x.trim()).filter(x => x)
+proxies = fs.readFileSync("/home/srghma/projects/anki-cards-from-pdf/proxies.txt").toString().split('\n').map(x => x.trim()).filter(x => x).filter(x => !x.startsWith('0.')).reverse()
+console.log(proxies)
 
 // const { JsonlDB } = require('@alcalzone/jsonl-db')
 // const db = new JsonlDB('/home/srghma/projects/anki-cards-from-pdf/good_proxies.json')
@@ -36,10 +38,9 @@ proxies = fs.readFileSync("/home/srghma/projects/anki-cards-from-pdf/proxies.txt
 ;(async function updateProxies() {
   // const proxies_ = R.fromPairs(proxies.map(x => [x, "not_yet_tested"])) // "tested_and_working", "tested_and_not_working"
 
-  const removeProxy = proxy => { proxies = proxies.filter(p => p !== proxy) }
-  const syncProxy = async () => {
-    console.log('syncing')
-    await require('fs/promises').writeFile("/home/srghma/projects/anki-cards-from-pdf/proxies.txt", proxies)
+  const addProxy = async (line) => {
+    console.log('saving', line)
+    await fsPromises.appendFile("/home/srghma/projects/anki-cards-from-pdf/good-proxies.txt", `${line}\n`, 'utf-8')
   }
 
   // const findObjectKeyByFirstMatchingValue = (fn, object) => Object.keys(object).find(key => fn(object[key]))
@@ -64,6 +65,7 @@ proxies = fs.readFileSync("/home/srghma/projects/anki-cards-from-pdf/proxies.txt
 
   let removeProxy__every_counter = 0
   async function test(proxy, inputIndex) {
+    console.log(proxy)
     const fetchWithProxy = (str, options, proxy) => fetch(str, { ...options, agent: new HttpsProxyAgent(`http://${proxy}`) })
     const str = '膛'
     let r = null
@@ -73,6 +75,7 @@ proxies = fs.readFileSync("/home/srghma/projects/anki-cards-from-pdf/proxies.txt
       console.log({ proxy, s: r.status })
       if (r.status === 200) {
         t = await r.json()
+        addProxy(proxy)
         // setStatusProxy(proxy, "tested_and_working");
       } else {
         t = await r.text()
@@ -84,23 +87,23 @@ proxies = fs.readFileSync("/home/srghma/projects/anki-cards-from-pdf/proxies.txt
     const status = r ? r.status : null
 
     if (status !== 200) {
-      removeProxy(proxy)
-      removeProxy__every_counter++
-      if (removeProxy__every_counter % 10 === 0) {
-        await syncProxy()
-      }
+      // removeProxy(proxy)
+      // removeProxy__every_counter++
+      // if (removeProxy__every_counter % 10 === 0) {
+      //   await syncProxy()
+      // }
     }
 
     return { proxy, inputIndex, status, t }
   }
   // for (const proxy of proxies) { }
 
-  const queueSize = 2000
-  await mkQueue(queueSize).addAll(Object.keys(proxies).map((proxy, inputIndex) => async jobIndex => { await test(proxy, inputIndex) }))
+  const queueSize = 200
+  await mkQueue(queueSize).addAll(proxies.map((proxy, inputIndex) => async jobIndex => { await test(proxy, inputIndex) }))
 
   // const buffer = await Promise.all(proxies.map(test))
   // const valid = buffer.filter(x => x.s === 200).map(x => x.proxy).join('\n')
-  const valid = R.toPairs(proxies).filter(([k, v]) => v === "tested_and_working").map(([k, v]) => k).join('\n')
-  fs.writeFileSync("/home/srghma/projects/anki-cards-from-pdf/proxies.txt", valid)
+  // const valid = R.toPairs(proxies).filter(([k, v]) => v === "tested_and_working").map(([k, v]) => k).join('\n')
+  // fs.writeFileSync("/home/srghma/projects/anki-cards-from-pdf/proxies.txt", valid)
   console.log(valid)
 })();
