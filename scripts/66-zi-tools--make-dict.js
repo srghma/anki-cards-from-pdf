@@ -13,6 +13,22 @@ const mkQueue = require('./lib/mkQueue').mkQueue
 const timeoutPromise = require('./lib/timeoutPromise').timeoutPromise
 const { JsonlDB } = require('@alcalzone/jsonl-db')
 
+const {
+  // convertPinyin__marked_to_numbered,
+  // writeWithAwait,
+  // finishedAwait,
+  // getTone,
+  // colorizeHanzi,
+  // colorizeHanzi__in_text,
+  escapeHTML,
+  colorPinyin,
+  // removeLinks,
+  // ruPinyinTextToArray,
+  // getDuplicatedItems,
+  // throwIfDuplicate,
+  mkStardict,
+} = require('/home/srghma/projects/srghma-chinese/make-pleco-user-dictionary--utils.js')
+
 ;(async function() {
 const zitools_with_cache_path = '/home/srghma/projects/anki-cards-from-pdf/zitools_cache.json'
 const db = new JsonlDB(zitools_with_cache_path, {
@@ -91,15 +107,6 @@ await db.open()
 // R.groupBy(x => x.sound, (R.sortBy(x => Number(x.num2), db.get('台').ghzr)))
 // db.get('若')
 
-const escapeHTML = str => str.replace(/[&<>'"]/g,
-  tag => ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    "'": '&#39;',
-    '"': '&quot;'
-  }[tag]))
-
 buffer = []
 db.forEach((value, key) => {
   if (!value) { return }
@@ -113,7 +120,7 @@ db.forEach((value, key) => {
   ghzr = ghzr.map(({ num2, mean, sound }) => {
     mean = mean.replace(/=(.)/g, ' 「 $1 」 ')
     const [mean_chinese, mean_eng] = mean.split(':::')
-    mean = [escapeHTML(mean_chinese), mean_eng ? `<c c="#c28303">${escapeHTML(mean_eng)}</c>` : null].filter(x => x).join(' ')
+    mean = [escapeHTML(mean_chinese), mean_eng ? `<font color="#c28303">${escapeHTML(mean_eng)}</font>` : null].filter(x => x).join(' ')
     return {
       num2: num2 && Number(num2),
       mean,
@@ -126,12 +133,12 @@ db.forEach((value, key) => {
   ghzr = R.toPairs(ghzr)
   ghzr = ghzr.map(([sound, values]) => {
     // console.log(sound, values)
-    sound = sound ? `<dtrn>${escapeHTML(sound)}</dtrn>` : null
-    values = values.map(({ num2, mean }) => `<k>(${num2+1}) ${mean}</k>`)
+    sound = sound ? `<span>${colorPinyin(sound)}</span>` : null
+    values = values.map(({ num2, mean }) => `<span>(${num2+1}) ${mean}</span>`)
     return [sound, ...values]
   })
   // console.log(ghzr)
-  ghzr = ghzr.flat().join('')
+  ghzr = ghzr.flat().join('<br/>')
 
   ids_zi_tools = ids_zi_tools.replace(/\t/g, '<br/>')
 
@@ -139,9 +146,9 @@ db.forEach((value, key) => {
     origin = origin.map(xs => {
       xs = xs.filter(x => x).join(': ')
       xs = xs.replace(/\t/g, ' ')
-      xs = `<k>${escapeHTML(xs)}</k>`
+      xs = `<span>${escapeHTML(xs)}</span>`
       return xs
-    }).join('')
+    }).join('<br/>')
   }
 
   // buffer.push({ ids_zi_tools, origin, ghzr })
@@ -152,7 +159,7 @@ db.forEach((value, key) => {
     ghzr ? ghzr : null,
   ].filter(x => x).join('<br/>')
 
-  buffer.push(`<article><key>${key}</key><definition type="x"><![CDATA[${output}]]></definition></article>\n\n`)
+  buffer.push(`<article><key>${key}</key><definition type="h"><![CDATA[${output}]]></definition></article>\n\n`)
 })
 
 require('fs').writeFileSync(`/home/srghma/Desktop/dictionaries/mychinese/zitools-textual.xml`, `<?xml version="1.0" encoding="UTF-8" ?>
@@ -179,4 +186,5 @@ const mkStardict = (input, output) => {
 }
 
 mkStardict("/home/srghma/Desktop/dictionaries/mychinese/zitools-textual.xml", "/home/srghma/Desktop/dictionaries/mychinese/zitools/")
+console.log('end')
 })();
